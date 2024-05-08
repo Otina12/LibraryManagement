@@ -1,0 +1,66 @@
+﻿.myForm {
+    width: 400px;
+    padding: 25px;
+    margin: auto;
+    margin-top: 50px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.myField {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+    .myField label {
+        background-color: transparent;
+        display: block;
+        padding: 0;
+        font-size: 16px;
+        margin-bottom: 5px;
+        border: none;
+    }
+
+    .myField input[type="text"],
+    .myField input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+.submit-button {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 8px 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: #4290f5;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+    .submit-button:hover {
+        background-color: #156bcf;
+        color: #ededed;
+    }
+
+.forgot-pass .have-account {
+    vertical-align: middle;
+}
+
+.forgot-pass a, .have-account a {
+    text-decoration: none;
+}

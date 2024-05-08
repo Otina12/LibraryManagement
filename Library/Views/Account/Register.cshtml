@@ -1,0 +1,73 @@
+﻿@model Library.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+
+    if (TempData["ErrorMessages"] != null)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var errorMessage in (List<string>)TempData["ErrorMessages"])
+                {
+                    <li>@errorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/form.css" />
+</head>
+
+<body>
+    <div class="myForm">
+        <div class="title">
+            Register
+        </div>
+        <form asp-action="Register" method="post">
+            <div class="myField">
+                <label asp-for="Name" class="form-control">Name</label>
+                <input asp-for="Name" type="text" placeholder="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label asp-for="Surname" class="form-control">Surname</label>
+                <input asp-for="Surname" type="text" placeholder="Surname" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label asp-for="Email" class="form-control">Email</label>
+                <input asp-for="Email" type="text" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label asp-for="UserName" class="form-control">Username</label>
+                <input asp-for="UserName" type="text" placeholder="Username" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label asp-for="PhoneNumber" class="form-control">Phone number</label>
+                <input asp-for="PhoneNumber" type="text" placeholder="Phone number" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label asp-for="Password" class="form-control">Password</label>
+                <input asp-for="Password" type="password" placeholder="Enter a strong password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label asp-for="ConfirmPassword" class="form-control">Confirm Password</label>
+                <input asp-for="ConfirmPassword" type="password" placeholder="Password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            
+
+            <input class="submit-button btn custom-button" type="submit" value="Register" />
+            <div class="have-account">
+                <a asp-controller="Account" asp-action="Login">Already have an account?</a>
+            </div>
+        </form>
+    </div>
+</body>
+

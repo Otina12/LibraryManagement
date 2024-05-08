@@ -1,0 +1,13 @@
+C:\Users\Giorgi\source\repos\Library\Library.Model\bin\Debug\net8.0\Library.Model.deps.json
+C:\Users\Giorgi\source\repos\Library\Library.Model\bin\Debug\net8.0\Library.Model.dll
+C:\Users\Giorgi\source\repos\Library\Library.Model\bin\Debug\net8.0\Library.Model.pdb
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.csproj.AssemblyReference.cache
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.AssemblyInfoInputs.cache
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.AssemblyInfo.cs
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.csproj.CoreCompileInputs.cache
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.sourcelink.json
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.dll
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\refint\Library.Model.dll
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\Library.Model.pdb
+C:\Users\Giorgi\source\repos\Library\Library.Model\obj\Debug\net8.0\ref\Library.Model.dll

@@ -1,0 +1,46 @@
+﻿@model Library.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+
+    @if (TempData["ErrorMessages"] != null)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var errorMessage in (List<string>)TempData["ErrorMessages"])
+                {
+                    <li>@errorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+}
+
+<head>
+   <link rel="stylesheet" href="~/css/form.css" />
+</head>
+
+<body>
+    <div class="myForm">
+        <div class="title">
+            Log into your account
+        </div>
+        <form asp-action="Login" method="post">
+            <div class="myField">
+                <label asp-for="Email" class="form-control">Email</label>
+                <input asp-for="Email" type="text" placeholder="Email" /> <!-- client side validation needed! -->
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label asp-for="Password" class="form-control">Password</label>
+                <input asp-for="Password" type="password" placeholder="Password" /> <!-- here too -->
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <input class="submit-button btn custom-button" type="submit" value="Sign in" />
+            <div class="forgot-pass">
+                <a asp-controller="Account" asp-action="ForgotPassword">Forgot Password?</a>
+            </div>
+        </form>
+    </div>
+</body>

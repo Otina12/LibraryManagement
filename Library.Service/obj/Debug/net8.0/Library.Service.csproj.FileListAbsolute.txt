@@ -1,0 +1,16 @@
+C:\Users\Giorgi\source\repos\Library\Library.Service\bin\Debug\net8.0\Library.Service.deps.json
+C:\Users\Giorgi\source\repos\Library\Library.Service\bin\Debug\net8.0\Library.Service.dll
+C:\Users\Giorgi\source\repos\Library\Library.Service\bin\Debug\net8.0\Library.Service.pdb
+C:\Users\Giorgi\source\repos\Library\Library.Service\bin\Debug\net8.0\Library.Model.dll
+C:\Users\Giorgi\source\repos\Library\Library.Service\bin\Debug\net8.0\Library.Model.pdb
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.csproj.AssemblyReference.cache
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.AssemblyInfoInputs.cache
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.AssemblyInfo.cs
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.csproj.CoreCompileInputs.cache
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.sourcelink.json
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library..8E6562CF.Up2Date
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.dll
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\refint\Library.Service.dll
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.pdb
+C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\ref\Library.Service.dll
