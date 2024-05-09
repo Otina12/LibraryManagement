@@ -6,6 +6,8 @@ using Library.Service.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Library.Model.Interfaces;
+using Library.Data.Repositories;
 
 namespace Library.Extensions;
 
@@ -13,13 +15,13 @@ public static class DependencyInjection
 {
     public static void ConfigureRepositories(this IServiceCollection services)
     {
-        // unit of work not yet implemented
-        //services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>(); // includes all repositories
     }
 
-    public static void ConfigureServices(this IServiceCollection services) // here we'll add all our services
+    public static void ConfigureServices(this IServiceCollection services)
     {
-        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IServiceManager, ServiceManager>(); // includes all services
+        services.AddScoped<IValidationService, ValidationService>(); // except validation, since it's only used inside other services
     }
 
     public static void ConfigureSqlServer(this IServiceCollection services, IConfiguration configuration)

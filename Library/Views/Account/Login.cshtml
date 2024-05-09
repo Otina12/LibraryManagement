@@ -28,12 +28,12 @@
         <form asp-action="Login" method="post">
             <div class="myField">
                 <label asp-for="Email" class="form-control">Email</label>
-                <input asp-for="Email" type="text" placeholder="Email" /> <!-- client side validation needed! -->
+                <input asp-for="Email" type="email" placeholder="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="myField">
                 <label asp-for="Password" class="form-control">Password</label>
-                <input asp-for="Password" type="password" placeholder="Password" /> <!-- here too -->
+                <input asp-for="Password" type="password" placeholder="Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 

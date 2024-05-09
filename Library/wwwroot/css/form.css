@@ -30,6 +30,7 @@
     }
 
     .myField input[type="text"],
+    .myField input[type="email"],
     .myField input[type="password"] {
         width: 100%;
         padding: 8px;
@@ -38,6 +39,18 @@
         box-sizing: border-box;
         font-size: 16px;
     }
+
+.birthdate-fields {
+    display: flex;
+}
+
+    .birthdate-fields .birthdate-input {
+        width: 33.33%;
+        margin-right: 5px;
+        padding: 3px;
+        -webkit-appearance: none;
+    }
+
 
 .submit-button {
     margin-top: 15px;

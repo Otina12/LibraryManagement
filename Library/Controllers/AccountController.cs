@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Library.Extensions;
 using Library.Model.Models;
 using Library.Service.Dtos;
@@ -8,19 +7,17 @@ using Library.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Attributes;
-using System;
 
 namespace Library.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly IAuthService _authService;
+    private readonly IServiceManager _serviceManager;
     private readonly IMapper _mapper;
 
-    public AccountController(IAuthService authService, IMapper mapper)
+    public AccountController(IServiceManager serviceManager, IMapper mapper)
     {
-        _authService = authService;
+        _serviceManager = serviceManager;
         _mapper = mapper;
     }
 
@@ -39,7 +36,7 @@ public class AccountController : Controller
 
         var registerDto = _mapper.Map<RegisterDto>(registerVM); // we map to Dto to not to expose viewmodels to service
 
-        var result = await _authService.RegisterEmployee(registerDto);
+        var result = await _serviceManager.AuthService.RegisterEmployee(registerDto);
 
         return HandleErrors(result, registerVM);
     }
@@ -60,7 +57,7 @@ public class AccountController : Controller
         
         var loginDto = _mapper.Map<LoginDto>(loginVM);
 
-        var result = await _authService.LoginEmployee(loginDto);
+        var result = await _serviceManager.AuthService.LoginEmployee(loginDto);
 
         return HandleErrors(result, loginVM);
     }
@@ -68,7 +65,7 @@ public class AccountController : Controller
     [Authorize]
     public async Task<IActionResult> Logout()
     {
-        await _authService.Logout();
+        await _serviceManager.AuthService.Logout();
         return RedirectToAction("Index", "Home");
     }
 
@@ -86,7 +83,7 @@ public class AccountController : Controller
             return View(forgotPasswordVM);
         }
 
-        var (result, token) = await _authService.ForgotPassword(forgotPasswordVM.Email);
+        var (result, token) = await _serviceManager.AuthService.ForgotPassword(forgotPasswordVM.Email);
 
         if (result.Succeeded)
         {
@@ -119,7 +116,7 @@ public class AccountController : Controller
 
         var resetPasswordDto = _mapper.Map<ResetPasswordDto>(resetPasswordVM);
 
-        var result = await _authService.ResetPassword(resetPasswordDto);
+        var result = await _serviceManager.AuthService.ResetPassword(resetPasswordDto);
 
         return HandleErrors(result, resetPasswordVM);
     }

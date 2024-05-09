@@ -38,13 +38,24 @@
             </div>
             <div class="myField">
                 <label asp-for="Email" class="form-control">Email</label>
-                <input asp-for="Email" type="text" placeholder="Email" />
+                <input asp-for="Email" type="email" placeholder="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="myField">
                 <label asp-for="UserName" class="form-control">Username</label>
                 <input asp-for="UserName" type="text" placeholder="Username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="myField">
+                <label>Birthdate</label>
+                <div class="birthdate-fields">
+                    <input asp-for="Year" type="number" placeholder="Year" class="birthdate-input" />
+                    <input asp-for="Month" type="number" placeholder="Month" class="birthdate-input" />
+                    <input asp-for="Day" type="number" placeholder="Day" class="birthdate-input" />
+                </div>
+                <span asp-validation-for="Year" class="text-danger"></span>
+                <span asp-validation-for="Month" class="text-danger"></span>
+                <span asp-validation-for="Day" class="text-danger"></span>
             </div>
             <div class="myField">
                 <label asp-for="PhoneNumber" class="form-control">Phone number</label>

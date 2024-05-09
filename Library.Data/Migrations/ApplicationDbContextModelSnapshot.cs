@@ -256,6 +256,9 @@ namespace Library.Data.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("date");
+
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 

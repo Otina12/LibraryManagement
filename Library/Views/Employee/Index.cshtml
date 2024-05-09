@@ -1,0 +1,25 @@
+﻿@using Library.ViewModels;
+@model IEnumerable<EmployeeRolesViewModel>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<br />
+<table class="table">
+    <tr>
+        <th>Name and Surname</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Roles</th>
+    </tr>
+    @foreach (var employee in Model)
+    {
+        <tr>
+            <td>@($"{employee.Name} {employee.Surname}")</td>
+            <td>@employee.Email</td>
+            <td>@employee.PhoneNumber</td>
+            <td>@string.Join(", ", employee.Roles)</td>
+        </tr>
+    }
+</table>

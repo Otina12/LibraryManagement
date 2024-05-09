@@ -11,6 +11,9 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.Surname).IsRequired();
 
+        builder.Property(e => e.DateOfBirth)
+            .HasColumnType("date");
+
         builder.Property(e => e.Email)
             .HasAnnotation("Regex", "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
             .IsRequired();

@@ -10,11 +10,14 @@ public class AuthService : IAuthService
 {
     private readonly UserManager<Employee> _userManager;
     private readonly SignInManager<Employee> _signInManager;
+    private readonly IValidationService _validationService;
 
-    public AuthService(UserManager<Employee> userManager, SignInManager<Employee> signInManager)
+    public AuthService(UserManager<Employee> userManager, SignInManager<Employee> signInManager,
+        IValidationService validationService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _validationService = validationService;
     }
 
     public async Task<IdentityResult> RegisterEmployee(RegisterDto registerDto)
@@ -27,6 +30,15 @@ public class AuthService : IAuthService
             {
                 Code = "EmployeeAlreadyExists",
                 Description = $"Email '{registerDto.Email}' is already in use"
+            });
+        }
+
+        if(!_validationService.BirthdayIsValid(registerDto.Year, registerDto.Month, registerDto.Day))
+        {
+            return IdentityResult.Failed(new IdentityError // this will be handled by controller action and then view
+            {
+                Code = "BithdayNotValid",
+                Description = $"Please, enter a valid date of birth"
             });
         }
 
@@ -85,8 +97,8 @@ public class AuthService : IAuthService
         {
             var result = IdentityResult.Failed(new IdentityError
             {
-                Code = "WrongCredentials",
-                Description = $"Wrong credentials. Please try again"
+                Code = "EmailNotFound",
+                Description = $"Email not found. Please try again"
             });
 
             return (result, null);
@@ -101,7 +113,7 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
 
-        var result = await _userManager.ResetPasswordAsync(user!, resetPasswordDto.Token, resetPasswordDto.NewPassword);
+        var result = await _userManager.ResetPasswordAsync(user!, resetPasswordDto.Token, resetPasswordDto.Password);
 
         if (!result.Succeeded)
         {
@@ -112,7 +124,7 @@ public class AuthService : IAuthService
             });
         }
 
-        await _signInManager.PasswordSignInAsync(user!, resetPasswordDto.NewPassword, false, false);
+        await _signInManager.PasswordSignInAsync(user!, resetPasswordDto.Password, false, false);
         return IdentityResult.Success;
     }
 }
