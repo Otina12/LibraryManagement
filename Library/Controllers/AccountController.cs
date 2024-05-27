@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Library.Extensions;
-using Library.Model.Models;
 using Library.Service.Dtos;
 using Library.Service.Interfaces;
 using Library.ViewModels;
@@ -76,7 +74,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordVM)
+    public async Task<IActionResult?> ForgotPassword(ForgotPasswordViewModel forgotPasswordVM)
     {
         if (!ModelState.IsValid)
         {
@@ -87,7 +85,9 @@ public class AccountController : Controller
 
         if (result.Succeeded)
         {
-            return RedirectToAction(nameof(ResetPassword), new { email = forgotPasswordVM.Email, token = token });
+            // we send reset password email to the user with the link
+            await _serviceManager.EmailSender.SendResetPasswordEmailAsync(forgotPasswordVM.Email, token!, "giorgi");
+            return View(forgotPasswordVM);
         }
 
         return HandleErrors(result, forgotPasswordVM);
@@ -119,6 +119,13 @@ public class AccountController : Controller
         var result = await _serviceManager.AuthService.ResetPassword(resetPasswordDto);
 
         return HandleErrors(result, resetPasswordVM);
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> AccessDenied()
+    {
+        return View();
     }
 
 

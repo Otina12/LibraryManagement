@@ -1,0 +1,77 @@
+﻿@using System.Security.Claims
+@model List<Library.Model.Models.Menu.NavigationMenu>
+
+@{
+    ViewData["Title"] = "NavigationMenu";
+    var curUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+    void RenderMenuItems(IEnumerable<Library.Model.Models.Menu.NavigationMenu> items, Guid? parentId = null)
+    {
+        var menuItems = items.Where(x => x.ParentMenuId == parentId).ToList();
+        if (!menuItems.Any())
+        {
+            return;
+        }
+
+        foreach (var item in menuItems)
+        {
+            var children = items.Where(x => x.ParentMenuId == item.Id).ToList();
+            if (children.Any())
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="@Url.Action(item.ActionName, item.ControllerName)"
+                       id="navbarDropdown_@item.Id"
+                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @item.Name
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown_@item.Id">
+                        @{
+                            RenderMenuItems(items, item.Id);
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action(item.ActionName, item.ControllerName)">@item.Name</a>
+                </li>
+            }
+        }
+    }
+}
+
+<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+        @{
+            RenderMenuItems(Model);
+        }
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+        @if (User.Identity is null || !User.Identity.IsAuthenticated)
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="/Account/Login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Account/Register">Register</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @User.Identity.Name
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownProfile">
+                    <a class="nav-link" href=@Url.Action("Details", "Employee", new { id = curUserId})>Profile</a>
+                    <a class="nav-link" href="#">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a id="nav-logout" class="nav-link" href="/Account/Logout">Logout</a>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

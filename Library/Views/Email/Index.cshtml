@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Library.Model.Models.Email.EmailModel>
+
+@{
+    ViewData["Title"] = "Email Templates";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="/Email/Create" class="btn btn-primary">Add a Template</a>
+    </div>
+
+    <div class="row">
+        @foreach (var template in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@template.Subject</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="/Email/Edit/@template.Id" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="#" class="btn btn-sm btn-danger"
+                           onclick="confirmDelete('@template.Id');">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function confirmDelete(templateId) {
+        if (confirm('Are you sure you want to delete this template?')) {
+            fetch(`/Email/Delete/${templateId}`, {
+                method: 'DELETE'
+            })
+        }
+    }
+</script>

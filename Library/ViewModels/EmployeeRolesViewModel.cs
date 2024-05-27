@@ -1,4 +1,9 @@
-﻿namespace Library.ViewModels;
+﻿using Library.Service.Dtos;
 
-public record EmployeeRolesViewModel(string Id, string Name, string Surname, string UserName,
-    string Email, string PhoneNumber, IEnumerable<string> Roles);
+namespace Library.ViewModels;
+
+public record EmployeeRolesViewModel(
+    EmployeeDto Employee,
+    IEnumerable<string> Roles
+);
+

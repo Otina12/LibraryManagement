@@ -1,0 +1,137 @@
+﻿@model Library.ViewModels.EmployeeRolesViewModel
+
+@{
+    ViewData["Title"] = "Employee Details";
+    var allRoles = Enum.GetValues(typeof(Library.Model.Enums.Role))
+        .Cast<Library.Model.Enums.Role>()
+        .Where(e => e.ToString() != "Pending")
+        .Select(r => r.ToString()).ToList();
+    var isAdmin = User.IsInRole("Admin");
+}
+
+<div class="employee-details-container">
+    <div>
+        <p><strong>Name:</strong> @Model.Employee.Name @Model.Employee.Surname</p>
+        <p><strong>Username:</strong> @Model.Employee.Username</p>
+        <p><strong>Email:</strong> @Model.Employee.Email</p>
+        <p><strong>Phone Number:</strong> @Model.Employee.PhoneNumber</p>
+        <p><strong>Date of Birth:</strong> @Model.Employee.DateOfBirth.ToShortDateString()</p>
+        <br />
+        <h3>Roles</h3>
+        <ul id="roleList">
+            @foreach (var role in Model.Roles)
+            {
+                <li class="role-tag">
+                    @role
+                    @if (isAdmin && role.ToString() != "Pending")
+                    {
+                        <button class="remove-role" onclick="removeRole(this)">✖</button>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+
+    @if (isAdmin)
+    {
+        <br />
+        <div>
+            <div>
+                <label for="roles" style="margin-top: 8px;">Add Role:</label>
+                <select class="roleSelect" id="roles">
+                    <option value="" disabled selected>Select a role</option>
+                    @foreach (var role in allRoles)
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </select>
+            </div>
+            <button id="saveChangesButton" style="display:none; margin-top: 10px; margin: auto;" onclick="submitForm()">Save Changes</button>
+        </div>
+    }
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const roleSelect = document.getElementById("roles");
+        const roleList = document.getElementById("roleList");
+        const saveChangesButton = document.getElementById("saveChangesButton");
+        let changesMade = false;
+
+        roleSelect.addEventListener("change", function () {
+            const selectedRole = roleSelect.value;
+            if (selectedRole) {
+                const roleItems = roleList.getElementsByTagName("li");
+                let isPresent = false;
+                for (let i = 0; i < roleItems.length; i++) {
+                    if (roleItems[i].textContent.includes(selectedRole)) {
+                        isPresent = true;
+                        break;
+                    }
+                }
+
+                if (!isPresent) {
+                    const newRoleItem = document.createElement("li");
+                    newRoleItem.className = "role-tag";
+
+                    const roleText = document.createTextNode(selectedRole);
+                    newRoleItem.appendChild(roleText);
+
+                    const removeButton = document.createElement("button");
+                    removeButton.className = "remove-role";
+                    removeButton.textContent = "✖";
+                    removeButton.onclick = function () {
+                        removeRole(this);
+                    };
+
+                    newRoleItem.appendChild(removeButton);
+                    roleList.appendChild(newRoleItem);
+                    showSaveButton();
+                }
+                roleSelect.selectedIndex = 0;
+            }
+        });
+
+        window.removeRole = function (button) {
+            const roleItem = button.parentNode;
+            roleList.removeChild(roleItem);
+            showSaveButton();
+        }
+
+        function showSaveButton() {
+            if (!changesMade) {
+                saveChangesButton.style.display = "block";
+                changesMade = true;
+            }
+        }
+    });
+
+    function submitForm() {
+        const form = document.createElement("form");
+        form.method = "post";
+        form.action = "@Url.Action("ManageRoles", "Employee")";
+
+        const employeeIdInput = document.createElement("input");
+        employeeIdInput.type = "hidden";
+        employeeIdInput.name = "employeeId";
+        employeeIdInput.value = "@Model.Employee.Id";
+        form.appendChild(employeeIdInput);
+
+        const updatedRoles = [];
+        const roleItems = document.getElementById("roleList").getElementsByTagName("li");
+        for (let i = 0; i < roleItems.length; i++) {
+            let role = roleItems[i].textContent.trim();
+            role = role.replace(/✖/g, "").trim();
+            updatedRoles.push(role);
+        }
+
+        const rolesInput = document.createElement("input");
+        rolesInput.type = "hidden";
+        rolesInput.name = "roles";
+        rolesInput.value = updatedRoles.join(",");
+        form.appendChild(rolesInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>

@@ -7,7 +7,7 @@
     {
         <div class="alert alert-danger">
             <ul>
-                @foreach (var errorMessage in (List<string>)TempData["ErrorMessages"])
+                @foreach (var errorMessage in (List<string>)TempData["ErrorMessages"]!)
                 {
                     <li>@errorMessage</li>
                 }
@@ -27,17 +27,17 @@
         </div>
         <form asp-action="Login" method="post">
             <div class="myField">
-                <label asp-for="Email" class="form-control">Email</label>
-                <input asp-for="Email" type="email" placeholder="Email" />
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" type="email"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="Password" class="form-control">Password</label>
-                <input asp-for="Password" type="password" placeholder="Password" />
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" type="password"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <input class="submit-button btn custom-button" type="submit" value="Sign in" />
+            <input class="submit-button" type="submit" value="Sign in" />
             <div class="forgot-pass">
                 <a asp-controller="Account" asp-action="ForgotPassword">Forgot Password?</a>
             </div>

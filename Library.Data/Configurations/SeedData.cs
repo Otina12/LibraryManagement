@@ -9,7 +9,7 @@ public static class SeedData
 {
     public async static Task SeedDataAsync(IApplicationBuilder applicationBuilder)
     {
-        string[] roles = ["Employee", "Admin", "Manager", "Librarian", "IT"];
+        string[] roles = ["Pending", "Admin", "Manager", "Librarian", "IT"];
 
         using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
         {

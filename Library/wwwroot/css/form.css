@@ -1,12 +1,13 @@
 ﻿.myForm {
-    width: 400px;
-    padding: 25px;
+    width: 420px;
+    padding: 25px 25px 15px 25px;
     margin: auto;
     margin-top: 50px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    text-align: center;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(35px);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    color: white;
 }
 
 .title {
@@ -31,14 +32,34 @@
 
     .myField input[type="text"],
     .myField input[type="email"],
-    .myField input[type="password"] {
+    .myField input[type="password"],
+    .myField input[type="number"] {
         width: 100%;
         padding: 8px;
         border: 1px solid #ccc;
-        border-radius: 3px;
+        border-radius: 5px;
         box-sizing: border-box;
         font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: border-color 0.3s ease;
     }
+
+        .myField input[type="text"]:focus,
+        .myField input[type="email"]:focus,
+        .myField input[type="password"]:focus,
+        .myField input[type="number"]:focus {
+            border-color: #4290f5;
+            outline: none;
+        }
+
+
+        .myField input[type="text"]::placeholder,
+        .myField input[type="email"]::placeholder,
+        .myField input[type="password"]::placeholder,
+        .myField input[type="number"]::placeholder {
+            color: rgba(250, 250, 250, 0.5);
+        }
 
 .birthdate-fields {
     display: flex;
@@ -46,11 +67,10 @@
 
     .birthdate-fields .birthdate-input {
         width: 33.33%;
-        margin-right: 5px;
+        margin-right: 7.5px;
         padding: 3px;
         -webkit-appearance: none;
     }
-
 
 .submit-button {
     margin-top: 15px;
@@ -63,17 +83,26 @@
     background-color: #4290f5;
     font-size: 20px;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
     .submit-button:hover {
         background-color: #156bcf;
-        color: #ededed;
     }
 
-.forgot-pass .have-account {
-    vertical-align: middle;
+.forgot-pass,
+.have-account {
+    text-align: center;
 }
 
-.forgot-pass a, .have-account a {
-    text-decoration: none;
-}
+    .forgot-pass a,
+    .have-account a {
+        text-decoration: none;
+        color: #4290f5;
+        transition: color 0.2s ease;
+    }
+
+        .forgot-pass a:hover,
+        .have-account a:hover {
+            color: #156bcf;
+        }

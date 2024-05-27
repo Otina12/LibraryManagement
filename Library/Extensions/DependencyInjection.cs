@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Library.Model.Interfaces;
 using Library.Data.Repositories;
+using Library.Data.Configurations.Variables;
+using System.Configuration;
 
 namespace Library.Extensions;
 
@@ -26,9 +28,12 @@ public static class DependencyInjection
 
     public static void ConfigureSqlServer(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(options => 
+        services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
     }
+
+    public static void ConfigureMailjet(this IServiceCollection services, IConfiguration configuration) =>
+        services.Configure<MailjetSettings>(configuration.GetSection("MailjetSettings"));
 
     public static void ConfigureValidation(this IServiceCollection services)
     {

@@ -14,3 +14,5 @@ C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Se
 C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\refint\Library.Service.dll
 C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\Library.Service.pdb
 C:\Users\Giorgi\source\repos\Library\Library.Service\obj\Debug\net8.0\ref\Library.Service.dll
+C:\Users\Giorgi\source\repos\Library\Library.Service\bin\Debug\net8.0\Library.Data.dll
+C:\Users\Giorgi\source\repos\Library\Library.Service\bin\Debug\net8.0\Library.Data.pdb

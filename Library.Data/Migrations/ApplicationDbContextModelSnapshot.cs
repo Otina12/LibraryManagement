@@ -241,6 +241,30 @@ namespace Library.Data.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Library.Model.Models.Email.EmailModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("From")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailModels");
+                });
+
             modelBuilder.Entity("Library.Model.Models.Employee", b =>
                 {
                     b.Property<string>("Id")
@@ -345,6 +369,49 @@ namespace Library.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.Menu.NavigationMenu", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActionName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ControllerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParentMenuId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentMenuId");
+
+                    b.ToTable("NavigationMenu");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.Menu.RoleMenuPermission", b =>
+                {
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("NavigationMenuId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId", "NavigationMenuId");
+
+                    b.HasIndex("NavigationMenuId");
+
+                    b.ToTable("RoleMenuPermission");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>
@@ -707,6 +774,34 @@ namespace Library.Data.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.Menu.NavigationMenu", b =>
+                {
+                    b.HasOne("Library.Model.Models.Menu.NavigationMenu", "ParentNavigationMenu")
+                        .WithMany()
+                        .HasForeignKey("ParentMenuId");
+
+                    b.Navigation("ParentNavigationMenu");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.Menu.RoleMenuPermission", b =>
+                {
+                    b.HasOne("Library.Model.Models.Menu.NavigationMenu", "NavigationMenu")
+                        .WithMany()
+                        .HasForeignKey("NavigationMenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NavigationMenu");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Reservation", b =>

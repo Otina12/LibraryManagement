@@ -1,5 +1,7 @@
 using Library.Data.Configurations;
 using Library.Extensions;
+using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.ConfigureServices();
 builder.Services.ConfigureIdentity();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureValidation();
+builder.Services.ConfigureMailjet(builder.Configuration);
+
 
 var app = builder.Build();
 

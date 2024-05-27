@@ -191,6 +191,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Data\\Library.Data.csproj": {
+                "projectPath": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Data\\Library.Data.csproj"
+              },
               "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Library.Model.csproj": {
                 "projectPath": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Library.Model.csproj"
               }
@@ -215,6 +218,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "Mailjet.Api": {
+              "target": "Package",
+              "version": "[3.0.0, )"
             },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
@@ -313,6 +320,10 @@
               "target": "Package",
               "version": "[11.9.1, )"
             },
+            "Mailjet.Api": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -340,6 +351,10 @@
             "SharpGrip.FluentValidation.AutoValidation.Mvc": {
               "target": "Package",
               "version": "[1.4.0, )"
+            },
+            "TinyMCE": {
+              "target": "Package",
+              "version": "[7.1.0, )"
             }
           },
           "imports": [

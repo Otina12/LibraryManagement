@@ -1,4 +1,6 @@
 ﻿using Library.Model.Models;
+using Library.Model.Models.Email;
+using Library.Model.Models.Menu;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,13 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Shelf> Shelves { get; set; }
     public DbSet<ShelfGenre> ShelfGenres { get; set; }
+
+    // dynamic menu with role permissions
+    public DbSet<RoleMenuPermission> RoleMenuPermission { get; set; }
+    public DbSet<NavigationMenu> NavigationMenu { get; set; }
+    
+    // email templates
+    public DbSet<EmailModel> EmailModels { get; set; }
 
 
     public ApplicationDbContext(DbContextOptions options) : base(options)

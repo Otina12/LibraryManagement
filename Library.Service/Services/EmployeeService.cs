@@ -72,4 +72,80 @@ public class EmployeeService : IEmployeeService
         employee.DeleteDate = DateTime.UtcNow;
         _unitOfWork.Employees.Update(employee);
     }
+
+    
+    public async Task AddRolesAsync(string employeeId, string[] roles)
+    {
+        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
+        if (employee is null)
+            throw new EmployeeNotFoundException("Employee was not found");
+
+        await AddRolesAsync(employee, roles);
+    }
+
+
+    public async Task AddRolesAsync(Employee employee, string[] roles)
+    {
+        foreach (var role in roles)
+        {
+            if (!await _userManager.IsInRoleAsync(employee, role))
+            {
+                await _userManager.AddToRoleAsync(employee, role);
+            }
+        }
+    }
+
+    public async Task RemoveRolesAsync(string employeeId, string[] roles)
+    {
+        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
+        if (employee is null)
+            throw new EmployeeNotFoundException("Employee was not found");
+
+        await RemoveRolesAsync(employee, roles);
+    }
+
+    public async Task RemoveRolesAsync(Employee employee, string[] roles)
+    {
+        foreach (var role in roles)
+        {
+            if (await _userManager.IsInRoleAsync(employee, role))
+            {
+                await _userManager.RemoveFromRoleAsync(employee, role);
+            }
+        }
+    }
+
+
+    public async Task UpdateRolesAsync(string employeeId, string[] oldRoles, string[] newRoles)
+    {
+        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
+        if (employee is null)
+            throw new EmployeeNotFoundException("Employee was not found");
+
+        await UpdateRolesAsync(employee, oldRoles, newRoles);
+    }
+
+
+    public async Task UpdateRolesAsync(string employeeId, string[] newRoles)
+    {
+        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
+        if (employee is null)
+            throw new EmployeeNotFoundException("Employee was not found");
+
+        var oldRoles = (await _userManager.GetRolesAsync(employee)).ToArray();
+
+        await UpdateRolesAsync(employee, oldRoles, newRoles);
+    }
+
+    public async Task UpdateRolesAsync(Employee employee, string[] oldRoles, string[] newRoles)
+    {
+        // these are old roles that do not appear in new roles, meaning we need to delete them
+        var rolesToRemove = oldRoles.Except(newRoles).ToArray();
+
+        // new roles that were not in the old roles
+        var rolesToAdd = newRoles.Except(oldRoles).ToArray();
+
+        await RemoveRolesAsync(employee, rolesToRemove);
+        await AddRolesAsync(employee, rolesToAdd);
+    }
 }

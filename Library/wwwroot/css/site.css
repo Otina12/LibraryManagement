@@ -1,22 +1,338 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: Poppins;
+    background-image: url("/images/background-image.jpg");
 }
+
+.myNav {
+    width: 80%;
+    height: 60px;
+    margin: auto;
+    margin-top: 15px;
+    border-radius: 5px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(125px);
+    border: none;
+    margin-bottom: 55px;
+    z-index: 1000;
+}
+
+.nav-item {
+    margin-left: 5px;
+    font-size: 18px;
+    margin: 3px 3px 3px 3px;
+}
+
+.nav-link {
+    border-radius: 3px;
+}
+
+#myNavItem:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-brand {
+    font-size: 22px;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+    .navbar-nav .dropdown-menu {
+        padding: 3px;
+        display: none;
+        background-color: white;
+        color: #000 !important;
+    }
+
+    .navbar-nav .dropdown:hover > .dropdown-menu {
+        display: block;
+    }
+
+.dropdown-menu {
+    font-size: 18px;
+}
+
+    .dropdown-menu .dropdown-menu {
+        left: 97%;
+        right: auto;
+        top: 25%;
+        margin-top: 0;
+        z-index: 1000;
+    }
+
+.navbar-nav .dropdown-menu a {
+    color: #000 !important;
+}
+
+    .navbar-nav .dropdown-menu a:hover {
+        background-color: #DADADA;
+        color: #000;
+    }
+
+.dropdown-menu .dropdown-item {
+    white-space: nowrap;
+    border-radius: 3px;
+}
+
+#nav-logout {
+    color: rgb(220, 53, 69) !important;
+    margin-bottom: 2px;
+}
+
+/* ---------- main page styles ---------- */
+
+.main-heading {
+    color: white;
+    font-size: 48px;
+    text-align: center;
+    margin-top: 50px;
+    font-weight: 600;
+}
+
+
+
+/* ---------- employee index.cshtml page ---------- */
+
+#roleFilter {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.employees-container {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: none;
+    margin: 20px;
+    border: 2px solid #39FF14;
+    text-align: center;
+    color: white;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    margin: 0 auto;
+}
+
+    .table th, .table td {
+        height: fit-content;
+        padding: 12px;
+        text-align: center;
+        color: white;
+    }
+
+    .table thead th {
+        background-color: transparent;
+        color: white;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.role-tag0 {
+    position: relative;
+    padding: 3px 5px;
+    margin: 1px 1px 5px 1px;
+    border: 1px solid #39FF14;
+    border-radius: 7.5px;
+    background-color: transparent;
+    color: white;
+    display: inline-block;
+}
+
+.role-tag:hover {
+    cursor: context-menu;
+}
+
+.clickable-row:hover {
+    cursor: pointer;
+    background-color: rgba(57, 255, 20, 0.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------- access denied page ---------- */
+
+.access-denied {
+    text-align: center;
+    padding: 50px;
+}
+
+    .access-denied h1 {
+        color: #d9534f;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    .access-denied p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .access-denied .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+
+/* ---------- employee details page ---------- */
+
+.employee-details-container {
+    background-color: rgba(52, 73, 94, 0.4);
+    color: #ecf0f1;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+    .employee-details-container h1,
+    .employee-details-container h3 {
+        color: #ecf0f1;
+    }
+
+    .employee-details-container strong {
+        color: #bdc3c7;
+    }
+
+    .employee-details-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .employee-details-container ul li {
+            background-color: rgba(44, 62, 80, 0.7);
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 7px;
+        }
+
+    .employee-details-container form div {
+        margin-bottom: 10px;
+    }
+
+    .employee-details-container label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .employee-details-container select,
+    .employee-details-container button {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ecf0f1;
+        background-color: rgba(44, 62, 80, 0.7);
+        color: #ecf0f1;
+    }
+
+.roleSelect {
+    margin-right: 3px;
+}
+
+.employee-details-container button {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .employee-details-container button:hover {
+        background-color: rgba(58, 83, 155, 0.7);
+    }
+
+.role-tag {
+    position: relative;
+    padding: 3px 5px;
+    margin: 5px;
+    border: 1px solid #39FF14;
+    border-radius: 7.5px;
+    background-color: transparent;
+    color: white;
+    display: inline-block;
+}
+
+    .role-tag .remove-role {
+        position: absolute;
+        top: -5px;
+        right: -8px;
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        margin: auto;
+        z-index: 1;
+    }
+
+
+/*  Email template edit page  */
+#tinyMceEditor {
+    position: relative;
+    z-index: 0;
+}
+
+.email-template-container {
+    width: 80%;
+    margin: auto;
+}
+
+    .email-template-container label {
+        color: white;
+        margin-top: 10px;
+    }
+
+.button-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .button-center button {
+        width: 80px;
+        height: 40px;
+        font-size: 18px;
+    }

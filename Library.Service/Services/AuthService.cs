@@ -3,6 +3,9 @@ using Library.Service.Dtos;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text.Encodings.Web;
+using System.Web;
 
 namespace Library.Service.Services;
 
@@ -47,7 +50,7 @@ public class AuthService : IAuthService
 
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(employee, "Employee"); // add normal employee role
+            await _userManager.AddToRoleAsync(employee, "Pending"); // add pending role before admin manually gives the role to employee
             await _signInManager.SignInAsync(employee, false);
             return IdentityResult.Success;
         }
@@ -108,6 +111,7 @@ public class AuthService : IAuthService
 
         return (IdentityResult.Success, token);
     }
+
 
     public async Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto) // this only gets called after verifying that user exists
     {
