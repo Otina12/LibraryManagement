@@ -3,124 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\Giorgi\\source\\repos\\Library\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.model\\abstractions\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|solutionrelative:library.model\\abstractions\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\interfaces\\iemployeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\interfaces\\iemployeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\actionfilters\\customexceptionfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\actionfilters\\customexceptionfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\services\\employeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\services\\employeeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE3C8624-527F-4EA6-B693-183D1B8D5143}|Library.Data\\Library.Data.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.data\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BE3C8624-527F-4EA6-B693-183D1B8D5143}|Library.Data\\Library.Data.csproj|solutionrelative:library.data\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\views\\email\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\views\\email\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.model\\abstractions\\tresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|solutionrelative:library.model\\abstractions\\tresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\views\\employee\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\views\\employee\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.model\\enums\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|solutionrelative:library.model\\enums\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\services\\servicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\services\\servicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.model\\exceptions\\emailtemplatealreadyexistsexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|solutionrelative:library.model\\exceptions\\emailtemplatealreadyexistsexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\services\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\services\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\views\\email\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\views\\email\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\views\\email\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\views\\email\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\interfaces\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\interfaces\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\extensions\\employeemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\extensions\\employeemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BE3C8624-527F-4EA6-B693-183D1B8D5143}|Library.Data\\Library.Data.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.data\\repositories\\employeerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BE3C8624-527F-4EA6-B693-183D1B8D5143}|Library.Data\\Library.Data.csproj|solutionrelative:library.data\\repositories\\employeerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\mappers\\mappingprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\mappers\\mappingprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\dtos\\email\\editemaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\dtos\\email\\editemaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\viewmodels\\attributes\\authorization\\customauthorizefilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\viewmodels\\attributes\\authorization\\customauthorizefilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.model\\interfaces\\irolemenurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|solutionrelative:library.model\\interfaces\\irolemenurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\dtos\\employeedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\dtos\\employeedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\interfaces\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\interfaces\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -130,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 177,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -146,364 +66,125 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EmployeeService.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmployeeService.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Services\\EmployeeService.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmployeeService.cs",
-              "RelativeToolTip": "Library.Service\\Services\\EmployeeService.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAwwAsAAAAvAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T17:05:18.399Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "EmployeeController.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmployeeController.cs",
-              "RelativeDocumentMoniker": "Library\\Controllers\\EmployeeController.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmployeeController.cs",
-              "RelativeToolTip": "Library\\Controllers\\EmployeeController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEAAAABUAAAA",
+              "Title": "Result.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Abstractions\\Result.cs",
+              "RelativeDocumentMoniker": "Library.Model\\Abstractions\\Result.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Abstractions\\Result.cs",
+              "RelativeToolTip": "Library.Model\\Abstractions\\Result.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAkwBsAAABKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T08:00:51.705Z",
+              "WhenOpened": "2024-05-27T21:25:46.459Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\appsettings.json",
-              "RelativeDocumentMoniker": "Library\\appsettings.json",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\appsettings.json",
-              "RelativeToolTip": "Library\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-21T06:42:23.475Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "Library\\wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "Library\\wwwroot\\css\\site.css",
-              "ViewState": "AQIAAGMAAAAAAAAAAAAAAHwAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-05-19T21:38:33.578Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EmailController.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmailController.cs",
-              "RelativeDocumentMoniker": "Library\\Controllers\\EmailController.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmailController.cs",
-              "RelativeToolTip": "Library\\Controllers\\EmailController.cs",
-              "ViewState": "AQIAAEAAAAAAAAAAAIA1wFYAAAAAAAAA",
+              "DocumentIndex": 2,
+              "Title": "TResult.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Abstractions\\TResult.cs",
+              "RelativeDocumentMoniker": "Library.Model\\Abstractions\\TResult.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Abstractions\\TResult.cs",
+              "RelativeToolTip": "Library.Model\\Abstractions\\TResult.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T10:39:45.781Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UnitOfWork.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Data\\Repositories\\UnitOfWork.cs",
-              "RelativeDocumentMoniker": "Library.Data\\Repositories\\UnitOfWork.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Data\\Repositories\\UnitOfWork.cs",
-              "RelativeToolTip": "Library.Data\\Repositories\\UnitOfWork.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAkwB0AAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T17:00:56.315Z"
+              "WhenOpened": "2024-05-27T21:32:24.712Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "IEmployeeService.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IEmployeeService.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Interfaces\\IEmployeeService.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IEmployeeService.cs",
-              "RelativeToolTip": "Library.Service\\Interfaces\\IEmployeeService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAsAAAAAAAAA",
+              "Title": "CustomExceptionFilter.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\ActionFilters\\CustomExceptionFilter.cs",
+              "RelativeDocumentMoniker": "Library\\ActionFilters\\CustomExceptionFilter.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\ActionFilters\\CustomExceptionFilter.cs",
+              "RelativeToolTip": "Library\\ActionFilters\\CustomExceptionFilter.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T09:38:01.956Z"
+              "WhenOpened": "2024-05-27T21:30:39.706Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Employee\\Details.cshtml",
-              "RelativeDocumentMoniker": "Library\\Views\\Employee\\Details.cshtml",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Employee\\Details.cshtml",
-              "RelativeToolTip": "Library\\Views\\Employee\\Details.cshtml",
-              "ViewState": "AQIAAGwAAAAAAAAAAAAIwHQAAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-19T21:35:04.005Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Index.cshtml",
-              "RelativeDocumentMoniker": "Library\\Views\\Email\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Index.cshtml",
-              "RelativeToolTip": "Library\\Views\\Email\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwCEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-19T16:39:16.345Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "web.config",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\web.config",
-              "RelativeDocumentMoniker": "Library\\web.config",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\web.config",
-              "RelativeToolTip": "Library\\web.config",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2024-05-19T21:20:01.882Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "EmailTemplateAlreadyExistsException.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Exceptions\\EmailTemplateAlreadyExistsException.cs",
-              "RelativeDocumentMoniker": "Library.Model\\Exceptions\\EmailTemplateAlreadyExistsException.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Exceptions\\EmailTemplateAlreadyExistsException.cs",
-              "RelativeToolTip": "Library.Model\\Exceptions\\EmailTemplateAlreadyExistsException.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T21:16:35.968Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Role.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Enums\\Role.cs",
-              "RelativeDocumentMoniker": "Library.Model\\Enums\\Role.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Enums\\Role.cs",
-              "RelativeToolTip": "Library.Model\\Enums\\Role.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T21:29:04.272Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Employee\\Index.cshtml",
-              "RelativeDocumentMoniker": "Library\\Views\\Employee\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Employee\\Index.cshtml",
-              "RelativeToolTip": "Library\\Views\\Employee\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-19T21:25:34.883Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Program.cs",
               "RelativeDocumentMoniker": "Library\\Program.cs",
               "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Program.cs",
               "RelativeToolTip": "Library\\Program.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAAAAkAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T06:42:17.869Z"
+              "WhenOpened": "2024-05-27T21:28:27.162Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "EmailService.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmailService.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Services\\EmailService.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmailService.cs",
-              "RelativeToolTip": "Library.Service\\Services\\EmailService.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAADgvy0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T17:47:39.02Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "EditEmailDto.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Dtos\\Email\\EditEmailDto.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Dtos\\Email\\EditEmailDto.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Dtos\\Email\\EditEmailDto.cs",
-              "RelativeToolTip": "Library.Service\\Dtos\\Email\\EditEmailDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T18:04:48.301Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Library\\Views\\Email\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Edit.cshtml",
-              "RelativeToolTip": "Library\\Views\\Email\\Edit.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-19T17:41:57.378Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 8,
               "Title": "EmployeeMapper.cs",
               "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Extensions\\EmployeeMapper.cs",
               "RelativeDocumentMoniker": "Library.Service\\Extensions\\EmployeeMapper.cs",
               "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Extensions\\EmployeeMapper.cs",
               "RelativeToolTip": "Library.Service\\Extensions\\EmployeeMapper.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAYAAAA",
+              "ViewState": "AQIAAA0AAAAAAAAAAIAwwBQAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T20:47:29.614Z"
+              "WhenOpened": "2024-05-27T21:18:36.639Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Create.cshtml",
-              "RelativeDocumentMoniker": "Library\\Views\\Email\\Create.cshtml",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Create.cshtml",
-              "RelativeToolTip": "Library\\Views\\Email\\Create.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA4AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-19T20:50:10.455Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "RegisterViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\ViewModels\\RegisterViewModel.cs",
-              "RelativeDocumentMoniker": "Library\\ViewModels\\RegisterViewModel.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\ViewModels\\RegisterViewModel.cs",
-              "RelativeToolTip": "Library\\ViewModels\\RegisterViewModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAyAAAA",
+              "DocumentIndex": 4,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Library\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Library\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T21:04:58.391Z"
+              "WhenOpened": "2024-05-27T21:18:32.192Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "EmployeeRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Data\\Repositories\\EmployeeRepository.cs",
-              "RelativeDocumentMoniker": "Library.Data\\Repositories\\EmployeeRepository.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Data\\Repositories\\EmployeeRepository.cs",
-              "RelativeToolTip": "Library.Data\\Repositories\\EmployeeRepository.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAA5wBYAAAAEAAAA",
+              "DocumentIndex": 7,
+              "Title": "EmployeeController.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmployeeController.cs",
+              "RelativeDocumentMoniker": "Library\\Controllers\\EmployeeController.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmployeeController.cs",
+              "RelativeToolTip": "Library\\Controllers\\EmployeeController.cs",
+              "ViewState": "AQIAACcAAAAAAAAAAIAwwDIAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T17:03:51.458Z"
+              "WhenOpened": "2024-05-27T21:18:31.21Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "EmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmailSender.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Services\\EmailSender.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmailSender.cs",
-              "RelativeToolTip": "Library.Service\\Services\\EmailSender.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAYAAAA",
+              "DocumentIndex": 9,
+              "Title": "EmailController.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmailController.cs",
+              "RelativeDocumentMoniker": "Library\\Controllers\\EmailController.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\EmailController.cs",
+              "RelativeToolTip": "Library\\Controllers\\EmailController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T14:35:32.218Z"
+              "WhenOpened": "2024-05-27T21:18:30.324Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "IEmailService.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IEmailService.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Interfaces\\IEmailService.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IEmailService.cs",
-              "RelativeToolTip": "Library.Service\\Interfaces\\IEmailService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwA0AAAAZAAAA",
+              "DocumentIndex": 5,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Library\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Library\\Controllers\\AccountController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T17:47:35.257Z"
+              "WhenOpened": "2024-05-27T21:18:28.773Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "CustomAuthorizeFilter.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\ViewModels\\Attributes\\Authorization\\CustomAuthorizeFilter.cs",
-              "RelativeDocumentMoniker": "Library\\ViewModels\\Attributes\\Authorization\\CustomAuthorizeFilter.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\ViewModels\\Attributes\\Authorization\\CustomAuthorizeFilter.cs",
-              "RelativeToolTip": "Library\\ViewModels\\Attributes\\Authorization\\CustomAuthorizeFilter.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAgwBkAAAAiAAAA",
+              "DocumentIndex": 6,
+              "Title": "ServiceManager.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\ServiceManager.cs",
+              "RelativeDocumentMoniker": "Library.Service\\Services\\ServiceManager.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\ServiceManager.cs",
+              "RelativeToolTip": "Library.Service\\Services\\ServiceManager.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAswBkAAAB0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T16:40:27.02Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "MappingProfiles.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Mappers\\MappingProfiles.cs",
-              "RelativeDocumentMoniker": "Library\\Mappers\\MappingProfiles.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Mappers\\MappingProfiles.cs",
-              "RelativeToolTip": "Library\\Mappers\\MappingProfiles.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAABCAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T17:54:40.67Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Library\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Library\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-19T10:52:51.149Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "IRoleMenuRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Interfaces\\IRoleMenuRepository.cs",
-              "RelativeDocumentMoniker": "Library.Model\\Interfaces\\IRoleMenuRepository.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Interfaces\\IRoleMenuRepository.cs",
-              "RelativeToolTip": "Library.Model\\Interfaces\\IRoleMenuRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAABOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T14:32:48.479Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "IEmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IEmailSender.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Interfaces\\IEmailSender.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IEmailSender.cs",
-              "RelativeToolTip": "Library.Service\\Interfaces\\IEmailSender.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAABaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T09:35:41.79Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Services\\AuthService.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\AuthService.cs",
-              "RelativeToolTip": "Library.Service\\Services\\AuthService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAABgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T09:29:09.244Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "EmployeeDto.cs",
-              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Dtos\\EmployeeDto.cs",
-              "RelativeDocumentMoniker": "Library.Service\\Dtos\\EmployeeDto.cs",
-              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Dtos\\EmployeeDto.cs",
-              "RelativeToolTip": "Library.Service\\Dtos\\EmployeeDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA8AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T07:58:41.525Z"
+              "WhenOpened": "2024-05-27T21:17:52.076Z"
             }
           ]
         },

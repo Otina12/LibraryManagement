@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Library.Model.Exceptions;
+﻿using Library.Model.Abstractions;
+using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos;
@@ -13,13 +13,14 @@ public class EmployeeService : IEmployeeService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly UserManager<Employee> _userManager;
+    private readonly IValidationService _validationService;
 
-
-
-    public EmployeeService(IUnitOfWork unitOfWork, UserManager<Employee> userManager, IMapper mapper)
+    public EmployeeService(IUnitOfWork unitOfWork, UserManager<Employee> userManager,
+        IValidationService validationService)
     {
         _unitOfWork = unitOfWork;
         _userManager = userManager;
+        _validationService = validationService;
     }
 
     public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync()
@@ -29,29 +30,43 @@ public class EmployeeService : IEmployeeService
         return employeeDtos;
     }
 
-    public async Task<EmployeeDto?> GetEmployeeByIdAsync(string employeeId)
+    public async Task<Result<EmployeeDto>> GetEmployeeByIdAsync(string employeeId)
     {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-        return employee?.MapToEmployeeDto();
-    }
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
 
-    public async Task<IEnumerable<string>> GetAllRolesOfEmployee(string employeeId)
-    {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-
-        if (employee is null)
+        if (employeeExistsResult.IsFailure)
         {
-            throw new EmployeeNotFoundException($"Employee with Id {employeeId} was not found.");
+            return Result.Failure<EmployeeDto>(EmployeeErrors.EmployeeNotFound);
         }
 
-        return await _userManager.GetRolesAsync(employee);
+        var employeeDto = employeeExistsResult.Value().MapToEmployeeDto();
+        return Result.Success(employeeDto);
     }
 
-    public async Task UpdateEmployeeAsync(string employeeId, UpdateEmployeeDto updateEmployeeDto)
+    public async Task<Result<IEnumerable<string>>> GetAllRolesOfEmployee(string employeeId)
     {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-        if (employee is null)
-            throw new EmployeeNotFoundException("Employee was not found");
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
+
+        var employee = employeeExistsResult.Value();
+        var roles = await _userManager.GetRolesAsync(employee);
+
+        return Result.Success<IEnumerable<string>>(roles);
+    }
+
+    public async Task<Result> UpdateEmployeeAsync(string employeeId, UpdateEmployeeDto updateEmployeeDto)
+    {
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
+
+        var employee = employeeExistsResult.Value();
 
         employee.UpdateDate = DateTime.UtcNow;
         employee.Name = updateEmployeeDto.Name;
@@ -61,30 +76,40 @@ public class EmployeeService : IEmployeeService
         employee.PhoneNumber = updateEmployeeDto.PhoneNumber;
 
         _unitOfWork.Employees.Update(employee);
+        return Result.Success();
     }
 
-    public async Task DeleteEmployeeAsync(string employeeId)
+    public async Task<Result> DeleteEmployeeAsync(string employeeId)
     {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-        if (employee is null)
-            throw new EmployeeNotFoundException("Employee was not found");
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
+
+        var employee = employeeExistsResult.Value();
 
         employee.DeleteDate = DateTime.UtcNow;
         _unitOfWork.Employees.Update(employee);
+        return Result.Success();
     }
 
     
-    public async Task AddRolesAsync(string employeeId, string[] roles)
+    public async Task<Result> AddRolesAsync(string employeeId, string[] roles)
     {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-        if (employee is null)
-            throw new EmployeeNotFoundException("Employee was not found");
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
 
-        await AddRolesAsync(employee, roles);
+        var employee = employeeExistsResult.Value();
+
+        return await AddRolesAsync(employee, roles);
     }
 
 
-    public async Task AddRolesAsync(Employee employee, string[] roles)
+    public async Task<Result> AddRolesAsync(Employee employee, string[] roles)
     {
         foreach (var role in roles)
         {
@@ -93,18 +118,24 @@ public class EmployeeService : IEmployeeService
                 await _userManager.AddToRoleAsync(employee, role);
             }
         }
+
+        return Result.Success();
     }
 
-    public async Task RemoveRolesAsync(string employeeId, string[] roles)
+    public async Task<Result> RemoveRolesAsync(string employeeId, string[] roles)
     {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-        if (employee is null)
-            throw new EmployeeNotFoundException("Employee was not found");
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
 
-        await RemoveRolesAsync(employee, roles);
+        var employee = employeeExistsResult.Value();
+
+        return await RemoveRolesAsync(employee, roles);
     }
 
-    public async Task RemoveRolesAsync(Employee employee, string[] roles)
+    public async Task<Result> RemoveRolesAsync(Employee employee, string[] roles)
     {
         foreach (var role in roles)
         {
@@ -113,31 +144,39 @@ public class EmployeeService : IEmployeeService
                 await _userManager.RemoveFromRoleAsync(employee, role);
             }
         }
+
+        return Result.Success();
     }
 
-
-    public async Task UpdateRolesAsync(string employeeId, string[] oldRoles, string[] newRoles)
+    public async Task<Result> UpdateRolesAsync(string employeeId, string[] oldRoles, string[] newRoles)
     {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-        if (employee is null)
-            throw new EmployeeNotFoundException("Employee was not found");
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
 
-        await UpdateRolesAsync(employee, oldRoles, newRoles);
+        var employee = employeeExistsResult.Value();
+
+        return await UpdateRolesAsync(employee, oldRoles, newRoles);
     }
 
-
-    public async Task UpdateRolesAsync(string employeeId, string[] newRoles)
+    public async Task<Result> UpdateRolesAsync(string employeeId, string[] newRoles)
     {
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId));
-        if (employee is null)
-            throw new EmployeeNotFoundException("Employee was not found");
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
+
+        var employee = employeeExistsResult.Value();
 
         var oldRoles = (await _userManager.GetRolesAsync(employee)).ToArray();
 
-        await UpdateRolesAsync(employee, oldRoles, newRoles);
+        return await UpdateRolesAsync(employee, oldRoles, newRoles);
     }
 
-    public async Task UpdateRolesAsync(Employee employee, string[] oldRoles, string[] newRoles)
+    public async Task<Result> UpdateRolesAsync(Employee employee, string[] oldRoles, string[] newRoles)
     {
         // these are old roles that do not appear in new roles, meaning we need to delete them
         var rolesToRemove = oldRoles.Except(newRoles).ToArray();
@@ -146,6 +185,6 @@ public class EmployeeService : IEmployeeService
         var rolesToAdd = newRoles.Except(oldRoles).ToArray();
 
         await RemoveRolesAsync(employee, rolesToRemove);
-        await AddRolesAsync(employee, rolesToAdd);
+        return await AddRolesAsync(employee, rolesToAdd);
     }
 }

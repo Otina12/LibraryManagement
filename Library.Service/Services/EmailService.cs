@@ -4,16 +4,21 @@ using Library.Service.Interfaces;
 using Library.Model.Exceptions;
 using Library.Service.Dtos.Email;
 using Library.Service.Extensions;
+using Library.Model.Abstractions.Errors;
+using Library.Model.Abstractions;
+using Library.Model.Models;
 
 namespace Library.Service.Services;
 
 internal class EmailService : IEmailService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IValidationService _validationService;
 
-    public EmailService(IUnitOfWork unitOfWork)
+    public EmailService(IUnitOfWork unitOfWork, IValidationService validationService)
     {
         _unitOfWork = unitOfWork;
+        _validationService = validationService;
     }
 
     public async Task<IEnumerable<EmailModel>> GetAllTemplates()
@@ -32,23 +37,29 @@ internal class EmailService : IEmailService
     }
 
 
-    public async Task Create(CreateEmailDto emailDto)
+    public async Task<Result> Create(CreateEmailDto emailDto)
     {
-        var existingSubject = await _unitOfWork.EmailTemplates.GetBySubject(emailDto.Subject);
-        if(existingSubject is not null)
+        var emailExistsResult = await _validationService.EmailTemplateExists(emailDto.Subject);
+        if (emailExistsResult.IsFailure)
         {
-            throw new EmailTemplateAlreadyExistsException($"Email template with subject {emailDto.Subject} already exists.");
+            return Result.Failure(EmailErrors.EmailTemplateNotFound);
         }
 
         await _unitOfWork.EmailTemplates.Create(emailDto.MapToEmailModel());
         await _unitOfWork.SaveChangesAsync();
+        return Result.Success();
     }
 
 
-    public async Task Update(EditEmailDto emailDto)
+    public async Task<Result> Update(EditEmailDto emailDto)
     {
-        var email = await _unitOfWork.EmailTemplates.GetById(emailDto.Id)
-            ?? throw new EmailTemplateNotFoundException("Email template was not found.");
+        var emailExistsResult = await _validationService.EmailTemplateExists(emailDto.Id);
+        if (emailExistsResult.IsFailure)
+        {
+            return Result.Failure(EmailErrors.EmailTemplateNotFound);
+        }
+
+        var email = emailExistsResult.Value();
 
         email.From = emailDto.From;
         email.Subject = emailDto.Subject;
@@ -56,15 +67,22 @@ internal class EmailService : IEmailService
 
         _unitOfWork.EmailTemplates.Update(email);
         await _unitOfWork.SaveChangesAsync();
+        return Result.Success();
     }
 
 
-    public async Task Delete(Guid id)
+    public async Task<Result> Delete(Guid id)
     {
-        var email = await _unitOfWork.EmailTemplates.GetById(id)
-            ?? throw new EmailTemplateNotFoundException("Email template was not found.");
+        var emailExistsResult = await _validationService.EmailTemplateExists(id);
+        if (emailExistsResult.IsFailure)
+        {
+            return Result.Failure(EmailErrors.EmailTemplateNotFound);
+        }
 
-        Delete(email); 
+        var email = emailExistsResult.Value();
+
+        Delete(email);
+        return Result.Success();
     }
 
     public void Delete(EmailModel emailModel)

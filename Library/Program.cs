@@ -1,3 +1,4 @@
+using Library.ActionFilters;
 using Library.Data.Configurations;
 using Library.Extensions;
 using Microsoft.Extensions.Options;
@@ -6,7 +7,10 @@ using Microsoft.Identity.Client;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<CustomExceptionFilter>();
+});
 builder.Services.ConfigureSqlServer(builder.Configuration);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureServices();
@@ -20,7 +24,7 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/PageNotFound");
     app.UseHsts();
 }
 

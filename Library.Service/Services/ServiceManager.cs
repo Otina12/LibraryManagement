@@ -26,9 +26,9 @@ public class ServiceManager : IServiceManager
         _authService = new Lazy<IAuthService>(() => new AuthService(userManager, signInManager, validationService));
         _emailSender = new Lazy<IEmailSender>(() => new EmailSender(unitOfWork, emailOptions));
 
-        _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, userManager, mapper));
+        _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, userManager, validationService));
         _menuService = new Lazy<INavMenuService>(() => new NavMenuService(unitOfWork, roleManager, userManager));
-        _emailService = new Lazy<IEmailService>(() => new EmailService(unitOfWork));
+        _emailService = new Lazy<IEmailService>(() => new EmailService(unitOfWork, validationService));
     }
 
     public IAuthService AuthService => _authService.Value;

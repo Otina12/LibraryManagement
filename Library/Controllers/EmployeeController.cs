@@ -20,7 +20,7 @@ namespace Library.Controllers
         }
 
         [Authorize]
-        [CustomAuthorize("Admin")] // custom attribute to move users to pages when they have no required role
+        [CustomAuthorize("Admin")] // custom attribute to move users to unauthorized page when they don't have a required role
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -30,7 +30,7 @@ namespace Library.Controllers
             foreach (var employeeDto in employees)
             {
                 var employeeVM = new EmployeeRolesViewModel(employeeDto,
-                    await _serviceManager.EmployeeService.GetAllRolesOfEmployee(employeeDto.Id));
+                    (await _serviceManager.EmployeeService.GetAllRolesOfEmployee(employeeDto.Id)).Value());
 
                 employeesAndRoles.Add(employeeVM);
             }
@@ -39,15 +39,17 @@ namespace Library.Controllers
         }
 
         [Authorize]
-        [CustomAuthorize(nameof(Role.Admin))] // custom attribute to move users to pages when they have no required role
+        [CustomAuthorize(nameof(Role.Admin))] // custom attribute to move users to unauthorized page when they don't have a required role
         [HttpGet]
         public async Task<IActionResult> Details(string Id)
         {
-            var employeeDto = await _serviceManager.EmployeeService.GetEmployeeByIdAsync(Id)
-                ?? throw new EmployeeNotFoundException("Employee not found");
+            var employeeDtoResult = await _serviceManager.EmployeeService.GetEmployeeByIdAsync(Id);
+            
+            if(employeeDtoResult is null)
+                return RedirectToAction("PageNotFound", "Home");
 
-            var employeeAndRoles = new EmployeeRolesViewModel(employeeDto,
-                await _serviceManager.EmployeeService.GetAllRolesOfEmployee(Id));
+            var employeeAndRoles = new EmployeeRolesViewModel(employeeDtoResult.Value(),
+                (await _serviceManager.EmployeeService.GetAllRolesOfEmployee(Id)).Value());
 
             return View(employeeAndRoles);
         }

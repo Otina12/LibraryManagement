@@ -38,7 +38,7 @@ namespace Library.ViewModels.Attributes.Authorization
                     }
                 }
 
-                context.Result = new RedirectToActionResult("AccessDenied", "Account", null);
+                context.Result = new RedirectToActionResult("AccessDenied", "Home", null);
             }
 
             await Task.CompletedTask;

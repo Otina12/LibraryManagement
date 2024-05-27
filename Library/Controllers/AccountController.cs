@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Library.Model.Abstractions;
 using Library.Service.Dtos;
 using Library.Service.Interfaces;
 using Library.ViewModels;
@@ -81,12 +82,12 @@ public class AccountController : Controller
             return View(forgotPasswordVM);
         }
 
-        var (result, token) = await _serviceManager.AuthService.ForgotPassword(forgotPasswordVM.Email);
+        var result = await _serviceManager.AuthService.ForgotPassword(forgotPasswordVM.Email);
 
-        if (result.Succeeded)
+        if (result.IsSuccess)
         {
             // we send reset password email to the user with the link
-            await _serviceManager.EmailSender.SendResetPasswordEmailAsync(forgotPasswordVM.Email, token!, "giorgi");
+            await _serviceManager.EmailSender.SendResetPasswordEmailAsync(forgotPasswordVM.Email, result.Value()!, forgotPasswordVM.Email.Split('@')[0]);
             return View(forgotPasswordVM);
         }
 
@@ -122,26 +123,20 @@ public class AccountController : Controller
     }
 
 
-    [HttpGet]
-    public async Task<IActionResult> AccessDenied()
+    private IActionResult HandleErrors(Result result, object viewModel)
     {
-        return View();
-    }
-
-
-    private IActionResult HandleErrors(IdentityResult result, object viewModel)
-    {
-        if (result.Succeeded)
+        if (result.IsSuccess)
         {
             return RedirectToAction("Index", "Home");
         }
 
-        var errorMessages = new List<string>();
-        foreach (var error in result.Errors)
-        {
-            errorMessages.Add(error.Description);
-        }
-        TempData["ErrorMessages"] = errorMessages;
+        TempData["ErrorMessage"] = result.Error.Message;
+        //var errorMessages = new List<string>();
+        //foreach (var error in result.)
+        //{
+        //    errorMessages.Add(error.Description);
+        //}
+        //TempData["ErrorMessages"] = errorMessages;
 
         return View(viewModel);
     }

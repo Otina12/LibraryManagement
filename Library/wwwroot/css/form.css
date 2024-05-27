@@ -1,4 +1,26 @@
-﻿.myForm {
+﻿.alert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    padding: 5px;
+    height: fit-content;
+}
+
+    .alert ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 8px;
+        width: 100%;
+    }
+
+.myForm {
     width: 420px;
     padding: 25px 25px 15px 25px;
     margin: auto;

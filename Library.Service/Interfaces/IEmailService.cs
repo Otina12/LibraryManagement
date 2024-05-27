@@ -1,4 +1,5 @@
-﻿using Library.Model.Exceptions;
+﻿using Library.Model.Abstractions;
+using Library.Model.Exceptions;
 using Library.Model.Models.Email;
 using Library.Service.Dtos.Email;
 
@@ -9,8 +10,8 @@ public interface IEmailService
     Task<IEnumerable<EmailModel>> GetAllTemplates();
     Task<EmailModel?> GetEmail(string subject);
     Task<EmailModel?> GetEmail(Guid id);
-    Task Create(CreateEmailDto emailDto);
-    Task Update(EditEmailDto emailDto);
-    Task Delete(Guid id);
+    Task<Result> Create(CreateEmailDto emailDto);
+    Task<Result> Update(EditEmailDto emailDto);
+    Task<Result> Delete(Guid id);
     void Delete(EmailModel emailModel);
 }

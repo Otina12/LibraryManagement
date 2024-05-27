@@ -1,4 +1,6 @@
 ﻿using Library.Data.Configurations.Variables;
+using Library.Model.Abstractions;
+using Library.Model.Abstractions.Errors;
 using Library.Model.Exceptions;
 using Library.Model.Interfaces;
 using Library.Service.Dtos.Email;
@@ -7,8 +9,6 @@ using Mailjet.Client;
 using Mailjet.Client.Resources;
 using Mailjet.Client.TransactionalEmails;
 using Microsoft.Extensions.Options;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Library.Service.Services;
@@ -25,7 +25,7 @@ public class EmailSender : IEmailSender
     }
 
 
-    public async Task<bool> SendResetPasswordEmailAsync(string toEmail, string token, string username)
+    public async Task<Result<bool>> SendResetPasswordEmailAsync(string toEmail, string token, string username)
     {
         try
         {
@@ -36,8 +36,12 @@ public class EmailSender : IEmailSender
                 Resource = Send.Resource
             };
 
-            var emailModel = await _unitOfWork.EmailTemplates.GetBySubject("Reset Password")
-                ?? throw new EmailTemplateNotFoundException("Email subject was not found");
+            var emailModel = await _unitOfWork.EmailTemplates.GetBySubject("Reset Password");
+
+            if(emailModel is null)
+            {
+                return Result.Failure<bool>(EmailErrors.EmailTemplateNotFound);
+            }
 
             // we need to encode token before passing as a string, since '/' will be changed to '%2F', '+' with ' ' and so on...
             var callbackLink = $"https://localhost:44384/Account/ResetPassword?email={toEmail}&token={HttpUtility.UrlEncode(token)}";
@@ -55,7 +59,7 @@ public class EmailSender : IEmailSender
 
             var response = await client.SendTransactionalEmailAsync(email);
 
-            var sentSuccessfully = response.Messages[0].Status.ToLower() == "success";
+            var sentSuccessfully = response.Messages[0].Status.Equals("success", StringComparison.CurrentCultureIgnoreCase);
 
             return sentSuccessfully;
         }
