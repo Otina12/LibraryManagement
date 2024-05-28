@@ -1,5 +1,4 @@
 ﻿using Library.Model.Abstractions;
-using Library.Model.Exceptions;
 using Library.Model.Models.Email;
 using Library.Service.Dtos.Email;
 

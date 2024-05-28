@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Library.Model.Enums;
-using Library.Model.Exceptions;
 using Library.Model.Interfaces;
 using Library.Service.Interfaces;
 using Library.ViewModels;

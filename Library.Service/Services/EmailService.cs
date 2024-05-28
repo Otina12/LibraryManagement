@@ -1,7 +1,6 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models.Email;
 using Library.Service.Interfaces;
-using Library.Model.Exceptions;
 using Library.Service.Dtos.Email;
 using Library.Service.Extensions;
 using Library.Model.Abstractions.Errors;

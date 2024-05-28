@@ -1,7 +1,6 @@
 ﻿using Library.Data.Configurations.Variables;
 using Library.Model.Abstractions;
 using Library.Model.Abstractions.Errors;
-using Library.Model.Exceptions;
 using Library.Model.Interfaces;
 using Library.Service.Dtos.Email;
 using Library.Service.Interfaces;

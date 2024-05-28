@@ -7,7 +7,7 @@ public class CustomExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if (context.Exception is ArgumentException || context.Exception is InvalidOperationException)
+        if (context.Exception is Exception)
         {
             context.Result = new RedirectToActionResult("PageNotFound", "Home", null);
             context.ExceptionHandled = true;
