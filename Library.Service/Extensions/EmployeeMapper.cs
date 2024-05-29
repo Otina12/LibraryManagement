@@ -32,7 +32,9 @@ public static class EmployeeMapper
             employee.UserName!, 
             employee.Email!,
             employee.PhoneNumber!,
-            employee.DateOfBirth);
+            employee.DateOfBirth,
+            employee.CreationDate,
+            employee.DeleteDate);
 
         return employeeDto;
     }

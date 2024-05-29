@@ -91,10 +91,30 @@ public class EmployeeService : IEmployeeService
 
         employee.DeleteDate = DateTime.UtcNow;
         _unitOfWork.Employees.Update(employee);
+
+        await _unitOfWork.SaveChangesAsync();
+
         return Result.Success();
     }
 
-    
+    public async Task<Result> RenewEmployeeAsync(string employeeId)
+    {
+        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
+        if (employeeExistsResult.IsFailure)
+        {
+            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
+        }
+
+        var employee = employeeExistsResult.Value();
+
+        employee.DeleteDate = null;
+        _unitOfWork.Employees.Update(employee);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Success();
+    }
+
     public async Task<Result> AddRolesAsync(string employeeId, string[] roles)
     {
         var employeeExistsResult = await _validationService.EmployeeExists(employeeId);

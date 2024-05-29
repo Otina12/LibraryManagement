@@ -6,7 +6,8 @@
         .Cast<Library.Model.Enums.Role>()
         .Where(e => e.ToString() != "Pending")
         .Select(r => r.ToString()).ToList();
-    var isAdmin = User.IsInRole("Admin");
+    bool isAdmin = User.IsInRole("Admin");
+    bool isActive = Model.Employee.DeleteDate is null;
 }
 
 <div class="employee-details-container">
@@ -47,6 +48,15 @@
                 </select>
             </div>
             <button id="saveChangesButton" style="display:none; margin-top: 10px; margin: auto;" onclick="submitForm()">Save Changes</button>
+            @if (isActive)
+            {
+                <button id="dismiss-employee" onclick="dismissEmployee('@Model.Employee.Id')">Dismiss</button>
+            }
+            else
+            {
+                <button id="renew-employee" onclick="renewEmployee('@Model.Employee.Id')">Renew</button>
+            }
+
         </div>
     }
 </div>
@@ -134,4 +144,39 @@
         document.body.appendChild(form);
         form.submit();
     }
+
+    function dismissEmployee(employeeId) {
+        if (confirm("Are you sure you want to dismiss this employee?")) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '@Url.Action("Delete", "Employee")';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'id';
+            input.value = employeeId;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    function renewEmployee(employeeId) {
+        if (confirm("Are you sure you want to renew this employee?")) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '@Url.Action("Renew", "Employee")';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'id';
+            input.value = employeeId;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
 </script>

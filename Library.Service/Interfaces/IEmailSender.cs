@@ -5,6 +5,6 @@ namespace Library.Service.Interfaces;
 
 public interface IEmailSender
 {
-    Task<Result<bool>> SendResetPasswordEmailAsync(string toEmail, string token, string username);
-    string ReplaceTemplate<T>(string body, T model); // formatting
+    //Task<Result<bool>> SendResetPasswordEmailAsync(string toEmail, string token, string username);
+    Task<Result<bool>> SendEmail<T>(T model, string subject, string token);
 }

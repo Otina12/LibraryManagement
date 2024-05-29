@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Library.Model.Enums;
-using Library.Model.Interfaces;
+﻿using Library.Model.Enums;
 using Library.Service.Interfaces;
+using Library.Service.Services;
 using Library.ViewModels;
 using Library.ViewModels.Attributes.Authorization;
 using Microsoft.AspNetCore.Authorization;
@@ -53,7 +52,21 @@ namespace Library.Controllers
             return View(employeeAndRoles);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _serviceManager.EmployeeService.DeleteEmployeeAsync(id);
 
+            return RedirectToAction("Details", "Employee", new {id = id});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Renew(string id)
+        {
+            await _serviceManager.EmployeeService.RenewEmployeeAsync(id);
+
+            return RedirectToAction("Details", "Employee", new { id });
+        }
 
         [CustomAuthorize(nameof(Role.Admin))]
         [HttpPost]

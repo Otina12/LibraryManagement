@@ -3,4 +3,5 @@
 public static class EmailErrors
 {
     public static readonly Error EmailTemplateNotFound = new("Email.EmailTemplateNotFound", "Email template was not found");
+    public static readonly Error InvalidModel = new("Email.InvalidModel", "Model does not contain needed properties");
 }

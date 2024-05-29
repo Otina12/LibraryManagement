@@ -10,7 +10,7 @@ public interface IEmployeeService
     Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync();
     Task<Result<EmployeeDto>> GetEmployeeByIdAsync(string employeeId);
     Task<Result> DeleteEmployeeAsync(string employeeId);
-
+    Task<Result> RenewEmployeeAsync(string employeeId);
     Task<Result> RemoveRolesAsync(Employee employee, string[] roles);
     Task<Result> RemoveRolesAsync(string employeeId, string[] roles);
 

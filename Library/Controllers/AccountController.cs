@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Library.Model.Abstractions;
 using Library.Service.Dtos;
+using Library.Service.Dtos.Email;
 using Library.Service.Interfaces;
 using Library.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -87,7 +88,14 @@ public class AccountController : Controller
         if (result.IsSuccess)
         {
             // we send reset password email to the user with the link
-            await _serviceManager.EmailSender.SendResetPasswordEmailAsync(forgotPasswordVM.Email, result.Value()!, forgotPasswordVM.Email.Split('@')[0]);
+            await _serviceManager.EmailSender.SendEmail(
+                new EmailToSendDto(
+                    forgotPasswordVM.Email.Split('@')[0],
+                    forgotPasswordVM.Email,
+                    "Reset Password"),
+                "Reset Password",
+                result.Value());
+            
             return View(forgotPasswordVM);
         }
 

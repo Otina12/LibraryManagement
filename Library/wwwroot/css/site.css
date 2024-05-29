@@ -180,44 +180,10 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-/* ---------- access denied page ---------- */
-
-.access-denied {
-    text-align: center;
-    padding: 50px;
-}
-
-    .access-denied h1 {
-        color: #d9534f;
-        font-size: 36px;
-        margin-bottom: 20px;
-    }
-
-    .access-denied p {
-        font-size: 18px;
-        margin-bottom: 20px;
-        color: white;
-    }
-
-    .access-denied .btn {
-        padding: 10px 20px;
-        font-size: 16px;
-    }
-
-
 /* ---------- employee details page ---------- */
 
 .employee-details-container {
+    position: relative;
     background-color: rgba(52, 73, 94, 0.4);
     color: #ecf0f1;
     padding: 20px;
@@ -308,6 +274,51 @@ body {
         margin: auto;
         z-index: 1;
     }
+
+#dismiss-employee, #renew-employee {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#dismiss-employee {
+    background-color: #f11;
+}
+
+#renew-employee{
+    background-color: #3b3;
+}
+
+#dismiss-employee:hover, #renew-employee:hover {
+    background-color: rgba(44, 62, 80, 0.7);
+}
+
+/* ---------- access denied page ---------- */
+
+.access-denied {
+    text-align: center;
+    padding: 50px;
+}
+
+    .access-denied h1 {
+        color: #d9534f;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    .access-denied p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .access-denied .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+
 
 
 /*  Email template edit page  */
