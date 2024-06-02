@@ -5,31 +5,46 @@
     ViewData["Title"] = "Employees";
 }
 
-<label for="roleFilter" style="color: white">Filter by Role:</label>
-<select id="roleFilter" onchange="filterByRole()">
-    <option value="All">All</option>
-    @foreach (var role in Enum.GetNames(typeof(Library.Model.Enums.Role)))
-    {
-        <option value="@role">@role</option>
-    }
-</select>
+<div class="filter-container">
+    <label for="roleFilter" class="filter-label">Filter by Role:</label>
+    <select id="roleFilter" class="filter-select" onchange="filterEmployees()">
+        <option value="All">All</option>
+        @foreach (var role in Enum.GetNames(typeof(Library.Model.Enums.Role)))
+        {
+            <option value="@role">@role</option>
+        }
+    </select>
+    <div class="filter-radio-group">
+        <input type="radio" id="allEmployees" name="employeeStatus" value="All" checked onchange="filterEmployees()">
+        <label for="allEmployees" class="filter-radio-label">All</label>
+        <input type="radio" id="activeEmployees" name="employeeStatus" value="Active" onchange="filterEmployees()">
+        <label for="activeEmployees" class="filter-radio-label">Active</label>
+        <input type="radio" id="inactiveEmployees" name="employeeStatus" value="Inactive" onchange="filterEmployees()">
+        <label for="inactiveEmployees" class="filter-radio-label">Inactive</label>
+    </div>
+</div>
+<br />
 <div class="employees-container">
-
-    <br /><br />
     <table class="table table-striped table-hover">
         <thead class="thead-light">
             <tr>
                 <th>Name and Surname</th>
                 <th>Email</th>
                 <th>Phone Number</th>
-                <th>Period</th>
+                <th id="period-header">
+                    Period
+                    <span class="sort-arrows">
+                        <span class="arrow up" onclick="sortTable(true)">▲</span>
+                        <span class="arrow down" onclick="sortTable(false)">▼</span>
+                    </span>
+                </th>
                 <th>Roles</th>
             </tr>
         </thead>
         <tbody id="employeeTable">
             @foreach (var employee in Model)
             {
-                <tr class="clickable-row" onclick="window.location='@Url.Action("Details", "Employee", new { id = employee.Employee.Id })';">
+                <tr class="clickable-row" data-status="@employee.Employee.IsEmployed" onclick="window.location='@Url.Action("Details", "Employee", new { id = employee.Employee.Id })';">
                     <td>@($"{employee.Employee.Name} {employee.Employee.Surname}")</td>
                     <td>@employee.Employee.Email</td>
                     <td>@employee.Employee.PhoneNumber</td>
@@ -47,17 +62,36 @@
 </div>
 
 <script>
-    function filterByRole() {
+    function filterEmployees() {
         const selectedRole = document.getElementById("roleFilter").value;
+        const selectedStatus = document.querySelector('input[name="employeeStatus"]:checked').value;
         const rows = document.querySelectorAll("#employeeTable tr");
 
         rows.forEach(row => {
             const roles = Array.from(row.querySelectorAll(".role-tag0")).map(roleTag => roleTag.textContent);
-            if (selectedRole === "All" || roles.includes(selectedRole)) {
+            const status = row.dataset.status === "True" ? "Active" : "Inactive";
+
+            const roleMatches = selectedRole === "All" || roles.includes(selectedRole);
+            const statusMatches = selectedStatus === "All" || status === selectedStatus;
+
+            if (roleMatches && statusMatches) {
                 row.style.display = "";
             } else {
                 row.style.display = "none";
             }
         });
+    }
+
+    function sortTable(ascending) {
+        const table = document.querySelector('table tbody');
+        const rows = Array.from(table.rows);
+
+        rows.sort((a, b) => {
+            const dateA = new Date(a.cells[3].innerText.split(' - ')[0]);
+            const dateB = new Date(b.cells[3].innerText.split(' - ')[0]);
+            return ascending ? dateA - dateB : dateB - dateA;
+        });
+
+        rows.forEach(row => table.appendChild(row));
     }
 </script>

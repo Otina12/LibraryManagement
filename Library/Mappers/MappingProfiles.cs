@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Library.Model.Models;
 using Library.Model.Models.Email;
+using Library.Model.Models.Menu;
 using Library.Service.Dtos;
 using Library.Service.Dtos.Email;
 using Library.ViewModels;
@@ -11,6 +12,7 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
+        // authorization maps
         CreateMap<RegisterViewModel, RegisterDto>();
 
         CreateMap<LoginViewModel, LoginDto>();
@@ -19,8 +21,12 @@ public class MappingProfiles : Profile
 
         CreateMap<EmployeeRolesViewModel, EmployeeDto>();
 
+        // email maps
         CreateMap<EditEmailTemplateViewModel, EditEmailDto>();
         CreateMap<EmailModel, EditEmailTemplateViewModel>();
         CreateMap<CreateEmailTemplateViewModel, CreateEmailDto>();
+
+        // menu maps
+        CreateMap<NavigationMenu, NavigationMenuItemViewModel>();
     }
 }

@@ -7,7 +7,6 @@
         .Where(e => e.ToString() != "Pending")
         .Select(r => r.ToString()).ToList();
     bool isAdmin = User.IsInRole("Admin");
-    bool isActive = Model.Employee.DeleteDate is null;
 }
 
 <div class="employee-details-container">
@@ -48,7 +47,7 @@
                 </select>
             </div>
             <button id="saveChangesButton" style="display:none; margin-top: 10px; margin: auto;" onclick="submitForm()">Save Changes</button>
-            @if (isActive)
+            @if (Model.Employee.IsEmployed)
             {
                 <button id="dismiss-employee" onclick="dismissEmployee('@Model.Employee.Id')">Dismiss</button>
             }

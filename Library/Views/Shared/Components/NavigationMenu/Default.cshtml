@@ -1,22 +1,15 @@
 ﻿@using System.Security.Claims
-@model List<Library.Model.Models.Menu.NavigationMenu>
+@model IEnumerable<Library.ViewModels.NavigationMenuItemViewModel>
 
 @{
     ViewData["Title"] = "NavigationMenu";
     var curUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-    void RenderMenuItems(IEnumerable<Library.Model.Models.Menu.NavigationMenu> items, Guid? parentId = null)
+    void RenderMenuItems(IEnumerable<Library.ViewModels.NavigationMenuItemViewModel> items)
     {
-        var menuItems = items.Where(x => x.ParentMenuId == parentId).ToList();
-        if (!menuItems.Any())
+        foreach (var item in items)
         {
-            return;
-        }
-
-        foreach (var item in menuItems)
-        {
-            var children = items.Where(x => x.ParentMenuId == item.Id).ToList();
-            if (children.Any())
+            if (item.Children != null && item.Children.Any())
             {
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="@Url.Action(item.ActionName, item.ControllerName)"
@@ -25,17 +18,16 @@
                         @item.Name
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown_@item.Id">
-                        @foreach (var child in children)
+                        @foreach (var child in item.Children)
                         {
-                            var subChildren = items.Where(x => x.ParentMenuId == child.Id).ToList();
-                            if (subChildren.Any())
+                            if (child.Children != null && child.Children.Any())
                             {
                                 <li class="dropdown-submenu">
                                     <a class="dropdown-item dropdown-toggle" href="@Url.Action(child.ActionName, child.ControllerName)" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         @child.Name
                                     </a>
                                     <ul class="dropdown-menu">
-                                        @foreach (var subChild in subChildren)
+                                        @foreach (var subChild in child.Children)
                                         {
                                             <li>
                                                 <a class="dropdown-item" href="@Url.Action(subChild.ActionName, subChild.ControllerName)">
