@@ -25,8 +25,35 @@
                         @item.Name
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown_@item.Id">
-                        @{
-                            RenderMenuItems(items, item.Id);
+                        @foreach (var child in children)
+                        {
+                            var subChildren = items.Where(x => x.ParentMenuId == child.Id).ToList();
+                            if (subChildren.Any())
+                            {
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="@Url.Action(child.ActionName, child.ControllerName)" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @child.Name
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var subChild in subChildren)
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="@Url.Action(subChild.ActionName, subChild.ControllerName)">
+                                                    @subChild.Name
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action(child.ActionName, child.ControllerName)">
+                                        @child.Name
+                                    </a>
+                                </li>
+                            }
                         }
                     </ul>
                 </li>
@@ -34,7 +61,9 @@
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action(item.ActionName, item.ControllerName)">@item.Name</a>
+                    <a class="nav-link" href="@Url.Action(item.ActionName, item.ControllerName)">
+                        @item.Name
+                    </a>
                 </li>
             }
         }
@@ -66,10 +95,10 @@
                     @User.Identity.Name
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownProfile">
-                    <a class="nav-link" href=@Url.Action("Details", "Employee", new { id = curUserId})>Profile</a>
-                    <a class="nav-link" href="#">Settings</a>
+                    <a class="dropdown-item" href="@Url.Action("Details", "Employee", new { id = curUserId })">Profile</a>
+                    <a class="dropdown-item" href="#">Settings</a>
                     <div class="dropdown-divider"></div>
-                    <a id="nav-logout" class="nav-link" href="/Account/Logout">Logout</a>
+                    <a id="nav-logout" class="dropdown-item" href="/Account/Logout">Logout</a>
                 </div>
             </li>
         }

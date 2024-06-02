@@ -76,15 +76,17 @@ body {
 }
 
     .dropdown-menu .dropdown-menu {
-        left: 97%;
+        left: 100%;
         right: auto;
-        top: 25%;
+        top: 0;
         margin-top: 0;
         z-index: 1000;
     }
 
 .navbar-nav .dropdown-menu a {
     color: #000 !important;
+    padding: 8px 16px;
+    display: block;
 }
 
     .navbar-nav .dropdown-menu a:hover {
@@ -97,10 +99,25 @@ body {
     border-radius: 3px;
 }
 
+.dropdown-submenu {
+    position: relative;
+}
+
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-submenu .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: 0;
+    }
+
 #nav-logout {
     color: rgb(220, 53, 69) !important;
     margin-bottom: 2px;
 }
+
 
 /* ---------- main page styles ---------- */
 
