@@ -1,7 +1,36 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Giorgi\\source\\repos\\Library\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\views\\email\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\views\\email\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\interfaces\\ivalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\interfaces\\ivalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.service\\services\\validationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9A825C95-D728-4993-80BE-7813A3B60FBB}|Library.Service\\Library.Service.csproj|solutionrelative:library.service\\services\\validationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|c:\\users\\giorgi\\source\\repos\\library\\library.model\\abstractions\\errors\\emailerrors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FC4AAC7-F876-4607-BA91-52ECC6D918CB}|Library.Model\\Library.Model.csproj|solutionrelative:library.model\\abstractions\\errors\\emailerrors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|c:\\users\\giorgi\\source\\repos\\library\\library\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A080408-FCC3-4271-9752-64661058619C}|Library\\Library.csproj|solutionrelative:library\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +38,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 177,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IValidationService.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IValidationService.cs",
+              "RelativeDocumentMoniker": "Library.Service\\Interfaces\\IValidationService.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Interfaces\\IValidationService.cs",
+              "RelativeToolTip": "Library.Service\\Interfaces\\IValidationService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T19:21:46.33Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ValidationService.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\ValidationService.cs",
+              "RelativeDocumentMoniker": "Library.Service\\Services\\ValidationService.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\ValidationService.cs",
+              "RelativeToolTip": "Library.Service\\Services\\ValidationService.cs",
+              "ViewState": "AQIAADEAAAAAAAAAAAAkwEEAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T19:18:49.166Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmailService.cs",
+              "RelativeDocumentMoniker": "Library.Service\\Services\\EmailService.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Service\\Services\\EmailService.cs",
+              "RelativeToolTip": "Library.Service\\Services\\EmailService.cs",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAgwCUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T19:18:01.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EmailErrors.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Abstractions\\Errors\\EmailErrors.cs",
+              "RelativeDocumentMoniker": "Library.Model\\Abstractions\\Errors\\EmailErrors.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library.Model\\Abstractions\\Errors\\EmailErrors.cs",
+              "RelativeToolTip": "Library.Model\\Abstractions\\Errors\\EmailErrors.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T19:20:22.232Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -22,6 +103,45 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BookController.cs",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\BookController.cs",
+              "RelativeDocumentMoniker": "Library\\Controllers\\BookController.cs",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Controllers\\BookController.cs",
+              "RelativeToolTip": "Library\\Controllers\\BookController.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T19:14:47.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Index.cshtml",
+              "RelativeDocumentMoniker": "Library\\Views\\Email\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Views\\Email\\Index.cshtml",
+              "RelativeToolTip": "Library\\Views\\Email\\Index.cshtml",
+              "ViewState": "AQIAABAAAAAAAAAAAAAwwB8AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-04T19:13:18.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "site.js",
+              "DocumentMoniker": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "Library\\wwwroot\\js\\site.js",
+              "ToolTip": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "Library\\wwwroot\\js\\site.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-06-04T19:12:24.228Z",
+              "EditorCaption": ""
             }
           ]
         },

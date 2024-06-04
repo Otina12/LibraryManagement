@@ -11,4 +11,5 @@ public interface IValidationService
     Task<Result<Employee>> EmployeeExists(string id);
     Task<Result<EmailModel>> EmailTemplateExists(string subject);
     Task<Result<EmailModel>> EmailTemplateExists(Guid id);
+    Task<Result> EmailTemplateIsNew(string subject);
 }

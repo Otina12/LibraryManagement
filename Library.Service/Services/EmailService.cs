@@ -38,10 +38,10 @@ internal class EmailService : IEmailService
 
     public async Task<Result> Create(CreateEmailDto emailDto)
     {
-        var emailExistsResult = await _validationService.EmailTemplateExists(emailDto.Subject);
-        if (emailExistsResult.IsFailure)
+        var emailIsNewResult = await _validationService.EmailTemplateIsNew(emailDto.Subject);
+        if (emailIsNewResult.IsFailure)
         {
-            return Result.Failure(EmailErrors.EmailTemplateNotFound);
+            return emailIsNewResult.Error;
         }
 
         await _unitOfWork.EmailTemplates.Create(emailDto.MapToEmailModel());
@@ -55,7 +55,7 @@ internal class EmailService : IEmailService
         var emailExistsResult = await _validationService.EmailTemplateExists(emailDto.Id);
         if (emailExistsResult.IsFailure)
         {
-            return Result.Failure(EmailErrors.EmailTemplateNotFound);
+            return emailExistsResult.Error;
         }
 
         var email = emailExistsResult.Value();
@@ -75,7 +75,7 @@ internal class EmailService : IEmailService
         var emailExistsResult = await _validationService.EmailTemplateExists(id);
         if (emailExistsResult.IsFailure)
         {
-            return Result.Failure(EmailErrors.EmailTemplateNotFound);
+            return emailExistsResult.Error;
         }
 
         var email = emailExistsResult.Value();

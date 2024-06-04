@@ -1,6 +1,4 @@
 ﻿using Library.Model.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Library.Data.Repositories;
 

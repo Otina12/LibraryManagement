@@ -67,5 +67,17 @@ namespace Library.Service.Services
 
             return Result.Success(email!);
         }
+
+        public async Task<Result> EmailTemplateIsNew(string subject)
+        {
+            var email = await _unitOfWork.EmailTemplates.GetBySubject(subject);
+
+            var emailExists = email is not null;
+
+            if (emailExists)
+                return EmailErrors.EmailTemplateAlreadyExists;
+
+            return Result.Success();
+        }
     }
 }
