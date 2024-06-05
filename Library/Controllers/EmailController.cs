@@ -10,15 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
 {
-    public class EmailController : Controller
+    public class EmailController : BaseController
     {
-        private readonly IServiceManager _serviceManager;
-        private readonly IMapper _mapper;
-
-        public EmailController(IServiceManager serviceManager, IMapper mapper)
+        public EmailController(IServiceManager serviceManager, IMapper mapper) : base(serviceManager, mapper)
         {
-            _serviceManager = serviceManager;
-            _mapper = mapper;
         }
 
 
@@ -44,10 +39,12 @@ namespace Library.Controllers
         {
             if (!ModelState.IsValid)
             {
+                CreateFailureNotification($"Unable to create an email template '{emailTemplateVM.Subject}'");
                 return View(emailTemplateVM);
             }
 
             await _serviceManager.EmailService.Create(_mapper.Map<CreateEmailDto>(emailTemplateVM));
+            CreateSuccessNotification($"Successfully created an email template '{emailTemplateVM.Subject}'");
             return RedirectToAction("Index", "Email");
         }
 
@@ -66,10 +63,12 @@ namespace Library.Controllers
         {
             if(!ModelState.IsValid)
             {
+                CreateFailureNotification($"Unable to edit an email template '{emailTemplateVM.Subject}'");
                 return View(emailTemplateVM);
             }
 
             await _serviceManager.EmailService.Update(_mapper.Map<EditEmailDto>(emailTemplateVM));
+            CreateSuccessNotification($"Successfully edited an email template '{emailTemplateVM.Subject}'");
             return View();
         }
 
@@ -77,10 +76,19 @@ namespace Library.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await _serviceManager.EmailService.Delete(Id);
+            var result = await _serviceManager.EmailService.Delete(Id);
+
+            if (result.IsFailure)
+            {
+                CreateFailureNotification($"Unable to delete given email template");
+            }
+            else
+            {
+                CreateSuccessNotification($"Successfully deleted an email template");
+            }
+
             return RedirectToAction("Index", "Email");
         }
-
 
     }
 }

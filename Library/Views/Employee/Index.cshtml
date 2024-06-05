@@ -48,7 +48,7 @@
                     <td>@($"{employee.Employee.Name} {employee.Employee.Surname}")</td>
                     <td>@employee.Employee.Email</td>
                     <td>@employee.Employee.PhoneNumber</td>
-                    <td>@employee.Employee.CreateDate.ToString("dd MMMM yyyy") - @(employee.Employee.DeleteDate?.ToString("dd MMMM yyyy") ?? "Present")</td>
+                    <td style="font-size: 16px;">@employee.Employee.CreateDate.ToString("dd MMMM yyyy") - @(employee.Employee.DeleteDate?.ToString("dd MMMM yyyy") ?? "Present")</td>
                     <td>
                         @foreach (var role in employee.Roles)
                         {

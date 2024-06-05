@@ -1,5 +1,4 @@
 ﻿@model Library.ViewModels.LoginViewModel
-
 @{
     ViewData["Title"] = "Login";
 
@@ -16,7 +15,7 @@
 }
 
 <head>
-   <link rel="stylesheet" href="~/css/form.css" />
+    <link rel="stylesheet" href="~/css/form.css" />
 </head>
 
 <body>
@@ -27,12 +26,12 @@
         <form asp-action="Login" method="post">
             <div class="myField">
                 <label asp-for="Email">Email</label>
-                <input asp-for="Email" type="email"/>
+                <input asp-for="Email" type="email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="myField">
                 <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password"/>
+                <input asp-for="Password" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 

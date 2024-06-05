@@ -1,4 +1,5 @@
-﻿using Library.Model.Enums;
+﻿using AutoMapper;
+using Library.Model.Enums;
 using Library.Service.Interfaces;
 using Library.Service.Services;
 using Library.ViewModels;
@@ -8,13 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : BaseController
     {
-        private readonly IServiceManager _serviceManager;
-
-        public EmployeeController(IServiceManager serviceManager)
+        public EmployeeController(IServiceManager serviceManager, IMapper mapper) : base(serviceManager, mapper)
         {
-            _serviceManager = serviceManager;
         }
 
         [Authorize]
@@ -56,7 +54,7 @@ namespace Library.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             await _serviceManager.EmployeeService.DeleteEmployeeAsync(id);
-
+            CreateSuccessNotification("Employee dismissed");
             return RedirectToAction("Details", "Employee", new {id = id});
         }
 
@@ -64,7 +62,7 @@ namespace Library.Controllers
         public async Task<IActionResult> Renew(string id)
         {
             await _serviceManager.EmployeeService.RenewEmployeeAsync(id);
-
+            CreateSuccessNotification("Employee renewed");
             return RedirectToAction("Details", "Employee", new { id });
         }
 
@@ -76,6 +74,8 @@ namespace Library.Controllers
                 .ToArray() ?? [];
 
             await _serviceManager.EmployeeService.UpdateRolesAsync(employeeId, updatedRoles);
+
+            CreateSuccessNotification("Roles have been changed successfully");
             return RedirectToAction("Details", "Employee", new { id = employeeId });
         }
     }

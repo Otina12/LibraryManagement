@@ -10,15 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers;
 
-public class AccountController : Controller
+public class AccountController : BaseController
 {
-    private readonly IServiceManager _serviceManager;
-    private readonly IMapper _mapper;
-
-    public AccountController(IServiceManager serviceManager, IMapper mapper)
+    public AccountController(IServiceManager serviceManager, IMapper mapper) : base(serviceManager, mapper)
     {
-        _serviceManager = serviceManager;
-        _mapper = mapper;
     }
 
     public IActionResult Register()
@@ -38,7 +33,7 @@ public class AccountController : Controller
 
         var result = await _serviceManager.AuthService.RegisterEmployee(registerDto);
 
-        return HandleErrors(result, registerVM);
+        return HandleErrors(result, registerVM, new NotificationViewModel("Your account has been created. Happy managing!", "Registration failed. Try again later"));
     }
 
 
@@ -59,13 +54,14 @@ public class AccountController : Controller
 
         var result = await _serviceManager.AuthService.LoginEmployee(loginDto);
 
-        return HandleErrors(result, loginVM);
+        return HandleErrors(result, loginVM, new NotificationViewModel("Successfully logged in. Happy managing!", "Login failed. Try again later"));
     }
 
     [Authorize]
     public async Task<IActionResult> Logout()
     {
         await _serviceManager.AuthService.Logout();
+        CreateNotification(true, "Logged out successfully");
         return RedirectToAction("Index", "Home");
     }
 
@@ -127,25 +123,6 @@ public class AccountController : Controller
 
         var result = await _serviceManager.AuthService.ResetPassword(resetPasswordDto);
 
-        return HandleErrors(result, resetPasswordVM);
-    }
-
-
-    private IActionResult HandleErrors(Result result, object viewModel)
-    {
-        if (result.IsSuccess)
-        {
-            return RedirectToAction("Index", "Home");
-        }
-
-        TempData["ErrorMessage"] = result.Error.Message;
-        //var errorMessages = new List<string>();
-        //foreach (var error in result.)
-        //{
-        //    errorMessages.Add(error.Description);
-        //}
-        //TempData["ErrorMessages"] = errorMessages;
-
-        return View(viewModel);
+        return HandleErrors(result, resetPasswordVM, new NotificationViewModel("Your password has been reset", "Unknown error occured while reseting the password"));
     }
 }

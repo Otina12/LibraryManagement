@@ -1,15 +1,13 @@
-﻿using Library.Service.Interfaces;
+﻿using AutoMapper;
+using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers;
 
-public class BookController : Controller
+public class BookController : BaseController
 {
-    private readonly IServiceManager _serviceManager;
-
-    public BookController(IServiceManager serviceManager)
+    public BookController(IServiceManager serviceManager, IMapper mapper) : base(serviceManager, mapper)
     {
-        _serviceManager = serviceManager;
     }
 
     public IActionResult Index()

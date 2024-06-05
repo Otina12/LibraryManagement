@@ -5,14 +5,14 @@
 }
 
 <div class="email-templates-container">
-    <div class="header">
+    <div class="email-header">
         <a href="/Email/Create" class="btn btn-add-template">Add a Template</a>
     </div>
 
     <div class="templates-grid">
         @foreach (var template in Model)
         {
-            <div class="template-card">
+            <div id="template-@template.Id" class="template-card">
                 <div class="card-body">
                     <h5 class="card-title">@template.Subject</h5>
                 </div>
@@ -32,8 +32,12 @@
 <script>
     function confirmDelete(templateId) {
         if (confirm('Are you sure you want to delete this template?')) {
-            fetch(`/Email/Delete/${templateId}`, {
-                method: 'DELETE'
+            $.ajax({
+                url: `/Email/Delete/${templateId}`,
+                type: 'DELETE',
+                success: function (data) {
+                    $(`#template-${templateId}`).remove();
+                }
             });
         }
     }

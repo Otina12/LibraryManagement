@@ -374,10 +374,13 @@ body {
     background-color: #3b3;
 }
 
-#dismiss-employee:hover, #renew-employee:hover {
-    background-color: rgba(44, 62, 80, 0.7);
+#saveChangesButton {
+    background-color: #3b3;
 }
 
+#dismiss-employee:hover, #renew-employee:hover, #saveChangesButton:hover {
+    background-color: rgba(50, 80, 80, 0.9);
+}
 
 
 /* ---------- access denied page ---------- */
@@ -412,11 +415,11 @@ body {
     padding-top: 20px;
 }
 
-.header {
+.email-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .btn {
@@ -426,14 +429,23 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     color: white;
+    max-width: 100%;
 }
 
+    .btn:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
 .btn-add-template {
-    background-color: #39FF14;
+    align-self: center;
+    background-color: #2ecc0e;
+    color: white;
 }
 
     .btn-add-template:hover {
         background-color: #2ebd0e;
+        color: white;
     }
 
 .templates-grid {
@@ -476,6 +488,7 @@ body {
 
     .btn-edit:hover {
         background-color: #ec971f;
+        color: white;
     }
 
 .btn-delete {
@@ -484,7 +497,26 @@ body {
 
     .btn-delete:hover {
         background-color: #c9302c;
+        color: white;
     }
+
+@media (max-width: 1200px) {
+    .template-card {
+        width: calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 992px) {
+    .template-card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .template-card {
+        width: calc(100% - 20px);
+    }
+}
 
 /* ---------- email template edit page ---------- */
 #tinyMceEditor {
@@ -503,12 +535,42 @@ body {
     }
 
 .button-center {
-    text-align: center;
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }
 
-    .button-center button {
-        width: 80px;
-        height: 40px;
-        font-size: 18px;
+
+
+
+
+
+
+
+
+
+
+/* ---------- general styles ---------- */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+    .notification.show {
+        opacity: 1;
+    }
+
+    .notification.success {
+        background-color: #28a745;
+    }
+
+    .notification.error {
+        background-color: #dc3545;
     }
