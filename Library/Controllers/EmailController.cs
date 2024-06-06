@@ -73,7 +73,7 @@ namespace Library.Controllers
         }
 
         [CustomAuthorize("Admin")]
-        [HttpDelete]
+        [HttpDelete("Email/Delete/{id}")]
         public async Task<IActionResult> Delete(Guid Id)
         {
             var result = await _serviceManager.EmailService.Delete(Id);

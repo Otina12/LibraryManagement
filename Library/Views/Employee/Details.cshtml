@@ -46,7 +46,7 @@
                     }
                 </select>
             </div>
-            <button id="saveChangesButton" style="display:none; margin-top: 10px; margin: auto;" onclick="submitForm()">Save Changes</button>
+            <button id="saveChangesButton" style="display:none; margin-top: 10px; margin: auto;" onclick="changeRoles()">Save Changes</button>
             @if (Model.Employee.IsEmployed)
             {
                 <button id="dismiss-employee" onclick="dismissEmployee('@Model.Employee.Id')">Dismiss</button>
@@ -60,122 +60,89 @@
     }
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const roleSelect = document.getElementById("roles");
-        const roleList = document.getElementById("roleList");
-        const saveChangesButton = document.getElementById("saveChangesButton");
-        let changesMade = false;
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const roleSelect = document.getElementById("roles");
+            const roleList = document.getElementById("roleList");
+            const saveChangesButton = document.getElementById("saveChangesButton");
+            let changesMade = false;
 
-        roleSelect.addEventListener("change", function () {
-            const selectedRole = roleSelect.value;
-            if (selectedRole) {
-                const roleItems = roleList.getElementsByTagName("li");
-                let isPresent = false;
-                for (let i = 0; i < roleItems.length; i++) {
-                    if (roleItems[i].textContent.includes(selectedRole)) {
-                        isPresent = true;
-                        break;
+            roleSelect.addEventListener("change", function () {
+                const selectedRole = roleSelect.value;
+                if (selectedRole) {
+                    const roleItems = roleList.getElementsByTagName("li");
+                    let isPresent = false;
+                    for (let i = 0; i < roleItems.length; i++) {
+                        if (roleItems[i].textContent.includes(selectedRole)) {
+                            isPresent = true;
+                            break;
+                        }
                     }
+
+                    if (!isPresent) {
+                        const newRoleItem = document.createElement("li");
+                        newRoleItem.className = "role-tag";
+
+                        const roleText = document.createTextNode(selectedRole);
+                        newRoleItem.appendChild(roleText);
+
+                        const removeButton = document.createElement("button");
+                        removeButton.className = "remove-role";
+                        removeButton.textContent = "✖";
+                        removeButton.onclick = function () {
+                            removeRole(this);
+                        };
+
+                        newRoleItem.appendChild(removeButton);
+                        roleList.appendChild(newRoleItem);
+                        showSaveButton();
+                    }
+                    roleSelect.selectedIndex = 0;
                 }
+            });
 
-                if (!isPresent) {
-                    const newRoleItem = document.createElement("li");
-                    newRoleItem.className = "role-tag";
+            window.removeRole = function (button) {
+                const roleItem = button.parentNode;
+                roleList.removeChild(roleItem);
+                showSaveButton();
+            }
 
-                    const roleText = document.createTextNode(selectedRole);
-                    newRoleItem.appendChild(roleText);
-
-                    const removeButton = document.createElement("button");
-                    removeButton.className = "remove-role";
-                    removeButton.textContent = "✖";
-                    removeButton.onclick = function () {
-                        removeRole(this);
-                    };
-
-                    newRoleItem.appendChild(removeButton);
-                    roleList.appendChild(newRoleItem);
-                    showSaveButton();
+            function showSaveButton() {
+                if (!changesMade) {
+                    saveChangesButton.style.display = "block";
+                    changesMade = true;
                 }
-                roleSelect.selectedIndex = 0;
             }
         });
 
-        window.removeRole = function (button) {
-            const roleItem = button.parentNode;
-            roleList.removeChild(roleItem);
-            showSaveButton();
-        }
+        function changeRoles() {
+            const form = document.createElement("form");
+            form.method = "post";
+            form.action = "@Url.Action("ManageRoles", "Employee")";
 
-        function showSaveButton() {
-            if (!changesMade) {
-                saveChangesButton.style.display = "block";
-                changesMade = true;
+            const employeeIdInput = document.createElement("input");
+            employeeIdInput.type = "hidden";
+            employeeIdInput.name = "employeeId";
+            employeeIdInput.value = "@Model.Employee.Id";
+            form.appendChild(employeeIdInput);
+
+            const updatedRoles = [];
+            const roleItems = document.getElementById("roleList").getElementsByTagName("li");
+            for (let i = 0; i < roleItems.length; i++) {
+                let role = roleItems[i].textContent.trim();
+                role = role.replace(/✖/g, "").trim();
+                updatedRoles.push(role);
             }
-        }
-    });
 
-    function submitForm() {
-        const form = document.createElement("form");
-        form.method = "post";
-        form.action = "@Url.Action("ManageRoles", "Employee")";
+            const rolesInput = document.createElement("input");
+            rolesInput.type = "hidden";
+            rolesInput.name = "roles";
+            rolesInput.value = updatedRoles.join(",");
+            form.appendChild(rolesInput);
 
-        const employeeIdInput = document.createElement("input");
-        employeeIdInput.type = "hidden";
-        employeeIdInput.name = "employeeId";
-        employeeIdInput.value = "@Model.Employee.Id";
-        form.appendChild(employeeIdInput);
-
-        const updatedRoles = [];
-        const roleItems = document.getElementById("roleList").getElementsByTagName("li");
-        for (let i = 0; i < roleItems.length; i++) {
-            let role = roleItems[i].textContent.trim();
-            role = role.replace(/✖/g, "").trim();
-            updatedRoles.push(role);
-        }
-
-        const rolesInput = document.createElement("input");
-        rolesInput.type = "hidden";
-        rolesInput.name = "roles";
-        rolesInput.value = updatedRoles.join(",");
-        form.appendChild(rolesInput);
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-
-    function dismissEmployee(employeeId) {
-        if (confirm("Are you sure you want to dismiss this employee?")) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '@Url.Action("Delete", "Employee")';
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'id';
-            input.value = employeeId;
-
-            form.appendChild(input);
             document.body.appendChild(form);
             form.submit();
         }
-    }
-
-    function renewEmployee(employeeId) {
-        if (confirm("Are you sure you want to renew this employee?")) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '@Url.Action("Renew", "Employee")';
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'id';
-            input.value = employeeId;
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-        }
-    }
-
-</script>
+    </script>
+}

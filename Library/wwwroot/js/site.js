@@ -1,4 +1,4 @@
-﻿// function to display success/failure notifications on each page
+﻿// function to display success/failure notifications on each page after some action
 document.addEventListener('DOMContentLoaded', function () {
     console.log("Entered this")
     const body = document.body;
@@ -30,5 +30,56 @@ function showNotification(isSuccess, message) {
         setTimeout(() => {
             document.body.removeChild(notification);
         }, 500);
-    }, 3000);
+    }, 2500);
 }
+
+function configureTinyMce() {
+    tinymce.init({
+        selector: '#tinyMceEditor',
+        plugins: [
+            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+            'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media',
+            'table', 'emoticons', 'help'
+        ],
+        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+            'forecolor backcolor emoticons | help',
+        resize: true,
+    });
+}
+
+
+function dismissEmployee(employeeId) {
+    if (confirm("Are you sure you want to dismiss this employee?")) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '@Url.Action("Delete", "Employee")';
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'id';
+        input.value = employeeId;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+function renewEmployee(employeeId) {
+    if (confirm("Are you sure you want to renew this employee?")) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '@Url.Action("Renew", "Employee")';
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'id';
+        input.value = employeeId;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
