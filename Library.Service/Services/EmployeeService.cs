@@ -2,7 +2,7 @@
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Service.Dtos;
+using Library.Service.Dtos.Employee;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +25,7 @@ public class EmployeeService : IEmployeeService
 
     public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync()
     {
-        var employees = await _unitOfWork.Employees.GetAll();
+        var employees = await _unitOfWork.Employees.GetAll(trackChanges: false);
         var employeeDtos = employees.Select(x => x.MapToEmployeeDto());
         return employeeDtos;
     }

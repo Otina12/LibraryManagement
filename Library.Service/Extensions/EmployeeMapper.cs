@@ -1,5 +1,6 @@
 ﻿using Library.Model.Models;
-using Library.Service.Dtos;
+using Library.Service.Dtos.Authorization;
+using Library.Service.Dtos.Employee;
 
 namespace Library.Service.Extensions;
 

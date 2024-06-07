@@ -176,7 +176,7 @@ body {
     margin-right: 5px;
 }
 
-.employees-container {
+.employees-container .publishers-container {
     background-color: transparent;
     padding: 20px;
     border-radius: 8px;
@@ -231,19 +231,6 @@ body {
     background-color: rgba(57, 255, 20, 0.1);
 }
 
-
-.employees-container {
-    background-color: transparent;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: none;
-    border: 2px solid #39FF14;
-    color: white;
-    margin-left: 0px !important;
-    width: 100%;
-    margin: 0px auto;
-}
-
 .sort-arrows {
     display: inline-block;
     margin-left: 5px;
@@ -266,7 +253,7 @@ body {
 
 /* ---------- employee details page ---------- */
 
-.employee-details-container {
+.employee-details-container, .publisher-details-container {
     position: relative;
     background-color: rgba(52, 73, 94, 0.4);
     color: #ecf0f1;
@@ -276,35 +263,42 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-    .employee-details-container h1,
-    .employee-details-container h3 {
-        color: #ecf0f1;
-    }
+.employee-details-container h1,
+.employee-details-container h3,
+.publisher-details-container h1,
+.publisher-details-container h3{
+    color: #ecf0f1;
+}
 
-    .employee-details-container strong {
-        color: #bdc3c7;
-    }
+.employee-details-container strong,
+.publisher-details-container strong{
+    color: #bdc3c7;
+}
 
-    .employee-details-container ul {
-        list-style-type: none;
-        padding: 0;
-    }
+.employee-details-container ul,
+.publisher-details-container ul{
+    list-style-type: none;
+    padding: 0;
+}
 
-        .employee-details-container ul li {
-            background-color: rgba(44, 62, 80, 0.7);
-            padding: 8px;
-            margin-bottom: 5px;
-            border-radius: 7px;
-        }
-
-    .employee-details-container form div {
-        margin-bottom: 10px;
-    }
-
-    .employee-details-container label {
-        display: block;
+    .employee-details-container ul li,
+    .publisher-details-container ul li{
+        background-color: rgba(44, 62, 80, 0.7);
+        padding: 8px;
         margin-bottom: 5px;
+        border-radius: 7px;
     }
+
+.employee-details-container form div,
+.publisher-details-container form div{
+    margin-bottom: 10px;
+}
+
+.employee-details-container label,
+.publisher-details-container label{
+    display: block;
+    margin-bottom: 5px;
+}
 
     .employee-details-container select,
     .employee-details-container button {
@@ -415,7 +409,7 @@ body {
     padding-top: 20px;
 }
 
-.email-header {
+.email-header, .publisher-header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -437,13 +431,33 @@ body {
         box-shadow: none !important;
     }
 
-.btn-add-template {
+.btn-add-template, .btn-add-publisher {
     align-self: center;
     background-color: #2ecc0e;
     color: white;
 }
 
-    .btn-add-template:hover {
+.btn-edit-publisher, .btn-delete-publisher {
+    cursor: pointer;
+    display: inline-block;
+    pointer-events: auto;
+    height: fit-content;
+    width: fit-content;
+    padding: 6px 10px 6px 10px;
+    z-index: 100;
+}
+
+.btn-edit-publisher{
+    background-color: #ff9911;
+}
+
+    .btn-edit-publisher:hover {
+        text-decoration: none;
+        color: white;
+        background-color: #ffa651;
+    }
+
+    .btn-add-template:hover, .btn-add-publisher:hover {
         background-color: #2ebd0e;
         color: white;
     }
@@ -541,14 +555,144 @@ body {
 }
 
 
+/* ---------- modal styles ---------- */
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    outline: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
 
+.custom-modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 1.75rem auto;
+    max-width: 600px;
+}
 
+.custom-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
+    margin: auto;
+    background-color: #2c2c54;
+    border-radius: 0.3rem;
+    outline: 0;
+    color: white;
+}
 
+.custom-modal-header,
+.custom-modal-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
 
+.custom-modal-header{
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 20px;
+}
 
+.custom-modal-footer {
+    border-top: 1px solid #dee2e6;
+}
 
+.custom-modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+}
 
+.custom-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
 
+    .custom-close:hover {
+        opacity: 1;
+    }
+
+.custom-modal-body {
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.custom-modal-footer .btn {
+    margin-left: 0.5rem;
+}
+
+#createPublisherForm, #editPublisherForm {
+    width: 100% !important;
+}
+
+.modal-field {
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100% !important;
+}
+
+    .modal-field input[type="text"],
+    .modal-field input[type="email"],
+    .modal-field input[type="tel"],
+    .modal-field input[type="number"] {
+        width: 80% !important;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: border-color 0.3s ease;
+    }
+
+        .modal-field input[type="text"]:focus,
+        .modal-field input[type="email"]:focus,
+        .modal-field input[type="tel"]:focus,
+        .modal-field input[type="number"]:focus {
+            border-color: #4290f5;
+            outline: none;
+        }
+
+        .modal-field input[type="text"]::placeholder,
+        .modal-field input[type="email"]::placeholder,
+        .modal-field input[type="tel"]::placeholder,
+        .modal-field input[type="number"]::placeholder {
+            color: rgba(250, 250, 250, 0.5);
+        }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
 
 /* ---------- general styles ---------- */
 .notification {

@@ -1,0 +1,26 @@
+﻿@model Library.ViewModels.CreatePublisherViewModel
+
+<form asp-action="Create" asp-controller="Publisher" method="post" id="createPublisherForm">
+    <div class="modal-field">
+        <input asp-for="Name" placeholder="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="Email" placeholder="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="PhoneNumber" placeholder="Phone Number" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="YearPublished" placeholder="Year Published" type="number" min="1500" max="@DateTime.Now.Year" value=""/>
+        <span asp-validation-for="YearPublished" class="text-danger"></span>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

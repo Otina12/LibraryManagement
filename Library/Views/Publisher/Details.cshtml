@@ -1,0 +1,17 @@
+﻿@model Library.ViewModels.PublisherViewModel
+
+@{
+    ViewData["Title"] = "Publisher Details";
+    bool isAdmin = User.IsInRole("Admin");
+}
+
+<div class="publisher-details-container">
+    <div>
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+        <p><strong>Year created:</strong> @Model.YearPublished</p>
+        <br />
+        <p><strong>Books</strong> </p>
+    </div>
+</div>

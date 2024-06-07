@@ -2,8 +2,10 @@
 
 public class Publisher : BaseModel
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = null!;
-
+    public string? PhoneNumber { get; set; }
+    public string? Email { get; set; }
+    public int YearPublished { get; set; } // when was this publisher company founded
     public ICollection<BookCopy> BooksPublished { get; } = [];
 }

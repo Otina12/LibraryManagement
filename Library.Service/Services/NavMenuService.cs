@@ -41,7 +41,7 @@ public class NavMenuService : INavMenuService
     public async Task<HashSet<string>> GetRoleIdsOfEmployeeAsync(ClaimsPrincipal claimsPrincipal)
     {
         var employeeId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId!));
+        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId!), trackChanges: false);
 
         // select role names (strings)
         var roleNames = await _userManager.GetRolesAsync(employee!);

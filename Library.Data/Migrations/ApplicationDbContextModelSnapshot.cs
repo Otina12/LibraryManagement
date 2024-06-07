@@ -154,8 +154,8 @@ namespace Library.Data.Migrations
                     b.Property<int>("PageCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("PublisherId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PublisherId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
@@ -416,11 +416,9 @@ namespace Library.Data.Migrations
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -428,12 +426,21 @@ namespace Library.Data.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("YearPublished")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

@@ -74,6 +74,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Giorgi/source/repos/Library/Library/Views/Publisher/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGlzaGVyXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Giorgi/source/repos/Library/Library/Views/Publisher/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGlzaGVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Giorgi/source/repos/Library/Library/Views/Publisher/_CreatePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGlzaGVyXF9DcmVhdGVQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Giorgi/source/repos/Library/Library/Views/Publisher/_EditPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGlzaGVyXF9FZGl0UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Giorgi/source/repos/Library/Library/Views/Shared/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFjY2Vzc0RlbmllZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

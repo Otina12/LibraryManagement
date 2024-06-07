@@ -32,7 +32,8 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult PageNotFound()
         {
-            return View();
+            var errorMessage = HttpContext.Session.GetString("ErrorMessage");
+            return View(errorMessage);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

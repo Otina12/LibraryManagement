@@ -8,5 +8,7 @@ public interface IServiceManager
     IEmployeeService EmployeeService { get; }
     INavMenuService NavMenuService { get; }
     IEmailService EmailService { get; }
+    IPublisherService PublisherService { get; }
+    IBookService BookService { get; }
 
 }

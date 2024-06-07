@@ -8,7 +8,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IEmployeeRepository Employees { get; private set; }
     public IRoleMenuRepository RoleMenus { get; private set; }
     public IEmailRepository EmailTemplates { get; private set; }
-
+    public IPublisherRepository Publishers { get; private set; }
+    public IBookRepository Books { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -17,6 +18,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         Employees = new EmployeeRepository(_context);
         RoleMenus = new RoleMenuRepository(_context);
         EmailTemplates = new EmailRepository(_context);
+        Publishers = new PublisherRepository(_context);
+        Books = new BookRepository(_context);
     }
 
     public async Task SaveChangesAsync()

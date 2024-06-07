@@ -1,0 +1,98 @@
+﻿using AutoMapper;
+using Library.Service.Dtos.Publisher;
+using Library.Service.Interfaces;
+using Library.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Library.Controllers;
+
+public class PublisherController : BaseController
+{
+    public PublisherController(IServiceManager serviceManager, IMapper mapper) : base(serviceManager, mapper)
+    {
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        var publishers = await _serviceManager.PublisherService.GetAllPublishers();
+        var publisherVM = _mapper.Map<IEnumerable<PublisherViewModel>>(publishers.ToList());
+
+        return View(publisherVM);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(Guid id)
+    {
+        var publisherResult = await _serviceManager.PublisherService.GetPublisherById(id);
+
+        if (publisherResult.IsFailure)
+            return RedirectToAction("PageNotFound", "Home");
+
+        var publisherVM = _mapper.Map<PublisherViewModel>(publisherResult.Value());
+
+        return View(publisherVM);
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        var viewModel = new CreatePublisherViewModel();
+        return PartialView("_CreatePartial", viewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreatePublisherViewModel publisherVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            return PartialView("_CreatePartial", publisherVM);
+        }
+
+        var publisherDto = _mapper.Map<CreatePublisherDto>(publisherVM);
+        var result = await _serviceManager.PublisherService.Create(publisherDto);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification($"Publisher {publisherVM.Name} has been created");
+        return Json(new { success = true });
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Edit(Guid id)
+    {
+        var publisherResult = await _serviceManager.PublisherService.GetPublisherById(id);
+
+        if (publisherResult.IsFailure)
+            return RedirectToAction("PageNotFound", "Home");
+
+        var editViewModel = _mapper.Map<PublisherViewModel>(publisherResult.Value());
+
+        return PartialView("_EditPartial", editViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(PublisherViewModel publisherVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            return PartialView("_CreatePartial", publisherVM);
+        }
+
+        var publisherDto = _mapper.Map<PublisherDto>(publisherVM);
+        var result = await _serviceManager.PublisherService.Update(publisherDto);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification($"Publisher {publisherVM.Name} has been updated");
+        return Json(new { success = true });
+    }
+}

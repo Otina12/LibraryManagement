@@ -14,7 +14,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _context = context;
         dbSet = context.Set<T>();
     }
-    
+
 
     public virtual async Task Create(T entity)
     {
@@ -37,23 +37,30 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         dbSet.RemoveRange(entitiesToRemove);
     }
 
-    public virtual async Task<IEnumerable<T>> GetAll()
+    public virtual async Task<IEnumerable<T>> GetAll(bool trackChanges = false)
     {
-        return await dbSet.ToListAsync();
+        return trackChanges ?
+            await dbSet.ToListAsync() :
+            await dbSet.AsNoTracking().ToListAsync();
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllWhere(Expression<Func<T, bool>> where)
+    public virtual async Task<IEnumerable<T>> GetAllWhere(Expression<Func<T, bool>> where, bool trackChanges = false)
     {
-        return await dbSet.Where(where).ToListAsync();
+        return trackChanges ?
+            await dbSet.Where(where).ToListAsync() :
+            await dbSet.AsNoTracking().Where(where).ToListAsync();
+
     }
 
-    public virtual async Task<T?> GetById(Guid id)
+    public virtual async Task<T?> GetById(Guid id, bool trackChanges = false) // we cannot implement trackChanges here becase of FindAsync, but will override this when needed
     {
         return await dbSet.FindAsync(id);
     }
 
-    public virtual async Task<T?> GetOneWhere(Expression<Func<T, bool>> where)
+    public virtual async Task<T?> GetOneWhere(Expression<Func<T, bool>> where, bool trackChanges = false)
     {
-        return await dbSet.FirstOrDefaultAsync(where);
+        return trackChanges ?
+            await dbSet.FirstOrDefaultAsync(where) :
+            await dbSet.AsNoTracking().FirstOrDefaultAsync(where);
     }
 }

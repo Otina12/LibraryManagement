@@ -12,4 +12,6 @@ public interface IValidationService
     Task<Result<EmailModel>> EmailTemplateExists(string subject);
     Task<Result<EmailModel>> EmailTemplateExists(Guid id);
     Task<Result> EmailTemplateIsNew(string subject);
+    Task<Result<Publisher>> PublisherExists(Guid id);
+    Task<Result> PublisherIsNew(string? email, string name);
 }

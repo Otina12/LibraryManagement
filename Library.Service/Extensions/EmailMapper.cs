@@ -2,7 +2,7 @@
 using Library.Service.Dtos.Email;
 
 namespace Library.Service.Extensions;
-public static class EmailTemplateMapper
+public static class EmailMapper
 {
     public static EmailModel MapToEmailModel(this CreateEmailDto emailDto)
     {

@@ -1,5 +1,5 @@
 ﻿using Library.Model.Abstractions;
-using Library.Service.Dtos;
+using Library.Service.Dtos.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace Library.Service.Interfaces;

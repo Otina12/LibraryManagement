@@ -27,7 +27,7 @@ namespace Library.Controllers
 
             TempData["ErrorMessage"] = result.Error.Message;
             //var errorMessages = new List<string>();
-            //foreach (var error in result.)
+            //foreach (var error in result.Errors)
             //{
             //    errorMessages.Add(error.Description);
             //}

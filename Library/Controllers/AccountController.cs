@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Library.Model.Abstractions;
-using Library.Service.Dtos;
+using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Email;
 using Library.Service.Interfaces;
 using Library.ViewModels;

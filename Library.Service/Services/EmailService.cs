@@ -22,7 +22,7 @@ internal class EmailService : IEmailService
 
     public async Task<IEnumerable<EmailModel>> GetAllTemplates()
     {
-        return await _unitOfWork.EmailTemplates.GetAll();
+        return await _unitOfWork.EmailTemplates.GetAll(trackChanges: false);
     }
 
     public async Task<EmailModel?> GetEmail(string subject)

@@ -41,7 +41,7 @@ namespace Library.Controllers
         {
             var employeeDtoResult = await _serviceManager.EmployeeService.GetEmployeeByIdAsync(Id);
             
-            if(employeeDtoResult is null)
+            if(employeeDtoResult.IsFailure)
                 return RedirectToAction("PageNotFound", "Home");
 
             var employeeAndRoles = new EmployeeRolesViewModel(employeeDtoResult.Value(),

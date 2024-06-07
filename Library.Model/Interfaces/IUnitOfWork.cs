@@ -5,6 +5,7 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IEmployeeRepository Employees { get; }
     public IRoleMenuRepository RoleMenus { get; }
     public IEmailRepository EmailTemplates { get; }
-
+    public IPublisherRepository Publishers { get; }
+    public IBookRepository Books { get; }
     Task SaveChangesAsync();
 }

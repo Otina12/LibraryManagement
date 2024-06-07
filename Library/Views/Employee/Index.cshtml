@@ -34,8 +34,8 @@
                 <th id="period-header">
                     Period
                     <span class="sort-arrows">
-                        <span class="arrow up" onclick="sortTable(true)">▲</span>
-                        <span class="arrow down" onclick="sortTable(false)">▼</span>
+                        <span class="arrow up" onclick="sortTableByStartDate(true, false, 3)">▲</span>
+                        <span class="arrow down" onclick="sortTableByStartDate(false, false, 3)">▼</span>
                     </span>
                 </th>
                 <th>Roles</th>
@@ -80,18 +80,5 @@
                 row.style.display = "none";
             }
         });
-    }
-
-    function sortTable(ascending) {
-        const table = document.querySelector('table tbody');
-        const rows = Array.from(table.rows);
-
-        rows.sort((a, b) => {
-            const dateA = new Date(a.cells[3].innerText.split(' - ')[0]);
-            const dateB = new Date(b.cells[3].innerText.split(' - ')[0]);
-            return ascending ? dateA - dateB : dateB - dateA;
-        });
-
-        rows.forEach(row => table.appendChild(row));
     }
 </script>

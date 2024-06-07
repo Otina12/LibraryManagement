@@ -1,4 +1,4 @@
-﻿using Library.Service.Dtos;
+﻿using Library.Service.Dtos.Employee;
 
 namespace Library.ViewModels;
 

@@ -13,7 +13,7 @@ public class BookCopy : BaseModel
     public int Row { get; set; }
 
     [ForeignKey("Publisher")]
-    public int PublisherId { get; set; }
+    public Guid PublisherId { get; set; }
 
     [ForeignKey("Book")]
     public Guid BookId { get; set; }

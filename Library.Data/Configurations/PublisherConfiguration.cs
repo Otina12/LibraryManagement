@@ -9,6 +9,7 @@ public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
 {
     public void Configure(EntityTypeBuilder<Publisher> builder)
     {
+        builder.HasKey(x => x.Id);
         builder.Property(p => p.Name).IsRequired();
     }
 }
