@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
-namespace Library.ViewModels.Attributes.Authorization
+namespace Library.Attributes.Authorization
 {
     public class CustomAuthorizeFilter : IAsyncAuthorizationFilter
     {

@@ -1,0 +1,34 @@
+﻿@model Library.ViewModels.Authors.CreateAuthorViewModel
+
+<form asp-action="Create" asp-controller="Author" method="post" id="createAuthorForm">
+    <div class="modal-field">
+        <input asp-for="Name" placeholder="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="Surname" placeholder="Surname" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="Email" type="email" placeholder="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <textarea asp-for="Description" maxlength="1500" placeholder="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="BirthYear" placeholder="Birth Year" type="number" min="0" max="@DateTime.Now.Year" value="" />
+        <span asp-validation-for="BirthYear" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="DeathYear" placeholder="Death Year" type="number" min="0" max="@DateTime.Now.Year" value="" />
+        <span asp-validation-for="DeathYear" class="text-danger"></span>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

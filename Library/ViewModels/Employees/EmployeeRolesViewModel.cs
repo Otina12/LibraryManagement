@@ -1,6 +1,6 @@
 ﻿using Library.Service.Dtos.Employee;
 
-namespace Library.ViewModels;
+namespace Library.ViewModels.Employees;
 
 public record EmployeeRolesViewModel(
     EmployeeDto Employee,

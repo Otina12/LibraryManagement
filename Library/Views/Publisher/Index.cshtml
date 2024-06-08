@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Library.ViewModels.PublisherViewModel>
+﻿@model IEnumerable<Library.ViewModels.Publishers.PublisherViewModel>
 
 <div class="publishers-container">
     <div class="publisher-header">
@@ -62,17 +62,17 @@
     <script>
         // create publisher modal
         $(document).ready(function () {
-            $('#add-publisher-btn').click(function (e) {
+            $('#add-author-btn').click(function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url: '/Publisher/Create',
+                    url: '/Author/Create',
                     type: 'GET',
                     success: function (data) {
                         $('#modalBody').html(data);
-                        $('#modalTitle').text('Add Publisher');
+                        $('#modalTitle').text('Add Author');
                         $('#add-button').show();
                         $('#edit-button').hide();
-                        $('#publisherModal').fadeIn();
+                        $('#authorModal').fadeIn();
                     },
                     error: function () {
                         alert('Error loading the form');
@@ -80,77 +80,67 @@
                 });
             });
 
-            $(document).on('submit', '#createPublisherForm', function (e) {
+            $(document).on('submit', '#createAuthorForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 $.ajax({
-                    url: '/Publisher/Create',
+                    url: '/Author/Create',
                     type: form.attr('method'),
                     data: form.serialize(),
                     success: function (response) {
-                        if (response.success) {
-                            $('#publisherModal').fadeOut();
-                            location.reload();
-                        } else {
-                            $('#publisherModal').fadeOut();
-                            location.reload();
-                        }
+                        $('#authorModal').fadeOut();
+                        location.reload();
                     },
                     error: function () {
-                        alert('Error saving the publisher');
+                        alert('Error saving the author');
                     }
                 });
             });
 
-            // edit publisher modal
-            $('.btn-edit-publisher').click(function (e) {
-                e.stopPropagation(); // to not to go to link when clicking button which is above it
+            // Edit author modal setup
+            $(document).on('click', '.btn-edit-author', function (e) {
                 e.preventDefault();
-                var publisherId = $(this).data('publisher-id');
+                e.stopPropagation(); // Prevent link navigation
+                var authorId = $(this).data('author-id');
                 $.ajax({
-                    url: '/Publisher/Edit/' + publisherId,
+                    url: '/Author/Edit/' + authorId,
                     type: 'GET',
                     success: function (data) {
                         $('#modalBody').html(data);
-                        $('#modalTitle').text('Edit Publisher');
+                        $('#modalTitle').text('Edit Author');
                         $('#add-button').hide();
                         $('#edit-button').show();
-                        $('#publisherModal').fadeIn();
+                        $('#authorModal').fadeIn();
                     },
                     error: function () {
                         alert('Error loading the form');
                     }
                 });
+            });
 
-                $(document).on('submit', '#editPublisherForm', function (e) {
-                    e.preventDefault();
-                    var form = $(this);
-                    var publisherId = $(this).data('publisher-id');
-                    $.ajax({
-                        url: '/Publisher/Edit/' + publisherId,
-                        type: form.attr('method'),
-                        data: form.serialize(),
-                        success: function (response) {
-                            if (response.success) {
-                                $('#publisherModal').fadeOut();
-                                location.reload();
-                            } else {
-                                $('#publisherModal').fadeOut();
-                                location.reload();
-                            }
-                        },
-                        error: function () {
-                            alert('Error updating the publisher');
-                        }
-                    });
+            $(document).on('submit', '#editAuthorForm', function (e) {
+                console.log("entered submiting edit");
+                e.preventDefault();
+                var form = $(this);
+                var authorId = form.data('author-id');
+                $.ajax({
+                    url: '/Author/Edit/' + authorId,
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        $('#authorModal').fadeOut();
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Error updating the author');
+                    }
                 });
             });
 
-            // close form modal
+            // Close modal
             $(document).on('click', '.custom-close', function () {
-                $('#publisherModal').fadeOut();
+                $('#authorModal').fadeOut();
             });
         });
-        
     </script>
 }

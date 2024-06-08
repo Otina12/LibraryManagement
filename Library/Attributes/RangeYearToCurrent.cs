@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Library.ViewModels.Attributes;
+namespace Library.Attributes;
 
 public class RangeYearToCurrent : RangeAttribute
 {

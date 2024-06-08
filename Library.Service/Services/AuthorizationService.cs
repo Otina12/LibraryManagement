@@ -5,19 +5,16 @@ using Library.Service.Dtos.Authorization;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.Encodings.Web;
-using System.Web;
 
 namespace Library.Service.Services;
 
-public class AuthService : IAuthService
+public class AuthorizationService : IAuthorizationService
 {
     private readonly UserManager<Employee> _userManager;
     private readonly SignInManager<Employee> _signInManager;
     private readonly IValidationService _validationService;
 
-    public AuthService(UserManager<Employee> userManager, SignInManager<Employee> signInManager,
+    public AuthorizationService(UserManager<Employee> userManager, SignInManager<Employee> signInManager,
         IValidationService validationService)
     {
         _userManager = userManager;

@@ -2,11 +2,17 @@
 using Library.Model.Models;
 using Library.Model.Models.Email;
 using Library.Model.Models.Menu;
+using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Email;
 using Library.Service.Dtos.Employee;
 using Library.Service.Dtos.Publisher;
 using Library.ViewModels;
+using Library.ViewModels.Authorization;
+using Library.ViewModels.Authors;
+using Library.ViewModels.Emails;
+using Library.ViewModels.Employees;
+using Library.ViewModels.Publishers;
 
 namespace Library.Mappers;
 
@@ -35,5 +41,10 @@ public class MappingProfiles : Profile
         CreateMap<PublisherDto, PublisherViewModel>().ReverseMap();
         CreateMap<CreatePublisherViewModel, CreatePublisherDto>();
         CreateMap<Publisher, PublisherDto>();
+
+        // author maps
+        CreateMap<AuthorDto, AuthorViewModel>().ReverseMap();
+        CreateMap<CreateAuthorViewModel, CreateAuthorDto>();
+        CreateMap<Author, AuthorDto>();
     }
 }

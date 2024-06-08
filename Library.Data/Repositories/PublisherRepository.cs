@@ -35,7 +35,5 @@ namespace Library.Data.Repositories
             var publisher = await _context.Publishers.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email || x.Name == name);
             return publisher;
         }
-
-        
     }
 }

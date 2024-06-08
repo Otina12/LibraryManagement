@@ -1,7 +1,7 @@
-﻿using Library.ViewModels.Attributes;
+﻿using Library.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.ViewModels;
+namespace Library.ViewModels.Authorization;
 
 
 public class RegisterViewModel

@@ -176,13 +176,12 @@ body {
     margin-right: 5px;
 }
 
-.employees-container .publishers-container {
+.employees-container, .publishers-container, .authors-container {
     background-color: transparent;
     padding: 20px;
     border-radius: 8px;
     box-shadow: none;
     margin: 20px;
-    border: 2px solid #39FF14;
     text-align: center;
     color: white;
 }
@@ -253,7 +252,7 @@ body {
 
 /* ---------- employee details page ---------- */
 
-.employee-details-container, .publisher-details-container {
+.employee-details-container, .publisher-details-container, .author-details-container {
     position: relative;
     background-color: rgba(52, 73, 94, 0.4);
     color: #ecf0f1;
@@ -263,42 +262,49 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-.employee-details-container h1,
-.employee-details-container h3,
-.publisher-details-container h1,
-.publisher-details-container h3{
-    color: #ecf0f1;
-}
-
-.employee-details-container strong,
-.publisher-details-container strong{
-    color: #bdc3c7;
-}
-
-.employee-details-container ul,
-.publisher-details-container ul{
-    list-style-type: none;
-    padding: 0;
-}
-
-    .employee-details-container ul li,
-    .publisher-details-container ul li{
-        background-color: rgba(44, 62, 80, 0.7);
-        padding: 8px;
-        margin-bottom: 5px;
-        border-radius: 7px;
+    .employee-details-container h1,
+    .employee-details-container h3,
+    .publisher-details-container h1,
+    .publisher-details-container h3,
+    .author-details-container h1,
+    .author-details-container h3 {
+        color: #ecf0f1;
     }
 
-.employee-details-container form div,
-.publisher-details-container form div{
-    margin-bottom: 10px;
-}
+    .employee-details-container strong,
+    .publisher-details-container strong,
+    .author-details-container strong {
+        color: #bdc3c7;
+    }
 
-.employee-details-container label,
-.publisher-details-container label{
-    display: block;
-    margin-bottom: 5px;
-}
+    .employee-details-container ul,
+    .publisher-details-container ul,
+    .author-details-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .employee-details-container ul li,
+        .publisher-details-container ul li,
+        .author-details-container ul li {
+            background-color: rgba(44, 62, 80, 0.7);
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 7px;
+        }
+
+    .employee-details-container form div,
+    .publisher-details-container form div,
+    .author-details-container form div {
+        margin-bottom: 10px;
+    }
+
+    .employee-details-container label,
+    .publisher-details-container label,
+    .author-details-container label {
+        display: block;
+        margin-bottom: 5px;
+    }
 
     .employee-details-container select,
     .employee-details-container button {
@@ -409,7 +415,7 @@ body {
     padding-top: 20px;
 }
 
-.email-header, .publisher-header {
+.email-header, .publisher-header, .author-header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -431,13 +437,14 @@ body {
         box-shadow: none !important;
     }
 
-.btn-add-template, .btn-add-publisher {
+.btn-add-template, .btn-add-publisher, .btn-add-author {
     align-self: center;
     background-color: #2ecc0e;
     color: white;
 }
 
-.btn-edit-publisher, .btn-delete-publisher {
+.btn-edit-publisher, .btn-delete-publisher,
+.btn-edit-author, .btn-delete-author {
     cursor: pointer;
     display: inline-block;
     pointer-events: auto;
@@ -447,17 +454,17 @@ body {
     z-index: 100;
 }
 
-.btn-edit-publisher{
+.btn-edit-publisher, .btn-edit-author{
     background-color: #ff9911;
 }
 
-    .btn-edit-publisher:hover {
+    .btn-edit-publisher:hover, .btn-edit-author:hover {
         text-decoration: none;
         color: white;
         background-color: #ffa651;
     }
 
-    .btn-add-template:hover, .btn-add-publisher:hover {
+    .btn-add-template:hover, .btn-add-publisher:hover, .btn-add-author:hover {
         background-color: #2ebd0e;
         color: white;
     }
@@ -567,6 +574,7 @@ body {
     overflow: hidden;
     outline: 0;
     background-color: rgba(0, 0, 0, 0.4);
+    overflow-y: auto;
 }
 
 .custom-modal-dialog {
@@ -587,6 +595,7 @@ body {
     border-radius: 0.3rem;
     outline: 0;
     color: white;
+    overflow-y: auto;
 }
 
 .custom-modal-header,
@@ -644,7 +653,8 @@ body {
     margin-left: 0.5rem;
 }
 
-#createPublisherForm, #editPublisherForm {
+#createPublisherForm, #editPublisherForm,
+#createAuthorForm, #editAuthorForm {
     width: 100% !important;
 }
 
@@ -652,12 +662,14 @@ body {
     margin-bottom: 20px;
     text-align: center;
     width: 100% !important;
+    overflow: hidden;
 }
 
     .modal-field input[type="text"],
     .modal-field input[type="email"],
     .modal-field input[type="tel"],
-    .modal-field input[type="number"] {
+    .modal-field input[type="number"],
+    .modal-field textarea {
         width: 80% !important;
         padding: 8px;
         border: 1px solid #ccc;
@@ -672,7 +684,8 @@ body {
         .modal-field input[type="text"]:focus,
         .modal-field input[type="email"]:focus,
         .modal-field input[type="tel"]:focus,
-        .modal-field input[type="number"]:focus {
+        .modal-field input[type="number"]:focus,
+        .modal-field textarea:focus {
             border-color: #4290f5;
             outline: none;
         }
@@ -680,7 +693,8 @@ body {
         .modal-field input[type="text"]::placeholder,
         .modal-field input[type="email"]::placeholder,
         .modal-field input[type="tel"]::placeholder,
-        .modal-field input[type="number"]::placeholder {
+        .modal-field input[type="number"]::placeholder,
+        .modal-field textarea::placeholder {
             color: rgba(250, 250, 250, 0.5);
         }
 
@@ -693,6 +707,26 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+
+.modal-field textarea {
+    overflow-y: auto;
+}
+
+    .modal-field textarea::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .modal-field textarea::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    .modal-field textarea::-webkit-scrollbar-thumb {
+        background-color: #685191;
+        border-radius: 10px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+    }
 
 /* ---------- general styles ---------- */
 .notification {

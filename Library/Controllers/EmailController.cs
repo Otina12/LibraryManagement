@@ -3,8 +3,8 @@ using Library.Model.Enums;
 using Library.Model.Models.Email;
 using Library.Service.Dtos.Email;
 using Library.Service.Interfaces;
-using Library.ViewModels;
-using Library.ViewModels.Attributes.Authorization;
+using Library.Attributes.Authorization;
+using Library.ViewModels.Emails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

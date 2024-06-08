@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Library.Model.Enums;
 using Library.Service.Interfaces;
-using Library.Service.Services;
-using Library.ViewModels;
-using Library.ViewModels.Attributes.Authorization;
+using Library.Attributes.Authorization;
+using Library.ViewModels.Employees;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

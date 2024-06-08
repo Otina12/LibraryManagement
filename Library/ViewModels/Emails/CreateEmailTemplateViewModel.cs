@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Library.ViewModels
+namespace Library.ViewModels.Emails
 {
-    public class EditEmailTemplateViewModel
+    public class CreateEmailTemplateViewModel
     {
-        public Guid Id { get; set; }
         [Required]
         [EmailAddress(ErrorMessage = "Enter a valid email address")]
         public string From { get; set; }

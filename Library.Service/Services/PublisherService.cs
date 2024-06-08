@@ -1,11 +1,9 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
-using Library.Model.Models;
 using Library.Service.Dtos.Publisher;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Library.Service.Services
 {
@@ -45,7 +43,7 @@ namespace Library.Service.Services
 
             if (publisherIsNewResult.IsFailure)
             {
-                return Result.Failure(PublisherErrors.PublisherAlreadyExists);
+                return publisherIsNewResult.Error;
             }
 
             var publisher = publisherDto.MapToPublisher();

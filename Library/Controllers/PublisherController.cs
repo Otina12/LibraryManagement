@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Library.Service.Dtos.Publisher;
 using Library.Service.Interfaces;
-using Library.ViewModels;
+using Library.ViewModels.Publishers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers;
@@ -16,9 +16,9 @@ public class PublisherController : BaseController
     public async Task<IActionResult> Index()
     {
         var publishers = await _serviceManager.PublisherService.GetAllPublishers();
-        var publisherVM = _mapper.Map<IEnumerable<PublisherViewModel>>(publishers.ToList());
+        var publishersVM = _mapper.Map<IEnumerable<PublisherViewModel>>(publishers.ToList());
 
-        return View(publisherVM);
+        return View(publishersVM);
     }
 
     [HttpGet]

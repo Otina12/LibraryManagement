@@ -3,8 +3,6 @@ using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Model.Models.Email;
-using Library.Service.Dtos;
-using Library.Service.Dtos.Publisher;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
 
@@ -100,6 +98,32 @@ namespace Library.Service.Services
             if (publisher is not null)
             {
                 return Result.Failure(PublisherErrors.PublisherAlreadyExists);
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result<Author>> AuthorExists(Guid id) // use when need to verify that author exists
+        {
+            var author = await _unitOfWork.Authors.GetById(id);
+
+            if (author is null)
+            {
+                return Result.Failure<Author>(AuthorErrors.AuthorNotFound);
+            }
+
+            return Result.Success(author);
+        }
+
+        public async Task<Result> AuthorIsNew(string? email, string name) // use when need to verify that author does not exist
+        {
+            var author = email is null ?
+                await _unitOfWork.Authors.GetByName(name) :
+                await _unitOfWork.Authors.AuthorExists(email, name);
+
+            if (author is not null)
+            {
+                return Result.Failure(AuthorErrors.AuthorAlreadyExists);
             }
 
             return Result.Success();
