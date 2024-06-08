@@ -7,5 +7,6 @@ public class Publisher : BaseModel
     public string? PhoneNumber { get; set; }
     public string? Email { get; set; }
     public int YearPublished { get; set; } // when was this publisher company founded
-    public ICollection<BookCopy> BooksPublished { get; } = [];
+
+    public ICollection<Book> BooksPublished { get; } = [];
 }

@@ -15,7 +15,8 @@ namespace Library.Service.Extensions
                 author.Description,
                 author.BirthYear,
                 author.DeathYear,
-                0
+                0,
+                author.CreationDate
             );
         }
 
@@ -28,7 +29,8 @@ namespace Library.Service.Extensions
                 Email = authorDto.Email,
                 Description = authorDto.Description,
                 BirthYear = authorDto.BirthYear,
-                DeathYear = authorDto.DeathYear
+                DeathYear = authorDto.DeathYear,
+                CreationDate = DateTime.UtcNow
             };
         }
 
@@ -43,7 +45,7 @@ namespace Library.Service.Extensions
                 Description = authorDto.Description,
                 BirthYear = authorDto.BirthYear,
                 DeathYear = authorDto.DeathYear,
-                CreationDate = DateTime.UtcNow
+                CreationDate = authorDto.CreationDate
             };
         }
     }

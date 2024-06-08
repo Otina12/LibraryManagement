@@ -5,6 +5,10 @@ using Library.Model.Models.Email;
 namespace Library.Service.Interfaces;
 
 //general validation service for all models
+
+/// <summary>
+/// Provides methods to validate various models and return Success result with object or Failure result with corresponding error.
+/// </summary>
 public interface IValidationService
 {
     bool BirthdayIsValid(int day, int month, int year);
@@ -20,4 +24,6 @@ public interface IValidationService
 
     Task<Result<Author>> AuthorExists(Guid id);
     Task<Result> AuthorIsNew(string? email, string name);
+
+    Task<Result<Book>> BookExists(Guid id);
 }

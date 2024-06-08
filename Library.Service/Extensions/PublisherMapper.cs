@@ -13,7 +13,8 @@ public static class PublisherMapper
             publisher.Email,
             publisher.PhoneNumber,
             publisher.YearPublished,
-            0
+            0,
+            publisher.CreationDate
         );
     }
 
@@ -38,7 +39,7 @@ public static class PublisherMapper
             Email = publisherDto.Email,
             PhoneNumber = publisherDto.PhoneNumber,
             YearPublished = publisherDto.YearPublished,
-            CreationDate = DateTime.UtcNow
+            CreationDate = publisherDto.CreationDate
         };
     }
 }

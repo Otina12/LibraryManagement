@@ -23,7 +23,6 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Shelf> Shelves { get; set; }
-    public DbSet<ShelfGenre> ShelfGenres { get; set; }
 
     // dynamic menu with role permissions
     public DbSet<RoleMenuPermission> RoleMenuPermission { get; set; }

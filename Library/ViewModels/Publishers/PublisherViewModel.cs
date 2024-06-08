@@ -14,4 +14,5 @@ public class PublisherViewModel
     public string? PhoneNumber { get; set; }
     public int YearPublished { get; set; }
     public int BookCount { get; set; }
+    public DateTime CreationDate { get; set; }
 }

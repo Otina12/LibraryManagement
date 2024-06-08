@@ -3,11 +3,11 @@ using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Model.Models.Email;
-using Library.Service.Extensions;
 using Library.Service.Interfaces;
 
 namespace Library.Service.Services
 {
+    /// <inheritdoc />
     public class ValidationService : IValidationService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -40,7 +40,7 @@ namespace Library.Service.Services
             if (!employeeExists)
                 return Result.Failure<Employee>(EmployeeErrors.EmployeeNotFound);
 
-            return Result.Success(employee!);
+            return employee; // implicit operator, wraps into Result.Success object
         }
 
         public async Task<Result<EmailModel>> EmailTemplateExists(string subject) // use when need to verify that email template exists
@@ -52,7 +52,7 @@ namespace Library.Service.Services
             if (!emailExists)
                 return Result.Failure<EmailModel>(EmailErrors.EmailTemplateNotFound);
 
-            return Result.Success(email!);
+            return email; // implicit operator, wraps into Result.Success object
         }
 
         public async Task<Result<EmailModel>> EmailTemplateExists(Guid id) // use when need to verify that email template exists
@@ -62,7 +62,7 @@ namespace Library.Service.Services
             if (email is null)
                 return Result.Failure<EmailModel>(EmailErrors.EmailTemplateNotFound);
 
-            return Result.Success(email!);
+            return email;
         }
 
         public async Task<Result> EmailTemplateIsNew(string subject) // use when need to verify that email template does not exist
@@ -86,7 +86,7 @@ namespace Library.Service.Services
                 return Result.Failure<Publisher>(PublisherErrors.PublisherNotFound);
             }
 
-            return Result.Success(publisher);
+            return publisher; // implicit operator, wraps into Result.Success object
         }
 
         public async Task<Result> PublisherIsNew(string? email, string name) // use when need to verify that publisher does not exist
@@ -112,7 +112,7 @@ namespace Library.Service.Services
                 return Result.Failure<Author>(AuthorErrors.AuthorNotFound);
             }
 
-            return Result.Success(author);
+            return author; // implicit operator, wraps into Result.Success object
         }
 
         public async Task<Result> AuthorIsNew(string? email, string name) // use when need to verify that author does not exist
@@ -127,6 +127,22 @@ namespace Library.Service.Services
             }
 
             return Result.Success();
+        }
+
+        /// <summary>
+        /// Checks if a book exists
+        /// If yes, returns a Success result with Book. If no, returns Failure result with a corresponding error
+        /// </summary>
+        public async Task<Result<Book>> BookExists(Guid id)
+        {
+            var book = await _unitOfWork.Books.GetById(id);
+
+            if(book is null)
+            {
+                return Result.Failure<Book>(BookErrors.BookNotFound);
+            }
+
+            return book; // implicit operator, wraps into Result.Success object
         }
     }
 }

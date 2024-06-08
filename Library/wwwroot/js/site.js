@@ -1,14 +1,18 @@
 ﻿// function to display success/failure notifications on each page after some action
 document.addEventListener('DOMContentLoaded', function () {
     console.log("Entered this")
+    if (isNotificationShown()) {
+        return;
+    }
+
     const body = document.body;
     const notificationSuccess = body.getAttribute('data-notification-success').toLowerCase() === 'true';
     const notificationMessage = body.getAttribute('data-notification-message');
-
     if (notificationMessage) {
         showNotification(notificationSuccess, notificationMessage);
+        markNotificationAsShown();
     } else {
-        console.log("no message")
+        console.log("no message");
     }
 });
 
@@ -31,6 +35,14 @@ function showNotification(isSuccess, message) {
             document.body.removeChild(notification);
         }, 500);
     }, 2500);
+}
+
+function isNotificationShown() {
+    return sessionStorage.getItem('notificationShown') === 'true';
+}
+
+function markNotificationAsShown() { // use this, otherwise going to the same page again or updating it will cause notification to be called again
+    sessionStorage.setItem('notificationShown', 'true');
 }
 
 function configureTinyMce() {

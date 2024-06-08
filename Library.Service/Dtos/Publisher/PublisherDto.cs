@@ -6,5 +6,6 @@ public record PublisherDto(
     string? Email,
     string? PhoneNumber,
     int YearPublished,
-    int BookCount
+    int BookCount,
+    DateTime CreationDate
     );

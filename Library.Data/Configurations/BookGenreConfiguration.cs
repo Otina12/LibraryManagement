@@ -8,6 +8,6 @@ public class BookGenreConfiguration : IEntityTypeConfiguration<BookGenre>
 {
     public void Configure(EntityTypeBuilder<BookGenre> builder)
     {
-        builder.HasKey(bg => new { bg.GenreId, bg.BookId });
+        builder.HasKey(bg => new { bg.BookId, bg.GenreId });
     }
 }

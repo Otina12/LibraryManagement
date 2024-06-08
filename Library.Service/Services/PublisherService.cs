@@ -64,6 +64,7 @@ namespace Library.Service.Services
             }
 
             var publisher = publisherDto.MapToPublisher();
+            publisher.UpdateDate = DateTime.UtcNow;
 
             _unitOfWork.Publishers.Update(publisher);
             await _unitOfWork.SaveChangesAsync();

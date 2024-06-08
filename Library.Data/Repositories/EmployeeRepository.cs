@@ -14,7 +14,7 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployeeReposito
     }
 
 
-    public override async Task<Employee?> GetById(Guid id, bool trackChanges = false)
+    public override async Task<Employee?> GetById(Guid id, bool trackChanges)
     {
         var stringId = id.ToString();
         return trackChanges ?

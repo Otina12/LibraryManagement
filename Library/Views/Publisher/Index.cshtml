@@ -62,85 +62,91 @@
     <script>
         // create publisher modal
         $(document).ready(function () {
-            $('#add-author-btn').click(function (e) {
+            $('#add-publisher-btn').click(function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url: '/Author/Create',
+                    url: '/Publisher/Create',
                     type: 'GET',
                     success: function (data) {
                         $('#modalBody').html(data);
-                        $('#modalTitle').text('Add Author');
+                        $('#modalTitle').text('Add Publisher');
                         $('#add-button').show();
                         $('#edit-button').hide();
-                        $('#authorModal').fadeIn();
+                        $('#publisherModal').fadeIn();
                     },
                     error: function () {
                         alert('Error loading the form');
                     }
                 });
             });
-
-            $(document).on('submit', '#createAuthorForm', function (e) {
+            $(document).on('submit', '#createPublisherForm', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 $.ajax({
-                    url: '/Author/Create',
+                    url: '/Publisher/Create',
                     type: form.attr('method'),
                     data: form.serialize(),
                     success: function (response) {
-                        $('#authorModal').fadeOut();
-                        location.reload();
+                        if (response.success) {
+                            $('#publisherModal').fadeOut();
+                            location.reload();
+                        } else {
+                            $('#publisherModal').fadeOut();
+                            location.reload();
+                        }
                     },
                     error: function () {
-                        alert('Error saving the author');
+                        alert('Error saving the publisher');
                     }
                 });
             });
-
-            // Edit author modal setup
-            $(document).on('click', '.btn-edit-author', function (e) {
+            // edit publisher modal
+            $('.btn-edit-publisher').click(function (e) {
+                e.stopPropagation(); // to not to go to link when clicking button which is above it
                 e.preventDefault();
-                e.stopPropagation(); // Prevent link navigation
-                var authorId = $(this).data('author-id');
+                var publisherId = $(this).data('publisher-id');
                 $.ajax({
-                    url: '/Author/Edit/' + authorId,
+                    url: '/Publisher/Edit/' + publisherId,
                     type: 'GET',
                     success: function (data) {
                         $('#modalBody').html(data);
-                        $('#modalTitle').text('Edit Author');
+                        $('#modalTitle').text('Edit Publisher');
                         $('#add-button').hide();
                         $('#edit-button').show();
-                        $('#authorModal').fadeIn();
+                        $('#publisherModal').fadeIn();
                     },
                     error: function () {
                         alert('Error loading the form');
                     }
                 });
-            });
-
-            $(document).on('submit', '#editAuthorForm', function (e) {
-                console.log("entered submiting edit");
-                e.preventDefault();
-                var form = $(this);
-                var authorId = form.data('author-id');
-                $.ajax({
-                    url: '/Author/Edit/' + authorId,
-                    type: form.attr('method'),
-                    data: form.serialize(),
-                    success: function (response) {
-                        $('#authorModal').fadeOut();
-                        location.reload();
-                    },
-                    error: function () {
-                        alert('Error updating the author');
-                    }
+                $(document).on('submit', '#editPublisherForm', function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    var publisherId = $(this).data('publisher-id');
+                    $.ajax({
+                        url: '/Publisher/Edit/' + publisherId,
+                        type: form.attr('method'),
+                        data: form.serialize(),
+                        success: function (response) {
+                            if (response.success) {
+                                $('#publisherModal').fadeOut();
+                                location.reload();
+                            } else {
+                                $('#publisherModal').fadeOut();
+                                location.reload();
+                            }
+                        },
+                        error: function () {
+                            alert('Error updating the publisher');
+                        }
+                    });
                 });
             });
-
-            // Close modal
+            // close form modal
             $(document).on('click', '.custom-close', function () {
-                $('#authorModal').fadeOut();
+                $('#publisherModal').fadeOut();
             });
         });
+
     </script>
 }

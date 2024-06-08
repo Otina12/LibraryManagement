@@ -16,4 +16,5 @@ public class AuthorViewModel
     public int BirthYear { get; set; }
     public int? DeathYear { get; set; }
     public int BookCount { get; set; }
+    public DateTime CreationDate { get; set; }
 }

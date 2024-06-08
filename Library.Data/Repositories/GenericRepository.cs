@@ -44,7 +44,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             await dbSet.AsNoTracking().ToListAsync();
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllWhere(Expression<Func<T, bool>> where, bool trackChanges = false)
+    public virtual async Task<IEnumerable<T>> GetAllWhere(Expression<Func<T, bool>> where, bool trackChanges)
     {
         return trackChanges ?
             await dbSet.Where(where).ToListAsync() :
@@ -57,7 +57,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await dbSet.FindAsync(id);
     }
 
-    public virtual async Task<T?> GetOneWhere(Expression<Func<T, bool>> where, bool trackChanges = false)
+    public virtual async Task<T?> GetOneWhere(Expression<Func<T, bool>> where, bool trackChanges)
     {
         return trackChanges ?
             await dbSet.FirstOrDefaultAsync(where) :

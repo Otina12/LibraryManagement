@@ -65,6 +65,7 @@ public class AuthorService : IAuthorService
         }
 
         var author = authorDto.MapToAuthor();
+        author.UpdateDate = DateTime.UtcNow;
 
         _unitOfWork.Authors.Update(author);
         await _unitOfWork.SaveChangesAsync();

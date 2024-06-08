@@ -2,7 +2,7 @@
 
 namespace Library.Model.Models;
 
-public class Shelf
+public class Shelf // is a weak entity of room. Primary key is { roomId, shelfId }
 {
     public int Id { get; set; }
 
@@ -10,6 +10,5 @@ public class Shelf
     public int RoomId { get; set; }
     public Room Room { get; set; }
 
-    public ICollection<Genre> Genres { get; } = [];
     public ICollection<BookCopy> BookCopies { get; } = [];
 }

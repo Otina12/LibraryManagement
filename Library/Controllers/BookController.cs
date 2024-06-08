@@ -12,7 +12,7 @@ public class BookController : BaseController
 
     public IActionResult Index()
     {
-        //var books = _serviceManager.BookService.GetAllBooks();
+        var books = _serviceManager.BookService.GetAllBooks();
         return View();
     }
 }

@@ -17,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
 </head>
-<body data-notification-success=@TempData["NotificationSuccess"] data-notification-message=@TempData["NotificationMessage"]>
+<body data-notification-success="@GetTempDataValue("NotificationSuccess")" data-notification-message="@GetTempDataValue("NotificationMessage")">
     <header>
         <nav class="myNav navbar navbar-expand-lg navbar-dark shadow-5-strong">
             <div class="container-fluid">
@@ -46,3 +46,12 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@functions {
+    private string? GetTempDataValue(string key)
+    {
+        var value = TempData[key];
+        TempData.Remove(key);
+        return value?.ToString();
+    }
+}

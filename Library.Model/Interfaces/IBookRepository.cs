@@ -1,6 +1,9 @@
-﻿namespace Library.Model.Interfaces;
+﻿using Library.Model.Models;
 
-public interface IBookRepository
+namespace Library.Model.Interfaces;
+
+public interface IBookRepository : IGenericRepository<Book>
 {
-
+    Task<IEnumerable<Book>> GetAllBooksOfAuthor(Guid authorId, bool trackChanges = false);
+    Task<IEnumerable<Book>> GetAllBooksOfPublisher(Guid publisherId, bool trackChanges = false);
 }

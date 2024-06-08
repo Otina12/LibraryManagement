@@ -9,5 +9,6 @@ public class Author : BaseModel
     public required string Description { get; set; }
     public int BirthYear { get; set; }
     public int? DeathYear { get; set; }
+
     public ICollection<Book> Books { get; } = [];
 }

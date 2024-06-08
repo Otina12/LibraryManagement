@@ -8,5 +8,6 @@ public record AuthorDto(
     string Description,
     int BirthYear,
     int? DeathYear,
-    int BookCount
+    int BookCount,
+    DateTime CreationDate
 );

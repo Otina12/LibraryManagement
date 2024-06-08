@@ -6,5 +6,4 @@ public class Genre
     public string Name { get; set; } = null!;
 
     public ICollection<Book> Books { get; } = [];
-    public ICollection<Shelf> Shelves { get; } = [];
 }

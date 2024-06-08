@@ -18,14 +18,16 @@
         <textarea asp-for="Description" maxlength="1500" placeholder="Description"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
+    <input asp-for="BirthYear" type="hidden" />
     @if(Model.DeathYear is not null){
-        <input asp-for="BirthYear" type="hidden" />
+        <input asp-for="DeathYear" type="hidden" />
     }else{
         <div class="modal-field">
             <input asp-for="DeathYear" placeholder="Death Year" type="number" min="0" max="@DateTime.Now.Year" />
             <span asp-validation-for="DeathYear" class="text-danger"></span>
         </div>
     }
+    <input asp-for="CreationDate" type="hidden" />
     
 </form>
 

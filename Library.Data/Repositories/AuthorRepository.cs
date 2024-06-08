@@ -10,7 +10,7 @@ public class AuthorRepository : GenericRepository<Author>, IAuthorRepository
     {
     }
 
-    public override async Task<Author?> GetById(Guid id, bool trackChanges = false)
+    public override async Task<Author?> GetById(Guid id, bool trackChanges)
     {
         return trackChanges ?
             await _context.Authors.FirstOrDefaultAsync(x => x.Id == id) :
@@ -33,5 +33,17 @@ public class AuthorRepository : GenericRepository<Author>, IAuthorRepository
     {
         var author = await _context.Authors.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email || x.Name == name);
         return author;
+    }
+
+    public async Task<IEnumerable<Author>> GetAuthorsOfABook(Guid bookId)
+    {
+        var authors = await _context.BookAuthors
+            .AsNoTracking()
+            .Include(ba => ba.Author)
+            .Where(ba => ba.BookId == bookId)
+            .Select(x => x.Author)
+            .ToListAsync();
+
+        return authors;
     }
 }

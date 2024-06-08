@@ -17,10 +17,6 @@ public class BookCopyConfiguration : IEntityTypeConfiguration<BookCopy>
             .WithOne(r => r.BookCopy)
             .HasForeignKey(b => b.BookCopyId);
 
-        builder.HasOne(b => b.Publisher)
-            .WithMany(p => p.BooksPublished)
-            .HasForeignKey(b => b.PublisherId);
-
         builder.HasOne(b => b.Shelf)
             .WithMany(s => s.BookCopies)
             .HasForeignKey(b => new { b.ShelfId, b.BookId });

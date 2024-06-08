@@ -11,7 +11,7 @@ namespace Library.Data.Repositories
 
         }
 
-        public override async Task<Publisher?> GetById(Guid id, bool trackChanges = false)
+        public override async Task<Publisher?> GetById(Guid id, bool trackChanges)
         {
             return trackChanges ?
                 await _context.Publishers.FirstOrDefaultAsync(x => x.Id == id) :
@@ -20,19 +20,38 @@ namespace Library.Data.Repositories
 
         public async Task<Publisher?> GetByEmail(string email)
         {
-            var publisher = await _context.Publishers.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);
+            var publisher = await _context.Publishers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Email == email);
             return publisher;
         }
 
         public async Task<Publisher?> GetByName(string name)
         {
-            var publisher = await _context.Publishers.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name);
+            var publisher = await _context.Publishers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Name == name);
             return publisher;
         }
 
         public async Task<Publisher?> PublisherExists(string email, string name)
         {
-            var publisher = await _context.Publishers.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email || x.Name == name);
+            var publisher = await _context.Publishers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Email == email || x.Name == name);
+            return publisher;
+        }
+
+        public async Task<Publisher?> GetPublisherOfABook(Guid bookId)
+        {
+            var publisher = (
+                await _context.Books
+                .Include(b => b.Publisher)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == bookId)
+                )?
+                .Publisher;
+
             return publisher;
         }
     }
