@@ -19,11 +19,17 @@ public class BookService : IBookService
         _validationService = validationService;
     }
 
-    
-
-    public Task<IEnumerable<BookDto>> GetAllBooks()
+    public async Task<IEnumerable<BookDto>> GetAllBooks()
     {
-        throw new NotImplementedException();
+        var books = await _unitOfWork.Books.GetAll();
+        var booksDto = books.Select(b => b.MapToBookDto()).ToList();
+
+        foreach(var bookDto in booksDto)
+        {
+            await MapPublisherAndAuthors(bookDto);
+        }
+
+        return booksDto;
     }
 
     public async Task<Result<BookDto>> GetBookById(Guid id)
@@ -37,12 +43,17 @@ public class BookService : IBookService
 
         var bookDto = bookExistsResult.Value().MapToBookDto();
 
-        var authors = await _unitOfWork.Authors.GetAuthorsOfABook(id);
-        var publisher = await _unitOfWork.Publishers.GetPublisherOfABook(id);
-
-        bookDto.AuthorsDto = authors.Select(a => new AuthorIdAndNameDto(a.Id, a.Name)).ToArray();
-        bookDto.PublisherDto = publisher is null ? null : new PublisherIdAndNameDto(publisher.Id, publisher.Name);
+        await MapPublisherAndAuthors(bookDto);
 
         return bookDto; // implicit casting to Result<BookDto> object
+    }
+
+    private async Task MapPublisherAndAuthors(BookDto bookDto)
+    {
+        var authors = await _unitOfWork.Authors.GetAuthorsOfABook(bookDto.Id);
+        var publisher = await _unitOfWork.Publishers.GetPublisherOfABook(bookDto.Id);
+
+        bookDto.AuthorsDto = authors.Select(a => new AuthorIdAndNameDto(a.Id, $"{a.Name} {a.Surname}")).ToArray();
+        bookDto.PublisherDto = publisher is null ? null : new PublisherIdAndNameDto(publisher.Id, publisher.Name);
     }
 }

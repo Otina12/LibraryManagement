@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Library.Service.Dtos.Book;
 using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,10 @@ public class BookController : BaseController
     {
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var books = _serviceManager.BookService.GetAllBooks();
-        return View();
+        
+        var books = await _serviceManager.BookService.GetAllBooks();
+        return View(books);
     }
 }

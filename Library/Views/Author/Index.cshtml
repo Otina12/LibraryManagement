@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Library.ViewModels.Authors.AuthorViewModel>
 
-<div class="authors-container">
-    <div class="author-header">
-        <a href="" class="btn btn-add-author" id="add-author-btn">Add Author</a>
+<div class="my-container">
+    <div class="my-header">
+        <a href="" class="btn btn-add" id="add-author-btn">Add Author</a>
     </div>
 
     <table class="table table-striped table-hover">
@@ -31,7 +31,7 @@
                         @author.BirthYear - @(author.DeathYear.HasValue ? author.DeathYear.Value.ToString() : "")
                     </td>
                     <td>@author.BookCount</td>
-                    <td><a href="" class="btn btn-edit-author" data-author-id="@author.Id">Edit</a></td>
+                    <td><a href="" class="btn btn-edit" data-author-id="@author.Id">Edit</a></td>
                 </tr>
             }
         </tbody>
@@ -62,7 +62,7 @@
     <script>
         // create author modal
         $(document).ready(function () {
-            $('#add-author-btn').click(function (e) {
+            $('#add-btn').click(function (e) {
                 e.preventDefault();
                 $.ajax({
                     url: '/Author/Create',
@@ -103,7 +103,7 @@
             });
 
             // edit author modal
-            $('.btn-edit-author').click(function (e) {
+            $('.btn-edit').click(function (e) {
                 e.stopPropagation(); // to not to go to link when clicking button which is above it
                 e.preventDefault();
                 var authorId = $(this).data('author-id');

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+/* -------------- shared -------------- */
+
 html {
     font-size: 14px;
 }
@@ -20,6 +22,92 @@ body {
     font-family: Poppins;
     background-image: url("/images/background-image.jpg");
 }
+
+
+/* --------------------- general styles --------------------- */
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+    .notification.show {
+        opacity: 1;
+    }
+
+    .notification.success {
+        background-color: #28a745;
+    }
+
+    .notification.error {
+        background-color: #dc3545;
+    }
+
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+    max-width: 100%;
+}
+
+    .btn:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+.btn-add {
+    align-self: center;
+    background-color: #2ecc0e;
+    color: white;
+}
+
+    .btn-add:hover {
+        background-color: #2ebd0e;
+        color: white;
+    }
+
+.btn-edit, .btn-delete {
+    cursor: pointer;
+    display: inline-block;
+    pointer-events: auto;
+    height: fit-content;
+    width: fit-content;
+    padding: 6px 10px 6px 10px;
+    z-index: 100;
+}
+
+.btn-edit {
+    background-color: #ff9911;
+}
+
+    .btn-edit:hover {
+        text-decoration: none;
+        color: white;
+        background-color: #ffa651;
+    }
+
+.btn-delete {
+    background-color: #d9534f;
+}
+
+    .btn-delete:hover {
+        background-color: #c9302c;
+        color: white;
+    }
+
+
+/* -------------- navigation bar -------------- */
 
 .myNav {
     width: 80%;
@@ -118,7 +206,6 @@ body {
     margin-bottom: 2px;
 }
 
-
 /* ---------- main page styles ---------- */
 
 .main-heading {
@@ -130,8 +217,45 @@ body {
 }
 
 
+/* ---------- index.cshtml pages ---------- */
 
-/* ---------- employee index.cshtml page ---------- */
+.my-container {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: none;
+    margin: 20px;
+    text-align: center;
+    color: white;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    margin: 0 auto;
+}
+
+    .table th, .table td {
+        height: fit-content;
+        padding: 12px;
+        text-align: center;
+        color: white;
+    }
+
+    .table thead th {
+        background-color: transparent;
+        color: white;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* ---------- employee-specific index.cshtml styles ---------- */
+
 .filter-container {
     display: flex;
     align-items: center;
@@ -168,7 +292,7 @@ body {
     font-size: 16px;
 }
 
-.card-title{
+.card-title {
     color: white;
 }
 
@@ -176,39 +300,6 @@ body {
     margin-right: 5px;
 }
 
-.employees-container, .publishers-container, .authors-container {
-    background-color: transparent;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: none;
-    margin: 20px;
-    text-align: center;
-    color: white;
-}
-
-.table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;
-    margin: 0 auto;
-}
-
-    .table th, .table td {
-        height: fit-content;
-        padding: 12px;
-        text-align: center;
-        color: white;
-    }
-
-    .table thead th {
-        background-color: transparent;
-        color: white;
-    }
-
-.table-hover tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
 
 .role-tag0 {
     position: relative;
@@ -221,9 +312,9 @@ body {
     display: inline-block;
 }
 
-.role-tag:hover {
-    cursor: context-menu;
-}
+    .role-tag0:hover {
+        cursor: context-menu;
+    }
 
 .clickable-row:hover {
     cursor: pointer;
@@ -250,9 +341,9 @@ body {
         margin-top: -3px;
     }
 
-/* ---------- employee details page ---------- */
+/* ---------- details pages ---------- */
 
-.employee-details-container, .publisher-details-container, .author-details-container {
+.details-container {
     position: relative;
     background-color: rgba(52, 73, 94, 0.4);
     color: #ecf0f1;
@@ -262,52 +353,39 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-    .employee-details-container h1,
-    .employee-details-container h3,
-    .publisher-details-container h1,
-    .publisher-details-container h3,
-    .author-details-container h1,
-    .author-details-container h3 {
+    .details-container h1,
+    .details-container h3 {
         color: #ecf0f1;
     }
 
-    .employee-details-container strong,
-    .publisher-details-container strong,
-    .author-details-container strong {
+    .details-container strong {
         color: #bdc3c7;
     }
 
-    .employee-details-container ul,
-    .publisher-details-container ul,
-    .author-details-container ul {
+    .details-container ul {
         list-style-type: none;
         padding: 0;
     }
 
-        .employee-details-container ul li,
-        .publisher-details-container ul li,
-        .author-details-container ul li {
+        .details-container ul li {
             background-color: rgba(44, 62, 80, 0.7);
             padding: 8px;
             margin-bottom: 5px;
             border-radius: 7px;
         }
 
-    .employee-details-container form div,
-    .publisher-details-container form div,
-    .author-details-container form div {
+    .details-container form div {
         margin-bottom: 10px;
     }
 
-    .employee-details-container label,
-    .publisher-details-container label,
-    .author-details-container label {
+
+    .details-container label {
         display: block;
         margin-bottom: 5px;
     }
 
-    .employee-details-container select,
-    .employee-details-container button {
+    .details-container select,
+    .details-container button {
         padding: 8px;
         border-radius: 4px;
         border: 1px solid #ecf0f1;
@@ -315,16 +393,19 @@ body {
         color: #ecf0f1;
     }
 
+
+/* ---------- employee-specific details.cshtml styles ---------- */
+
 .roleSelect {
     margin-right: 3px;
 }
 
-.employee-details-container button {
+.details-container button {
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-    .employee-details-container button:hover {
+    .details-container button:hover {
         background-color: rgba(58, 83, 155, 0.7);
     }
 
@@ -370,7 +451,7 @@ body {
     background-color: #f11;
 }
 
-#renew-employee{
+#renew-employee {
     background-color: #3b3;
 }
 
@@ -378,96 +459,26 @@ body {
     background-color: #3b3;
 }
 
-#dismiss-employee:hover, #renew-employee:hover, #saveChangesButton:hover {
-    background-color: rgba(50, 80, 80, 0.9);
-}
-
-
-/* ---------- access denied page ---------- */
-
-.access-denied {
-    text-align: center;
-    padding: 50px;
-}
-
-    .access-denied h1 {
-        color: #d9534f;
-        font-size: 36px;
-        margin-bottom: 20px;
-    }
-
-    .access-denied p {
-        font-size: 18px;
-        margin-bottom: 20px;
-        color: white;
-    }
-
-    .access-denied .btn {
-        padding: 10px 20px;
-        font-size: 16px;
+    #dismiss-employee:hover, #renew-employee:hover, #saveChangesButton:hover {
+        background-color: rgba(50, 80, 80, 0.9);
     }
 
 
 /* ---------- email index page ---------- */
+
 .email-templates-container {
     width: 90%;
     margin: auto;
     padding-top: 20px;
 }
 
-.email-header, .publisher-header, .author-header {
+.email-header, .publisher-header, .author-header, .my-header {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 40px;
 }
 
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: white;
-    max-width: 100%;
-}
-
-    .btn:focus {
-        outline: none !important;
-        box-shadow: none !important;
-    }
-
-.btn-add-template, .btn-add-publisher, .btn-add-author {
-    align-self: center;
-    background-color: #2ecc0e;
-    color: white;
-}
-
-.btn-edit-publisher, .btn-delete-publisher,
-.btn-edit-author, .btn-delete-author {
-    cursor: pointer;
-    display: inline-block;
-    pointer-events: auto;
-    height: fit-content;
-    width: fit-content;
-    padding: 6px 10px 6px 10px;
-    z-index: 100;
-}
-
-.btn-edit-publisher, .btn-edit-author{
-    background-color: #ff9911;
-}
-
-    .btn-edit-publisher:hover, .btn-edit-author:hover {
-        text-decoration: none;
-        color: white;
-        background-color: #ffa651;
-    }
-
-    .btn-add-template:hover, .btn-add-publisher:hover, .btn-add-author:hover {
-        background-color: #2ebd0e;
-        color: white;
-    }
 
 .templates-grid {
     display: flex;
@@ -503,24 +514,6 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.btn-edit {
-    background-color: #f0ad4e;
-}
-
-    .btn-edit:hover {
-        background-color: #ec971f;
-        color: white;
-    }
-
-.btn-delete {
-    background-color: #d9534f;
-}
-
-    .btn-delete:hover {
-        background-color: #c9302c;
-        color: white;
-    }
-
 @media (max-width: 1200px) {
     .template-card {
         width: calc(33.333% - 20px);
@@ -540,6 +533,7 @@ body {
 }
 
 /* ---------- email template edit page ---------- */
+
 #tinyMceEditor {
     position: relative;
     z-index: 0;
@@ -562,7 +556,33 @@ body {
 }
 
 
+/* ---------- error pages ---------- */
+
+.access-denied, .page-not-found {
+    text-align: center;
+    padding: 50px;
+}
+
+    .access-denied h1, .page-not-found h1 {
+        color: #d9534f;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    .access-denied p, .page-not-found p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .access-denied .btn, .page-not-found .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+
 /* ---------- modal styles ---------- */
+
 .custom-modal {
     display: none;
     position: fixed;
@@ -607,7 +627,7 @@ body {
     padding: 1rem;
 }
 
-.custom-modal-header{
+.custom-modal-header {
     border-bottom: 1px solid #dee2e6;
     margin-bottom: 20px;
 }
@@ -726,29 +746,4 @@ input[type="number"] {
         background-color: #685191;
         border-radius: 10px;
         border: 3px solid rgba(255, 255, 255, 0.1);
-    }
-
-/* ---------- general styles ---------- */
-.notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 15px;
-    border-radius: 5px;
-    color: white;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-
-    .notification.show {
-        opacity: 1;
-    }
-
-    .notification.success {
-        background-color: #28a745;
-    }
-
-    .notification.error {
-        background-color: #dc3545;
     }

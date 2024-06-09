@@ -10,6 +10,6 @@ public interface IGenericRepository<T> where T : class
     void DeleteAllWhere(Expression<Func<T, bool>> where);
     Task<T?> GetById(Guid id, bool trackChanges = false);
     Task<T?> GetOneWhere(Expression<Func<T, bool>> where, bool trackChanges = false);
-    Task<IEnumerable<T>> GetAll(bool trackChanges);
+    Task<IEnumerable<T>> GetAll(bool trackChanges = false);
     Task<IEnumerable<T>> GetAllWhere(Expression<Func<T, bool>> where, bool trackChanges = false);
 }

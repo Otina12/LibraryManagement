@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Library.ViewModels.Publishers.PublisherViewModel>
 
-<div class="publishers-container">
-    <div class="publisher-header">
-        <a href="" class="btn btn-add-publisher" id="add-publisher-btn">Add Publisher</a>
+<div class="my-container">
+    <div class="my-header">
+        <a href="" class="btn btn-add" id="add-publisher-btn">Add Publisher</a>
     </div>
 
     <table class="table table-striped table-hover">
@@ -31,7 +31,7 @@
                     <td>@(publisher.PhoneNumber == null ? "--------" : publisher.PhoneNumber)</td>
                     <td style="font-size: 16px;">@publisher.YearPublished</td>
                     <td>@publisher.BookCount</td>
-                    <td><a href="" class="btn btn-edit-publisher" data-publisher-id="@publisher.Id">Edit</a></td>
+                    <td><a href="" class="btn btn-edit" data-publisher-id="@publisher.Id">Edit</a></td>
                 </tr>
             }
         </tbody>
@@ -62,7 +62,7 @@
     <script>
         // create publisher modal
         $(document).ready(function () {
-            $('#add-publisher-btn').click(function (e) {
+            $('#add-btn').click(function (e) {
                 e.preventDefault();
                 $.ajax({
                     url: '/Publisher/Create',
@@ -101,7 +101,7 @@
                 });
             });
             // edit publisher modal
-            $('.btn-edit-publisher').click(function (e) {
+            $('.btn-edit').click(function (e) {
                 e.stopPropagation(); // to not to go to link when clicking button which is above it
                 e.preventDefault();
                 var publisherId = $(this).data('publisher-id');

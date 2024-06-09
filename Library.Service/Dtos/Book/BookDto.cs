@@ -12,7 +12,7 @@ public record BookDto(
     int Quantity
     )
 {
-    public AuthorIdAndNameDto[] AuthorsDto { get; set; }
+    public AuthorIdAndNameDto[] AuthorsDto { get; set; } = [];
     public PublisherIdAndNameDto? PublisherDto { get; set; }
 }
    
