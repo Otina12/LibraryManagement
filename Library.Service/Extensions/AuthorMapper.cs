@@ -15,7 +15,6 @@ namespace Library.Service.Extensions
                 author.Description,
                 author.BirthYear,
                 author.DeathYear,
-                0,
                 author.CreationDate
             );
         }

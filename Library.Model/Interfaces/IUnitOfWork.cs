@@ -1,4 +1,6 @@
-﻿namespace Library.Model.Interfaces;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+
+namespace Library.Model.Interfaces;
 
 public interface IUnitOfWork // this will help use repositories and update made changes as 1 big chunk
 {
@@ -8,6 +10,8 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IPublisherRepository Publishers { get; }
     public IAuthorRepository Authors { get; }
     public IBookRepository Books { get; }
+    public IBookCopyRepository BookCopies { get; }
 
     Task SaveChangesAsync();
+    EntityEntry<T> Entry<T>(T entity) where T : class;
 }

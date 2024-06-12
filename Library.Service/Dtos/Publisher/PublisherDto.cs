@@ -1,4 +1,6 @@
-﻿namespace Library.Service.Dtos.Publisher;
+﻿using Library.Service.Dtos.Book;
+
+namespace Library.Service.Dtos.Publisher;
 
 public record PublisherDto(
     Guid Id,
@@ -6,6 +8,8 @@ public record PublisherDto(
     string? Email,
     string? PhoneNumber,
     int YearPublished,
-    int BookCount,
     DateTime CreationDate
-    );
+    )
+{
+    public BookIdAndTitleDto[] Books { get; set; }
+}

@@ -30,7 +30,7 @@
                     <td>@(publisher.Email == null ? "--------" : publisher.Email)</td>
                     <td>@(publisher.PhoneNumber == null ? "--------" : publisher.PhoneNumber)</td>
                     <td style="font-size: 16px;">@publisher.YearPublished</td>
-                    <td>@publisher.BookCount</td>
+                    <td>@publisher.Books.Length</td>
                     <td><a href="" class="btn btn-edit" data-publisher-id="@publisher.Id">Edit</a></td>
                 </tr>
             }
@@ -62,7 +62,7 @@
     <script>
         // create publisher modal
         $(document).ready(function () {
-            $('#add-btn').click(function (e) {
+            $('#add-publisher-btn').click(function (e) {
                 e.preventDefault();
                 $.ajax({
                     url: '/Publisher/Create',

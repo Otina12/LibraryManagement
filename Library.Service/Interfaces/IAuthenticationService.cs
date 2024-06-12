@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Library.Service.Interfaces;
 
-public interface IAuthorizationService
+public interface IAuthenticationService
 {
     Task<Result> RegisterEmployee(RegisterDto registerDto);
     Task<Result> LoginEmployee(LoginDto loginDto);

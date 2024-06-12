@@ -22,36 +22,6 @@ namespace Library.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BookAuthor", b =>
-                {
-                    b.Property<Guid>("AuthorsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BooksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AuthorsId", "BooksId");
-
-                    b.HasIndex("BooksId");
-
-                    b.ToTable("BookAuthor");
-                });
-
-            modelBuilder.Entity("BookGenre", b =>
-                {
-                    b.Property<Guid>("BooksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BooksId", "GenresId");
-
-                    b.HasIndex("GenresId");
-
-                    b.ToTable("BookGenre");
-                });
-
             modelBuilder.Entity("Library.Model.Models.Author", b =>
                 {
                     b.Property<Guid>("Id")
@@ -155,7 +125,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("BookAuthor");
                 });
 
             modelBuilder.Entity("Library.Model.Models.BookCopy", b =>
@@ -176,10 +146,7 @@ namespace Library.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Row")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShelfId")
+                    b.Property<int?>("ShelfId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -211,7 +178,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenres");
+                    b.ToTable("BookGenre");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Customer", b =>
@@ -666,36 +633,6 @@ namespace Library.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BookAuthor", b =>
-                {
-                    b.HasOne("Library.Model.Models.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Model.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BookGenre", b =>
-                {
-                    b.HasOne("Library.Model.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Model.Models.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Library.Model.Models.Book", b =>
                 {
                     b.HasOne("Library.Model.Models.Publisher", "Publisher")
@@ -708,13 +645,13 @@ namespace Library.Data.Migrations
             modelBuilder.Entity("Library.Model.Models.BookAuthor", b =>
                 {
                     b.HasOne("Library.Model.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("BookAuthors")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Library.Model.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BookAuthors")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -734,9 +671,7 @@ namespace Library.Data.Migrations
 
                     b.HasOne("Library.Model.Models.Shelf", "Shelf")
                         .WithMany("BookCopies")
-                        .HasForeignKey("RoomId", "ShelfId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId", "ShelfId");
 
                     b.Navigation("Book");
 
@@ -746,13 +681,13 @@ namespace Library.Data.Migrations
             modelBuilder.Entity("Library.Model.Models.BookGenre", b =>
                 {
                     b.HasOne("Library.Model.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BookGenres")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Library.Model.Models.Genre", "Genre")
-                        .WithMany()
+                        .WithMany("BookGenres")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -879,9 +814,18 @@ namespace Library.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Library.Model.Models.Author", b =>
+                {
+                    b.Navigation("BookAuthors");
+                });
+
             modelBuilder.Entity("Library.Model.Models.Book", b =>
                 {
+                    b.Navigation("BookAuthors");
+
                     b.Navigation("BookCopies");
+
+                    b.Navigation("BookGenres");
                 });
 
             modelBuilder.Entity("Library.Model.Models.BookCopy", b =>
@@ -897,6 +841,11 @@ namespace Library.Data.Migrations
             modelBuilder.Entity("Library.Model.Models.Employee", b =>
                 {
                     b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.Genre", b =>
+                {
+                    b.Navigation("BookGenres");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>

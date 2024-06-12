@@ -11,7 +11,7 @@ namespace Library.Service.Services;
 
 public class ServiceManager : IServiceManager
 {
-    private readonly Lazy<IAuthorizationService> _authService;
+    private readonly Lazy<IAuthenticationService> _authService;
     private readonly Lazy<IEmailSender> _emailSender;
 
     // date access services
@@ -26,7 +26,7 @@ public class ServiceManager : IServiceManager
         SignInManager<Employee> signInManager, IValidationService validationService,
         RoleManager<IdentityRole> roleManager, IOptions<MailjetSettings> emailOptions)
     {
-        _authService = new Lazy<IAuthorizationService>(() => new AuthorizationService(userManager, signInManager, validationService));
+        _authService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, signInManager, validationService));
         _emailSender = new Lazy<IEmailSender>(() => new EmailSender(unitOfWork, emailOptions));
 
         _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, userManager, validationService));
@@ -37,7 +37,7 @@ public class ServiceManager : IServiceManager
         _bookService = new Lazy<IBookService>(() => new BookService(unitOfWork, validationService));
     }
 
-    public IAuthorizationService AuthService => _authService.Value;
+    public IAuthenticationService AuthService => _authService.Value;
     public IEmailSender EmailSender => _emailSender.Value;
 
     public IEmployeeService EmployeeService => _employeeService.Value;

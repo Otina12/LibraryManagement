@@ -49,11 +49,11 @@
             <button id="saveChangesButton" style="display:none; margin-top: 10px; margin: auto;" onclick="changeRoles()">Save Changes</button>
             @if (Model.Employee.IsEmployed)
             {
-                <button id="dismiss-employee" onclick="dismissEmployee('@Model.Employee.Id')">Dismiss</button>
+                <button id="dismiss-employee" onclick="dismissEmployee('@Model.Employee.Id', '@Url.Action("Delete", "Employee")')">Dismiss</button>
             }
             else
             {
-                <button id="renew-employee" onclick="renewEmployee('@Model.Employee.Id')">Renew</button>
+                <button id="renew-employee" onclick="renewEmployee('@Model.Employee.Id', '@Url.Action("Renew", "Employee")')">Renew</button>
             }
 
         </div>

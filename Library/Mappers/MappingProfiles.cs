@@ -4,12 +4,14 @@ using Library.Model.Models.Email;
 using Library.Model.Models.Menu;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Authorization;
+using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Email;
 using Library.Service.Dtos.Employee;
 using Library.Service.Dtos.Publisher;
 using Library.ViewModels;
 using Library.ViewModels.Authorization;
 using Library.ViewModels.Authors;
+using Library.ViewModels.Books;
 using Library.ViewModels.Emails;
 using Library.ViewModels.Employees;
 using Library.ViewModels.Publishers;
@@ -46,5 +48,9 @@ public class MappingProfiles : Profile
         CreateMap<AuthorDto, AuthorViewModel>().ReverseMap();
         CreateMap<CreateAuthorViewModel, CreateAuthorDto>();
         CreateMap<Author, AuthorDto>();
+
+
+        // book maps
+        CreateMap<CreateBookViewModel, CreateBookDto>();
     }
 }

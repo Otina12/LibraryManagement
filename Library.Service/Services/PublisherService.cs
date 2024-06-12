@@ -1,6 +1,8 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
+using Library.Model.Models;
+using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
@@ -21,8 +23,8 @@ namespace Library.Service.Services
         public async Task<IEnumerable<PublisherDto>> GetAllPublishers()
         {
             var publishers = await _unitOfWork.Publishers.GetAll(trackChanges: false);
-            var publisherDtos = publishers.Select(x => x.MapToPublisherDto());
-            return publisherDtos.ToList();
+            var publishersDto = publishers.Select(x => x.MapToPublisherDto());
+            return publishersDto.ToList();
         }
 
         public async Task<Result<PublisherDto>> GetPublisherById(Guid id)
@@ -34,7 +36,11 @@ namespace Library.Service.Services
                 return Result.Failure<PublisherDto>(publisherExistsResult.Error);
             }
 
-            return publisherExistsResult.Value().MapToPublisherDto();
+            var publisherDto = publisherExistsResult.Value().MapToPublisherDto();
+
+            publisherDto.Books = (await _unitOfWork.Books.GetAllBooksOfPublisher(id))
+                .Select(x => new BookIdAndTitleDto(x.Id, x.Title)).ToArray();
+            return publisherDto;
         }
 
         public async Task<Result> Create(CreatePublisherDto publisherDto)

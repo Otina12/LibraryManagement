@@ -37,13 +37,14 @@ public class AuthorRepository : GenericRepository<Author>, IAuthorRepository
 
     public async Task<IEnumerable<Author>> GetAuthorsOfABook(Guid bookId)
     {
-        var authors = await _context.BookAuthors
-            .AsNoTracking()
-            .Include(ba => ba.Author)
-            .Where(ba => ba.BookId == bookId)
-            .Select(x => x.Author)
-            .ToListAsync();
+        //var authors = await _context.BookAuthors
+        //    .AsNoTracking()
+        //    .Include(ba => ba.Author)
+        //    .Where(ba => ba.BookId == bookId)
+        //    .Select(x => x.Author)
+        //    .ToListAsync();
 
-        return authors;
+        //return authors;
+        return [];
     }
 }

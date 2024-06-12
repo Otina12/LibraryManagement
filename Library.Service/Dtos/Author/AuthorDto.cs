@@ -1,4 +1,6 @@
-﻿namespace Library.Service.Dtos.Author;
+﻿using Library.Service.Dtos.Book;
+
+namespace Library.Service.Dtos.Author;
 
 public record AuthorDto(
     Guid Id,
@@ -8,6 +10,8 @@ public record AuthorDto(
     string Description,
     int BirthYear,
     int? DeathYear,
-    int BookCount,
     DateTime CreationDate
-);
+)
+{
+    public BookIdAndTitleDto[] Books { get; set; }
+}

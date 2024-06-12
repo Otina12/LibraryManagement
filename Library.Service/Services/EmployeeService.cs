@@ -168,19 +168,6 @@ public class EmployeeService : IEmployeeService
         return Result.Success();
     }
 
-    public async Task<Result> UpdateRolesAsync(string employeeId, string[] oldRoles, string[] newRoles)
-    {
-        var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
-        if (employeeExistsResult.IsFailure)
-        {
-            return Result.Failure<IEnumerable<string>>(EmployeeErrors.EmployeeNotFound);
-        }
-
-        var employee = employeeExistsResult.Value();
-
-        return await UpdateRolesAsync(employee, oldRoles, newRoles);
-    }
-
     public async Task<Result> UpdateRolesAsync(string employeeId, string[] newRoles)
     {
         var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
@@ -191,9 +178,9 @@ public class EmployeeService : IEmployeeService
 
         var employee = employeeExistsResult.Value();
 
-        var oldRoles = (await _userManager.GetRolesAsync(employee)).ToArray();
+        var oldRoles = await _userManager.GetRolesAsync(employee);
 
-        return await UpdateRolesAsync(employee, oldRoles, newRoles);
+        return await UpdateRolesAsync(employee, oldRoles.ToArray(), newRoles);
     }
 
     public async Task<Result> UpdateRolesAsync(Employee employee, string[] oldRoles, string[] newRoles)
@@ -205,6 +192,8 @@ public class EmployeeService : IEmployeeService
         var rolesToAdd = newRoles.Except(oldRoles).ToArray();
 
         await RemoveRolesAsync(employee, rolesToRemove);
-        return await AddRolesAsync(employee, rolesToAdd);
+        await AddRolesAsync(employee, rolesToAdd);
+
+        return Result.Success();
     }
 }

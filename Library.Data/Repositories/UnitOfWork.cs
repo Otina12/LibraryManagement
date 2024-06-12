@@ -1,4 +1,5 @@
 ﻿using Library.Model.Interfaces;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Library.Data.Repositories;
 
@@ -12,6 +13,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IPublisherRepository Publishers { get; private set; }
     public IAuthorRepository Authors { get; private set; }
     public IBookRepository Books { get; private set; }
+    public IBookCopyRepository BookCopies { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -23,11 +25,17 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         Publishers = new PublisherRepository(_context);
         Authors = new AuthorRepository(_context);
         Books = new BookRepository(_context);
+        BookCopies = new BookCopyRepository(_context);
     }
 
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
+    }
+
+    public EntityEntry<T> Entry<T>(T entity) where T : class
+    {
+        return _context.Entry(entity);
     }
 
     public void Dispose()

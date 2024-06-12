@@ -5,6 +5,7 @@ namespace Library.Model.Interfaces;
 public interface IGenericRepository<T> where T : class
 {
     Task Create(T entity);
+    void CreateRange(IEnumerable<T> entities);
     void Update(T entity);
     void Delete(T entity);
     void DeleteAllWhere(Expression<Func<T, bool>> where);

@@ -42,6 +42,7 @@ namespace Library.Attributes.Authorization
             }
 
             await Task.CompletedTask;
+            return;
         }
     }
 }

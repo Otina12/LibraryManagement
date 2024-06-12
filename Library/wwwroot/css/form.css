@@ -55,7 +55,8 @@
     .myField input[type="text"],
     .myField input[type="email"],
     .myField input[type="password"],
-    .myField input[type="number"] {
+    .myField input[type="number"],
+    .myField textarea {
         width: 100%;
         padding: 8px;
         border: 1px solid #ccc;

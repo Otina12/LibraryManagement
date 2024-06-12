@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\images\\background-image-extended.jpg",
+      "PackagePath": "staticwebassets\\images\\background-image-extended.jpg"
+    },
+    {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\images\\background-image.jpg",
       "PackagePath": "staticwebassets\\images\\background-image.jpg"
     },

@@ -21,7 +21,7 @@ internal class BookRepository : GenericRepository<Book>, IBookRepository
 
     public async Task<IEnumerable<Book>> GetAllBooksOfAuthor(Guid authorId, bool trackChanges)
     {
-        var query = _context.BookAuthors
+        var query = _context.BookAuthor
                         .Include(x => x.Book)
                         .Where(x => x.AuthorId == authorId)
                         .Select(x => x.Book);

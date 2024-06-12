@@ -21,6 +21,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         await dbSet.AddAsync(entity);
     }
 
+    public virtual void CreateRange(IEnumerable<T> entities)
+    {
+        dbSet.AddRange(entities);
+    }
+
     public virtual void Update(T entity)
     {
         dbSet.Update(entity);

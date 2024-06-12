@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Library.Service.Dtos.Book;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library.ViewModels.Authors;
 
@@ -15,6 +16,6 @@ public class AuthorViewModel
     public string Description { get; set; }
     public int BirthYear { get; set; }
     public int? DeathYear { get; set; }
-    public int BookCount { get; set; }
+    public BookIdAndTitleDto[] Books { get; set; } = [];
     public DateTime CreationDate { get; set; }
 }

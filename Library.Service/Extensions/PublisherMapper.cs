@@ -13,7 +13,6 @@ public static class PublisherMapper
             publisher.Email,
             publisher.PhoneNumber,
             publisher.YearPublished,
-            0,
             publisher.CreationDate
         );
     }

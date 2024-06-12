@@ -13,9 +13,9 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     // access tables via context
     public DbSet<Author> Authors { get; set; }
     public DbSet<Book> Books { get; set; }
-    public DbSet<BookAuthor> BookAuthors { get; set; }
+    public DbSet<BookAuthor> BookAuthor { get; set; }
     public DbSet<BookCopy> BookCopies { get; set; }
-    public DbSet<BookGenre> BookGenres { get; set; }
+    public DbSet<BookGenre> BookGenre { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -42,5 +42,10 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
         base.OnModelCreating(builder);
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Library.Data.Configurations folder
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
     }
 }

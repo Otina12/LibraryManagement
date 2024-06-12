@@ -2,6 +2,7 @@
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Service.Dtos.Author;
+using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
@@ -35,7 +36,11 @@ public class AuthorService : IAuthorService
             return Result.Failure<AuthorDto>(authorExistsResult.Error);
         }
 
-        return authorExistsResult.Value().MapToAuthorDto();
+        var authorDto = authorExistsResult.Value().MapToAuthorDto();
+
+        authorDto.Books = (await _unitOfWork.Books.GetAllBooksOfAuthor(id))
+            .Select(x => new BookIdAndTitleDto(x.Id, x.Title)).ToArray();
+        return authorDto;
     }
 
     public async Task<Result> Create(CreateAuthorDto authorDto)

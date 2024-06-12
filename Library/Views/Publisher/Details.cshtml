@@ -13,5 +13,9 @@
         <p><strong>Year created:</strong> @Model.YearPublished</p>
         <br />
         <p><strong>Books</strong> </p>
+        @foreach (var book in Model.Books)
+        {
+            <p>@book.Title</p>
+        }
     </div>
 </div>

@@ -1,7 +1,6 @@
-﻿@model string
-
-@{
+﻿@{
     ViewData["Title"] = "Page not found";
+    var exceptionMessage = TempData["ExceptionMessage"];
 }
 
 <head>
@@ -15,7 +14,7 @@
             <p>Page you are looking for does not exist.</p>
             <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Return to Home</a>
             <br />
-            <p>@Model</p>
+            <p>@exceptionMessage</p>
         </div>
     </div>
 </body>

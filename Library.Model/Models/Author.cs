@@ -10,5 +10,5 @@ public class Author : BaseModel
     public int BirthYear { get; set; }
     public int? DeathYear { get; set; }
 
-    public ICollection<Book> Books { get; } = [];
+    public ICollection<BookAuthor> BookAuthors { get; } = [];
 }

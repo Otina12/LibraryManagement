@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Library.Service.Services;
 
-public class AuthorizationService : IAuthorizationService
+public class AuthenticationService : IAuthenticationService
 {
     private readonly UserManager<Employee> _userManager;
     private readonly SignInManager<Employee> _signInManager;
     private readonly IValidationService _validationService;
 
-    public AuthorizationService(UserManager<Employee> userManager, SignInManager<Employee> signInManager,
+    public AuthenticationService(UserManager<Employee> userManager, SignInManager<Employee> signInManager,
         IValidationService validationService)
     {
         _userManager = userManager;
@@ -46,7 +46,7 @@ public class AuthorizationService : IAuthorizationService
             return Result.Success();
         }
 
-        return AuthorizationErrors.UknownError;
+        return Result.Failure(new Error(result.Errors.First().Code, result.Errors.First().Description));
     }
 
 

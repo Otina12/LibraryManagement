@@ -30,7 +30,7 @@
                     <td style="font-size: 16px;">
                         @author.BirthYear - @(author.DeathYear.HasValue ? author.DeathYear.Value.ToString() : "")
                     </td>
-                    <td>@author.BookCount</td>
+                    <td>@author.Books.Length</td>
                     <td><a href="" class="btn btn-edit" data-author-id="@author.Id">Edit</a></td>
                 </tr>
             }
@@ -62,7 +62,7 @@
     <script>
         // create author modal
         $(document).ready(function () {
-            $('#add-btn').click(function (e) {
+            $('#add-author-btn').click(function (e) {
                 e.preventDefault();
                 $.ajax({
                     url: '/Author/Create',

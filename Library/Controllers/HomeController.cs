@@ -33,7 +33,8 @@ namespace Library.Controllers
         public IActionResult PageNotFound()
         {
             var errorMessage = HttpContext.Session.GetString("ErrorMessage");
-            return View(errorMessage);
+            TempData["ExceptionMessage"] = errorMessage;
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

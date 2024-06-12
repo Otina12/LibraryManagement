@@ -1,5 +1,6 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Interfaces;
+using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
@@ -56,4 +57,63 @@ public class BookService : IBookService
         bookDto.AuthorsDto = authors.Select(a => new AuthorIdAndNameDto(a.Id, $"{a.Name} {a.Surname}")).ToArray();
         bookDto.PublisherDto = publisher is null ? null : new PublisherIdAndNameDto(publisher.Id, publisher.Name);
     }
+
+    public async Task<Result> CreateBook(CreateBookDto bookDto)
+    {
+        var locations = DecodeBookLocations(bookDto.EncodedLocationsString);
+
+        var book = bookDto.MapToBook();
+        book.Quantity = locations.Sum(x => x.Quantity);
+
+        await _unitOfWork.Books.Create(book);
+
+        foreach (var authorId in bookDto.SelectedAuthorIds)
+        {
+            book.BookAuthors.Add(new BookAuthor { BookId = book.Id, AuthorId = authorId });
+        }
+
+        var bookCopies = CreateBookCopies(book.Id, locations);
+        _unitOfWork.BookCopies.CreateRange(bookCopies);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Success();
+    }
+
+    public IEnumerable<BookCopy> CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations)
+    {
+        var bookCopies = new List<BookCopy>();
+        foreach (var (room, shelf, quantity) in locations)
+        {
+            bookCopies.AddRange(Enumerable.Range(0, quantity)
+                                        .Select(_ => new BookCopy
+                                        {
+                                            Status = Model.Enums.Status.Normal,
+                                            BookId = bookId,
+                                            RoomId = room,
+                                            ShelfId = shelf,
+                                            CreationDate = DateTime.UtcNow
+                                        }));
+        }
+        return bookCopies;
+    }
+
+    private static List<BookLocationDto> DecodeBookLocations(string? encodedLocations)
+    {
+        if (encodedLocations is null)
+        {
+            return [];
+        }
+
+        return encodedLocations
+            .Split(',')
+            .Select(location =>
+            {
+                int[] info = location.Split('|').Select(x => int.Parse(x)).ToArray();
+                return new BookLocationDto(RoomId: info[0], ShelfId: info[1], Quantity: info[2]);
+            })
+            .ToList();
+    }
+
+   
 }

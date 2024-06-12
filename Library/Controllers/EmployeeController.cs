@@ -69,7 +69,7 @@ namespace Library.Controllers
         [HttpPost]
         public async Task<IActionResult> ManageRoles(string employeeId, string? roles)
         {
-            var updatedRoles = roles?.Split(',').Where(r => r != "Pending")
+            var updatedRoles = roles?.Split(',').Where(r => r != nameof(Role.Pending))
                 .ToArray() ?? [];
 
             await _serviceManager.EmployeeService.UpdateRolesAsync(employeeId, updatedRoles);

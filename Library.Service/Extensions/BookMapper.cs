@@ -1,6 +1,7 @@
 ﻿using Library.Model.Models;
 using Library.Service.Dtos.Book;
 using System.ComponentModel;
+using System.Net;
 
 namespace Library.Service.Extensions;
 
@@ -24,6 +25,34 @@ public static class BookMapper
         {
             AuthorsDto = [],
             PublisherDto = null
+        };
+    }
+
+    public static Book MapToBook(this CreateBookDto bookDto)
+    {
+        return new Book()
+        {
+            ISBN = bookDto.ISBN,
+            Title = bookDto.Title,
+            Edition = bookDto.Edition,
+            PublishYear = bookDto.PublishYear,
+            PageCount = bookDto.PageCount,
+            Description = bookDto.Description,
+            PublisherId = bookDto.SelectedPublisherId,
+            CreationDate = DateTime.UtcNow,
+            Quantity = 0
+        };
+    }
+
+    public static BookCopy MapToBookCopy(this Book book, int roomId, int? shelfId = 0)
+    {
+        return new BookCopy()
+        {
+            Status = Model.Enums.Status.Normal,
+            BookId = book.Id,
+            RoomId = roomId,
+            ShelfId = shelfId,
+            CreationDate = DateTime.UtcNow
         };
     }
 }

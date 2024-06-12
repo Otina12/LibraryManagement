@@ -18,8 +18,7 @@ public class Book : BaseModel
 
     // navigation properties
     public Publisher? Publisher { get; set; }
-    public ICollection<Author> Authors { get; } = [];
-    public ICollection<Genre> Genres { get; } = [];
+    public ICollection<BookAuthor> BookAuthors { get; } = [];
+    public ICollection<BookGenre> BookGenres { get; } = [];
     public ICollection<BookCopy> BookCopies { get; } = [];
-
 }

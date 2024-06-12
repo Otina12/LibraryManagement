@@ -2,7 +2,7 @@
 
 public interface IServiceManager
 {
-    IAuthorizationService AuthService { get; }
+    IAuthenticationService AuthService { get; }
     IEmailSender EmailSender { get; }
 
     IEmployeeService EmployeeService { get; }
