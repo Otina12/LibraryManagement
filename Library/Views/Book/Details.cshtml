@@ -1,1 +1,24 @@
-﻿
+﻿@model Library.Service.Dtos.Book.BookDto
+
+@{
+    ViewData["Title"] = "Book Details";
+    bool isAdmin = User.IsInRole("Admin");
+}
+
+<div class="details-container">
+    <div>
+        <p><strong>Title:</strong> @Model.Title</p>
+        <p><strong>ISBN:</strong> @Model.ISBN</p>
+        <p><strong>Edition:</strong> @Model.Edition</p>
+        <p><strong>Publish Year:</strong> @Model.PublishYear</p>
+        <p><strong>Quantity:</strong> @Model.Quantity</p>
+        <br />
+        <p><strong>Publisher:</strong> @Model.PublisherDto?.Name</p>
+        <br />
+        <p><strong>Authors:</strong></p>
+        @foreach (var author in Model.AuthorsDto)
+        {
+            <p>@author.FullName</p>
+        }
+    </div>
+</div>

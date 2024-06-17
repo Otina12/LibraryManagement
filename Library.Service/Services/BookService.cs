@@ -27,7 +27,8 @@ public class BookService : IBookService
 
         foreach(var bookDto in booksDto)
         {
-            await MapPublisherAndAuthors(bookDto);
+            await MapPublisher(bookDto);
+            await MapAuthors(bookDto);
         }
 
         return booksDto;
@@ -44,19 +45,13 @@ public class BookService : IBookService
 
         var bookDto = bookExistsResult.Value().MapToBookDto();
 
-        await MapPublisherAndAuthors(bookDto);
+        await MapPublisher(bookDto);
+        await MapAuthors(bookDto);
 
         return bookDto; // implicit casting to Result<BookDto> object
     }
 
-    private async Task MapPublisherAndAuthors(BookDto bookDto)
-    {
-        var authors = await _unitOfWork.Authors.GetAuthorsOfABook(bookDto.Id);
-        var publisher = await _unitOfWork.Publishers.GetPublisherOfABook(bookDto.Id);
 
-        bookDto.AuthorsDto = authors.Select(a => new AuthorIdAndNameDto(a.Id, $"{a.Name} {a.Surname}")).ToArray();
-        bookDto.PublisherDto = publisher is null ? null : new PublisherIdAndNameDto(publisher.Id, publisher.Name);
-    }
 
     public async Task<Result> CreateBook(CreateBookDto bookDto)
     {
@@ -115,5 +110,15 @@ public class BookService : IBookService
             .ToList();
     }
 
-   
+    private async Task MapPublisher(BookDto bookDto)
+    {
+        var publisher = await _unitOfWork.Publishers.GetPublisherOfABook(bookDto.Id);
+        bookDto.PublisherDto = publisher is null ? null : new PublisherIdAndNameDto(publisher.Id, publisher.Name);
+    }
+
+    private async Task MapAuthors(BookDto bookDto)
+    {
+        var authors = await _unitOfWork.Authors.GetAuthorsOfABook(bookDto.Id);
+        bookDto.AuthorsDto = authors.Select(a => new AuthorIdAndNameDto(a.Id, $"{a.Name} {a.Surname}")).ToArray();
+    }
 }

@@ -21,6 +21,12 @@ public class BookController : BaseController
         return View(books);
     }
 
+    public async Task<IActionResult> Details(Guid id)
+    {
+        var book = await _serviceManager.BookService.GetBookById(id);
+        return View(book.Value());
+    }
+
     [HttpGet]
     public async Task<IActionResult> Create()
     {
