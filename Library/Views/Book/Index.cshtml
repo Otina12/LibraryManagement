@@ -45,24 +45,17 @@
                     </a>
                 </th>
                 <th>Publisher</th>
-                <th>Authors</th>
             </tr>
         </thead>
         <tbody id="bookTable">
             @foreach (var book in Model.Books)
             {
                 <tr class="clickable-row" onclick="window.location='@Url.Action("Details", "Book", new { id = book.Id })';">
-                    <td>@book.Title</td>
+                    <td style="margin: 5px;">@book.Title</td>
                     <td>@book.Edition</td>
                     <td>@book.PublishYear</td>
                     <td>@book.Quantity</td>
                     <td>@(book.PublisherDto == null ? "--------" : book.PublisherDto.Name)</td>
-                    <td>
-                        @foreach (var author in book.AuthorsDto)
-                        {
-                            <p>@author.FullName</p>
-                        }
-                    </td>
                 </tr>
             }
         </tbody>
@@ -70,14 +63,12 @@
     <div class="pagination">
         @{
             int totalPages = (int)Math.Ceiling((double)Model.TotalItems / Model.PageSize);
-            int startPage = Math.Max(1, Model.PageNumber - 2);
-            int endPage = Math.Min(totalPages, startPage + 4);
         }
         @if (Model.PageNumber > 1)
         {
             <a href="@Url.Action("Index", new { pageNumber = Model.PageNumber - 1, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })" class="page-link">&laquo;</a>
         }
-        @for (int i = startPage; i <= endPage; i++)
+        @for (int i = 1; i <= totalPages; i++)
         {
             <a href="@Url.Action("Index", new { pageNumber = i, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })"
                class="page-link @(i == Model.PageNumber ? "active" : "")">

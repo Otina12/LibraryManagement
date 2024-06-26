@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "g8Q+H07yXz7QECf5j+5iZkjXISqcSqo7e5uLVcStNFPmWKzkQIn9p0ZOAs7sSOUAODZLtVmMiZUpX88qMkmJEw==",
+  "dgSpecHash": "ZByvUVIKgT72V0h78mwQCeWhZilq/7YmKbsFtsmlGwTT1EWCTp3kDtffbrJ8qMx81yY2RlFyL1/fdt7V4lIqmA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Library.csproj",
   "expectedPackageFiles": [
@@ -146,6 +146,8 @@
     "C:\\Users\\Giorgi\\.nuget\\packages\\mono.texttemplating\\2.3.1\\mono.texttemplating.2.3.1.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Giorgi\\.nuget\\packages\\nlog\\5.3.2\\nlog.5.3.2.nupkg.sha512",
+    "C:\\Users\\Giorgi\\.nuget\\packages\\nlog.extensions.logging\\5.3.11\\nlog.extensions.logging.5.3.11.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\nuget.common\\6.9.1\\nuget.common.6.9.1.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\nuget.configuration\\6.9.1\\nuget.configuration.6.9.1.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\nuget.dependencyresolver.core\\6.9.1\\nuget.dependencyresolver.core.6.9.1.nupkg.sha512",
@@ -264,5 +266,26 @@
     "C:\\Users\\Giorgi\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\tinymce\\7.1.0\\tinymce.7.1.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'TinyMCE' 7.1.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-9hcv-j9pv-qmph",
+      "libraryId": "TinyMCE",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'TinyMCE' 7.1.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-w9jx-4g6g-rp7x",
+      "libraryId": "TinyMCE",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

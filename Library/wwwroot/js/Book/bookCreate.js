@@ -64,11 +64,21 @@
         const form = $(this);
         const formData = form.serializeArray();
 
+        formData.forEach((field, index) => {
+            if (field.name === 'SelectedAuthorIds') {
+                formData.splice(index, 1);
+            }
+        });
+
+        console.log('Before adding locations:', formData);
+
         locationsViewModel.forEach((location, index) => {
             formData.push({ name: `Locations[${index}].RoomId`, value: location.roomId });
             formData.push({ name: `Locations[${index}].ShelfId`, value: location.shelfId });
             formData.push({ name: `Locations[${index}].Quantity`, value: location.quantity });
         });
+
+        console.log('After adding locations:', formData);
 
         const selectedAuthors = [];
         document.querySelectorAll('.selected-author').forEach(authorDiv => {
@@ -78,6 +88,8 @@
         selectedAuthors.forEach((authorId, index) => {
             formData.push({ name: `SelectedAuthorIds[${index}]`, value: authorId });
         });
+
+        console.log('Final formData:', formData);
     });
 
     authorSelectList.addEventListener('change', function () {

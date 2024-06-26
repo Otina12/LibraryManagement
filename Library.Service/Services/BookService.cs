@@ -27,6 +27,7 @@ public class BookService : IBookService
     public async Task<BookListDto> GetAllFilteredBooks(BookListDto bookFilters)
     {
         var books = _unitOfWork.Books.GetAllAsQueryable();
+        bookFilters.TotalItems = await books.CountAsync();
 
         books = ApplySearch(books, bookFilters.SearchString);
         books = ApplySort(books, bookFilters.SortBy, bookFilters.SortOrder);
@@ -41,7 +42,6 @@ public class BookService : IBookService
         }
 
         bookFilters.Books = booksDto;
-        bookFilters.TotalItems = booksDto.Count;
 
         return bookFilters;
     }

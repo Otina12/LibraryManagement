@@ -16,7 +16,7 @@ public class BookController : BaseController
     {
     }
 
-    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 5)
+    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
     {
         var booksParams = new BookListDto
         {
@@ -57,6 +57,12 @@ public class BookController : BaseController
         if (!ModelState.IsValid)
         {
             return View(bookViewModel);
+        }
+
+        Console.WriteLine("Received Locations:");
+        foreach (var location in bookViewModel.Locations)
+        {
+            Console.WriteLine($"RoomId: {location.RoomId}, ShelfId: {location.ShelfId}, Quantity: {location.Quantity}");
         }
 
         var createBookDto = _mapper.Map<CreateBookDto>(bookViewModel);

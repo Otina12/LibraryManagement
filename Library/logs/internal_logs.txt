@@ -1,0 +1,6 @@
+2024-06-26 16:06:47.5333 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-26 16:06:47.5333 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-26 16:06:47.5333 Info Closing old configuration.
+2024-06-26 16:06:47.5333 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-26 16:06:47.5333 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-26 16:06:47.5484 Info Configuration initialized.

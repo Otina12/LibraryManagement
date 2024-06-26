@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 namespace Library.Data.Repositories;
 
+/// <inheritdoc />
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     protected ApplicationDbContext _context;
@@ -14,7 +15,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _context = context;
         dbSet = context.Set<T>();
     }
-
 
     public virtual async Task Create(T entity)
     {

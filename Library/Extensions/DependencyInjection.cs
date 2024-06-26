@@ -9,6 +9,7 @@ using System.Reflection;
 using Library.Model.Interfaces;
 using Library.Data.Repositories;
 using Library.Data.Configurations.Variables;
+using Library.Service.Services.Logger;
 
 namespace Library.Extensions;
 
@@ -23,6 +24,11 @@ public static class DependencyInjection
     {
         services.AddScoped<IServiceManager, ServiceManager>(); // includes all services
         services.AddScoped<IValidationService, ValidationService>(); // except validation, since it's only used inside other services
+    }
+
+    public static void ConfigureLoggerService(this IServiceCollection services)
+    {
+        services.AddSingleton<ILoggerManager, LoggerManager>();
     }
 
     public static void ConfigureSqlServer(this IServiceCollection services, IConfiguration configuration)

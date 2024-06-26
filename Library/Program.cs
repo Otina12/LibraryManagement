@@ -1,10 +1,11 @@
 using Library.ActionFilters;
-using Library.Data.Configurations;
 using Library.Extensions;
-using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client;
+using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),
+"/nlog.config"));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
@@ -18,6 +19,7 @@ builder.Services.ConfigureIdentity();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureValidation();
 builder.Services.ConfigureMailjet(builder.Configuration);
+builder.Services.ConfigureLoggerService();
 
 builder.Services.AddSession();
 
