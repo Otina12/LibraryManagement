@@ -6,6 +6,7 @@ using Library.Service.Extensions;
 using Library.Model.Abstractions.Errors;
 using Library.Model.Abstractions;
 using Library.Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services;
 

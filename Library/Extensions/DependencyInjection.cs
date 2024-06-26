@@ -9,7 +9,6 @@ using System.Reflection;
 using Library.Model.Interfaces;
 using Library.Data.Repositories;
 using Library.Data.Configurations.Variables;
-using System.Configuration;
 
 namespace Library.Extensions;
 

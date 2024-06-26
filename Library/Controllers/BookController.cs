@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using Library.Model.Enums;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
 using Library.Service.Interfaces;
 using Library.ViewModels.Books;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 
 namespace Library.Controllers;
 
@@ -15,9 +16,18 @@ public class BookController : BaseController
     {
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 5)
     {
-        var books = await _serviceManager.BookService.GetAllBooks();
+        var booksParams = new BookListDto
+        {
+            SearchString = searchString,
+            SortBy = sortBy,
+            SortOrder = sortOrder,
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        };
+
+        var books = await _serviceManager.BookService.GetAllFilteredBooks(booksParams);
         return View(books);
     }
 
@@ -30,21 +40,15 @@ public class BookController : BaseController
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        var publishers = (await _serviceManager.PublisherService.GetAllPublishers())
-            .Select(x => new PublisherIdAndNameDto(x.Id, x.Name))
-            .OrderBy(x => x.Name);
+        ViewBag.Publishers = await _serviceManager.PublisherService.GetAllPublisherIdAndNames();
+        ViewBag.Authors = await _serviceManager.AuthorService.GetAllAuthorIdAndNames();
+        ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
 
-        var authors = (await _serviceManager.AuthorService.GetAllAuthors())
-            .Select(x => new AuthorIdAndNameDto(x.Id, $"{x.Name} {x.Surname}"))
-            .OrderBy(x => x.FullName);
+        var roomShelfDictionary = await _serviceManager.ShelfService.GetRoomShelves();
+        ViewBag.Rooms = roomShelfDictionary.Keys;
+        ViewBag.Shelves = JsonSerializer.Serialize(roomShelfDictionary);
 
-        var viewModel = new CreateBookViewModel
-        {
-            Publishers = new SelectList(publishers, "Id", "Name"),
-            Authors = new SelectList(authors, "Id", "FullName")
-        };
-
-        return View(viewModel);
+        return View(new CreateBookViewModel());
     }
 
     [HttpPost]
@@ -56,17 +60,15 @@ public class BookController : BaseController
         }
 
         var createBookDto = _mapper.Map<CreateBookDto>(bookViewModel);
-
         var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto);
 
         if (createBookResult.IsFailure)
         {
             CreateFailureNotification(createBookResult.Error.Message);
+            return View(bookViewModel);
         }
 
         CreateSuccessNotification("The book copies have been added succesfully");
-        return RedirectToAction("Index", "Book");
+        return RedirectToAction("Index", "Book", null);
     }
-
-    
 }

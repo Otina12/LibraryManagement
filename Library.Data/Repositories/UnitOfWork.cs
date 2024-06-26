@@ -14,6 +14,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IAuthorRepository Authors { get; private set; }
     public IBookRepository Books { get; private set; }
     public IBookCopyRepository BookCopies { get; private set; }
+    public IGenreRepository Genres { get; private set; }
+    public IRoomRepository Rooms { get; private set; }
+    public IShelfRepository Shelves { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -26,6 +29,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         Authors = new AuthorRepository(_context);
         Books = new BookRepository(_context);
         BookCopies = new BookCopyRepository(_context);
+        Genres = new GenreRepository(_context);
+        Rooms = new RoomRepository(_context);
+        Shelves = new ShelfRepository(_context);
     }
 
     public async Task SaveChangesAsync()

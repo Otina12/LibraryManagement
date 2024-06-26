@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Library.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\book.css",
+      "PackagePath": "staticwebassets\\css\\book.css"
+    },
+    {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\form.css",
       "PackagePath": "staticwebassets\\css\\form.css"
     },
@@ -23,6 +27,22 @@
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\images\\background-image.jpg",
       "PackagePath": "staticwebassets\\images\\background-image.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Book\\bookCreate.js",
+      "PackagePath": "staticwebassets\\js\\Book\\bookCreate.js"
+    },
+    {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Employee\\employee.js",
+      "PackagePath": "staticwebassets\\js\\Employee\\employee.js"
+    },
+    {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Shared\\modal.js",
+      "PackagePath": "staticwebassets\\js\\Shared\\modal.js"
+    },
+    {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Shared\\notification.js",
+      "PackagePath": "staticwebassets\\js\\Shared\\notification.js"
     },
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\site.js",

@@ -1,0 +1,21 @@
+﻿@model dynamic
+
+<div class="custom-modal" id="@Model.ModalId" tabindex="-1" role="dialog" aria-labelledby="@(Model.ModalId)Label" aria-hidden="true">
+    <div class="custom-modal-dialog" role="document">
+        <div class="custom-modal-content">
+            <div class="custom-modal-header">
+                <h4 class="custom-modal-title" id="modalTitle"></h4>
+                <button type="button" class="custom-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="custom-modal-body" id="modalBody">
+                <!-- body will be loaded here. It depends on action (create/edit) -->
+            </div>
+            <div class="custom-modal-footer">
+                <button type="submit" id="add-button" form="@Model.CreateFormId" class="btn btn-primary">Save</button>
+                <button type="submit" id="edit-button" form="@Model.EditFormId" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>

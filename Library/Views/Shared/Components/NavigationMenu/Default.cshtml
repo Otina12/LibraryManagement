@@ -62,37 +62,50 @@
     }
 }
 
-<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav mr-auto">
-        @{
-            RenderMenuItems(Model);
-        }
-    </ul>
+<nav class="myNav navbar navbar-expand-lg navbar-dark shadow-5-strong">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Library</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav mr-auto">
+                        @{
+                            RenderMenuItems(Model);
+                        }
+                    </ul>
 
-    <ul class="navbar-nav ml-auto">
-        @if (User.Identity is null || !User.Identity.IsAuthenticated)
-        {
-            <li class="nav-item">
-                <a class="nav-link" href="/Account/Login">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Account/Register">Register</a>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile"
-                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @User.Identity.Name
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownProfile">
-                    <a class="dropdown-item" href="@Url.Action("Details", "Employee", new { id = curUserId })">Profile</a>
-                    <a class="dropdown-item" href="#">Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a id="nav-logout" class="dropdown-item" href="/Account/Logout">Logout</a>
+                    <ul class="navbar-nav ml-auto">
+                        @if (User.Identity is null || !User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Register">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile"
+                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @User.Identity.Name
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownProfile">
+                                    <a class="dropdown-item" href="@Url.Action("Details", "Employee", new { id = curUserId })">Profile</a>
+                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="nav-logout" class="dropdown-item" href="/Account/Logout">Logout</a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
                 </div>
-            </li>
-        }
-    </ul>
-</div>
+            </ul>
+        </div>
+    </div>
+</nav>

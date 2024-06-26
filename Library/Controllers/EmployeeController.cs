@@ -67,13 +67,11 @@ namespace Library.Controllers
 
         [CustomAuthorize(nameof(Role.Admin))]
         [HttpPost]
-        public async Task<IActionResult> ManageRoles(string employeeId, string? roles)
+        public async Task<IActionResult> ManageRoles(string employeeId, string[] roles)
         {
-            var updatedRoles = roles?.Split(',').Where(r => r != nameof(Role.Pending))
-                .ToArray() ?? [];
+            var updatedRoles = roles?.Where(r => r != nameof(Role.Pending)).ToArray() ?? [];
 
             await _serviceManager.EmployeeService.UpdateRolesAsync(employeeId, updatedRoles);
-
             CreateSuccessNotification("Roles have been changed successfully");
             return RedirectToAction("Details", "Employee", new { id = employeeId });
         }

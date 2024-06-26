@@ -6,6 +6,7 @@ using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services;
 
@@ -25,6 +26,13 @@ public class AuthorService : IAuthorService
         var authors = await _unitOfWork.Authors.GetAll(trackChanges: false);
         var authorsDtos = authors.Select(x => x.MapToAuthorDto());
         return authorsDtos.ToList();
+    }
+
+    public async Task<IOrderedEnumerable<AuthorIdAndNameDto>> GetAllAuthorIdAndNames()
+    {
+        return (await _unitOfWork.Authors.GetAll())
+            .Select(x => new AuthorIdAndNameDto(x.Id, $"{x.Name} {x.Surname}"))
+            .OrderBy(x => x.FullName);
     }
 
     public async Task<Result<AuthorDto>> GetAuthorById(Guid id)

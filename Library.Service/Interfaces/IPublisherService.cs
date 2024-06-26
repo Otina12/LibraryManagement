@@ -11,6 +11,7 @@ public interface IPublisherService
     //Task<int> GetCountOfBooks(Guid publisherId);
 
     Task<IEnumerable<PublisherDto>> GetAllPublishers();
+    Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames();
     Task<Result<PublisherDto>> GetPublisherById(Guid id);
     Task<Result> Create(CreatePublisherDto publisherDto);
     Task<Result> Update(PublisherDto publisherDto);

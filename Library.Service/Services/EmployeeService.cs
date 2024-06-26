@@ -6,6 +6,7 @@ using Library.Service.Dtos.Employee;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services;
 

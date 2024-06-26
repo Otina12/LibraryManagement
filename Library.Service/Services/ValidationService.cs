@@ -137,12 +137,24 @@ namespace Library.Service.Services
         {
             var book = await _unitOfWork.Books.GetById(id);
 
-            if(book is null)
+            if (book is null)
             {
                 return Result.Failure<Book>(BookErrors.BookNotFound);
             }
 
             return book; // implicit operator, wraps into Result.Success object
+        }
+
+        public async Task<Result<Book>> BookExists(string isbn)
+        {
+            var book = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == isbn);
+
+            if (book is null)
+            {
+                return Result.Failure<Book>(BookErrors.BookNotFound);
+            }
+
+            return book;
         }
     }
 }

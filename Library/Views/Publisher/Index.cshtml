@@ -38,115 +38,11 @@
     </table>
 </div>
 
-<div class="custom-modal" id="publisherModal" tabindex="-1" role="dialog" aria-labelledby="addPublisherModalLabel" aria-hidden="true">
-    <div class="custom-modal-dialog" role="document">
-        <div class="custom-modal-content">
-            <div class="custom-modal-header">
-                <h4 class="custom-modal-title" id="modalTitle"></h4>
-                <button type="button" class="custom-close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="custom-modal-body" id="modalBody">
-                <!-- body will be loaded here. It depends on action (create/edit) -->
-            </div>
-            <div class="custom-modal-footer">
-                <button type="submit" id="add-button" form="createPublisherForm" class="btn btn-primary">Save</button>
-                <button type="submit" id="edit-button" form="editPublisherForm" class="btn btn-primary">Edit</button>
-            </div>
-        </div>
-    </div>
-</div>
+@await Html.PartialAsync("_ModalPartial", new { ModalId = "publisherModal", CreateFormId = "createPublisherForm", EditFormId = "editPublisherForm" })
 
 @section Scripts {
+    <script src="~/js/Shared/modal.js"></script>
     <script>
-        // create publisher modal
-        $(document).ready(function () {
-            $('#add-publisher-btn').click(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '/Publisher/Create',
-                    type: 'GET',
-                    success: function (data) {
-                        $('#modalBody').html(data);
-                        $('#modalTitle').text('Add Publisher');
-                        $('#add-button').show();
-                        $('#edit-button').hide();
-                        $('#publisherModal').fadeIn();
-                    },
-                    error: function () {
-                        alert('Error loading the form');
-                    }
-                });
-            });
-            $(document).on('submit', '#createPublisherForm', function (e) {
-                e.preventDefault();
-                var form = $(this);
-                $.ajax({
-                    url: '/Publisher/Create',
-                    type: form.attr('method'),
-                    data: form.serialize(),
-                    success: function (response) {
-                        if (response.success) {
-                            $('#publisherModal').fadeOut();
-                            location.reload();
-                        } else {
-                            $('#publisherModal').fadeOut();
-                            location.reload();
-                        }
-                    },
-                    error: function () {
-                        alert('Error saving the publisher');
-                    }
-                });
-            });
-            // edit publisher modal
-            $('.btn-edit').click(function (e) {
-                e.stopPropagation(); // to not to go to link when clicking button which is above it
-                e.preventDefault();
-                var publisherId = $(this).data('publisher-id');
-                $.ajax({
-                    url: '/Publisher/Edit/' + publisherId,
-                    type: 'GET',
-                    success: function (data) {
-                        $('#modalBody').html(data);
-                        $('#modalTitle').text('Edit Publisher');
-                        $('#add-button').hide();
-                        $('#edit-button').show();
-                        $('#publisherModal').fadeIn();
-                    },
-                    error: function () {
-                        alert('Error loading the form');
-                    }
-                });
-                $(document).on('submit', '#editPublisherForm', function (e) {
-                    e.preventDefault();
-                    var form = $(this);
-                    var publisherId = $(this).data('publisher-id');
-                    $.ajax({
-                        url: '/Publisher/Edit/' + publisherId,
-                        type: form.attr('method'),
-                        data: form.serialize(),
-                        success: function (response) {
-                            if (response.success) {
-                                $('#publisherModal').fadeOut();
-                                location.reload();
-                            } else {
-                                $('#publisherModal').fadeOut();
-                                location.reload();
-                            }
-                        },
-                        error: function () {
-                            alert('Error updating the publisher');
-                        }
-                    });
-                });
-            });
-            // close form modal
-            $(document).on('click', '.custom-close', function () {
-                $('#publisherModal').fadeOut();
-            });
-        });
-
+        initializeModal('publisher', '/Publisher/Create', '/Publisher/Edit/');
     </script>
 }

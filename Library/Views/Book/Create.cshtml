@@ -1,13 +1,13 @@
 ﻿@model Library.ViewModels.Books.CreateBookViewModel
 
 @{
+    ViewData["Title"] = "Create Book";
 }
 
 <body>
     <form class="book-form" asp-action="Create" asp-controller="Book" method="post" id="createBookForm">
-        <div class="book-title">
-            Add a book
-        </div>
+        <div class="book-title">Add a book</div>
+
         <div class="book-field">
             <input asp-for="ISBN" maxlength="13" placeholder="ISBN" />
             <span asp-validation-for="ISBN" class="text-danger"></span>
@@ -34,26 +34,41 @@
         </div>
 
         <div class="book-field">
+            <label asp-for="SelectedGenreIds">Genres</label>
+            <select asp-for="SelectedGenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name"))" multiple></select>
+            <span asp-validation-for="SelectedGenreIds" class="text-danger"></span>
+        </div>
+
+        <div class="book-field publisher-field">
             <label asp-for="SelectedPublisherId">Publisher</label>
-            <select asp-for="SelectedPublisherId" asp-items="Model.Publishers"></select>
+            <select asp-for="SelectedPublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name"))"></select>
         </div>
 
         <div id="authorDropdown" class="book-field">
             <label asp-for="SelectedAuthorIds">Authors</label>
-            <select asp-for="SelectedAuthorIds" asp-items="Model.Authors" multiple="multiple" id="authorSelectList"></select>
+            <select asp-for="SelectedAuthorIds" asp-items="@(new MultiSelectList(ViewBag.Authors, "Id", "FullName"))" id="authorSelectList" multiple></select>
         </div>
         <div class="book-field">
             <div id="selectedAuthors"></div>
         </div>
 
         <div class="book-field">
-            <label asp-for="EncodedLocationsString">Locations</label>
+            <label>Locations</label>
             <div id="locationForms" class="location-forms">
                 <div class="location-form-wrapper">
                     <div class="location-form">
-                        <input type="number" class="room-id" placeholder="Room ID" />
-                        <input type="number" class="shelf-id" placeholder="Shelf ID" />
+                        <select class="location-dropdown" id="roomDropdown">
+                            <option value="">Room</option>
+                            @foreach (var room in ViewBag.Rooms)
+                            {
+                                <option value="@room">@room</option>
+                            }
+                        </select>
+                        <select class="location-dropdown" id="shelfDropdown">
+                            <option value="">Shelf</option>
+                        </select>
                         <input type="number" class="quantity" placeholder="Quantity" />
+
                         <button type="button" class="add-location-btn">Add</button>
                     </div>
                 </div>
@@ -62,103 +77,11 @@
 
         <button type="submit" class="submit-button">Create</button>
     </form>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const authorSelectList = document.getElementById('authorSelectList');
-            const selectedAuthorsDiv = document.getElementById('selectedAuthors');
-            const locationFormsDiv = document.getElementById('locationForms');
-
-            const locationForm = locationFormsDiv.querySelector('.location-form');
-            const addLocationBtn = locationForm.querySelector('.add-location-btn');
-            const locationsViewModel = [];
-
-            addLocationBtn.addEventListener('click', function () {
-                const roomId = locationForm.querySelector('.room-id').value.trim();
-                const quantity = locationForm.querySelector('.quantity').value.trim();
-                const shelfIdElement = locationForm.querySelector('.shelf-id');
-                const shelfId = shelfIdElement && shelfIdElement.value.trim() !== '' ? shelfIdElement.value.trim() : "0";
-
-                if (roomId === '' || quantity === '') {
-                    alert('Please fill in all the fields.');
-                    return;
-                }
-
-                const locationSummary = document.createElement('div');
-                locationSummary.classList.add('location-summary');
-                locationSummary.textContent = `Room ID: ${roomId}, Shelf ID: ${shelfId}, Quantity: ${quantity}`;
-
-                const removeButton = document.createElement('button');
-                removeButton.textContent = "✖";
-                removeButton.addEventListener('click', function () {
-                    locationSummary.remove();
-                    removeLocationFromViewModel(locationSummary);
-                });
-
-                locationSummary.appendChild(removeButton);
-                locationFormsDiv.appendChild(locationSummary);
-
-                locationsViewModel.push({ RoomId: roomId, ShelfId: shelfId, Quantity: quantity });
-
-                locationForm.querySelector('.room-id').value = '';
-                locationForm.querySelector('.shelf-id').value = '';
-                locationForm.querySelector('.quantity').value = '';
-            });
-
-            function removeLocationFromViewModel(locationSummary) {
-                const index = Array.from(locationFormsDiv.children).indexOf(locationSummary);
-                if (index !== -1) {
-                    locationsViewModel.splice(index, 1);
-                }
-            }
-
-            document.getElementById('createBookForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                const existingLocationsInput = this.querySelector('input[name="EncodedLocationsString"]');
-                if (existingLocationsInput) {
-                    existingLocationsInput.remove();
-                }
-
-                const locationsInput = document.createElement('input');
-                locationsInput.type = 'hidden';
-                locationsInput.name = 'EncodedLocationsString';
-                locationsInput.value = getLocationsAsString(locationsViewModel);
-                this.appendChild(locationsInput);
-
-                const formData = new FormData(this);
-                const formObject = {};
-                formData.forEach((value, key) => {
-                    formObject[key] = value;
-                });
-                console.log(JSON.stringify(formObject));
-
-                this.submit();
-            });
-
-            function getLocationsAsString(locationsViewModel) {
-                return locationsViewModel.map(item => `${item.RoomId}|${item.ShelfId || ''}|${item.Quantity}`).join(',');
-            }
-
-            authorSelectList.addEventListener('change', function () {
-                const selectedOption = authorSelectList.options[authorSelectList.selectedIndex];
-                if (selectedOption.value) {
-                    const existingAuthor = selectedAuthorsDiv.querySelector(`.selected-author[data-value="${selectedOption.value}"]`);
-                    if (!existingAuthor) {
-                        const authorDiv = document.createElement('div');
-                        authorDiv.textContent = selectedOption.text;
-                        authorDiv.classList.add('selected-author');
-                        authorDiv.dataset.value = selectedOption.value;
-                        const removeButton = document.createElement('button');
-                        removeButton.textContent = "✖";
-                        removeButton.addEventListener('click', function () {
-                            authorDiv.remove();
-                        });
-                        authorDiv.appendChild(removeButton);
-                        selectedAuthorsDiv.appendChild(authorDiv);
-                    }
-                }
-            });
-        });
-    </script>
 </body>
+
+@section Scripts {
+    <script>
+        var serializedShelves = @Html.Raw(ViewBag.Shelves);
+    </script>
+    <script src="~/js/Book/bookCreate.js"></script>
+}

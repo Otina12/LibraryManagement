@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,31 +9,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdn.tiny.cloud/1/7l6q21h7asx60bypotkj2ips01t98u6i2h30ewihetmsw08i/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </head>
-<body data-notification-success="@GetTempDataValue("NotificationSuccess")" data-notification-message="@GetTempDataValue("NotificationMessage")">
+<body
+    data-notification-success="@GetTempDataValue("NotificationSuccess")"
+    data-notification-message="@GetTempDataValue("NotificationMessage")">
     <header>
-        <nav class="myNav navbar navbar-expand-lg navbar-dark shadow-5-strong">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Library</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        @await Component.InvokeAsync("NavigationMenu")
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        @await Component.InvokeAsync("NavigationMenu")
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -41,8 +23,11 @@
     </div>
 
 
-    @* <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script> *@
+    <script src="~/js/Shared/notification.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.tiny.cloud/1/7l6q21h7asx60bypotkj2ips01t98u6i2h30ewihetmsw08i/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

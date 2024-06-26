@@ -1,24 +1,55 @@
-﻿@model IEnumerable<Library.Service.Dtos.Book.BookDto>
+﻿@model Library.Service.Dtos.Book.BookListDto
+
+<head>
+    <link rel="stylesheet" href="~/css/book.css" />
+</head>
 
 <div class="my-container">
     <div class="my-header">
         <a href="@Url.Action("Create", "Book")" class="btn btn-add" id="add-book-btn">Add Book</a>
     </div>
-
+    <form method="get" class="search-form">
+        <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
+        <button type="submit">Search</button>
+    </form>
     <table class="table table-striped table-hover">
         <thead class="thead-light">
             <tr>
-                <th>Title</th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortBy = "title", sortOrder = Model.SortOrder == "asc" && Model.SortBy == "title" ? "desc" : "asc", searchString = Model.SearchString, pageNumber = Model.PageNumber })" class="sort-link">
+                        <div class="sort-text">Title</div>
+                        <span class="sort-arrows">
+                            <span class="sort-arrow up @(Model.SortBy == "title" && Model.SortOrder == "asc" ? "active" : "")">▲</span>
+                            <span class="sort-arrow down @(Model.SortBy == "title" && Model.SortOrder == "desc" ? "active" : "")">▼</span>
+                        </span>
+                    </a>
+                </th>
+
                 <th>Edition</th>
-                <th>Year</th>
-                <th>Quantity</th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortBy = "year", sortOrder = Model.SortOrder == "asc" && Model.SortBy == "year" ? "desc" : "asc", searchString = Model.SearchString, pageNumber = Model.PageNumber })" class="sort-link">
+                        <div class="sort-text">Year</div>
+                        <span class="sort-arrows">
+                            <span class="sort-arrow up @(Model.SortBy == "year" && Model.SortOrder == "asc" ? "active" : "")">▲</span>
+                            <span class="sort-arrow down @(Model.SortBy == "year" && Model.SortOrder == "desc" ? "active" : "")">▼</span>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortBy = "quantity", sortOrder = Model.SortOrder == "asc" && Model.SortBy == "quantity" ? "desc" : "asc", searchString = Model.SearchString, pageNumber = Model.PageNumber })" class="sort-link">
+                        <div class="sort-text">Quantity</div>
+                        <span class="sort-arrows">
+                            <span class="sort-arrow up @(Model.SortBy == "quantity" && Model.SortOrder == "asc" ? "active" : "")">▲</span>
+                            <span class="sort-arrow down @(Model.SortBy == "quantity" && Model.SortOrder == "desc" ? "active" : "")">▼</span>
+                        </span>
+                    </a>
+                </th>
                 <th>Publisher</th>
                 <th>Authors</th>
-                
             </tr>
         </thead>
         <tbody id="bookTable">
-            @foreach (var book in Model)
+            @foreach (var book in Model.Books)
             {
                 <tr class="clickable-row" onclick="window.location='@Url.Action("Details", "Book", new { id = book.Id })';">
                     <td>@book.Title</td>
@@ -26,7 +57,7 @@
                     <td>@book.PublishYear</td>
                     <td>@book.Quantity</td>
                     <td>@(book.PublisherDto == null ? "--------" : book.PublisherDto.Name)</td>
-                    <td style="font-size: 16px;">
+                    <td>
                         @foreach (var author in book.AuthorsDto)
                         {
                             <p>@author.FullName</p>
@@ -36,4 +67,27 @@
             }
         </tbody>
     </table>
+    <div class="pagination">
+        @{
+            int totalPages = (int)Math.Ceiling((double)Model.TotalItems / Model.PageSize);
+            int startPage = Math.Max(1, Model.PageNumber - 2);
+            int endPage = Math.Min(totalPages, startPage + 4);
+        }
+        @if (Model.PageNumber > 1)
+        {
+            <a href="@Url.Action("Index", new { pageNumber = Model.PageNumber - 1, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })" class="page-link">&laquo;</a>
+        }
+        @for (int i = startPage; i <= endPage; i++)
+        {
+            <a href="@Url.Action("Index", new { pageNumber = i, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })"
+               class="page-link @(i == Model.PageNumber ? "active" : "")">
+                @i
+            </a>
+        }
+        @if (Model.PageNumber < totalPages)
+        {
+            <a href="@Url.Action("Index", new { pageNumber = Model.PageNumber + 1, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })" class="page-link">&raquo;</a>
+        }
+        <span class="page-info">Page @Model.PageNumber of @totalPages</span>
+    </div>
 </div>

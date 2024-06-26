@@ -8,6 +8,6 @@ public record CreateBookDto(
     string Description,
     int PublishYear,
     Guid SelectedPublisherId,
-    List<Guid> SelectedAuthorIds,
-    string? EncodedLocationsString
+    Guid[] SelectedAuthorIds,
+    BookLocationDto[] Locations
     );

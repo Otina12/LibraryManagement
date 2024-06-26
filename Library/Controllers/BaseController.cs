@@ -13,7 +13,7 @@ namespace Library.Controllers
 
         public BaseController(IServiceManager serviceManager, IMapper mapper)
         {
-           _serviceManager = serviceManager;
+            _serviceManager = serviceManager;
             _mapper = mapper;
         }
 
@@ -26,12 +26,6 @@ namespace Library.Controllers
             }
 
             TempData["ErrorMessage"] = result.Error.Message;
-            //var errorMessages = new List<string>();
-            //foreach (var error in result.Errors)
-            //{
-            //    errorMessages.Add(error.Description);
-            //}
-            //TempData["ErrorMessages"] = errorMessages;
             CreateNotification(false, notificationVM!.FailureMessage);
             return View(viewModel);
         }
@@ -51,6 +45,5 @@ namespace Library.Controllers
         {
             CreateNotification(false, message);
         }
-
     }
 }

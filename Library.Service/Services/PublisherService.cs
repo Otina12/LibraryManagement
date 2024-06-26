@@ -2,10 +2,12 @@
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
+using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services
 {
@@ -25,6 +27,13 @@ namespace Library.Service.Services
             var publishers = await _unitOfWork.Publishers.GetAll(trackChanges: false);
             var publishersDto = publishers.Select(x => x.MapToPublisherDto());
             return publishersDto.ToList();
+        }
+
+        public async Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames()
+        {
+            return (await _unitOfWork.Publishers.GetAll())
+                .Select(x => new PublisherIdAndNameDto(x.Id, x.Name))
+                .OrderBy(x => x.Name);
         }
 
         public async Task<Result<PublisherDto>> GetPublisherById(Guid id)

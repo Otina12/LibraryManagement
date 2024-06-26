@@ -1,4 +1,6 @@
-﻿namespace Library.Service.Interfaces;
+﻿using Library.Model.Interfaces;
+
+namespace Library.Service.Interfaces;
 
 public interface IServiceManager
 {
@@ -11,5 +13,7 @@ public interface IServiceManager
     IPublisherService PublisherService { get; }
     IAuthorService AuthorService { get; }
     IBookService BookService { get; }
-
+    IGenreService GenreService { get; }
+    IRoomService RoomService { get; }
+    IShelfService ShelfService { get; }
 }

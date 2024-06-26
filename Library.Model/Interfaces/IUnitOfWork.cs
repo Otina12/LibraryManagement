@@ -11,6 +11,9 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IAuthorRepository Authors { get; }
     public IBookRepository Books { get; }
     public IBookCopyRepository BookCopies { get; }
+    public IGenreRepository Genres { get; }
+    public IRoomRepository Rooms { get; }
+    public IShelfRepository Shelves { get; }
 
     Task SaveChangesAsync();
     EntityEntry<T> Entry<T>(T entity) where T : class;

@@ -10,6 +10,7 @@ public interface IAuthorService
     //Task<int> GetCountOfBooks(Guid authorId);
 
     Task<IEnumerable<AuthorDto>> GetAllAuthors();
+    Task<IOrderedEnumerable<AuthorIdAndNameDto>> GetAllAuthorIdAndNames();
     Task<Result<AuthorDto>> GetAuthorById(Guid id);
     Task<Result> Create(CreateAuthorDto authorDto);
     Task<Result> Update(AuthorDto authorDto);

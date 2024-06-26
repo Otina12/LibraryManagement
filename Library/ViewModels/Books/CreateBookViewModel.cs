@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Library.Service.Dtos.Book;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.ViewModels.Books;
@@ -13,14 +13,14 @@ public class CreateBookViewModel
     public string Description { get; set; }
     public int PublishYear { get; set; }
 
+    [Display(Name = "Genres")]
+    public List<int> SelectedGenreIds { get; set; } = [];
 
     [Display(Name = "Publisher")]
     public Guid SelectedPublisherId { get; set; }
-    public SelectList? Publishers { get; set; }
 
     [Display(Name = "Authors")]
-    public List<Guid> SelectedAuthorIds { get; set; } = [];
-    public SelectList? Authors { get; set; }
+    public Guid[] SelectedAuthorIds { get; set; } = [];
 
-    public string? EncodedLocationsString { get; set; }
+    public BookLocationDto[] Locations { get; set; } = [];
 }

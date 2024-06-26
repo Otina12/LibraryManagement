@@ -1,0 +1,62 @@
+﻿.search-form {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+    .search-form input[type="text"] {
+        padding: 8px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .search-form button {
+        padding: 8px 15px;
+        background-color: #156bef;
+        color: white;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .search-form button:hover {
+            background-color: #3240f5;
+        }
+
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-link {
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 0 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+    .page-link.active {
+        background-color: #156bef;
+        color: white;
+        border: 1px solid #156bef;
+    }
+
+    .page-link:hover:not(.active) {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+.page-info {
+    margin-left: 10px;
+    color: white;
+}
