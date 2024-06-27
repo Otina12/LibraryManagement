@@ -68,9 +68,10 @@ namespace Library.Controllers
                 return View(emailTemplateVM);
             }
 
-            await _serviceManager.EmailService.Update(_mapper.Map<EditEmailDto>(emailTemplateVM));
-            CreateSuccessNotification($"Successfully edited an email template '{emailTemplateVM.Subject}'");
-            return View();
+            var emailDto = _mapper.Map<EditEmailDto>(emailTemplateVM);
+            var result = await _serviceManager.EmailService.Update(emailDto);
+
+            return HandleResult(result, emailTemplateVM, $"Email template '{emailTemplateVM.Subject}' edited successfully", result.Error.Message, "Email");
         }
 
         [CustomAuthorize("Admin")]
@@ -79,21 +80,7 @@ namespace Library.Controllers
         {
             var result = await _serviceManager.EmailService.Delete(Id);
 
-            if (result.IsFailure)
-            {
-                CreateFailureNotification("Unable to delete given email template");
-            }
-            else
-            {
-                CreateSuccessNotification("Successfully deleted an email template");
-            }
-
-            return HandleResult(result, null,
-                "Successfully deleted an email template",
-                result.Error.Message,
-                controllerName: "Email"
-                );
+            return HandleResult(result, null, "Successfully deleted an email template", result.Error.Message, controllerName: "Email");
         }
-
     }
 }
