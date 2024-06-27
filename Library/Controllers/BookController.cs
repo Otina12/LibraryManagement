@@ -40,6 +40,40 @@ public class BookController : BaseController
     [HttpGet]
     public async Task<IActionResult> Create()
     {
+        await InitializeViewDropdowns();
+        return View(new CreateBookViewModel());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateBookViewModel createBookViewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(createBookViewModel);
+        }
+
+        var createBookDto = _mapper.Map<CreateBookDto>(createBookViewModel);
+        var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto);
+
+        return HandleResult(createBookResult, createBookViewModel, "The book copies have been added successfully", createBookResult.Error.Message, "Book", "Index");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit()
+    {
+        await InitializeViewDropdowns();
+        return View(new EditBookViewModel());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(EditBookViewModel editBookViewModel)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    private async Task InitializeViewDropdowns()
+    {
         ViewBag.Publishers = await _serviceManager.PublisherService.GetAllPublisherIdAndNames();
         ViewBag.Authors = await _serviceManager.AuthorService.GetAllAuthorIdAndNames();
         ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
@@ -47,21 +81,5 @@ public class BookController : BaseController
         var roomShelfDictionary = await _serviceManager.ShelfService.GetRoomShelves();
         ViewBag.Rooms = roomShelfDictionary.Keys;
         ViewBag.Shelves = JsonSerializer.Serialize(roomShelfDictionary);
-
-        return View(new CreateBookViewModel());
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Create(CreateBookViewModel bookViewModel)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(bookViewModel);
-        }
-
-        var createBookDto = _mapper.Map<CreateBookDto>(bookViewModel);
-        var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto);
-
-        return HandleResult(createBookResult, bookViewModel, "The book copies have been added successfully", createBookResult.Error.Message, "Book", "Index");
     }
 }

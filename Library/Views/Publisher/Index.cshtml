@@ -31,7 +31,9 @@
                     <td>@(publisher.PhoneNumber == null ? "--------" : publisher.PhoneNumber)</td>
                     <td style="font-size: 16px;">@publisher.YearPublished</td>
                     <td>@publisher.Books.Length</td>
-                    <td><a href="" class="btn btn-edit" data-publisher-id="@publisher.Id">Edit</a></td>
+                    <td><a href="" class="btn btn-edit" data-publisher-id="@publisher.Id">Edit</a>
+                        <a href="" class="btn btn-delete" data-publisher-id="@publisher.Id">Delete</a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -43,6 +45,6 @@
 @section Scripts {
     <script src="~/js/Shared/modal.js"></script>
     <script>
-        initializeModal('publisher', '/Publisher/Create', '/Publisher/Edit/');
+        initializeModal('publisher', '/Publisher/Create', '/Publisher/Edit/', '/Publisher/Delete');
     </script>
 }

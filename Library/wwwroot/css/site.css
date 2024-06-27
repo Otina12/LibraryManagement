@@ -92,6 +92,7 @@ body {
 
 .btn-edit {
     background-color: #ff9911;
+    margin-right: 2px;
 }
 
     .btn-edit:hover {

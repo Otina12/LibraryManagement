@@ -31,18 +31,20 @@
                         @author.BirthYear - @(author.DeathYear.HasValue ? author.DeathYear.Value.ToString() : "")
                     </td>
                     <td>@author.Books.Length</td>
-                    <td><a href="" class="btn btn-edit" data-author-id="@author.Id">Edit</a></td>
+                    <td><a href="" class="btn btn-edit" data-author-id="@author.Id">Edit</a>
+                        <a href="" class="btn btn-delete" data-author-id="@author.Id">Delete</a>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-@await Html.PartialAsync("_ModalPartial", new { ModalId = "authorModal", CreateFormId = "createAuthorForm", EditFormId = "editAuthorForm" })
+@await Html.PartialAsync("_ModalPartial", new { ModalId = "authorModal", CreateFormId = "createAuthorForm", EditFormId = "editAuthorForm"})
 
 @section Scripts {
     <script src="~/js/Shared/modal.js"></script>
     <script>
-        initializeModal('author', '/Author/Create', '/Author/Edit/');
+        initializeModal('author', '/Author/Create', '/Author/Edit/', '/Author/Delete');
     </script>
 }

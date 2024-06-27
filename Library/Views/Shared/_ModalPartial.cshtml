@@ -10,11 +10,12 @@
                 </button>
             </div>
             <div class="custom-modal-body" id="modalBody">
-                <!-- body will be loaded here. It depends on action (create/edit) -->
+                <!-- body will be loaded here. It depends on action (create/edit/delete) -->
             </div>
-            <div class="custom-modal-footer">
+            <div class="custom-modal-footer" id="modalFooter">
                 <button type="submit" id="add-button" form="@Model.CreateFormId" class="btn btn-primary">Save</button>
                 <button type="submit" id="edit-button" form="@Model.EditFormId" class="btn btn-primary">Edit</button>
+                <button type="button" id="confirm-delete-button" class="btn btn-danger" style="display: none;">Delete</button>
             </div>
         </div>
     </div>

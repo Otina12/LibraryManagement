@@ -1,11 +1,12 @@
 ﻿using Library.Service.Dtos.Book;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.ViewModels.Books;
 
-public class CreateBookViewModel
+public class EditBookViewModel
 {
+    public Guid Id { get; set; }
+
     [MaxLength(13)]
     public string ISBN { get; set; }
     public string Title { get; set; }
