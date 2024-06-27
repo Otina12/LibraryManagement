@@ -1,4 +1,5 @@
-﻿using Library.Model.Abstractions;
+﻿using Library.Data.Repositories;
+using Library.Model.Abstractions;
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
@@ -11,22 +12,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services
 {
-    public class PublisherService : IPublisherService
+    public class PublisherService : BaseService<Publisher>, IPublisherService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IValidationService _validationService;
 
-        public PublisherService(IUnitOfWork unitOfWork, IValidationService validationService)
+        public PublisherService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork)
         {
-            _unitOfWork = unitOfWork;
             _validationService = validationService;
         }
 
         public async Task<IEnumerable<PublisherDto>> GetAllPublishers()
         {
             var publishers = await _unitOfWork.Publishers.GetAll(trackChanges: false);
-            var publishersDto = publishers.Select(x => x.MapToPublisherDto());
-            return publishersDto.ToList();
+            var publishersDto = publishers.Select(x => x.MapToPublisherDto()).ToList();
+
+            foreach(var publisherDto in publishersDto)
+            {
+                await MapBooks(publisherDto);
+            }
+
+            return publishersDto;
         }
 
         public async Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames()
@@ -85,6 +90,12 @@ namespace Library.Service.Services
             await _unitOfWork.SaveChangesAsync();
 
             return Result.Success();
+        }
+
+        private async Task MapBooks(PublisherDto publisherDto)
+        {
+            var books = await _unitOfWork.Books.GetAllBooksOfPublisher(publisherDto.Id);
+            publisherDto.Books = books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
         }
     }
 }

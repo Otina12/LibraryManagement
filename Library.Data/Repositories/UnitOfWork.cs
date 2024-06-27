@@ -1,4 +1,5 @@
 ﻿using Library.Model.Interfaces;
+using Library.Model.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Library.Data.Repositories;
@@ -42,6 +43,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public EntityEntry<T> Entry<T>(T entity) where T : class
     {
         return _context.Entry(entity);
+    }
+
+    public IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel
+    {
+        return new BaseModelRepository<T>(_context);
     }
 
     public void Dispose()

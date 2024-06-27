@@ -4,7 +4,7 @@ using Library.Service.Dtos.Publisher;
 
 namespace Library.Service.Interfaces;
 
-public interface IPublisherService
+public interface IPublisherService : IBaseService<Publisher>
 {
     // will be uncommented after I refactor Book and BookCopy tables
     //Task<IEnumerable<Book>> GetAllBooksOfPublisher(Guid publisherId);

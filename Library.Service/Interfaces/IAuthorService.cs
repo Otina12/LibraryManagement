@@ -1,9 +1,10 @@
 ﻿using Library.Model.Abstractions;
+using Library.Model.Models;
 using Library.Service.Dtos.Author;
 
 namespace Library.Service.Interfaces;
 
-public interface IAuthorService
+public interface IAuthorService : IBaseService<Author>
 {
     // will be uncommented after I refactor Book and BookCopy tables
     //Task<IEnumerable<Book>> GetAllBooksOfAuthor(Guid authorId);

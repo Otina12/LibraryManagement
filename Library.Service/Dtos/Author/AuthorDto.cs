@@ -13,5 +13,5 @@ public record AuthorDto(
     DateTime CreationDate
 )
 {
-    public BookIdAndTitleDto[] Books { get; set; }
+    public BookIdAndTitleDto[] Books { get; set; } = [];
 }

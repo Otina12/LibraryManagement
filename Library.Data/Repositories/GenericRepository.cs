@@ -1,4 +1,6 @@
-﻿using Library.Model.Interfaces;
+﻿using Library.Model.Abstractions;
+using Library.Model.Interfaces;
+using Library.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -28,6 +30,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public virtual void Update(T entity)
     {
+        if (entity is BaseModel baseModel)
+        {
+            baseModel.UpdateDate = DateTime.UtcNow;
+        }
         dbSet.Update(entity);
     }
 

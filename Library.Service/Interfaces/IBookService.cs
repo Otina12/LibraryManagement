@@ -4,7 +4,7 @@ using Library.Service.Dtos.Book;
 
 namespace Library.Service.Interfaces;
 
-public interface IBookService
+public interface IBookService : IBaseService<Book>
 {
     Task<BookListDto> GetAllFilteredBooks(BookListDto bookFilters);
     Task<Result<BookDto>> GetBookById(Guid id);

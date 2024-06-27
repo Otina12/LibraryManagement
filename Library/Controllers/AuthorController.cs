@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Interfaces;
 using Library.ViewModels.Authors;
@@ -15,8 +16,8 @@ public class AuthorController : BaseController
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var authors = await _serviceManager.AuthorService.GetAllAuthors();
-        var authorsVM = _mapper.Map<IEnumerable<AuthorViewModel>>(authors.ToList());
+        var authors = (await _serviceManager.AuthorService.GetAllAuthors()).ToList();
+        var authorsVM = _mapper.Map<IEnumerable<AuthorViewModel>>(authors);
 
         return View(authorsVM);
     }
@@ -93,6 +94,36 @@ public class AuthorController : BaseController
         }
 
         CreateSuccessNotification($"Author {authorVM.Name} has been updated");
+        return Json(new { success = true });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _serviceManager.AuthorService.Deactivate(id);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification("Author has been deactivated successfully");
+        return Json(new { success = true });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Renew(Guid id)
+    {
+        var result = await _serviceManager.AuthorService.Reactivate(id);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification("Author has been reactivated successfully");
         return Json(new { success = true });
     }
 }

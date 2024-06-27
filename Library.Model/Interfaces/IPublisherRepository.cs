@@ -2,7 +2,7 @@
 
 namespace Library.Model.Interfaces;
 
-public interface IPublisherRepository : IGenericRepository<Publisher>
+public interface IPublisherRepository : IBaseModelRepository<Publisher>
 {
     Task<Publisher?> GetByEmail(string email);
     Task<Publisher?> GetByName(string name);

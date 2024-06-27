@@ -13,14 +13,12 @@ using System.Globalization;
 
 namespace Library.Service.Services;
 
-public class BookService : IBookService
+public class BookService : BaseService<Book>, IBookService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidationService _validationService;
 
-    public BookService(IUnitOfWork unitOfWork, IValidationService validationService)
+    public BookService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork)
     {
-        _unitOfWork = unitOfWork;
         _validationService = validationService;
     }
 

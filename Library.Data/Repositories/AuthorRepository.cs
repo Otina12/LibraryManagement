@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repositories;
 
-public class AuthorRepository : GenericRepository<Author>, IAuthorRepository
+public class AuthorRepository : BaseModelRepository<Author>, IAuthorRepository
 {
     public AuthorRepository(ApplicationDbContext context) : base(context)
     {

@@ -52,7 +52,7 @@ namespace Library.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await _serviceManager.EmployeeService.DeleteEmployeeAsync(id);
+            await _serviceManager.EmployeeService.DeactivateEmployeeAsync(id);
             CreateSuccessNotification("Employee dismissed");
             return RedirectToAction("Details", "Employee", new {id = id});
         }
@@ -60,7 +60,7 @@ namespace Library.Controllers
         [HttpPost]
         public async Task<IActionResult> Renew(string id)
         {
-            await _serviceManager.EmployeeService.RenewEmployeeAsync(id);
+            await _serviceManager.EmployeeService.ReactivateEmployeeAsync(id);
             CreateSuccessNotification("Employee renewed");
             return RedirectToAction("Details", "Employee", new { id });
         }

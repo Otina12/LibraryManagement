@@ -80,7 +80,7 @@ public class EmployeeService : IEmployeeService
         return Result.Success();
     }
 
-    public async Task<Result> DeleteEmployeeAsync(string employeeId)
+    public async Task<Result> DeactivateEmployeeAsync(string employeeId)
     {
         var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
         if (employeeExistsResult.IsFailure)
@@ -98,7 +98,7 @@ public class EmployeeService : IEmployeeService
         return Result.Success();
     }
 
-    public async Task<Result> RenewEmployeeAsync(string employeeId)
+    public async Task<Result> ReactivateEmployeeAsync(string employeeId)
     {
         var employeeExistsResult = await _validationService.EmployeeExists(employeeId);
         if (employeeExistsResult.IsFailure)

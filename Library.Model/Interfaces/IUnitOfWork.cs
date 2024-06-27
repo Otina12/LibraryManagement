@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Library.Model.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Library.Model.Interfaces;
 
@@ -14,6 +15,7 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IGenreRepository Genres { get; }
     public IRoomRepository Rooms { get; }
     public IShelfRepository Shelves { get; }
+    public IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel;
 
     Task SaveChangesAsync();
     EntityEntry<T> Entry<T>(T entity) where T : class;

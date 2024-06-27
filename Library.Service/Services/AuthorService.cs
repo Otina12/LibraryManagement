@@ -1,31 +1,33 @@
 ﻿using Library.Model.Abstractions;
-using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
+using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Publisher;
 using Library.Service.Extensions;
 using Library.Service.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services;
 
-public class AuthorService : IAuthorService
+public class AuthorService : BaseService<Author>, IAuthorService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidationService _validationService;
 
-    public AuthorService(IUnitOfWork unitOfWork, IValidationService validationService)
+    public AuthorService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork)
     {
-        _unitOfWork = unitOfWork;
         _validationService = validationService;
     }
 
     public async Task<IEnumerable<AuthorDto>> GetAllAuthors()
     {
         var authors = await _unitOfWork.Authors.GetAll(trackChanges: false);
-        var authorsDtos = authors.Select(x => x.MapToAuthorDto());
-        return authorsDtos.ToList();
+        var authorsDtos = authors.Select(x => x.MapToAuthorDto()).ToList();
+
+        foreach (var authorDto in authorsDtos)
+        {
+            await MapBooks(authorDto);
+        }
+
+        return authorsDtos;
     }
 
     public async Task<IOrderedEnumerable<AuthorIdAndNameDto>> GetAllAuthorIdAndNames()
@@ -45,9 +47,8 @@ public class AuthorService : IAuthorService
         }
 
         var authorDto = authorExistsResult.Value().MapToAuthorDto();
+        await MapBooks(authorDto);
 
-        authorDto.Books = (await _unitOfWork.Books.GetAllBooksOfAuthor(id))
-            .Select(x => new BookIdAndTitleDto(x.Id, x.Title)).ToArray();
         return authorDto;
     }
 
@@ -84,5 +85,12 @@ public class AuthorService : IAuthorService
         await _unitOfWork.SaveChangesAsync();
 
         return Result.Success();
+    }
+
+
+    private async Task MapBooks(AuthorDto authorDto)
+    {
+        var books = await _unitOfWork.Books.GetAllBooksOfAuthor(authorDto.Id);
+        authorDto.Books = books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
     }
 }

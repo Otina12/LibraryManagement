@@ -2,7 +2,7 @@
 
 namespace Library.Model.Interfaces;
 
-public interface IBookCopyRepository : IGenericRepository<BookCopy>
+public interface IBookCopyRepository : IBaseModelRepository<BookCopy>
 {
 
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
-internal class BookRepository : GenericRepository<Book>, IBookRepository
+internal class BookRepository : BaseModelRepository<Book>, IBookRepository
 {
     public BookRepository(ApplicationDbContext context) : base(context)
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repositories
 {
-    public class PublisherRepository : GenericRepository<Publisher>, IPublisherRepository
+    public class PublisherRepository : BaseModelRepository<Publisher>, IPublisherRepository
     {
         public PublisherRepository(ApplicationDbContext context) : base(context)
         {

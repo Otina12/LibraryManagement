@@ -95,4 +95,34 @@ public class PublisherController : BaseController
         CreateSuccessNotification($"Publisher {publisherVM.Name} has been updated");
         return Json(new { success = true });
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _serviceManager.PublisherService.Deactivate(id);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification("Publisher has been deactivated successfully");
+        return Json(new { success = true });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Renew(Guid id)
+    {
+        var result = await _serviceManager.PublisherService.Reactivate(id);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification("Publisher has been reactivated successfully");
+        return Json(new { success = true });
+    }
 }

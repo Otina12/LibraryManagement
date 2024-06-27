@@ -79,23 +79,25 @@ function showDeleteConfirmation(entityId, entityType, deleteUrl) {
     $('#add-button, #edit-button').hide();
     $('#confirm-delete-button').show();
     $('#confirm-delete-button').data('entity-id', entityId);
+    $('#confirm-delete-button').data('delete-url', deleteUrl);
     $(`#${entityType}Modal`).fadeIn();
 }
 
 function deleteEntity(entityId, deleteUrl) {
     $.ajax({
-        url: `${deleteUrl}${entityId}`,
+        url: deleteUrl,
         type: 'POST',
+        data: { id: entityId },
         success: function (response) {
             if (response.success) {
-                $(`#publisherModal, #authorModal`).fadeOut();
+                $('#publisherModal, #authorModal').fadeOut();
                 location.reload();
             } else {
-                alert('Error deleting the entity');
+                alert('Error deleting the entity: ' + response.message);
             }
         },
-        error: function () {
-            alert('Error deleting the entity');
+        error: function (xhr, status, error) {
+            alert('Error deleting the entity: ' + error);
         }
     });
 }
