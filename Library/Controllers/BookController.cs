@@ -59,12 +59,6 @@ public class BookController : BaseController
             return View(bookViewModel);
         }
 
-        Console.WriteLine("Received Locations:");
-        foreach (var location in bookViewModel.Locations)
-        {
-            Console.WriteLine($"RoomId: {location.RoomId}, ShelfId: {location.ShelfId}, Quantity: {location.Quantity}");
-        }
-
         var createBookDto = _mapper.Map<CreateBookDto>(bookViewModel);
         var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto);
 

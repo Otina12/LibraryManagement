@@ -1,10 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     const roomDropdown = document.getElementById('roomDropdown');
     const shelfDropdown = document.getElementById('shelfDropdown');
-
-    const authorSelectList = document.getElementById('authorSelectList');
-    const selectedAuthorsDiv = document.getElementById('selectedAuthors');
-
     const locationFormsDiv = document.getElementById('locationForms');
     const addLocationBtn = document.querySelector('.add-location-btn');
     let locationsViewModel = [];
@@ -12,7 +8,6 @@
     roomDropdown.addEventListener('change', function () {
         const roomId = this.value;
         shelfDropdown.innerHTML = '<option value="">Shelf</option>';
-
         if (roomId && serializedShelves[roomId]) {
             serializedShelves[roomId].forEach(shelf => {
                 const option = document.createElement('option');
@@ -57,58 +52,33 @@
     });
 
     function removeLocationFromViewModel(roomId, shelfId, quantity) {
-        locationsViewModel = locationsViewModel.filter(location => !(location.roomId === roomId && location.shelfId === shelfId && location.quantity === quantity));
+        locationsViewModel = locationsViewModel.filter(location =>
+            !(location.roomId === roomId &&
+                location.shelfId === shelfId &&
+                location.quantity === quantity)
+        );
     }
 
     document.getElementById('createBookForm').addEventListener('submit', function (event) {
-        const form = $(this);
-        const formData = form.serializeArray();
-
-        formData.forEach((field, index) => {
-            if (field.name === 'SelectedAuthorIds') {
-                formData.splice(index, 1);
-            }
-        });
-
-        console.log('Before adding locations:', formData);
-
+        const form = this;
         locationsViewModel.forEach((location, index) => {
-            formData.push({ name: `Locations[${index}].RoomId`, value: location.roomId });
-            formData.push({ name: `Locations[${index}].ShelfId`, value: location.shelfId });
-            formData.push({ name: `Locations[${index}].Quantity`, value: location.quantity });
+            const roomIdInput = document.createElement('input');
+            roomIdInput.type = 'hidden';
+            roomIdInput.name = `Locations[${index}].RoomId`;
+            roomIdInput.value = location.roomId;
+            form.appendChild(roomIdInput);
+
+            const shelfIdInput = document.createElement('input');
+            shelfIdInput.type = 'hidden';
+            shelfIdInput.name = `Locations[${index}].ShelfId`;
+            shelfIdInput.value = location.shelfId || '';
+            form.appendChild(shelfIdInput);
+
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'hidden';
+            quantityInput.name = `Locations[${index}].Quantity`;
+            quantityInput.value = location.quantity;
+            form.appendChild(quantityInput);
         });
-
-        console.log('After adding locations:', formData);
-
-        const selectedAuthors = [];
-        document.querySelectorAll('.selected-author').forEach(authorDiv => {
-            selectedAuthors.push(authorDiv.dataset.value);
-        });
-
-        selectedAuthors.forEach((authorId, index) => {
-            formData.push({ name: `SelectedAuthorIds[${index}]`, value: authorId });
-        });
-
-        console.log('Final formData:', formData);
-    });
-
-    authorSelectList.addEventListener('change', function () {
-        const selectedOption = authorSelectList.options[authorSelectList.selectedIndex];
-        if (selectedOption.value) {
-            const existingAuthor = selectedAuthorsDiv.querySelector(`.selected-author[data-value="${selectedOption.value}"]`);
-            if (!existingAuthor) {
-                const authorDiv = document.createElement('div');
-                authorDiv.textContent = selectedOption.text;
-                authorDiv.classList.add('selected-author');
-                authorDiv.dataset.value = selectedOption.value;
-                const removeButton = document.createElement('button');
-                removeButton.textContent = "✖";
-                removeButton.addEventListener('click', function () {
-                    authorDiv.remove();
-                });
-                authorDiv.appendChild(removeButton);
-                selectedAuthorsDiv.appendChild(authorDiv);
-            }
-        }
     });
 });

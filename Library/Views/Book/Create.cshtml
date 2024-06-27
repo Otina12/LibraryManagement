@@ -5,6 +5,11 @@
     ViewData["Title"] = "Create Book";
 }
 
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/book.css" />
+</head>
+
 <body>
     <form class="book-form" asp-action="Create" asp-controller="Book" method="post" id="createBookForm">
         <div class="book-title">Add a book</div>
@@ -21,22 +26,25 @@
             <textarea asp-for="Description" placeholder="Description"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-        <div class="book-field">
-            <input asp-for="Edition" type="number" value="" placeholder="Edition" />
-            <span asp-validation-for="Edition" class="text-danger"></span>
-        </div>
-        <div class="book-field">
-            <input asp-for="PageCount" type="number" value="" placeholder="# of Pages" />
-            <span asp-validation-for="PageCount" class="text-danger"></span>
-        </div>
-        <div class="book-field">
-            <input asp-for="PublishYear" type="number" value="" min="0" max="@DateTime.Now.Year" placeholder="Release Year" />
-            <span asp-validation-for="PublishYear" class="text-danger"></span>
+
+        <div class="column-fields">
+            <div class="book-field">
+                <input asp-for="Edition" type="number" value="" placeholder="Edition" />
+                <span asp-validation-for="Edition" class="text-danger"></span>
+            </div>
+            <div class="book-field">
+                <input asp-for="PageCount" type="number" value="" placeholder="# of Pages" />
+                <span asp-validation-for="PageCount" class="text-danger"></span>
+            </div>
+            <div class="book-field">
+                <input asp-for="PublishYear" type="number" value="" min="0" max="@DateTime.Now.Year" placeholder="Release Year" />
+                <span asp-validation-for="PublishYear" class="text-danger"></span>
+            </div>
         </div>
 
         <div class="book-field">
             <label asp-for="SelectedGenreIds">Genres</label>
-            <select asp-for="SelectedGenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name"))" multiple></select>
+            <select asp-for="SelectedGenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name"))" multiple class="select2-multiple"></select>
             <span asp-validation-for="SelectedGenreIds" class="text-danger"></span>
         </div>
 
@@ -45,9 +53,9 @@
             <select asp-for="SelectedPublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name"))"></select>
         </div>
 
-        <div id="authorDropdown" class="book-field">
+        <div class="book-field">
             <label asp-for="SelectedAuthorIds">Authors</label>
-            <select asp-for="SelectedAuthorIds" asp-items="@(new MultiSelectList(ViewBag.Authors, "Id", "FullName"))" id="authorSelectList" multiple></select>
+            <select class="select2-multiple" asp-for="SelectedAuthorIds" asp-items="@(new MultiSelectList(ViewBag.Authors, "Id", "FullName"))" id="authorSelectList" multiple></select>
         </div>
         <div class="book-field">
             <div id="selectedAuthors"></div>
@@ -83,6 +91,14 @@
 @section Scripts {
     <script>
         var serializedShelves = @Html.Raw(ViewBag.Shelves);
+
+        $(document).ready(function () {
+            $('.select2-multiple').select2({
+                placeholder: "Select options",
+                allowClear: true
+            });
+        });
     </script>
-    <script src="~/js/Book/bookCreate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="~/js/Book/bookCreate.js?v=1.0.2"></script>
 }

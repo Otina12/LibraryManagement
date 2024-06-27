@@ -23,7 +23,7 @@ public class CreateBookViewModel
     [Display(Name = "Authors")]
     public List<Guid> SelectedAuthorIds { get; set; } = [];
 
-    public BookLocationDto[] Locations { get; set; } = [];
+    public List<BookLocationDto> Locations { get; set; } = [];
 
     
 }
