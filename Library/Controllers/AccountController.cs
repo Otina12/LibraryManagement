@@ -34,7 +34,7 @@ public class AccountController : BaseController
 
         var result = await _serviceManager.AuthService.RegisterEmployee(registerDto);
 
-        return HandleErrors(result, registerVM, new NotificationViewModel("Your account has been created. Happy managing!", "Registration failed. Try again later"));
+        return HandleResult(result, registerVM, "Your account has been created. Happy managing!", result.Error.Message);
     }
 
 
@@ -55,7 +55,7 @@ public class AccountController : BaseController
 
         var result = await _serviceManager.AuthService.LoginEmployee(loginDto);
 
-        return HandleErrors(result, loginVM, new NotificationViewModel("Successfully logged in. Happy managing!", "Login failed. Try again later"));
+        return HandleResult(result, loginVM, "Successfully logged in. Happy managing!", result.Error.Message);
     }
 
     [Authorize]
@@ -96,7 +96,8 @@ public class AccountController : BaseController
             return View(forgotPasswordVM);
         }
 
-        return HandleErrors(result, forgotPasswordVM);
+        CreateFailureNotification(result.Error.Message);
+        return View(forgotPasswordVM);
     }
 
 
@@ -124,6 +125,6 @@ public class AccountController : BaseController
 
         var result = await _serviceManager.AuthService.ResetPassword(resetPasswordDto);
 
-        return HandleErrors(result, resetPasswordVM, new NotificationViewModel("Your password has been reset", "Unknown error occured while reseting the password"));
+        return HandleResult(result, resetPasswordVM, "Your password has been reset", result.Error.Message);
     }
 }

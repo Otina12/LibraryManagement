@@ -62,13 +62,6 @@ public class BookController : BaseController
         var createBookDto = _mapper.Map<CreateBookDto>(bookViewModel);
         var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto);
 
-        if (createBookResult.IsFailure)
-        {
-            CreateFailureNotification(createBookResult.Error.Message);
-            return View(bookViewModel);
-        }
-
-        CreateSuccessNotification("The book copies have been added succesfully");
-        return RedirectToAction("Index", "Book", null);
+        return HandleResult(createBookResult, bookViewModel, "The book copies have been added successfully", createBookResult.Error.Message, "Book", "Index");
     }
 }

@@ -41,9 +41,12 @@ namespace Library.Controllers
                 return View(emailTemplateVM);
             }
 
-            await _serviceManager.EmailService.Create(_mapper.Map<CreateEmailDto>(emailTemplateVM));
-            CreateSuccessNotification($"Successfully created an email template '{emailTemplateVM.Subject}'");
-            return RedirectToAction("Index", "Email");
+            var result = await _serviceManager.EmailService.Create(_mapper.Map<CreateEmailDto>(emailTemplateVM));
+
+            return HandleResult(result, emailTemplateVM,
+                $"Successfully created an email template '{emailTemplateVM.Subject}'",
+                result.Error.Message,
+                controllerName: "Email");
         }
 
 
@@ -78,14 +81,18 @@ namespace Library.Controllers
 
             if (result.IsFailure)
             {
-                CreateFailureNotification($"Unable to delete given email template");
+                CreateFailureNotification("Unable to delete given email template");
             }
             else
             {
-                CreateSuccessNotification($"Successfully deleted an email template");
+                CreateSuccessNotification("Successfully deleted an email template");
             }
 
-            return RedirectToAction("Index", "Email");
+            return HandleResult(result, null,
+                "Successfully deleted an email template",
+                result.Error.Message,
+                controllerName: "Email"
+                );
         }
 
     }

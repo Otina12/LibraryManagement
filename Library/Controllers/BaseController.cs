@@ -17,18 +17,23 @@ namespace Library.Controllers
             _mapper = mapper;
         }
 
-        protected IActionResult HandleErrors(Result result, object viewModel, NotificationViewModel? notificationVM = null)
+        protected IActionResult HandleResult(Result result, object? viewModel, string successMessage, string failureMessage, string controllerName = "Home", string actionName = "Index")
         {
-            if (result.IsSuccess)
+            if (result.IsFailure)
             {
-                CreateNotification(true, notificationVM!.SuccessMessage);
-                return RedirectToAction("Index", "Home");
+                CreateFailureNotification(failureMessage);
+                return viewModel is null ? View() : View(viewModel);
             }
 
-            TempData["ErrorMessage"] = result.Error.Message;
-            CreateNotification(false, notificationVM!.FailureMessage);
-            return View(viewModel);
+            CreateSuccessNotification(successMessage);
+            return RedirectToAction(actionName, controllerName);
         }
+
+        protected IActionResult HandleResult<T>(Result<T> result, object viewModel, string successMessage, string failureMessage, string controllerName, string actionName)
+        {
+            return HandleResult((Result)result, viewModel, successMessage, failureMessage, controllerName, actionName);
+        }
+
 
         protected void CreateNotification(bool isSuccess, string? message)
         {
