@@ -3,7 +3,7 @@ using Library.Service.Dtos.Book;
 using System.ComponentModel;
 using System.Net;
 
-namespace Library.Service.Extensions;
+namespace Library.Service.Helpers.Extensions;
 
 public static class BookMapper
 {
@@ -25,6 +25,25 @@ public static class BookMapper
         {
             AuthorsDto = [],
             PublisherDto = null
+        };
+    }
+
+    public static BookDetailsDto MapToBookDetailsDto(this Book book)
+    {
+        return new BookDetailsDto(
+            book.Id,
+            book.ISBN,
+            book.Title,
+            book.Edition,
+            book.PageCount,
+            book.Description,
+            book.Quantity,
+            book.PublishYear)
+        {
+            Genres = [],
+            AuthorsDto = [],
+            PublisherDto = null,
+            Locations = []
         };
     }
 

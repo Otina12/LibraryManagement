@@ -2,7 +2,7 @@
 using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Employee;
 
-namespace Library.Service.Extensions;
+namespace Library.Service.Helpers.Extensions;
 
 public static class EmployeeMapper
 {
@@ -28,9 +28,9 @@ public static class EmployeeMapper
     {
         var employeeDto = new EmployeeDto(
             employee.Id,
-            employee.Name, 
-            employee.Surname, 
-            employee.UserName!, 
+            employee.Name,
+            employee.Surname,
+            employee.UserName!,
             employee.Email!,
             employee.PhoneNumber!,
             employee.DateOfBirth,

@@ -142,7 +142,7 @@ namespace Library.Service.Services
                 return Result.Failure<Book>(BookErrors.BookNotFound);
             }
 
-            return book; // implicit operator, wraps into Result.Success object
+            return book;
         }
 
         public async Task<Result<Book>> BookExists(string isbn)
@@ -155,6 +155,18 @@ namespace Library.Service.Services
             }
 
             return book;
+        }
+
+        public async Task<Result> BookIsNew(string isbn) // use when need to verify that book is new (when creating)
+        {
+            var book = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == isbn);
+            
+            if (book is null)
+            {
+                return Result.Success();
+            }
+
+            return Result.Failure<Book>(BookErrors.BookAlreadyExists);
         }
     }
 }

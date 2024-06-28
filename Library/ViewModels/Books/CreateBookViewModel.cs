@@ -18,7 +18,7 @@ public class CreateBookViewModel
     public List<int> SelectedGenreIds { get; set; } = [];
 
     [Display(Name = "Publisher")]
-    public Guid SelectedPublisherId { get; set; }
+    public Guid? SelectedPublisherId { get; set; }
 
     [Display(Name = "Authors")]
     public List<Guid> SelectedAuthorIds { get; set; } = [];

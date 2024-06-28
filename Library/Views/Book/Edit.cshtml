@@ -1,8 +1,8 @@
 ﻿@using Library.Service.Dtos.Book;
-@model Library.ViewModels.Books.CreateBookViewModel
+@model Library.ViewModels.Books.EditBookViewModel
 
 @{
-    ViewData["Title"] = "Create Book";
+    ViewData["Title"] = "Edit Book";
 }
 
 <head>
@@ -11,9 +11,9 @@
 </head>
 
 <body>
-    <form class="book-form" asp-action="Create" asp-controller="Book" method="post" id="createBookForm">
-        <div class="book-title">Add a book</div>
-
+    <form class="book-form" asp-action="Edit" asp-controller="Book" method="post" id="editBookForm">
+        <div class="book-title">Edit Book</div>
+        <input asp-for="Id" type="hidden" />
         <div class="book-field">
             <input asp-for="ISBN" maxlength="13" placeholder="ISBN" />
             <span asp-validation-for="ISBN" class="text-danger"></span>
@@ -29,33 +29,33 @@
 
         <div class="column-fields">
             <div class="book-field">
-                <input asp-for="Edition" type="number" value="" placeholder="Edition" />
+                <input asp-for="Edition" type="number" placeholder="Edition" />
                 <span asp-validation-for="Edition" class="text-danger"></span>
             </div>
             <div class="book-field">
-                <input asp-for="PageCount" type="number" value="" placeholder="# of Pages" />
+                <input asp-for="PageCount" type="number" placeholder="# of Pages" />
                 <span asp-validation-for="PageCount" class="text-danger"></span>
             </div>
             <div class="book-field">
-                <input asp-for="PublishYear" type="number" value="" min="0" max="@DateTime.Now.Year" placeholder="Release Year" />
+                <input asp-for="PublishYear" type="number" min="0" max="@DateTime.Now.Year" placeholder="Release Year" />
                 <span asp-validation-for="PublishYear" class="text-danger"></span>
             </div>
         </div>
 
         <div class="book-field">
-            <label asp-for="SelectedGenreIds">Genres</label>
-            <select asp-for="SelectedGenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name"))" multiple class="select2-multiple"></select>
-            <span asp-validation-for="SelectedGenreIds" class="text-danger"></span>
+            <label asp-for="GenreIds">Genres</label>
+            <select asp-for="GenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name", Model.GenreIds))" multiple class="select2-multiple"></select>
+            <span asp-validation-for="GenreIds" class="text-danger"></span>
         </div>
 
         <div class="book-field publisher-field">
-            <label asp-for="SelectedPublisherId">Publisher</label>
-            <select asp-for="SelectedPublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name"))"></select>
+            <label asp-for="PublisherId">Publisher</label>
+            <select asp-for="PublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name", Model.PublisherId))"></select>
         </div>
 
         <div class="book-field">
-            <label asp-for="SelectedAuthorIds">Authors</label>
-            <select class="select2-multiple" asp-for="SelectedAuthorIds" asp-items="@(new MultiSelectList(ViewBag.Authors, "Id", "FullName"))" id="authorSelectList" multiple></select>
+            <label asp-for="AuthorIds">Authors</label>
+            <select class="select2-multiple" asp-for="AuthorIds" asp-items="@(new MultiSelectList(ViewBag.Authors, "Id", "FullName", Model.AuthorIds))" id="authorSelectList" multiple></select>
         </div>
         <div class="book-field">
             <div id="selectedAuthors"></div>
@@ -76,21 +76,31 @@
                         <select class="location-dropdown" id="shelfDropdown">
                             <option value="">Shelf</option>
                         </select>
-                        <input type="number" min="0" class="quantity" placeholder="Quantity" />
+                        <input type="number" class="quantity" placeholder="Quantity" />
 
                         <button type="button" class="add-location-btn">Add</button>
                     </div>
                 </div>
+                @* load existing locations *@
+                @for (int i = 0; i < Model.Locations.Length; i++)
+                {
+                    <div class="location-summary">
+                        Room ID: @Model.Locations[i].RoomId, Shelf ID: @Model.Locations[i].ShelfId, Quantity: @Model.Locations[i].Quantity
+                        <button type="button" class="remove-location-btn">✖</button>
+                    </div>
+                }
             </div>
         </div>
 
-        <button type="submit" class="submit-button">Create</button>
+        <button type="submit" class="submit-button">Save</button>
     </form>
 </body>
+
 
 @section Scripts {
     <script>
         var serializedShelves = @Html.Raw(ViewBag.Shelves);
+        var existingLocations = @Html.Raw(Json.Serialize(Model.Locations));
 
         $(document).ready(function () {
             $('.select2-multiple').select2({

@@ -17,6 +17,16 @@ namespace Library.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Handles result depending on if it is failure or success. If it is a success, creates a notification and goes to corresponding controller action
+        /// If it is a failure, creates a notification and returns to the view it came from with corresponding viewmodel.
+        /// </summary>
+        /// <param name="result">Result object needed to check for success/failure</param>
+        /// <param name="viewModel">Viewmodel to use in case of failure</param>
+        /// <param name="successMessage">Message of notification in case of success</param>
+        /// <param name="failureMessage">Message of notification in case of failure</param>
+        /// <param name="controllerName">Controller to go to in case of success. Defaults to Home</param>
+        /// <param name="actionName">Action to go to in case of success. Defaults to Index</param>
         protected IActionResult HandleResult(Result result, object? viewModel, string successMessage, string failureMessage, string controllerName = "Home", string actionName = "Index")
         {
             if (result.IsFailure)

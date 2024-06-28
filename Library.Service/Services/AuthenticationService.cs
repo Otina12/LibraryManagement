@@ -2,7 +2,7 @@
 using Library.Model.Abstractions.Errors;
 using Library.Model.Models;
 using Library.Service.Dtos.Authorization;
-using Library.Service.Extensions;
+using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
 

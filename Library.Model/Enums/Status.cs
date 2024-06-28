@@ -3,8 +3,8 @@
 public enum Status
 {
     Normal, // defaults to this
-    Lost,
-    Damaged,
+    Arriving,
     Borrowed,
-    Arriving
+    Damaged,
+    Lost
 }

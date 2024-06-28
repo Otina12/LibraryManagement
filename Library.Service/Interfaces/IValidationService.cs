@@ -27,5 +27,6 @@ public interface IValidationService
 
     Task<Result<Book>> BookExists(Guid id);
     Task<Result<Book>> BookExists(string isbn);
+    Task<Result> BookIsNew(string isbn);
 
 }

@@ -18,12 +18,6 @@ namespace Library.Model.Interfaces
         Task Create(T entity);
 
         /// <summary>
-        /// Adds a collection of entities to the repository. Each entity is added to the database only after calling SaveChanges.
-        /// </summary>
-        /// <param name="entities">The collection of entities to add.</param>
-        void CreateRange(IEnumerable<T> entities);
-
-        /// <summary>
         /// Marks an existing entity as modified. Changes will be applied to the database upon calling SaveChanges.
         /// </summary>
         /// <param name="entity">The entity to update.</param>

@@ -1,6 +1,6 @@
 ﻿namespace Library.Model.Enums
 {
-    public enum Genre
+    public enum GenreEnum
     {
         Action = 1,
         Adventure = 2,

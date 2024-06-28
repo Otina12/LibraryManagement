@@ -16,13 +16,13 @@ public class EditBookViewModel
     public int PublishYear { get; set; }
 
     [Display(Name = "Genres")]
-    public List<int> SelectedGenreIds { get; set; } = [];
+    public List<int> GenreIds { get; set; } = [];
 
     [Display(Name = "Publisher")]
-    public Guid SelectedPublisherId { get; set; }
+    public Guid? PublisherId { get; set; }
 
     [Display(Name = "Authors")]
-    public List<Guid> SelectedAuthorIds { get; set; } = [];
+    public List<Guid> AuthorIds { get; set; } = [];
 
-    public List<BookLocationDto> Locations { get; set; } = [];
+    public BookLocationDto[] Locations { get; set; } = [];
 }

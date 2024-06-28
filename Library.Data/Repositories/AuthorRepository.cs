@@ -46,4 +46,10 @@ public class AuthorRepository : BaseModelRepository<Author>, IAuthorRepository
 
         return authors;
     }
+
+    public async Task<IEnumerable<Guid>> GetAuthorIdsOfABook(Guid bookId)
+    {
+        var authors = await GetAuthorsOfABook(bookId);
+        return authors.Select(x => x.Id);
+    }
 }

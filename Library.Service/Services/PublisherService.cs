@@ -6,7 +6,7 @@ using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
-using Library.Service.Extensions;
+using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "k101I/WujuzuO2X0W57QOTTH2/15yxQGmY/qGzeggpE=",
+  "Hash": "EuWdm5YQtURZe0QmZPLTJQ9jJCVGiHRdXyd0Uxx+mPI=",
   "Source": "Library",
   "BasePath": "_content/Library",
   "Mode": "Default",
@@ -169,12 +169,12 @@
       "OriginalItemSpec": "wwwroot\\images\\background-image-extended.jpg"
     },
     {
-      "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Book\\bookCreate.js",
+      "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Book\\book-post.js",
       "SourceId": "Library",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\",
       "BasePath": "_content/Library",
-      "RelativePath": "js/Book/bookCreate.js",
+      "RelativePath": "js/Book/book-post.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -185,7 +185,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\Book\\bookCreate.js"
+      "OriginalItemSpec": "wwwroot\\js\\Book\\book-post.js"
     },
     {
       "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Employee\\employee.js",

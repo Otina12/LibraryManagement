@@ -29,8 +29,8 @@
       "PackagePath": "staticwebassets\\images\\background-image.jpg"
     },
     {
-      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Book\\bookCreate.js",
-      "PackagePath": "staticwebassets\\js\\Book\\bookCreate.js"
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Book\\book-post.js",
+      "PackagePath": "staticwebassets\\js\\Book\\book-post.js"
     },
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Employee\\employee.js",

@@ -1,7 +1,7 @@
 ﻿using Library.Model.Models;
 using Library.Service.Dtos.Publisher;
 
-namespace Library.Service.Extensions;
+namespace Library.Service.Helpers.Extensions;
 
 public static class PublisherMapper
 {

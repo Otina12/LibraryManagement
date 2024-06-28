@@ -1,7 +1,7 @@
 ﻿using Library.Model.Models;
 using Library.Service.Dtos.Author;
 
-namespace Library.Service.Extensions
+namespace Library.Service.Helpers.Extensions
 {
     public static class AuthorMapper
     {

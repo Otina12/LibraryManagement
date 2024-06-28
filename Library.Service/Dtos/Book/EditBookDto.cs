@@ -1,14 +1,15 @@
 ﻿namespace Library.Service.Dtos.Book;
 
-public record CreateBookDto(
+public record EditBookDto(
+    Guid Id,
     string ISBN,
     string Title,
     int Edition,
     int PageCount,
     string Description,
     int PublishYear,
-    int[] SelectedGenreIds,
-    Guid? SelectedPublisherId,
-    Guid[] SelectedAuthorIds,
+    List<int> GenreIds,
+    Guid? PublisherId,
+    List<Guid> AuthorIds,
     BookLocationDto[] Locations
     );

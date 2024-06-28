@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Library.Model.Enums;
-using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Publisher;
 using Library.Service.Interfaces;
 using Library.ViewModels.Books;
 using Microsoft.AspNetCore.Mvc;
@@ -59,19 +56,38 @@ public class BookController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit()
+    public async Task<IActionResult> Edit(Guid id)
     {
+        var bookDtoResult = await _serviceManager.BookService.GetBookById(id);
+
+        if (bookDtoResult.IsFailure)
+            return RedirectToAction("PageNotFound", "Home");
+
+        var bookVM = _mapper.Map<EditBookViewModel>(bookDtoResult.Value());
+
         await InitializeViewDropdowns();
-        return View(new EditBookViewModel());
+        return View(bookVM);
     }
 
     [HttpPost]
     public async Task<IActionResult> Edit(EditBookViewModel editBookViewModel)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid)
+        {
+            return View(editBookViewModel);
+        }
+
+        var editBookDto = _mapper.Map<EditBookDto>(editBookViewModel);
+        var editBookResult = await _serviceManager.BookService.UpdateBook(editBookDto);
+
+        return HandleResult(editBookResult, editBookViewModel,
+            "The book has been updated successfully",
+            editBookResult.Error.Message,
+            "Book");
     }
 
 
+    // book create/edit essential dropdowns
     private async Task InitializeViewDropdowns()
     {
         ViewBag.Publishers = await _serviceManager.PublisherService.GetAllPublisherIdAndNames();

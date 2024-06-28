@@ -4,7 +4,8 @@ using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
-using Library.Service.Extensions;
+using Library.Service.Helpers.Books;
+using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,16 +28,16 @@ public class BookService : BaseService<Book>, IBookService
         var books = _unitOfWork.Books.GetAllAsQueryable();
         bookFilters.TotalItems = await books.CountAsync();
 
-        books = ApplySearch(books, bookFilters.SearchString);
-        books = ApplySort(books, bookFilters.SortBy, bookFilters.SortOrder);
-        books = ApplyPagination(books, bookFilters.PageNumber, bookFilters.PageSize);
-
+        books = books.ApplySearch(bookFilters.SearchString);
+        books = books.ApplySort(bookFilters.SortBy, bookFilters.SortOrder);
+        books = books.ApplyPagination(bookFilters.PageNumber, bookFilters.PageSize);
+        
         var booksDto = await books.Select(b => b.MapToBookDto()).ToListAsync();
 
         foreach (var bookDto in booksDto)
         {
-            await MapPublisher(bookDto);
-            await MapAuthors(bookDto);
+            bookDto.PublisherDto = await GetPublisherOfABook(bookDto.Id);
+            bookDto.AuthorsDto = await GetAuthorsOfABook(bookDto.Id);
         }
 
         bookFilters.Books = booksDto;
@@ -44,129 +45,111 @@ public class BookService : BaseService<Book>, IBookService
         return bookFilters;
     }
 
-    public async Task<Result<BookDto>> GetBookById(Guid id)
+    public async Task<Result<BookDetailsDto>> GetBookById(Guid id)
     {
         var bookExistsResult = await _validationService.BookExists(id);
 
         if (bookExistsResult.IsFailure)
         {
-            return Result.Failure<BookDto>(bookExistsResult.Error);
+            return Result.Failure<BookDetailsDto>(bookExistsResult.Error);
         }
 
-        var bookDto = bookExistsResult.Value().MapToBookDto();
+        var bookDetailsDto = bookExistsResult.Value().MapToBookDetailsDto();
 
-        await MapPublisher(bookDto);
-        await MapAuthors(bookDto);
+        bookDetailsDto.PublisherDto = await GetPublisherOfABook(id);
+        bookDetailsDto.AuthorsDto = await GetAuthorsOfABook(id);
+        bookDetailsDto.Genres = await GetGenresOfABook(id);
+        bookDetailsDto.Locations = await GetLocationsOfABook(id);
 
-        return bookDto; // implicit casting to Result<BookDto> object
+        return bookDetailsDto;
     }
 
     public async Task<Result> CreateBook(CreateBookDto bookDto)
     {
-        var bookId = Guid.Empty;
-        var quantity = bookDto.Locations.Sum(x => x.Quantity);
+        var bookIsNewResult = await _validationService.BookIsNew(bookDto.ISBN);
 
-        var bookExistsResult = await _validationService.BookExists(bookDto.ISBN);
-        
-        if (bookExistsResult.IsSuccess) // book exists so we only need to add copies
+        if (bookIsNewResult.IsFailure) // book already exists
         {
-            var book = bookExistsResult.Value();
-            bookId = book.Id;
-            book.Quantity += quantity;
-            book.UpdateDate = DateTime.UtcNow;
-            _unitOfWork.Books.Update(book);
-        }
-        else // book does not exist so we add it, set quantity
-        {
-            var book = bookDto.MapToBook();
-            book.Quantity = quantity;
-            AddAuthorsToBook(book, bookDto.SelectedAuthorIds);
-            await _unitOfWork.Books.Create(book);
-            bookId = book.Id;
+            return bookIsNewResult.Error;
         }
 
-        var bookCopies = CreateBookCopies(bookId, bookDto.Locations);
-        _unitOfWork.BookCopies.CreateRange(bookCopies);
+        var book = bookDto.MapToBook();
+        book.Quantity = bookDto.Locations.Sum(x => x.Quantity);
+        book.AddAuthorsToBook(bookDto.SelectedAuthorIds);
+        book.AddGenresToBook(bookDto.SelectedGenreIds);
+
+        await _unitOfWork.Books.Create(book);
+        CreateBookCopies(book.Id, bookDto.Locations); // create 'quantity' copies of the book
 
         await _unitOfWork.SaveChangesAsync();
-
         return Result.Success();
     }
 
-    public IEnumerable<BookCopy> CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations)
+    public async Task<Result> UpdateBook(EditBookDto bookDto)
     {
-        var bookCopies = new List<BookCopy>();
+        var bookExistsResult = await _validationService.BookExists(bookDto.Id);
 
+        if (bookExistsResult.IsFailure)
+        {
+            return bookExistsResult.Error;
+        }
+
+        var book = bookExistsResult.Value();
+
+        book.UpdateGenres((await _unitOfWork.Genres.GetAllGenreIdsOfABook(book.Id)).ToList(), bookDto.GenreIds);
+        book.UpdateAuthors((await _unitOfWork.Authors.GetAuthorIdsOfABook(book.Id)).ToList(), bookDto.AuthorIds);
+        book.UpdatePublisher(bookDto.PublisherId);
+
+        var (locationsToRemove, locationsToAdd, count) = book.UpdateLocations(await GetLocationsOfABook(book.Id), bookDto.Locations);
+        DeleteBookCopies(book.Id, locationsToRemove);
+        CreateBookCopies(book.Id, locationsToAdd);
+        book.Quantity += count;
+
+        await _unitOfWork.SaveChangesAsync();
+        return Result.Success();
+    }
+
+    // helpers
+    private void CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations)
+    {
+        foreach(var location in locations)
+        {
+            _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity);
+        }
+    }
+
+    private void DeleteBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations)
+    {
         foreach (var location in locations)
         {
-            bookCopies.AddRange(Enumerable.Range(0, location.Quantity)
-                                        .Select(_ => new BookCopy
-                                        {
-                                            Status = Model.Enums.Status.Normal,
-                                            BookId = bookId,
-                                            RoomId = location.RoomId,
-                                            ShelfId = location.ShelfId,
-                                            CreationDate = DateTime.UtcNow
-                                        }));
-        }
-
-        return bookCopies;
-    }
-
-
-    private async Task MapPublisher(BookDto bookDto)
-    {
-        var publisher = await _unitOfWork.Publishers.GetPublisherOfABook(bookDto.Id);
-        bookDto.PublisherDto = publisher is null ? null : new PublisherIdAndNameDto(publisher.Id, publisher.Name);
-    }
-
-    private async Task MapAuthors(BookDto bookDto)
-    {
-        var authors = await _unitOfWork.Authors.GetAuthorsOfABook(bookDto.Id);
-        bookDto.AuthorsDto = authors.Select(a => new AuthorIdAndNameDto(a.Id, $"{a.Name} {a.Surname}")).ToArray();
-    }
-
-    private static void AddAuthorsToBook(Book book, Guid[] authorIds)
-    {
-        foreach(var authorId in authorIds)
-        {
-            book.BookAuthors.Add(new BookAuthor { BookId = book.Id, AuthorId = authorId });
+            _unitOfWork.BookCopies.DeleteXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity);
         }
     }
 
-    // search and sorts
-    private static IQueryable<Book> ApplySearch(IQueryable<Book> books, string searchString)
+    // book GET methods (helpers)
+    private async Task<PublisherIdAndNameDto?> GetPublisherOfABook(Guid bookId)
     {
-        if (!string.IsNullOrEmpty(searchString))
-        {
-            string searchLower = searchString.ToLower();
-            return books.Where(b => EF.Functions.Like(b.Title.ToLower(), $"%{searchLower}%") ||
-                                    EF.Functions.Like(b.ISBN.ToLower(), $"%{searchLower}%"));
-        }
-        return books;
+        var publisher = await _unitOfWork.Publishers.GetPublisherOfABook(bookId);
+        return publisher is null ? null : new PublisherIdAndNameDto(publisher.Id, publisher.Name);
     }
 
-    private static IQueryable<Book> ApplySort(IQueryable<Book> books, string sortBy, string sortOrder)
+    private async Task<AuthorIdAndNameDto[]> GetAuthorsOfABook(Guid bookId)
     {
-        if (string.IsNullOrEmpty(sortBy) || string.IsNullOrEmpty(sortOrder))
-        {
-            return books;
-        }
-
-        return (sortBy.ToLower(), sortOrder) switch
-        {
-            ("title", "asc") => books.OrderBy(b => b.Title),
-            ("title", "desc") => books.OrderByDescending(b => b.Title),
-            ("year", "asc") => books.OrderBy(b => b.PublishYear),
-            ("year", "desc") => books.OrderByDescending(b => b.PublishYear),
-            ("quantity", "asc") => books.OrderBy(b => b.Quantity),
-            ("quantity", "desc") => books.OrderByDescending(b => b.Quantity),
-            _ => books
-        };
+        var authors = await _unitOfWork.Authors.GetAuthorsOfABook(bookId);
+        return authors.Select(a => new AuthorIdAndNameDto(a.Id, $"{a.Name} {a.Surname}")).ToArray();
     }
 
-    private static IQueryable<Book> ApplyPagination(IQueryable<Book> books, int pageNumber, int pageSize)
+    private async Task<Genre[]> GetGenresOfABook(Guid bookId)
     {
-        return books.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        return (await _unitOfWork.Genres.GetAllGenresOfABook(bookId)).ToArray();
+    }
+
+    private async Task<BookLocationDto[]> GetLocationsOfABook(Guid bookId)
+    {
+        var locationValueObjects = await _unitOfWork.BookCopies.GetAllLocationsOfABook(bookId);
+        return locationValueObjects
+            .Select(x => new BookLocationDto(x.RoomId, x.ShelfId, x.Quantity))
+            .ToArray();
     }
 }
+

@@ -1,4 +1,4 @@
-﻿@model Library.Service.Dtos.Book.BookDto
+﻿@model Library.Service.Dtos.Book.BookDetailsDto
 
 @{
     ViewData["Title"] = "Book Details";
@@ -8,7 +8,7 @@
 <div class="details-container">
     <div>
         <p><strong>Title:</strong> @Model.Title</p>
-        <p><strong>ISBN:</strong> @Model.ISBN</p>
+        <p><strong>Description:</strong> @Model.Description</p>
         <p><strong>Edition:</strong> @Model.Edition</p>
         <p><strong>Publish Year:</strong> @Model.PublishYear</p>
         <p><strong>Quantity:</strong> @Model.Quantity</p>
@@ -19,6 +19,11 @@
         @foreach (var author in Model.AuthorsDto)
         {
             <p>@author.FullName</p>
+        }
+        <p><strong>Genres:</strong></p>
+        @foreach (var genre in Model.Genres)
+        {
+            <p>@genre.Name</p>
         }
     </div>
 </div>

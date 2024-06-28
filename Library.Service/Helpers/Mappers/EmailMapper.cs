@@ -1,7 +1,7 @@
 ﻿using Library.Model.Models.Email;
 using Library.Service.Dtos.Email;
 
-namespace Library.Service.Extensions;
+namespace Library.Service.Helpers.Extensions;
 public static class EmailMapper
 {
     public static EmailModel MapToEmailModel(this CreateEmailDto emailDto)
