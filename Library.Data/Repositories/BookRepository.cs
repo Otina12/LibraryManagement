@@ -4,6 +4,7 @@ using Library.Model.Interfaces;
 using Library.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 internal class BookRepository : BaseModelRepository<Book>, IBookRepository
@@ -41,5 +42,41 @@ internal class BookRepository : BaseModelRepository<Book>, IBookRepository
             await query.AsNoTracking().ToListAsync();
     }
 
-    
+    public async Task UpdateGenresForBook(Guid bookId, List<int> newGenreIds)
+    {
+        var existingGenres = await _context.BookGenre
+                                .Where(bg => bg.BookId == bookId)
+                                .ToListAsync();
+
+        var genresToRemove = existingGenres
+                                .Where(bg => !newGenreIds.Contains(bg.GenreId))
+                                .ToList();
+
+        var genresToAdd = newGenreIds
+                                .Except(existingGenres.Select(bg => bg.GenreId))
+                                .Select(genreId => new BookGenre { BookId = bookId, GenreId = genreId })
+                                .ToList();
+
+        _context.BookGenre.RemoveRange(genresToRemove);
+        await _context.BookGenre.AddRangeAsync(genresToAdd);
+    }
+
+    public async Task UpdateAuthorsForBook(Guid bookId, List<Guid> newAuthorIds)
+    {
+        var existingAuthors = await _context.BookAuthor
+                                .Where(ba => ba.BookId == bookId)
+                                .ToListAsync();
+
+        var authorsToRemove = existingAuthors
+                                .Where(ba => !newAuthorIds.Contains(ba.AuthorId))
+                                .ToList();
+
+        var authorsToAdd = newAuthorIds
+                                .Except(existingAuthors.Select(ba => ba.AuthorId))
+                                .Select(authorId => new BookAuthor { BookId = bookId, AuthorId = authorId })
+                                .ToList();
+
+        _context.BookAuthor.RemoveRange(authorsToRemove);
+        await _context.BookAuthor.AddRangeAsync(authorsToAdd);
+    }
 }

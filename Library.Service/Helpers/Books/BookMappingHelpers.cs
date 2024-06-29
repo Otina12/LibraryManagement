@@ -24,32 +24,6 @@ public static class BookMappingHelpers
     }
 
     // edit helpers
-    public static void UpdateGenres(this Book book, List<int> oldGenreIds, List<int> newGenreIds)
-    {
-        var genresToBeDeleted = oldGenreIds.Except(newGenreIds);
-        var genresToBeAdded = newGenreIds.Except(oldGenreIds);
-
-        foreach(var genreId in genresToBeDeleted)
-        {
-            book.BookGenres.Remove(new BookGenre { BookId = book.Id, GenreId = genreId });
-        }
-
-        book.AddGenresToBook(genresToBeAdded.ToArray());
-    }
-
-    public static void UpdateAuthors(this Book book, List<Guid> oldAuthorIds, List<Guid> newAuthorIds)
-    {
-        var authorsToBeDeleted = oldAuthorIds.Except(newAuthorIds);
-        var authorsToBeAdded = newAuthorIds.Except(oldAuthorIds);
-
-        foreach (var authorId in authorsToBeDeleted)
-        {
-            book.BookAuthors.Remove(new BookAuthor { BookId = book.Id, AuthorId = authorId });
-        }
-
-        book.AddAuthorsToBook(authorsToBeAdded.ToArray());
-    }
-
     public static void UpdatePublisher(this Book book, Guid? newPublisherId)
     {
         book.PublisherId = newPublisherId;

@@ -96,8 +96,8 @@ public class BookService : BaseService<Book>, IBookService
 
         var book = bookExistsResult.Value();
 
-        book.UpdateGenres((await _unitOfWork.Genres.GetAllGenreIdsOfABook(book.Id)).ToList(), bookDto.GenreIds);
-        book.UpdateAuthors((await _unitOfWork.Authors.GetAuthorIdsOfABook(book.Id)).ToList(), bookDto.AuthorIds);
+        await _unitOfWork.Books.UpdateGenresForBook(book.Id, bookDto.GenreIds);
+        await _unitOfWork.Books.UpdateAuthorsForBook(book.Id, bookDto.AuthorIds);
         book.UpdatePublisher(bookDto.PublisherId);
 
         var (locationsToRemove, locationsToAdd, count) = book.UpdateLocations(await GetLocationsOfABook(book.Id), bookDto.Locations);
@@ -105,6 +105,7 @@ public class BookService : BaseService<Book>, IBookService
         CreateBookCopies(book.Id, locationsToAdd);
         book.Quantity += count;
 
+        _unitOfWork.Books.Update(book);
         await _unitOfWork.SaveChangesAsync();
         return Result.Success();
     }
