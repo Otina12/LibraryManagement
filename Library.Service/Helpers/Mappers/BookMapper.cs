@@ -38,7 +38,8 @@ public static class BookMapper
             book.PageCount,
             book.Description,
             book.Quantity,
-            book.PublishYear)
+            book.PublishYear,
+            book.IsDeleted)
         {
             Genres = [],
             AuthorsDto = [],

@@ -377,6 +377,23 @@ body {
         color: #ecf0f1;
     }
 
+.action-icons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.action-icons a{
+    text-decoration: none;
+    color: grey;
+    transition: all 0.3s ease;
+}
+
+    .action-icons a:hover {
+        text-decoration: none;
+        color: rgba(58, 83, 155, 0.7);
+    }
+
 
 /* ---------- employee-specific details.cshtml styles ---------- */
 

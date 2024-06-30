@@ -80,12 +80,20 @@ public class BookController : BaseController
         var editBookDto = _mapper.Map<EditBookDto>(editBookViewModel);
         var editBookResult = await _serviceManager.BookService.UpdateBook(editBookDto);
 
-        return HandleResult(editBookResult, editBookViewModel,
-            "The book has been updated successfully",
-            editBookResult.Error.Message,
-            "Book");
+        return HandleResult(editBookResult, editBookViewModel, "The book has been updated successfully", editBookResult.Error.Message, "Book");
     }
 
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _serviceManager.BookService.Deactivate(id);
+        return HandleResult(result, null, "The book has been deleted successfully", result.Error.Message, "Book");
+    }
+
+    public async Task<IActionResult> Renew(Guid id)
+    {
+        var result = await _serviceManager.BookService.Reactivate(id);
+        return HandleResult(result, null, "The book has been renewed successfully", result.Error.Message, "Book");
+    }
 
     // book create/edit essential dropdowns
     private async Task InitializeViewDropdowns()

@@ -62,7 +62,7 @@ public class AccountController : BaseController
     public async Task<IActionResult> Logout()
     {
         await _serviceManager.AuthService.Logout();
-        CreateNotification(true, "Logged out successfully");
+        CreateSuccessNotification("Logged out successfully");
         return RedirectToAction("Index", "Home");
     }
 

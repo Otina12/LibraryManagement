@@ -6,24 +6,39 @@
 }
 
 <div class="details-container">
+    <div class="action-icons">
+        <a href="@Url.Action("Edit", "Book", new { id = Model.Id })" title="Edit">
+            <span class="material-icons edit-icon">edit</span>
+        </a>
+        @if (Model.IsDeleted)
+        {
+            <a href="@Url.Action("Renew", "Book", new { id = Model.Id })" title="Renew">
+                <span class="material-icons renew-icon">refresh</span>
+            </a>
+        }
+        else
+        {
+            <a href="@Url.Action("Delete", "Book", new { id = Model.Id })" title="Delete">
+                <span class="material-icons delete-icon">delete</span>
+            </a>
+        }
+    </div>
     <div>
         <p><strong>Title:</strong> @Model.Title</p>
         <p><strong>Description:</strong> @Model.Description</p>
         <p><strong>Edition:</strong> @Model.Edition</p>
         <p><strong>Publish Year:</strong> @Model.PublishYear</p>
         <p><strong>Quantity:</strong> @Model.Quantity</p>
-        <br />
         <p><strong>Publisher:</strong> @Model.PublisherDto?.Name</p>
         <br />
         <p><strong>Authors:</strong></p>
-        @foreach (var author in Model.AuthorsDto)
-        {
-            <p>@author.FullName</p>
-        }
+        <p>@string.Join(", ", Model.AuthorsDto.Select(x => x.FullName))</p>
         <p><strong>Genres:</strong></p>
-        @foreach (var genre in Model.Genres)
+        <p>@string.Join(", ", Model.Genres.Select(x => x.Name))</p>
+        <p><strong>Locations:</strong></p>
+        @foreach(var location in Model.Locations)
         {
-            <p>@genre.Name</p>
+            <p>Room: @location.RoomId, Shelf: @location.ShelfId, Quantity: @location.Quantity</p>
         }
     </div>
 </div>

@@ -44,8 +44,7 @@ namespace Library.Controllers
             return HandleResult((Result)result, viewModel, successMessage, failureMessage, controllerName, actionName);
         }
 
-
-        protected void CreateNotification(bool isSuccess, string? message)
+        private void CreateNotification(bool isSuccess, string? message)
         {
             TempData["NotificationSuccess"] = isSuccess;
             TempData["NotificationMessage"] = message;

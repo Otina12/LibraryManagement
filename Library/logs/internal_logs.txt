@@ -717,3 +717,71 @@
 2024-06-29 20:15:28.9388 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
 2024-06-29 20:15:28.9388 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
 2024-06-29 20:15:28.9388 Info Configuration initialized.
+2024-06-29 21:34:34.3255 Info AppDomain Shutting down. LogFactory closing...
+2024-06-29 21:34:34.3437 Info LogFactory has been closed.
+2024-06-30 16:18:20.9509 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:18:20.9601 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:18:20.9601 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:18:20.9711 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:18:20.9711 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:18:20.9711 Info Configuration initialized.
+2024-06-30 16:26:55.1466 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:26:55.1466 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:26:55.1605 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:26:55.1605 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:26:55.1605 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:26:55.1786 Info Configuration initialized.
+2024-06-30 16:27:39.7508 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:27:39.7599 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:27:39.7599 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:27:39.7714 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:27:39.7714 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:27:39.7714 Info Configuration initialized.
+2024-06-30 16:31:17.3802 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:31:17.3950 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:31:17.3950 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:31:17.4124 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:31:17.4124 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:31:17.4274 Info Configuration initialized.
+2024-06-30 16:34:16.0450 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:34:16.0552 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:34:16.0552 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:34:16.0689 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:34:16.0689 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:34:16.0810 Info Configuration initialized.
+2024-06-30 16:34:54.2130 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:34:54.2204 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:34:54.2204 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:34:54.2204 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:34:54.2204 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:34:54.2388 Info Configuration initialized.
+2024-06-30 16:38:01.0333 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:38:01.0333 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:38:01.0333 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:38:01.0491 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:38:01.0491 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:38:01.0491 Info Configuration initialized.
+2024-06-30 16:38:38.4674 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:38:38.4740 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:38:38.4740 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:38:38.4740 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:38:38.4875 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:38:38.4875 Info Configuration initialized.
+2024-06-30 16:39:55.8283 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:39:55.8368 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:39:55.8368 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:39:55.8469 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:39:55.8469 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:39:55.8469 Info Configuration initialized.
+2024-06-30 16:41:16.2476 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:41:16.2550 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:41:16.2550 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:41:16.2550 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:41:16.2685 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:41:16.2685 Info Configuration initialized.
+2024-06-30 16:41:55.3374 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-06-30 16:41:55.3374 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2024-06-30 16:41:55.3469 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.3.2.2526. Product version: 5.3.2+8d52d4f3fcdbd84beae3442e1fdc8125598ed81f. GlobalAssemblyCache: False
+2024-06-30 16:41:55.3469 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\Giorgi\source\repos\Library\Library\nlog.config
+2024-06-30 16:41:55.3469 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: logfile
+2024-06-30 16:41:55.3469 Info Configuration initialized.

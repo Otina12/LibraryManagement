@@ -12,7 +12,8 @@ public record BookDetailsDto(
     int PageCount,
     string Description,
     int Quantity,
-    int PublishYear
+    int PublishYear,
+    bool IsDeleted
     )
 {
     public Genre[] Genres { get; set; } = [];
