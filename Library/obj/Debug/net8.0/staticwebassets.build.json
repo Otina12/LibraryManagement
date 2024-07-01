@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "EuWdm5YQtURZe0QmZPLTJQ9jJCVGiHRdXyd0Uxx+mPI=",
+  "Hash": "WNnaXGQEYuKAcGn73G06ojmvNAgP4jehJBA7EjBd8h4=",
   "Source": "Library",
   "BasePath": "_content/Library",
   "Mode": "Default",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\table.css",
+      "SourceId": "Library",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\",
+      "BasePath": "_content/Library",
+      "RelativePath": "css/table.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\table.css"
     },
     {
       "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\favicon.ico",

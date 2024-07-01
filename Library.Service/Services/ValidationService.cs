@@ -40,6 +40,7 @@ namespace Library.Service.Services
             if (!employeeExists)
                 return Result.Failure<Employee>(EmployeeErrors.EmployeeNotFound);
 
+            _unitOfWork.Detach(employee!);
             return employee; // implicit operator, wraps into Result.Success object
         }
 

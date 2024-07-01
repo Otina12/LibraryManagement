@@ -3,8 +3,11 @@ using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
+using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Library.Service.Services;
 
@@ -17,17 +20,24 @@ public class AuthorService : BaseService<Author>, IAuthorService
         _validationService = validationService;
     }
 
-    public async Task<IEnumerable<AuthorDto>> GetAllAuthors()
+    public async Task<EntityFiltersDto<AuthorDto>> GetAllFilteredAuthors(EntityFiltersDto<AuthorDto> authorFilters)
     {
-        var authors = await _unitOfWork.Authors.GetAll(trackChanges: false);
-        var authorsDtos = authors.Select(x => x.MapToAuthorDto()).ToList();
+        var authors = _unitOfWork.Authors.GetAllAsQueryable();
+        authorFilters.TotalItems = await authors.CountAsync();
 
-        foreach (var authorDto in authorsDtos)
+        authors = authors.ApplySearch(authorFilters.SearchString, GetAuthorSearchProperties());
+        authors = authors.ApplySort(authorFilters.SortBy, authorFilters.SortOrder, GetAuthorSortDictionary());
+        authors = authors.ApplyPagination(authorFilters.PageNumber, authorFilters.PageSize);
+
+        var authorsDto = await authors.Select(a => a.MapToAuthorDto()).ToListAsync();
+
+        foreach (var authorDto in authorsDto)
         {
             await MapBooks(authorDto);
         }
 
-        return authorsDtos;
+        authorFilters.Entities = authorsDto;
+        return authorFilters;
     }
 
     public async Task<IOrderedEnumerable<AuthorIdAndNameDto>> GetAllAuthorIdAndNames()
@@ -92,5 +102,26 @@ public class AuthorService : BaseService<Author>, IAuthorService
     {
         var books = await _unitOfWork.Books.GetAllBooksOfAuthor(authorDto.Id);
         authorDto.Books = books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
+    }
+
+    // Returns a dictionary that we will later use in generic sort method
+    private static Dictionary<string, Expression<Func<Author, object>>> GetAuthorSortDictionary()
+    {
+        var dict = new Dictionary<string, Expression<Func<Author, object>>>
+        {
+            ["Name"] = a => a.Name,
+            ["Period"] = b => b.BirthYear
+        };
+
+        return dict;
+    }
+
+    // Returns a function that we will use to search items
+    private static Func<Author, string>[] GetAuthorSearchProperties()
+    {
+        return
+        [
+            b => $"{b.Name} {b.Surname}"
+        ];
     }
 }

@@ -3,6 +3,8 @@ using Library.Service.Dtos.Publisher;
 using Library.Service.Interfaces;
 using Library.ViewModels.Publishers;
 using Microsoft.AspNetCore.Mvc;
+using Library.ViewSpecifications;
+using Library.Service.Dtos.Book;
 
 namespace Library.Controllers;
 
@@ -13,12 +15,20 @@ public class PublisherController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
     {
-        var publishers = await _serviceManager.PublisherService.GetAllPublishers();
-        var publishersVM = _mapper.Map<IEnumerable<PublisherViewModel>>(publishers.ToList());
+        var publisherParams = new EntityFiltersDto<PublisherDto>
+        {
+            SearchString = searchString,
+            SortBy = sortBy,
+            SortOrder = sortOrder,
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        };
 
-        return View(publishersVM);
+        var publishers = await _serviceManager.PublisherService.GetAllFilteredPublishers(publisherParams);
+        var publishersTable = IndexTables.GetPublisherTable(publishers);
+        return View(publishersTable);
     }
 
     [HttpGet]

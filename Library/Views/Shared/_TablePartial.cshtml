@@ -1,0 +1,54 @@
+﻿@model Library.ViewModels.SortableTableModel
+
+<table class="table table-striped table-hover">
+    <thead class="thead-light">
+        <tr>
+            @foreach (var column in Model.Columns)
+            {
+                <th>
+                    @if (column.IsSortable)
+                    {
+                        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { sortBy = column.PropertyName, sortOrder = Model.SortOrder == "asc" && Model.SortBy == column.PropertyName ? "desc" : "asc", searchString = Model.SearchString, pageNumber = Model.PageNumber })" class="sort-link">
+                            <div class="sort-text">@column.PropertyName</div>
+                            <span class="sort-arrows">
+                                <span class="sort-arrow up @(Model.SortBy == column.PropertyName && Model.SortOrder == "asc" ? "active" : "")">▲</span>
+                                <span class="sort-arrow down @(Model.SortBy == column.PropertyName && Model.SortOrder == "desc" ? "active" : "")">▼</span>
+                            </span>
+                        </a>
+                    }
+                    else
+                    {
+                        @column.DisplayName
+                    }
+                </th>
+            }
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="itemTable">
+        @foreach (var item in Model.Items)
+        {
+            var id = Model.GetPropertyValue(item, "Id");
+            <tr class="clickable-row" data-details-url="@Url.Action("Details", Model.ControllerName, new { id = id })">
+                @foreach (var column in Model.Columns)
+                {
+                    <td>@Model.GetPropertyValue(item, column.PropertyName)</td>
+                }
+                <td>
+                    <button class="btn btn-edit"
+                            data-id="@id"
+                            data-controller="@Model.ControllerName"
+                            data-action="Edit">
+                        Edit
+                    </button>
+                    <button class="btn btn-delete"
+                            data-id="@id"
+                            data-controller="@Model.ControllerName"
+                            data-action="Delete">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

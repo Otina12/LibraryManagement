@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Library.Model.Abstractions;
 using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Email;
 using Library.Service.Interfaces;
-using Library.ViewModels;
 using Library.ViewModels.Authorization;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

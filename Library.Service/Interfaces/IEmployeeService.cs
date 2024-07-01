@@ -18,5 +18,4 @@ public interface IEmployeeService
     Task<Result> AddRolesAsync(string employeeId, string[] roles);
 
     Task<Result> UpdateRolesAsync(string employeeId, string[] newRoles);
-    Task<Result> UpdateRolesAsync(Employee employee, string[] oldRoles, string[] newRoles);
 }
