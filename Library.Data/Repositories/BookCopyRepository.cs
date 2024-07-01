@@ -29,6 +29,7 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                                 BookId = bookId,
                                 RoomId = roomId,
                                 ShelfId = shelfId,
+                                IsTaken = false,
                                 CreationDate = DateTime.UtcNow
                             }).ToList();
 

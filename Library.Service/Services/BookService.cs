@@ -8,9 +8,6 @@ using Library.Service.Helpers.Books;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Globalization;
 
 namespace Library.Service.Services;
 

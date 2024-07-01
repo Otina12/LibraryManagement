@@ -13,7 +13,7 @@ public class BookCopy : BaseModel
     public Guid BookId { get; set; }
     public int RoomId { get; set; }
     public int? ShelfId { get; set; }
-
+    public bool IsTaken { get; set; }
 
     // navigation properties
     [ForeignKey("BookId")]

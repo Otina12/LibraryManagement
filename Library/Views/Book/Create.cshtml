@@ -94,11 +94,28 @@
 
         $(document).ready(function () {
             $('.select2-multiple').select2({
-                placeholder: "Select options",
-                allowClear: true
+                placeholder: 'Select authors',
+                multiple: true,
+                allowClear: true,
+                language: {
+                    noResults: function () {
+                        return 'No results found. <a href="/Author/Create" class="add-author">Add an author</a>';
+                    }
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            });
+
+            $(document).on('click', '.add-author', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                initializeModal('author', '/Author/Create', '/Author/Edit/', '/Author/Delete/');
+                loadModalContent('/Author/Create', 'Add Author', 'create');
             });
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="~/js/Shared/modal.js"></script>
     <script src="~/js/Book/book-post.js?v=1.0.1"></script>
 }
