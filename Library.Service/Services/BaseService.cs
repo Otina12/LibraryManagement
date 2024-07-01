@@ -2,15 +2,24 @@
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Interfaces;
+using Library.Service.Services.Logger;
 
 namespace Library.Service.Services;
 
 public class BaseService<T> : IBaseService<T> where T : BaseModel
 {
     protected readonly IUnitOfWork _unitOfWork;
+    private readonly ILoggerManager? _logger;
     private readonly IBaseModelRepository<T> _repository;
 
-    public BaseService(IUnitOfWork unitOfWork)
+    public BaseService(IUnitOfWork unitOfWork, ILoggerManager logger)
+    {
+        _unitOfWork = unitOfWork;
+        _logger = logger;
+        _repository = _unitOfWork.GetBaseModelRepository<T>();
+    }
+
+    protected BaseService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
         _repository = _unitOfWork.GetBaseModelRepository<T>();
@@ -23,9 +32,9 @@ public class BaseService<T> : IBaseService<T> where T : BaseModel
         {
             return Result.Failure(Error<T>.NotFound);
         }
-
         _repository.Deactivate(entity);
         await _unitOfWork.SaveChangesAsync();
+        _logger?.LogInfo($"Deactivated {entity.GetType()} with Id: {id}");
         return Result.Success(entity);
     }
 
@@ -36,9 +45,9 @@ public class BaseService<T> : IBaseService<T> where T : BaseModel
         {
             return Result.Failure(Error<T>.NotFound);
         }
-
         _repository.Reactivate(entity);
         await _unitOfWork.SaveChangesAsync();
+        _logger?.LogInfo($"Reactivated {entity.GetType()} with Id: {id}");
         return Result.Success(entity);
     }
 }

@@ -1,10 +1,9 @@
-﻿using AutoMapper;
-using Library.Data.Configurations.Variables;
+﻿using Library.Data.Configurations.Variables;
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Interfaces;
+using Library.Service.Services.Logger;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Library.Service.Services;
@@ -13,7 +12,6 @@ public class ServiceManager : IServiceManager
 {
     private readonly Lazy<IAuthenticationService> _authService;
     private readonly Lazy<IEmailSender> _emailSender;
-
     // date access services
     private readonly Lazy<IEmployeeService> _employeeService;
     private readonly Lazy<INavMenuService> _menuService;
@@ -27,9 +25,9 @@ public class ServiceManager : IServiceManager
 
     public ServiceManager(IUnitOfWork unitOfWork, UserManager<Employee> userManager,
         SignInManager<Employee> signInManager, IValidationService validationService,
-        RoleManager<IdentityRole> roleManager, IOptions<MailjetSettings> emailOptions)
+        RoleManager<IdentityRole> roleManager, IOptions<MailjetSettings> emailOptions, ILoggerManager logger)
     {
-        _authService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, signInManager, validationService));
+        _authService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, signInManager, validationService, logger));
         _emailSender = new Lazy<IEmailSender>(() => new EmailSender(unitOfWork, emailOptions));
 
         _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, userManager, validationService));
