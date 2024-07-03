@@ -14,6 +14,7 @@ public class BookController : BaseController
     {
     }
 
+    [HttpGet]
     public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
     {
         var booksParams = new EntityFiltersDto<BookDto>

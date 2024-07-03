@@ -7,13 +7,13 @@ function initializeModal(entityType, createUrl, editUrl, deleteUrl) {
         $(`.btn-edit`).click(function (e) {
             e.stopPropagation();
             e.preventDefault();
-            var entityId = $(this).data(`${entityType}-id`);
+            var entityId = $(this).data(`entity-id`);
             loadModalContent(`${editUrl}${entityId}`, `Edit ${entityType.charAt(0).toUpperCase() + entityType.slice(1)}`, 'edit');
         });
         $(`.btn-delete`).click(function (e) {
             e.stopPropagation();
             e.preventDefault();
-            var entityId = $(this).data(`${entityType}-id`);
+            var entityId = $(this).data(`entity-id`);
             showDeleteConfirmation(entityId, entityType, deleteUrl);
         });
         $(document).on('submit', `#create${entityType.charAt(0).toUpperCase() + entityType.slice(1)}Form`, function (e) {
@@ -22,7 +22,7 @@ function initializeModal(entityType, createUrl, editUrl, deleteUrl) {
         });
         $(document).on('submit', `#edit${entityType.charAt(0).toUpperCase() + entityType.slice(1)}Form`, function (e) {
             e.preventDefault();
-            var entityId = $(this).data(`${entityType}-id`);
+            var entityId = $(this).data(`entity-id`);
             submitForm($(this), `${editUrl}${entityId}`);
         });
         $(document).on('click', '.custom-close', function () {

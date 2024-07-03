@@ -8,8 +8,9 @@
                 <th>
                     @if (column.IsSortable)
                     {
-                        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { sortBy = column.PropertyName, sortOrder = Model.SortOrder == "asc" && Model.SortBy == column.PropertyName ? "desc" : "asc", searchString = Model.SearchString, pageNumber = Model.PageNumber })" class="sort-link">
-                            <div class="sort-text">@column.PropertyName</div>
+                        var nextOrder = (Model.SortBy == column.PropertyName && Model.SortOrder == "asc") ? "desc" : "asc";
+                        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { sortBy = column.PropertyName, sortOrder = nextOrder, searchString = Model.SearchString, pageNumber = Model.PageNumber })" class="sort-link">
+                            <div class="sort-text">@column.DisplayName</div>
                             <span class="sort-arrows">
                                 <span class="sort-arrow up @(Model.SortBy == column.PropertyName && Model.SortOrder == "asc" ? "active" : "")">▲</span>
                                 <span class="sort-arrow down @(Model.SortBy == column.PropertyName && Model.SortOrder == "desc" ? "active" : "")">▼</span>
@@ -28,25 +29,17 @@
     <tbody id="itemTable">
         @foreach (var item in Model.Items)
         {
+            var entity = Model.ControllerName.ToLower();
             var id = Model.GetPropertyValue(item, "Id");
-            <tr class="clickable-row" data-details-url="@Url.Action("Details", Model.ControllerName, new { id = id })">
+
+            <tr class="clickable-row" onclick="window.location='@Url.Action("Details", Model.ControllerName, new { id = @id })';">
                 @foreach (var column in Model.Columns)
                 {
                     <td>@Model.GetPropertyValue(item, column.PropertyName)</td>
                 }
                 <td>
-                    <button class="btn btn-edit"
-                            data-id="@id"
-                            data-controller="@Model.ControllerName"
-                            data-action="Edit">
-                        Edit
-                    </button>
-                    <button class="btn btn-delete"
-                            data-id="@id"
-                            data-controller="@Model.ControllerName"
-                            data-action="Delete">
-                        Delete
-                    </button>
+                    <a href="" class="btn btn-edit" data-entity-id="@id">Edit</a>
+                    <a href="" class="btn btn-delete" data-entity-id="@id">Delete</a>
                 </td>
             </tr>
         }

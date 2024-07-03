@@ -2,8 +2,6 @@
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
 using Library.ViewModels;
-using Library.ViewModels.Authors;
-using Library.ViewModels.Publishers;
 
 namespace Library.ViewSpecifications
 {
@@ -36,7 +34,7 @@ namespace Library.ViewSpecifications
 
                     return prop switch
                     {
-                        "Id" => bookDto!.Id,
+                        "Id" => bookDto!.Id.ToString(),
                         "Title" => bookDto!.Title,
                         "Edition" => bookDto!.Edition,
                         "PublishYear" => bookDto!.PublishYear.ToString(),
@@ -55,6 +53,12 @@ namespace Library.ViewSpecifications
             var sortableTableModel = new SortableTableModel
             {
                 Items = authorListDto.Entities,
+                SearchString = authorListDto.SearchString,
+                SortBy = authorListDto.SortBy,
+                SortOrder = authorListDto.SortOrder,
+                PageNumber = authorListDto.PageNumber,
+                PageSize = authorListDto.PageSize,
+                TotalItems = authorListDto.TotalItems,
                 Columns = new List<SortableColumn>
                 {
                     new("Name", "Name", true),
@@ -69,7 +73,7 @@ namespace Library.ViewSpecifications
                     var authorDto = author as AuthorDto;
                     return prop switch
                     {
-                        "Id" => authorDto!.Id,
+                        "Id" => authorDto!.Id.ToString(),
                         "Name" => $"{authorDto!.Name} {authorDto.Surname}",
                         "Email" => authorDto!.Email ?? "--------",
                         "Period" => $"{authorDto!.BirthYear} - {(authorDto.DeathYear.HasValue ? authorDto.DeathYear.Value.ToString() : "")}",
@@ -86,6 +90,12 @@ namespace Library.ViewSpecifications
             var sortableTableModel = new SortableTableModel
             {
                 Items = publisherListDto.Entities,
+                SearchString = publisherListDto.SearchString,
+                SortBy = publisherListDto.SortBy,
+                SortOrder = publisherListDto.SortOrder,
+                PageNumber = publisherListDto.PageNumber,
+                PageSize = publisherListDto.PageSize,
+                TotalItems = publisherListDto.TotalItems,
                 Columns = new List<SortableColumn>
                 {
                     new("Name", "Name", true),
@@ -101,7 +111,7 @@ namespace Library.ViewSpecifications
                     var publisherDto = publisher as PublisherDto;
                     return prop switch
                     {
-                        "Id" => publisherDto!.Id,
+                        "Id" => publisherDto!.Id.ToString(),
                         "Name" => publisherDto!.Name,
                         "Email" => publisherDto!.Email ?? "--------",
                         "PhoneNumber" => publisherDto!.PhoneNumber ?? "--------",

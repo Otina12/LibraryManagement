@@ -29,6 +29,7 @@ namespace Library.Service.Helpers
 
         public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> collection, int pageNumber, int pageSize)
         {
+            pageNumber = Math.Max(1, pageNumber);
             return collection.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         }
 
@@ -41,7 +42,7 @@ namespace Library.Service.Helpers
 
             return collection
                 .Where(item => searchProperties.Any(prop =>
-                prop(item).Contains(searchString, StringComparison.CurrentCultureIgnoreCase) == true));
+                prop(item).Contains(searchString) == true));
         }
     }
 }
