@@ -1,14 +1,13 @@
-﻿using Library.Data.Repositories;
-using Library.Model.Abstractions;
-using Library.Model.Abstractions.Errors;
+﻿using Library.Model.Abstractions;
 using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
+using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Library.Service.Services
 {
@@ -21,17 +20,24 @@ namespace Library.Service.Services
             _validationService = validationService;
         }
 
-        public async Task<IEnumerable<PublisherDto>> GetAllPublishers()
+        public async Task<EntityFiltersDto<PublisherDto>> GetAllFilteredPublishers(EntityFiltersDto<PublisherDto> publisherFilters)
         {
-            var publishers = await _unitOfWork.Publishers.GetAll(trackChanges: false);
-            var publishersDto = publishers.Select(x => x.MapToPublisherDto()).ToList();
+            var publishers = _unitOfWork.Publishers.GetAllAsQueryable();
+            publisherFilters.TotalItems = await publishers.CountAsync();
 
-            foreach(var publisherDto in publishersDto)
+            publishers = publishers.ApplySearch(publisherFilters.SearchString, GetPublisherSearchProperties());
+            publishers = publishers.ApplySort(publisherFilters.SortBy, publisherFilters.SortOrder, GetPublisherSortDictionary());
+            publishers = publishers.ApplyPagination(publisherFilters.PageNumber, publisherFilters.PageSize);
+
+            var publishersDto = await publishers.Select(p => p.MapToPublisherDto()).ToListAsync();
+
+            foreach (var publisherDto in publishersDto)
             {
                 await MapBooks(publisherDto);
             }
 
-            return publishersDto;
+            publisherFilters.Entities = publishersDto;
+            return publisherFilters;
         }
 
         public async Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames()
@@ -96,6 +102,27 @@ namespace Library.Service.Services
         {
             var books = await _unitOfWork.Books.GetAllBooksOfPublisher(publisherDto.Id);
             publisherDto.Books = books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
+        }
+
+        // Returns a dictionary that we will later use in generic sort method
+        private static Dictionary<string, Expression<Func<Publisher, object>>> GetPublisherSortDictionary()
+        {
+            var dict = new Dictionary<string, Expression<Func<Publisher, object>>>
+            {
+                ["Name"] = a => a.Name,
+                ["YearPublished"] = b => b.YearPublished
+            };
+
+            return dict;
+        }
+
+        // Returns a function that we will use to search items
+        private static Func<Publisher, string>[] GetPublisherSearchProperties()
+        {
+            return
+            [
+                b => b.Name
+            ];
         }
     }
 }

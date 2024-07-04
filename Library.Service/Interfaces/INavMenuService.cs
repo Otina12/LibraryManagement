@@ -6,6 +6,6 @@ namespace Library.Service.Interfaces;
 
 public interface INavMenuService
 {
-    Task<IEnumerable<NavigationMenu>> GetMenuItemsOfEmployeeAsync(ClaimsPrincipal? claimsPrincipal);
-    Task<HashSet<string>> GetRoleIdsOfEmployeeAsync(ClaimsPrincipal claimsPrincipal);
+    Task<IEnumerable<NavigationMenu>> GetMenuItemsOfEmployeeAsync(string? userId);
+    Task<HashSet<string>> GetRoleIdsOfEmployeeAsync(string userId);
 }

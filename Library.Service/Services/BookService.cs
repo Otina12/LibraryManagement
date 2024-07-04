@@ -4,10 +4,12 @@ using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
+using Library.Service.Helpers;
 using Library.Service.Helpers.Books;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Library.Service.Services;
 
@@ -20,15 +22,15 @@ public class BookService : BaseService<Book>, IBookService
         _validationService = validationService;
     }
 
-    public async Task<BookListDto> GetAllFilteredBooks(BookListDto bookFilters)
+    public async Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters)
     {
         var books = _unitOfWork.Books.GetAllAsQueryable();
         bookFilters.TotalItems = await books.CountAsync();
 
-        books = books.ApplySearch(bookFilters.SearchString);
-        books = books.ApplySort(bookFilters.SortBy, bookFilters.SortOrder);
+        books = books.ApplySearch(bookFilters.SearchString, GetBookSearchProperties());
+        books = books.ApplySort(bookFilters.SortBy, bookFilters.SortOrder, GetBookSortDictionary());
         books = books.ApplyPagination(bookFilters.PageNumber, bookFilters.PageSize);
-        
+
         var booksDto = await books.Select(b => b.MapToBookDto()).ToListAsync();
 
         foreach (var bookDto in booksDto)
@@ -37,8 +39,7 @@ public class BookService : BaseService<Book>, IBookService
             bookDto.AuthorsDto = await GetAuthorsOfABook(bookDto.Id);
         }
 
-        bookFilters.Books = booksDto;
-
+        bookFilters.Entities = booksDto;
         return bookFilters;
     }
 
@@ -110,7 +111,7 @@ public class BookService : BaseService<Book>, IBookService
     // helpers
     private void CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations)
     {
-        foreach(var location in locations)
+        foreach (var location in locations)
         {
             _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity);
         }
@@ -149,5 +150,29 @@ public class BookService : BaseService<Book>, IBookService
             .Select(x => new BookLocationDto(x.RoomId, x.ShelfId, x.Quantity))
             .ToArray();
     }
+
+    // Returns a dictionary that we will later use in generic sort method
+    private static Dictionary<string, Expression<Func<Book, object>>> GetBookSortDictionary()
+    {
+        var dict = new Dictionary<string, Expression<Func<Book, object>>>
+        {
+            ["Title"] = b => b.Title,
+            ["PublishYear"] = b => b.PublishYear,
+            ["Quantity"] = b => b.Quantity
+        };
+
+        return dict;
+    }
+
+    // Returns a function that we will use to search items
+    private static Func<Book, string>[] GetBookSearchProperties()
+    {
+        return
+        [
+            b => b.Title,
+            b => b.ISBN
+        ];
+    }
+
 }
 

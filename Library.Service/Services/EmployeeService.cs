@@ -162,6 +162,7 @@ public class EmployeeService : IEmployeeService
         {
             if (await _userManager.IsInRoleAsync(employee, role))
             {
+                _unitOfWork.Detach(employee);
                 await _userManager.RemoveFromRoleAsync(employee, role);
             }
         }
@@ -178,13 +179,13 @@ public class EmployeeService : IEmployeeService
         }
 
         var employee = employeeExistsResult.Value();
-
+        _unitOfWork.Detach(employee);
         var oldRoles = await _userManager.GetRolesAsync(employee);
 
         return await UpdateRolesAsync(employee, oldRoles.ToArray(), newRoles);
     }
 
-    public async Task<Result> UpdateRolesAsync(Employee employee, string[] oldRoles, string[] newRoles)
+    private async Task<Result> UpdateRolesAsync(Employee employee, string[] oldRoles, string[] newRoles)
     {
         // these are old roles that do not appear in new roles, meaning we need to delete them
         var rolesToRemove = oldRoles.Except(newRoles).ToArray();

@@ -2,6 +2,7 @@
 using Library.Service.Interfaces;
 using Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Library.ViewComponents
 {
@@ -19,7 +20,8 @@ namespace Library.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var menuItems = await _serviceManager.NavMenuService.GetMenuItemsOfEmployeeAsync(HttpContext.User);
+            var curUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var menuItems = await _serviceManager.NavMenuService.GetMenuItemsOfEmployeeAsync(curUserId);
             var menuVM = _mapper.Map<IEnumerable<NavigationMenuItemViewModel>>(menuItems);
             var menu = GenerateHierarchy(null, menuVM);
             return View(menu);

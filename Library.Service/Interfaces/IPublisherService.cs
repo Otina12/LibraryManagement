@@ -1,5 +1,6 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
+using Library.Service.Dtos.Book;
 using Library.Service.Dtos.Publisher;
 
 namespace Library.Service.Interfaces;
@@ -10,7 +11,7 @@ public interface IPublisherService : IBaseService<Publisher>
     //Task<IEnumerable<Book>> GetAllBooksOfPublisher(Guid publisherId);
     //Task<int> GetCountOfBooks(Guid publisherId);
 
-    Task<IEnumerable<PublisherDto>> GetAllPublishers();
+    Task<EntityFiltersDto<PublisherDto>> GetAllFilteredPublishers(EntityFiltersDto<PublisherDto> publisherFilters);
     Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames();
     Task<Result<PublisherDto>> GetPublisherById(Guid id);
     Task<Result> Create(CreatePublisherDto publisherDto);

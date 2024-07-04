@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using Library.Model.Abstractions;
 using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Email;
 using Library.Service.Interfaces;
-using Library.ViewModels;
 using Library.ViewModels.Authorization;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Library.Controllers;
 
@@ -52,7 +50,6 @@ public class AccountController : BaseController
         }
         
         var loginDto = _mapper.Map<LoginDto>(loginVM);
-
         var result = await _serviceManager.AuthService.LoginEmployee(loginDto);
 
         return HandleResult(result, loginVM, "Successfully logged in. Happy managing!", result.Error.Message);
@@ -61,7 +58,8 @@ public class AccountController : BaseController
     [Authorize]
     public async Task<IActionResult> Logout()
     {
-        await _serviceManager.AuthService.Logout();
+        var curUserEmail = HttpContext.User.FindFirstValue(ClaimTypes.Email);
+        await _serviceManager.AuthService.Logout(curUserEmail);
         CreateSuccessNotification("Logged out successfully");
         return RedirectToAction("Index", "Home");
     }

@@ -12,24 +12,3 @@
         resize: true,
     });
 }
-
-function sortTableByStartDate(ascending, isOneParameter, cellIndex) {
-    const table = document.querySelector('table tbody');
-    const rows = Array.from(table.rows);
-
-    rows.sort((a, b) => {
-        const cellA = a.cells[cellIndex];
-        const cellB = b.cells[cellIndex];
-
-        if (!cellA || !cellB) {
-            return 0;
-        }
-
-        const dateA = isOneParameter ? new Date(cellA.innerText) : new Date(cellA.innerText.split(' - ')[0]);
-        const dateB = isOneParameter ? new Date(cellB.innerText) : new Date(cellB.innerText.split(' - ')[0]);
-
-        return ascending ? dateA - dateB : dateB - dateA;
-    });
-
-    rows.forEach(row => table.appendChild(row));
-}

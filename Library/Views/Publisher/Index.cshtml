@@ -1,43 +1,17 @@
-﻿@model IEnumerable<Library.ViewModels.Publishers.PublisherViewModel>
+﻿@model Library.ViewModels.SortableTableModel // publisher
+
+<head>
+    <link rel="stylesheet" href="~/css/table.css" />
+</head>
 
 <div class="my-container">
     <div class="my-header">
         <a href="" class="btn btn-add" id="add-publisher-btn">Add Publisher</a>
     </div>
 
-    <table class="table table-striped table-hover">
-        <thead class="thead-light">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th id="period-header">
-                    Year Published
-                    <span class="sort-arrows">
-                        <span class="arrow up" onclick="sortTableByStartDate(true, true, 3)">▲</span>
-                        <span class="arrow down" onclick="sortTableByStartDate(false, true, 3)">▼</span>
-                    </span>
-                </th>
-                <th># of Books in Library</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="publisherTable">
-            @foreach (var publisher in Model)
-            {
-                <tr class="clickable-row" onclick="window.location='@Url.Action("Details", "Publisher", new { id = publisher.Id })';">
-                    <td>@publisher.Name</td>
-                    <td>@(publisher.Email == null ? "--------" : publisher.Email)</td>
-                    <td>@(publisher.PhoneNumber == null ? "--------" : publisher.PhoneNumber)</td>
-                    <td style="font-size: 16px;">@publisher.YearPublished</td>
-                    <td>@publisher.Books.Length</td>
-                    <td><a href="" class="btn btn-edit" data-publisher-id="@publisher.Id">Edit</a>
-                        <a href="" class="btn btn-delete" data-publisher-id="@publisher.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @await Html.PartialAsync("_SearchBarPartial", Model.SearchString)
+    @await Html.PartialAsync("_TablePartial", Model)
+    @await Html.PartialAsync("_PaginationPartial", Model)
 </div>
 
 @await Html.PartialAsync("_ModalPartial", new { ModalId = "publisherModal", CreateFormId = "createPublisherForm", EditFormId = "editPublisherForm" })

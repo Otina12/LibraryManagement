@@ -4,6 +4,7 @@ using Library.Service.Interfaces;
 using Library.ViewModels.Books;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Library.ViewSpecifications;
 
 namespace Library.Controllers;
 
@@ -13,9 +14,10 @@ public class BookController : BaseController
     {
     }
 
+    [HttpGet]
     public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
     {
-        var booksParams = new BookListDto
+        var booksParams = new EntityFiltersDto<BookDto>
         {
             SearchString = searchString,
             SortBy = sortBy,
@@ -25,7 +27,8 @@ public class BookController : BaseController
         };
 
         var books = await _serviceManager.BookService.GetAllFilteredBooks(booksParams);
-        return View(books);
+        var booksTable = IndexTables.GetBookTable(books);
+        return View(booksTable);
     }
 
     public async Task<IActionResult> Details(Guid id)

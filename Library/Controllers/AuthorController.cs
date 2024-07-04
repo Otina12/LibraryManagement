@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using Library.Model.Models;
 using Library.Service.Dtos.Author;
+using Library.Service.Dtos.Book;
 using Library.Service.Interfaces;
 using Library.ViewModels.Authors;
+using Library.ViewSpecifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers;
@@ -14,12 +15,20 @@ public class AuthorController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
     {
-        var authors = (await _serviceManager.AuthorService.GetAllAuthors()).ToList();
-        var authorsVM = _mapper.Map<IEnumerable<AuthorViewModel>>(authors);
+        var authorParams = new EntityFiltersDto<AuthorDto>
+        {
+            SearchString = searchString,
+            SortBy = sortBy,
+            SortOrder = sortOrder,
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        };
 
-        return View(authorsVM);
+        var authors = await _serviceManager.AuthorService.GetAllFilteredAuthors(authorParams);
+        var authorsTable = IndexTables.GetAuthorTable(authors);
+        return View(authorsTable);
     }
 
     [HttpGet]

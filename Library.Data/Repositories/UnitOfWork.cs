@@ -45,6 +45,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         return _context.Entry(entity);
     }
 
+    public void Detach<T>(T entity) where T : class
+    {
+        _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+    }
+
     public IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel
     {
         return new BaseModelRepository<T>(_context);

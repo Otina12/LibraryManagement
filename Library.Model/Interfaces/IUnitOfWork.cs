@@ -19,4 +19,5 @@ public interface IUnitOfWork // this will help use repositories and update made 
 
     Task SaveChangesAsync();
     EntityEntry<T> Entry<T>(T entity) where T : class;
+    public void Detach<T>(T entity) where T : class;
 }

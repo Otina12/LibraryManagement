@@ -23,28 +23,28 @@ public class NavMenuService : INavMenuService
 
 
     // this method will help us determine which menu items to display to the employee
-    public async Task<IEnumerable<NavigationMenu>> GetMenuItemsOfEmployeeAsync(ClaimsPrincipal? claimsPrincipal)
+    public async Task<IEnumerable<NavigationMenu>> GetMenuItemsOfEmployeeAsync(string? userId)
     {
         // when employee is not authenticated, return defaults (nothing in this case)
-        if (!claimsPrincipal!.Identity!.IsAuthenticated)
+        if (userId is null)
         {
             return new List<NavigationMenu>();
         }
 
         // when employee is authenticated
-        var roleIds = await GetRoleIdsOfEmployeeAsync(claimsPrincipal!);
+        var roleIds = await GetRoleIdsOfEmployeeAsync(userId);
         var menuItems = await _unitOfWork.RoleMenus.GetMenuItemsForRolesAsync(roleIds);
 
         return menuItems;
     }
 
-    public async Task<HashSet<string>> GetRoleIdsOfEmployeeAsync(ClaimsPrincipal claimsPrincipal)
+    public async Task<HashSet<string>> GetRoleIdsOfEmployeeAsync(string userId)
     {
-        var employeeId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
-        var employee = await _unitOfWork.Employees.GetById(new Guid(employeeId!), trackChanges: false);
+        var employee = await _unitOfWork.Employees.GetById(new Guid(userId!), trackChanges: false);
 
         // select role names (strings)
         var roleNames = await _userManager.GetRolesAsync(employee!);
+
         if(!roleNames.Any())
             return [];
 
