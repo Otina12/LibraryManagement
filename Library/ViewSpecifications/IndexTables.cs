@@ -75,7 +75,7 @@ namespace Library.ViewSpecifications
                     return prop switch
                     {
                         "Id" => authorDto!.Id.ToString(),
-                        "Name" => $"{authorDto!.Name} {authorDto.Surname}",
+                        "Name" => $"{authorDto!.Surname}, {authorDto!.Name}",
                         "Email" => authorDto!.Email ?? "--------",
                         "Period" => $"{authorDto!.BirthYear} - {(authorDto.DeathYear.HasValue ? authorDto.DeathYear.Value.ToString() : "")}",
                         "BooksCount" => authorDto!.Books.Length.ToString(),
@@ -151,7 +151,7 @@ namespace Library.ViewSpecifications
                     return prop switch
                     {
                         "Id" => customerDto!.Id.ToString(),
-                        "Name" => $"{customerDto!.Name} {customerDto!.Surname}",
+                        "Name" => $"{customerDto!.Surname}, {customerDto!.Name}",
                         "Email" => customerDto!.Email ?? "--------",
                         "PhoneNumber" => customerDto!.PhoneNumber ?? "--------",
                         "Address" => customerDto!.Address.ToString(),

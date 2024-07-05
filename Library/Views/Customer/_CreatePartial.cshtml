@@ -2,29 +2,29 @@
 
 <form asp-action="Create" asp-controller="Customer" method="post" id="createCustomerForm">
     <div class="modal-field">
-        <input asp-for="Id" placeholder="Id" type="number" maxlength="11"/>
+        <input asp-for="Id" placeholder="Id*" type="number" maxlength="11" required />
         <span asp-validation-for="Id" class="text-danger"></span>
     </div>
     <div class="column-fields">
         <div class="modal-field">
-            <input asp-for="Name" placeholder="Name" />
+            <input asp-for="Name" placeholder="Name*" required />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="modal-field">
-            <input asp-for="Surname" placeholder="Surname" />
+            <input asp-for="Surname" placeholder="Surname*" required />
             <span asp-validation-for="Surname" class="text-danger"></span>
         </div>
     </div>
     <div class="modal-field">
-        <input asp-for="Email" type="email" placeholder="Email"/>
+        <input asp-for="Email" type="email" placeholder="Email*" required />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="PhoneNumber" placeholder="Phone Number" type="number" />
+        <input asp-for="PhoneNumber" placeholder="Phone Number*" type="number" required />
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="Address" placeholder="Address" />
+        <input asp-for="Address" placeholder="Address*" required />
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 </form>

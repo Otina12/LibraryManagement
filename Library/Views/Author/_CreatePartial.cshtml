@@ -2,11 +2,11 @@
 
 <form asp-action="Create" asp-controller="Author" method="post" id="createAuthorForm">
     <div class="modal-field">
-        <input asp-for="Name" placeholder="Name" />
+        <input asp-for="Name" placeholder="Name*" required />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="Surname" placeholder="Surname" />
+        <input asp-for="Surname" placeholder="Surname*" required />
         <span asp-validation-for="Surname" class="text-danger"></span>
     </div>
     <div class="modal-field">
@@ -14,11 +14,11 @@
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <textarea asp-for="Description" maxlength="1500" placeholder="Description"></textarea>
+        <textarea asp-for="Description" maxlength="1500" placeholder="Description*" required></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="BirthYear" placeholder="Birth Year" type="number" min="0" max="@DateTime.Now.Year" value="" />
+        <input asp-for="BirthYear" placeholder="Birth Year*" type="number" min="0" max="@DateTime.Now.Year" value="" required />
         <span asp-validation-for="BirthYear" class="text-danger"></span>
     </div>
     <div class="modal-field">

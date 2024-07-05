@@ -27,31 +27,31 @@
         </div>
         <form asp-action="Register" method="post">
             <div class="myField">
-                <label asp-for="Name">Name</label>
-                <input asp-for="Name" type="text" />
+                <label class="required" asp-for="Name">Name</label>
+                <input asp-for="Name" type="text" required/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="Surname">Surname</label>
-                <input asp-for="Surname" type="text" />
+                <label class="required" asp-for="Surname">Surname</label>
+                <input asp-for="Surname" type="text" required />
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" type="email" />
+                <label class="required" asp-for="Email">Email</label>
+                <input asp-for="Email" type="email" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="UserName">Username</label>
-                <input asp-for="UserName" type="text" />
+                <label class="required" asp-for="UserName">Username</label>
+                <input asp-for="UserName" type="text" required />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label>Birthdate</label>
+                <label class="required">Birthdate</label>
                 <div class="birthdate-fields">
-                    <input asp-for="Day" type="number" placeholder="Day" class="birthdate-input" />
-                    <input asp-for="Month" type="number" placeholder="Month" class="birthdate-input" />
-                    <input asp-for="Year" type="number" placeholder="Year" class="birthdate-input" />
+                    <input asp-for="Day" type="number" placeholder="Day*" class="birthdate-input" required />
+                    <input asp-for="Month" type="number" placeholder="Month*" class="birthdate-input" required />
+                    <input asp-for="Year" type="number" placeholder="Year*" class="birthdate-input" required />
 
                 </div>
                 <span asp-validation-for="Day" class="text-danger"></span>
@@ -59,18 +59,18 @@
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="PhoneNumber">Phone number</label>
-                <input asp-for="PhoneNumber" type="text" />
+                <label class="required" asp-for="PhoneNumber">Phone number</label>
+                <input asp-for="PhoneNumber" type="text" required />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" />
+                <label class="required" asp-for="Password">Password</label>
+                <input asp-for="Password" type="password" required/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="ConfirmPassword">Confirm Password</label>
-                <input asp-for="ConfirmPassword" type="password" />
+                <label class="required" asp-for="ConfirmPassword">Confirm Password</label>
+                <input asp-for="ConfirmPassword" type="password" required/>
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
 

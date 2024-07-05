@@ -3,19 +3,23 @@
 <form asp-action="Edit" asp-controller="Author" method="post" id="editAuthorForm">
     <input asp-for="Id" type="hidden" />
     <div class="modal-field">
-        <input asp-for="Name" placeholder="Name" />
+        <label class="required" asp-for="Name">Name</label>
+        <input asp-for="Name" required />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="Surname" placeholder="Surname" />
+        <label class="required" asp-for="Surname">Surname</label>
+        <input asp-for="Surname" required/>
         <span asp-validation-for="Surname" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="Email" type="email" placeholder="Email" />
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email"/>
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <textarea asp-for="Description" maxlength="1500" placeholder="Description"></textarea>
+        <label class="required" asp-for="Description">Description</label>
+        <textarea asp-for="Description" maxlength="1500" required></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <input asp-for="BirthYear" type="hidden" />
@@ -23,7 +27,8 @@
         <input asp-for="DeathYear" type="hidden" />
     }else{
         <div class="modal-field">
-            <input asp-for="DeathYear" placeholder="Death Year" type="number" min="0" max="@DateTime.Now.Year" />
+            <label asp-for="DeathYear">Death Year</label>
+            <input asp-for="DeathYear" type="number" min="0" max="@DateTime.Now.Year" />
             <span asp-validation-for="DeathYear" class="text-danger"></span>
         </div>
     }

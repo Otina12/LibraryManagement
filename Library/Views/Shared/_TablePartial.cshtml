@@ -23,7 +23,10 @@
                     }
                 </th>
             }
-            <th>Actions</th>
+            @if (Model.ControllerName != "Book")
+            {
+                <th>Actions</th>
+            }
         </tr>
     </thead>
     <tbody id="itemTable">
@@ -37,10 +40,13 @@
                 {
                     <td>@Model.GetPropertyValue(item, column.PropertyName)</td>
                 }
-                <td>
-                    <a href="" class="btn btn-edit" data-entity-id="@id">Edit</a>
-                    <a href="" class="btn btn-delete" data-entity-id="@id">Delete</a>
-                </td>
+                @if (Model.ControllerName != "Book")
+                {
+                    <td>
+                        <a href="" class="btn btn-edit" data-entity-id="@id">Edit</a>
+                        <a href="" class="btn btn-delete" data-entity-id="@id">Delete</a>
+                    </td>
+                }
             </tr>
         }
     </tbody>

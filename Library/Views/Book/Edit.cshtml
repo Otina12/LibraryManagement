@@ -16,36 +16,36 @@
         <input asp-for="Id" type="hidden" />
         <div class="column-fields">
             <div class="book-field" style="width: 68%;">
-                <label asp-for="Title">Title</label>
-                <input asp-for="Title" placeholder="Title" />
+                <label class="required" asp-for="Title">Title</label>
+                <input asp-for="Title" placeholder="Title" required/>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="book-field">
-                <label asp-for="ISBN">ISBN</label>
-                <input asp-for="ISBN" maxlength="13" placeholder="ISBN" />
+                <label class="required" asp-for="ISBN">ISBN</label>
+                <input asp-for="ISBN" maxlength="13" placeholder="ISBN" required/>
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
         </div>
         <div class="book-field">
-            <label asp-for="Description">Description</label>
-            <textarea asp-for="Description" placeholder="Description"></textarea>
+            <label class="required" asp-for="Description">Description</label>
+            <textarea asp-for="Description" placeholder="Description" required></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <div class="column-fields">
             <div class="book-field book-field3">
-                <label asp-for="Edition">Edition</label>
-                <input asp-for="Edition" type="number" placeholder="Edition" />
+                <label class="required" asp-for="Edition">Edition</label>
+                <input asp-for="Edition" type="number" placeholder="Edition" required />
                 <span asp-validation-for="Edition" class="text-danger"></span>
             </div>
             <div class="book-field book-field3">
-                <label asp-for="PageCount">PageCount</label>
-                <input asp-for="PageCount" type="number" placeholder="# of Pages" />
+                <label class="required" asp-for="PageCount">PageCount</label>
+                <input asp-for="PageCount" type="number" placeholder="# of Pages" required />
                 <span asp-validation-for="PageCount" class="text-danger"></span>
             </div>
             <div class="book-field book-field3">
-                <label asp-for="PublishYear">PublishYear</label>
-                <input asp-for="PublishYear" type="number" min="0" max="@DateTime.Now.Year" placeholder="Release Year" />
+                <label class="required" asp-for="PublishYear">PublishYear</label>
+                <input asp-for="PublishYear" type="number" min="0" max="@DateTime.Now.Year" placeholder="Release Year" required />
                 <span asp-validation-for="PublishYear" class="text-danger"></span>
             </div>
         </div>
@@ -73,7 +73,7 @@
                 <div class="location-form-wrapper">
                     <div class="location-form">
                         <select class="location-dropdown" id="roomDropdown">
-                            <option value="">Room</option>
+                            <option value="">Room*</option>
                             @foreach (var room in ViewBag.Rooms)
                             {
                                 <option value="@room">@room</option>
@@ -82,7 +82,7 @@
                         <select class="location-dropdown" id="shelfDropdown">
                             <option value="">Shelf</option>
                         </select>
-                        <input type="number" class="quantity" placeholder="Quantity" />
+                        <input type="number" class="quantity" placeholder="Quantity*" required />
 
                         <button type="button" class="add-location-btn">Add</button>
                     </div>

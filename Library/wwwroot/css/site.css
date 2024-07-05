@@ -26,6 +26,44 @@ body {
     background-position: center center;
 }
 
+label {
+    width: max-content;
+}
+
+.required {
+    position: relative;
+}
+
+    .required::after {
+        content: "*";
+        color: rgba(255, 0, 0, 0.8);
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(120%, -15%);
+        z-index: 3;
+    }
+
+    .required:hover::before {
+        content: "This field is mandatory";
+        position: absolute;
+        left: 120%;
+        bottom: 10%;
+        background-color: #333;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 0.8em;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        transform: translate(0, -5px);
+        z-index: 3;
+    }
+
+    .required:hover::before {
+        opacity: 1;
+    }
 
 /* --------------------- general styles --------------------- */
 
@@ -383,16 +421,20 @@ body {
     right: 20px;
 }
 
-.action-icons a{
-    text-decoration: none;
-    color: grey;
-    transition: all 0.3s ease;
-}
-
-    .action-icons a:hover {
+    .action-icons a {
         text-decoration: none;
-        color: rgba(58, 83, 155, 0.7);
+        color: rgb(80, 80, 80);
+        transition: all 0.3s ease;
     }
+
+        .action-icons a:hover {
+            text-decoration: none;
+            color: grey;
+        }
+
+.action-icons .material-icons {
+    font-size: 32px;
+}
 
 
 /* ---------- employee-specific details.cshtml styles ---------- */
@@ -565,7 +607,7 @@ body {
     transition: color 0.3s ease;
 }
 
-    .sort-arrow:hover{
+    .sort-arrow:hover {
         cursor: pointer;
     }
 
@@ -727,6 +769,12 @@ body {
     overflow: hidden;
 }
 
+    .modal-field label {
+        display: block;
+        margin-bottom: 5px;
+        margin-left: 42px;
+    }
+
     .modal-field input[type="text"],
     .modal-field input[type="email"],
     .modal-field input[type="tel"],
@@ -789,5 +837,3 @@ input[type="number"] {
         border-radius: 10px;
         border: 3px solid rgba(255, 255, 255, 0.1);
     }
-
-

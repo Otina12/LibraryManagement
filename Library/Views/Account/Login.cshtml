@@ -25,13 +25,13 @@
         </div>
         <form asp-action="Login" method="post">
             <div class="myField">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" type="email" />
+                <label class="required" asp-for="Email">Email</label>
+                <input asp-for="Email" type="email" required/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="myField">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" />
+                <label class="required" asp-for="Password">Password</label>
+                <input asp-for="Password" type="password" required/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
