@@ -5,6 +5,7 @@ using Library.Model.Models.Menu;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Book;
+using Library.Service.Dtos.Customers;
 using Library.Service.Dtos.Email;
 using Library.Service.Dtos.Employee;
 using Library.Service.Dtos.Publisher;
@@ -12,6 +13,7 @@ using Library.ViewModels;
 using Library.ViewModels.Authorization;
 using Library.ViewModels.Authors;
 using Library.ViewModels.Books;
+using Library.ViewModels.Customers;
 using Library.ViewModels.Emails;
 using Library.ViewModels.Employees;
 using Library.ViewModels.Publishers;
@@ -57,5 +59,8 @@ public class MappingProfiles : Profile
             .ForMember(dest => dest.PublisherId, opt => opt.MapFrom(src => src.PublisherDto != null ? src.PublisherDto.Id : Guid.Empty))
             .ForMember(dest => dest.GenreIds, opt => opt.MapFrom(src => src.Genres.Select(g => g.Id).ToList()));
         CreateMap<EditBookViewModel, EditBookDto>();
+
+        // customer maps
+        CreateMap<CreateCustomerViewModel, CreateCustomerDto>();
     }
 }

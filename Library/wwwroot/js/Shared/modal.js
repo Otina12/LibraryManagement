@@ -45,7 +45,7 @@ function loadModalContent(url, title, action) {
             $('#add-button').toggle(action === 'create');
             $('#edit-button').toggle(action === 'edit');
             $('#confirm-delete-button').hide();
-            $('#publisherModal, #authorModal').fadeIn();
+            $('#publisherModal, #authorModal, #customerModal').fadeIn();
         },
         error: function () {
             alert('Error loading the form');
@@ -60,10 +60,10 @@ function submitForm(form, url) {
         data: form.serialize(),
         success: function (response) {
             if (response.success) {
-                $('#publisherModal, #authorModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal').fadeOut();
                 location.reload();
             } else {
-                $('#publisherModal, #authorModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal').fadeOut();
                 location.reload();
             }
         },
@@ -90,7 +90,7 @@ function deleteEntity(entityId, deleteUrl) {
         data: { id: entityId },
         success: function (response) {
             if (response.success) {
-                $('#publisherModal, #authorModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal').fadeOut();
                 location.reload();
             } else {
                 alert('Error deleting the entity: ' + response.message);

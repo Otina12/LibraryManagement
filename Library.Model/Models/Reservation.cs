@@ -16,7 +16,7 @@ public class Reservation : BaseModel
     public string? ReturnCustomerId { get; set; } // not FK
 
     [ForeignKey("Employee")]
-    public string EmployeeId { get; set; }
+    public string EmployeeId { get; set; } // which employee handled reservation
 
     public BookCopy BookCopy { get; set; }
     public Customer Customer { get; set; }

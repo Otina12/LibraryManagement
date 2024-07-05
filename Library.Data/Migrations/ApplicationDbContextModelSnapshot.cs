@@ -60,7 +60,7 @@ namespace Library.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Book", b =>
@@ -110,7 +110,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.BookAuthor", b =>
@@ -125,7 +125,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookAuthor");
+                    b.ToTable("BookAuthor", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.BookCopy", b =>
@@ -166,7 +166,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("RoomId", "ShelfId");
 
-                    b.ToTable("BookCopies");
+                    b.ToTable("BookCopies", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.BookGenre", b =>
@@ -181,7 +181,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenre");
+                    b.ToTable("BookGenre", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Customer", b =>
@@ -222,7 +222,7 @@ namespace Library.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Email.EmailModel", b =>
@@ -246,7 +246,7 @@ namespace Library.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailModels");
+                    b.ToTable("EmailModels", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Employee", b =>
@@ -352,7 +352,7 @@ namespace Library.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Menu.NavigationMenu", b =>
@@ -380,7 +380,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("ParentMenuId");
 
-                    b.ToTable("NavigationMenu");
+                    b.ToTable("NavigationMenu", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Menu.RoleMenuPermission", b =>
@@ -395,7 +395,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("NavigationMenuId");
 
-                    b.ToTable("RoleMenuPermission");
+                    b.ToTable("RoleMenuPermission", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>
@@ -428,7 +428,7 @@ namespace Library.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publishers", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Reservation", b =>
@@ -470,7 +470,7 @@ namespace Library.Data.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Room", b =>
@@ -487,7 +487,7 @@ namespace Library.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Library.Model.Models.Shelf", b =>
@@ -500,7 +500,7 @@ namespace Library.Data.Migrations
 
                     b.HasKey("RoomId", "Id");
 
-                    b.ToTable("Shelves");
+                    b.ToTable("Shelves", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

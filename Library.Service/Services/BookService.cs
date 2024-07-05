@@ -15,11 +15,8 @@ namespace Library.Service.Services;
 
 public class BookService : BaseService<Book>, IBookService
 {
-    private readonly IValidationService _validationService;
-
-    public BookService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork)
+    public BookService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
     {
-        _validationService = validationService;
     }
 
     public async Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters)

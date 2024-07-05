@@ -169,5 +169,17 @@ namespace Library.Service.Services
 
             return Result.Failure<Book>(BookErrors.BookAlreadyExists);
         }
+
+        public async Task<Result> CustomerIsNew(string Id)
+        {
+            var customer = await _unitOfWork.Customers.GetOneWhere(x => x.Id == Id);
+
+            if (customer is null)
+            {
+                return Result.Success();
+            }
+
+            return Result.Failure(Error<Customer>.AlreadyExists);
+        }
     }
 }

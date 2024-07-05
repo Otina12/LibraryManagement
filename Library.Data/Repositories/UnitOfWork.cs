@@ -18,6 +18,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IGenreRepository Genres { get; private set; }
     public IRoomRepository Rooms { get; private set; }
     public IShelfRepository Shelves { get; private set; }
+    public ICustomerRepository Customers { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -33,6 +34,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         Genres = new GenreRepository(_context);
         Rooms = new RoomRepository(_context);
         Shelves = new ShelfRepository(_context);
+        Customers = new CustomerRepository(_context);
     }
 
     public async Task SaveChangesAsync()

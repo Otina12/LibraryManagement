@@ -13,11 +13,8 @@ namespace Library.Service.Services
 {
     public class PublisherService : BaseService<Publisher>, IPublisherService
     {
-        private readonly IValidationService _validationService;
-
-        public PublisherService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork)
+        public PublisherService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
         {
-            _validationService = validationService;
         }
 
         public async Task<EntityFiltersDto<PublisherDto>> GetAllFilteredPublishers(EntityFiltersDto<PublisherDto> publisherFilters)

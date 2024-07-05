@@ -9,19 +9,22 @@ namespace Library.Service.Services;
 public class BaseService<T> : IBaseService<T> where T : BaseModel
 {
     protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IValidationService _validationService;
     private readonly ILoggerManager? _logger;
     private readonly IBaseModelRepository<T> _repository;
 
-    public BaseService(IUnitOfWork unitOfWork, ILoggerManager logger)
+    public BaseService(IUnitOfWork unitOfWork, IValidationService validationService, ILoggerManager logger)
     {
         _unitOfWork = unitOfWork;
+        _validationService = validationService;
         _logger = logger;
         _repository = _unitOfWork.GetBaseModelRepository<T>();
     }
 
-    protected BaseService(IUnitOfWork unitOfWork)
+    protected BaseService(IUnitOfWork unitOfWork, IValidationService validationService)
     {
         _unitOfWork = unitOfWork;
+        _validationService = validationService;
         _repository = _unitOfWork.GetBaseModelRepository<T>();
     }
 

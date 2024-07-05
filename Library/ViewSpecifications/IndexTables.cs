@@ -1,5 +1,6 @@
 ﻿using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
+using Library.Service.Dtos.Customers;
 using Library.Service.Dtos.Publisher;
 using Library.ViewModels;
 
@@ -117,6 +118,44 @@ namespace Library.ViewSpecifications
                         "PhoneNumber" => publisherDto!.PhoneNumber ?? "--------",
                         "YearPublished" => publisherDto!.YearPublished.ToString(),
                         "BooksCount" => publisherDto!.Books.Length.ToString(),
+                        _ => ""
+                    };
+                }
+            };
+            return sortableTableModel;
+        }
+
+        public static SortableTableModel GetCustomerTable(EntityFiltersDto<CustomerDto> customerListDto)
+        {
+            var sortableTableModel = new SortableTableModel
+            {
+                Items = customerListDto.Entities,
+                SearchString = customerListDto.SearchString,
+                SortBy = customerListDto.SortBy,
+                SortOrder = customerListDto.SortOrder,
+                PageNumber = customerListDto.PageNumber,
+                PageSize = customerListDto.PageSize,
+                TotalItems = customerListDto.TotalItems,
+                Columns = new List<SortableColumn>
+                {
+                    new("Name", "Name", true),
+                    new("Email", "Email", false),
+                    new("PhoneNumber", "Phone Number", false),
+                    new("MembershipStartDate", "Member from", false)
+                },
+                ActionName = "Index",
+                ControllerName = "Customer",
+                GetPropertyValue = (customer, prop) =>
+                {
+                    var customerDto = customer as CustomerDto;
+                    return prop switch
+                    {
+                        "Id" => customerDto!.Id.ToString(),
+                        "Name" => $"{customerDto!.Name} {customerDto!.Surname}",
+                        "Email" => customerDto!.Email ?? "--------",
+                        "PhoneNumber" => customerDto!.PhoneNumber ?? "--------",
+                        "Address" => customerDto!.Address.ToString(),
+                        "MembershipStartDate" => customerDto!.MembershipStartDate.ToString("dd MMMM yyyy"),
                         _ => ""
                     };
                 }

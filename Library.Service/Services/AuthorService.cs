@@ -13,11 +13,8 @@ namespace Library.Service.Services;
 
 public class AuthorService : BaseService<Author>, IAuthorService
 {
-    private readonly IValidationService _validationService;
-
-    public AuthorService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork)
+    public AuthorService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
     {
-        _validationService = validationService;
     }
 
     public async Task<EntityFiltersDto<AuthorDto>> GetAllFilteredAuthors(EntityFiltersDto<AuthorDto> authorFilters)
@@ -109,7 +106,7 @@ public class AuthorService : BaseService<Author>, IAuthorService
     {
         var dict = new Dictionary<string, Expression<Func<Author, object>>>
         {
-            ["Name"] = a => a.Name,
+            ["Name"] = c => c.Name,
             ["Period"] = b => b.BirthYear
         };
 

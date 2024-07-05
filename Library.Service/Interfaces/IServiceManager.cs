@@ -16,4 +16,5 @@ public interface IServiceManager
     IGenreService GenreService { get; }
     IRoomService RoomService { get; }
     IShelfService ShelfService { get; }
+    ICustomerService CustomerService { get; }
 }
