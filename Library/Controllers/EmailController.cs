@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Library.Model.Enums;
-using Library.Service.Dtos.Email;
 using Library.Service.Interfaces;
 using Library.Attributes.Authorization;
 using Library.ViewModels.Emails;
 using Microsoft.AspNetCore.Mvc;
+using Library.Service.Dtos.Email.Post;
 
 namespace Library.Controllers
 {

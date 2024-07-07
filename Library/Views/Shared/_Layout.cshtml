@@ -14,15 +14,16 @@
 <body
     data-notification-success="@GetTempDataValue("NotificationSuccess")"
     data-notification-message="@GetTempDataValue("NotificationMessage")">
+
     <header>
         @await Component.InvokeAsync("NavigationMenu")
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
 
     <script src="~/js/Shared/notification.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

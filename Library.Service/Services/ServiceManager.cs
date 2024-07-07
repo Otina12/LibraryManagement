@@ -24,6 +24,7 @@ public class ServiceManager : IServiceManager
     private readonly Lazy<IRoomService> _roomService;
     private readonly Lazy<IShelfService> _shelfService;
     private readonly Lazy<ICustomerService> _customerService;
+    private readonly Lazy<IReservationService> _reservationService;
 
     public ServiceManager(IUnitOfWork unitOfWork, UserManager<Employee> userManager,
         SignInManager<Employee> signInManager, IValidationService validationService,
@@ -42,6 +43,7 @@ public class ServiceManager : IServiceManager
         _roomService = new Lazy<IRoomService>(() => new RoomService(unitOfWork, validationService));
         _shelfService = new Lazy<IShelfService>(() => new ShelfService(unitOfWork, validationService));
         _customerService = new Lazy<ICustomerService>(() => new CustomerService(unitOfWork, validationService));
+        _reservationService = new Lazy<IReservationService>(() => new ReservationService(unitOfWork, validationService));
     }
 
     public IAuthenticationService AuthService => _authService.Value;
@@ -57,4 +59,5 @@ public class ServiceManager : IServiceManager
     public IRoomService RoomService => _roomService.Value;
     public IShelfService ShelfService => _shelfService.Value;
     public ICustomerService CustomerService => _customerService.Value;
+    public IReservationService ReservationService => _reservationService.Value;
 }

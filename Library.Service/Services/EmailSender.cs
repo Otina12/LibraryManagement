@@ -3,6 +3,7 @@ using Library.Model.Abstractions;
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Service.Dtos.Email;
+using Library.Service.Dtos.Email.Get;
 using Library.Service.Interfaces;
 using Mailjet.Client;
 using Mailjet.Client.Resources;

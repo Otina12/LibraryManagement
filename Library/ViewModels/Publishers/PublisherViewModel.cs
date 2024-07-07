@@ -1,4 +1,4 @@
-﻿using Library.Service.Dtos.Book;
+﻿using Library.Service.Dtos.Book.Get;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.ViewModels.Publishers;
@@ -12,6 +12,7 @@ public class PublisherViewModel
     public string? Email { get; set; }
 
     [Phone(ErrorMessage = "Invalid phone number format")]
+    [MaxLength(25, ErrorMessage = "Phone number must be at most 25 characters long")]
     public string? PhoneNumber { get; set; }
     public int YearPublished { get; set; }
     public BookIdAndTitleDto[] Books { get; set; } = [];

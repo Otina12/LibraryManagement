@@ -1,3 +1,4 @@
+using FluentValidation;
 using Library.ActionFilters;
 using Library.Extensions;
 using NLog;
@@ -20,6 +21,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureValidation();
 builder.Services.ConfigureMailjet(builder.Configuration);
 builder.Services.ConfigureLoggerService();
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddSession();
 

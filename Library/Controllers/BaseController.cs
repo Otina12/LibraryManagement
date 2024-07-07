@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Library.Model.Abstractions;
 using Library.Service.Interfaces;
 using Library.ViewModels;
@@ -42,6 +43,26 @@ namespace Library.Controllers
         protected IActionResult HandleResult<T>(Result<T> result, object viewModel, string successMessage, string failureMessage, string controllerName, string actionName)
         {
             return HandleResult((Result)result, viewModel, successMessage, failureMessage, controllerName, actionName);
+        }
+
+        protected Result Validate<T>(T model) where T : class
+        {
+            var validator = HttpContext.RequestServices.GetService<IValidator<T>>();
+
+            if (validator is not null)
+            {
+                var result = validator.Validate(model);
+                if (!result.IsValid)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                    }
+                    return Result.Failure();
+                }
+            }
+
+            return Result.Success();
         }
 
         private void CreateNotification(bool isSuccess, string? message)

@@ -1,5 +1,6 @@
 ﻿using Library.Model.Models;
-using Library.Service.Dtos.Customers;
+using Library.Service.Dtos.Customers.Get;
+using Library.Service.Dtos.Customers.Post;
 
 namespace Library.Service.Helpers.Mappers;
 

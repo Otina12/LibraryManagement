@@ -4,12 +4,14 @@ using Library.Model.Models.Email;
 using Library.Model.Models.Menu;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Authorization;
-using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Customers;
-using Library.Service.Dtos.Email;
-using Library.Service.Dtos.Employee;
-using Library.Service.Dtos.Publisher;
-using Library.ViewModels;
+using Library.Service.Dtos.Book.Get;
+using Library.Service.Dtos.Book.Post;
+using Library.Service.Dtos.Customers.Post;
+using Library.Service.Dtos.Email.Post;
+using Library.Service.Dtos.Employee.Get;
+using Library.Service.Dtos.Publisher.Get;
+using Library.Service.Dtos.Publisher.Post;
+using Library.Service.Dtos.Reservations.Post;
 using Library.ViewModels.Authorization;
 using Library.ViewModels.Authors;
 using Library.ViewModels.Books;
@@ -17,6 +19,8 @@ using Library.ViewModels.Customers;
 using Library.ViewModels.Emails;
 using Library.ViewModels.Employees;
 using Library.ViewModels.Publishers;
+using Library.ViewModels.Reservations;
+using Library.ViewModels.Shared;
 
 namespace Library.Mappers;
 
@@ -62,5 +66,9 @@ public class MappingProfiles : Profile
 
         // customer maps
         CreateMap<CreateCustomerViewModel, CreateCustomerDto>();
+
+        // reservation maps
+        CreateMap<CreateReservationViewModel, CreateReservationDto>();
+        CreateMap<BookCopiesViewModel, BookCopiesDto>();
     }
 }

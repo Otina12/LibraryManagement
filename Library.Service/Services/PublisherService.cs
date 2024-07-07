@@ -2,7 +2,9 @@
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Publisher;
+using Library.Service.Dtos.Book.Get;
+using Library.Service.Dtos.Publisher.Get;
+using Library.Service.Dtos.Publisher.Post;
 using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;

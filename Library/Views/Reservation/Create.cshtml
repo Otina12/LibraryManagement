@@ -1,0 +1,50 @@
+﻿@model Library.ViewModels.Reservations.CreateReservationViewModel
+@{
+    ViewData["Title"] = "Reserve a Book";
+}
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/post-form.css" />
+</head>
+
+<body>
+    <form class="post-form" asp-action="Create" asp-controller="Reservation" method="post" id="createReservationForm" style="width: 600px;">
+        <div class="form-title">Reserve a book</div>
+        <div id="customerVerificationContainer">
+            @await Html.PartialAsync("_CustomerVerificationPartial", Model.CustomerId)
+        </div>
+        <div id="reservationFormContent" style="display: none;">
+            <div id="bookReservationContainer">
+                <div class="form-field">
+                    <label asp-for="Books" class="required">Books</label>
+                    <div id="bookForms" class="book-forms">
+                        <div class="post-form-wrapper">
+                            <div class="book-form">
+                                <select class="book-dropdown" id="bookDropdown">
+                                    <option value="">Select a book</option>
+                                    @foreach (var book in ViewBag.Books)
+                                    {
+                                        <option value="@book.Id">@book.Title</option>
+                                    }
+                                </select>
+                                <input type="number" min="1" class="quantity" placeholder="Quantity" />
+                                <input type="date" class="return-date" placeholder="Return Date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" required />
+                                <button type="button" class="add-reservation-btn">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Books" class="text-danger"></span>
+                </div>
+                <div class="form-field">
+                    <div id="selectedBooks"></div>
+                </div>
+                <button type="submit" class="submit-button">Reserve</button>
+            </div>
+        </div>
+    </form>
+</body>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/js/Reservation/reservation-post.js"></script>
+}

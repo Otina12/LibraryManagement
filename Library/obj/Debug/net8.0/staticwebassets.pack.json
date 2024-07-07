@@ -5,12 +5,12 @@
       "PackagePath": "staticwebassets\\Library.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\book.css",
-      "PackagePath": "staticwebassets\\css\\book.css"
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\auth-form.css",
+      "PackagePath": "staticwebassets\\css\\auth-form.css"
     },
     {
-      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\form.css",
-      "PackagePath": "staticwebassets\\css\\form.css"
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\post-form.css",
+      "PackagePath": "staticwebassets\\css\\post-form.css"
     },
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\site.css",
@@ -37,8 +37,16 @@
       "PackagePath": "staticwebassets\\js\\Book\\book-post.js"
     },
     {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Email\\tinymce.js",
+      "PackagePath": "staticwebassets\\js\\Email\\tinymce.js"
+    },
+    {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Employee\\employee.js",
       "PackagePath": "staticwebassets\\js\\Employee\\employee.js"
+    },
+    {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-post.js",
+      "PackagePath": "staticwebassets\\js\\Reservation\\reservation-post.js"
     },
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Shared\\modal.js",
@@ -47,6 +55,10 @@
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Shared\\notification.js",
       "PackagePath": "staticwebassets\\js\\Shared\\notification.js"
+    },
+    {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Shared\\select2.js",
+      "PackagePath": "staticwebassets\\js\\Shared\\select2.js"
     },
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\site.js",

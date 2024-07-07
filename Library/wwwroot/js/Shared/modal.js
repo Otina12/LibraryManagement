@@ -62,9 +62,10 @@ function submitForm(form, url) {
             if (response.success) {
                 $('#publisherModal, #authorModal, #customerModal').fadeOut();
                 location.reload();
+            } else if (typeof response === 'object' && response.message) {
+                alert('Error: ' + response.message);
             } else {
-                $('#publisherModal, #authorModal, #customerModal').fadeOut();
-                location.reload();
+                $('#modalBody').html(response);
             }
         },
         error: function () {

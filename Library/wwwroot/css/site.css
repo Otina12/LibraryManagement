@@ -91,6 +91,11 @@ label {
         background-color: #dc3545;
     }
 
+.field-validation-error {
+    font-size: 15px !important;
+    display: block;
+    margin-top: 5px;
+}
 
 .btn {
     padding: 10px 15px;
@@ -758,7 +763,8 @@ label {
 }
 
 #createPublisherForm, #editPublisherForm,
-#createAuthorForm, #editAuthorForm {
+#createAuthorForm, #editAuthorForm,
+#createCustomerForm, #editCustomerForm {
     width: 100% !important;
 }
 

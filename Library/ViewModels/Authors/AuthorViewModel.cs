@@ -1,4 +1,4 @@
-﻿using Library.Service.Dtos.Book;
+﻿using Library.Service.Dtos.Book.Get;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.ViewModels.Authors;
@@ -12,7 +12,7 @@ public class AuthorViewModel
     [EmailAddress(ErrorMessage = "Wrong email format")]
     public string? Email { get; set; }
 
-    [MaxLength(1500)]
+    [MaxLength(800, ErrorMessage = "Description must be at most 800 characters long")]
     public string Description { get; set; }
     public int BirthYear { get; set; }
     public int? DeathYear { get; set; }

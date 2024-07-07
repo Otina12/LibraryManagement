@@ -318,11 +318,11 @@
             },
             "FluentValidation": {
               "target": "Package",
-              "version": "[11.9.1, )"
+              "version": "[11.9.2, )"
             },
             "FluentValidation.DependencyInjectionExtensions": {
               "target": "Package",
-              "version": "[11.9.1, )"
+              "version": "[11.9.2, )"
             },
             "Mailjet.Api": {
               "target": "Package",

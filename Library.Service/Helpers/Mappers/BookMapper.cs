@@ -1,5 +1,6 @@
 ﻿using Library.Model.Models;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos.Book.Get;
+using Library.Service.Dtos.Book.Post;
 using System.ComponentModel;
 using System.Net;
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Library.Service.Dtos.Authorization;
-using Library.Service.Dtos.Email;
+using Library.Service.Dtos.Email.Get;
 using Library.Service.Interfaces;
 using Library.ViewModels.Authorization;
 using Microsoft.AspNetCore.Authorization;

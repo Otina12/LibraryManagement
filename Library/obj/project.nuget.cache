@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "ZByvUVIKgT72V0h78mwQCeWhZilq/7YmKbsFtsmlGwTT1EWCTp3kDtffbrJ8qMx81yY2RlFyL1/fdt7V4lIqmA==",
+  "dgSpecHash": "yBlNSGPC5T8b/DpapnL3VbOhrZgf1hFgw9TPZ3fLP/Me5QsxyBpb5ABjXRoF/y43BJ2d9VQJ5avOOP/e45TjIQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\Library.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Giorgi\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
-    "C:\\Users\\Giorgi\\.nuget\\packages\\fluentvalidation\\11.9.1\\fluentvalidation.11.9.1.nupkg.sha512",
-    "C:\\Users\\Giorgi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.1\\fluentvalidation.dependencyinjectionextensions.11.9.1.nupkg.sha512",
+    "C:\\Users\\Giorgi\\.nuget\\packages\\fluentvalidation\\11.9.2\\fluentvalidation.11.9.2.nupkg.sha512",
+    "C:\\Users\\Giorgi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.2\\fluentvalidation.dependencyinjectionextensions.11.9.2.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Giorgi\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",

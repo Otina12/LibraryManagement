@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Library.Service.Interfaces;
-using Library.ViewModels;
+using Library.ViewModels.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

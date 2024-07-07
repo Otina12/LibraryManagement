@@ -1,13 +1,9 @@
-﻿namespace Library.Data.Repositories;
-
-using Library.Model.Interfaces;
+﻿using Library.Model.Interfaces;
 using Library.Model.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-internal class BookRepository : BaseModelRepository<Book>, IBookRepository
+namespace Library.Data.Repositories;
+public class BookRepository : BaseModelRepository<Book>, IBookRepository
 {
     public BookRepository(ApplicationDbContext context) : base(context)
     {
@@ -42,6 +38,7 @@ internal class BookRepository : BaseModelRepository<Book>, IBookRepository
             await query.AsNoTracking().ToListAsync();
     }
 
+    // TODO: probably better to rewrite bottom two methods in Services
     public async Task UpdateGenresForBook(Guid bookId, List<int> newGenreIds)
     {
         var existingGenres = await _context.BookGenre

@@ -3,7 +3,9 @@ using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Publisher;
+using Library.Service.Dtos.Book.Get;
+using Library.Service.Dtos.Book.Post;
+using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Helpers;
 using Library.Service.Helpers.Books;
 using Library.Service.Helpers.Extensions;
@@ -17,6 +19,16 @@ public class BookService : BaseService<Book>, IBookService
 {
     public BookService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
     {
+    }
+
+    public async Task<IEnumerable<BookIdTitleAndQuantityDto>> GetAllBooksSorted()
+    {
+        var books = await _unitOfWork.Books
+            .GetAllAsQueryable()
+            .OrderBy(x => x.Title)
+            .ToListAsync();
+
+        return books.Select(b => new BookIdTitleAndQuantityDto(b.Id, b.Title, b.Quantity));
     }
 
     public async Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters)

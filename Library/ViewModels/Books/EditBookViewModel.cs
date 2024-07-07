@@ -1,4 +1,4 @@
-﻿using Library.Service.Dtos.Book;
+﻿using Library.Service.Dtos.Book.Get;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.ViewModels.Books;
@@ -7,7 +7,7 @@ public class EditBookViewModel
 {
     public Guid Id { get; set; }
 
-    [MaxLength(13)]
+    [MaxLength(13, ErrorMessage = "ISBN must be at most 13 characters long")]
     public string ISBN { get; set; }
     public string Title { get; set; }
     public int Edition { get; set; }

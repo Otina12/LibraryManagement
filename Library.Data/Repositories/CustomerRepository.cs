@@ -10,7 +10,7 @@ public class CustomerRepository : BaseModelRepository<Customer>, ICustomerReposi
     {
     }
 
-    public async Task<Customer?> GetById(string Id, bool trackChanges = false)
+    public async Task<Customer?> GetById(string Id, bool trackChanges)
     {
         return trackChanges ?
             await dbSet.FirstOrDefaultAsync(c => c.Id == Id) :

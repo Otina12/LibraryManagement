@@ -28,7 +28,7 @@
     }else{
         <div class="modal-field">
             <label asp-for="DeathYear">Death Year</label>
-            <input asp-for="DeathYear" type="number" min="0" max="@DateTime.Now.Year" />
+            <input asp-for="DeathYear" type="number" min="0" max="@DateTime.UtcNow.Year" />
             <span asp-validation-for="DeathYear" class="text-danger"></span>
         </div>
     }

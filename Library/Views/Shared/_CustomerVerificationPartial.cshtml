@@ -1,0 +1,17 @@
+﻿@model string?
+
+<head>
+    <link rel="stylesheet" href="~/css/post-form.css" />
+</head>
+
+<div class="customer-verification-container">
+    <div class="form-field">
+        <label for="CustomerId">Customer ID</label>
+        <div class="customer-id-wrapper">
+            <input type="number" id="customerIdInput" name="CustomerId" value="@Model" required />
+            <button type="button" id="verifyCustomer">Verify Customer</button>
+        </div>
+        <span id="customerName"></span>
+        <a href="#" id="createCustomerLink" style="display: none;">Create New Customer</a>
+    </div>
+</div>

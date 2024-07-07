@@ -16,6 +16,7 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IRoomRepository Rooms { get; }
     public IShelfRepository Shelves { get; }
     public ICustomerRepository Customers { get; }
+    public IReservationRepository Reservations { get; }
     public IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel;
 
     Task SaveChangesAsync();

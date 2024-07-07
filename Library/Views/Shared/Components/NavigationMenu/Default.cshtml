@@ -1,11 +1,11 @@
-﻿@using System.Security.Claims
-@model IEnumerable<Library.ViewModels.NavigationMenuItemViewModel>
+﻿@using System.Security.Claims;
+@model IEnumerable<Library.ViewModels.Shared.NavigationMenuItemViewModel>
 
 @{
     ViewData["Title"] = "NavigationMenu";
     var curUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-    void RenderMenuItems(IEnumerable<Library.ViewModels.NavigationMenuItemViewModel> items)
+    void RenderMenuItems(IEnumerable<Library.ViewModels.Shared.NavigationMenuItemViewModel> items)
     {
         foreach (var item in items)
         {

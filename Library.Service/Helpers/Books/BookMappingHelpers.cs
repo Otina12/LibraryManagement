@@ -1,5 +1,5 @@
 ﻿using Library.Model.Models;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos.Book.Get;
 using System;
 
 namespace Library.Service.Helpers.Books;

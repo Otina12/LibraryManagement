@@ -70,6 +70,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (result.Succeeded)
         {
+            _loggerManager.LogInfo($"Logged in user with email '{loginDto.Email}'");
             return Result.Success();
         }
 

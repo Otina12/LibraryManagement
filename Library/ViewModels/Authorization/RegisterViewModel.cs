@@ -36,6 +36,7 @@ public class RegisterViewModel
 
     [Required(ErrorMessage = "Phone Number is required")]
     [Phone(ErrorMessage = "Wrong phone number format")]
+    [MaxLength(25, ErrorMessage = "Phone number must be at most 25 characters long")]
     public string PhoneNumber { get; set; } = null!;
 
     [Required(ErrorMessage = "Password is required")]

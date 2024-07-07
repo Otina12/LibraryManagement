@@ -3,6 +3,7 @@ using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
+using Library.Service.Dtos.Book.Get;
 using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;

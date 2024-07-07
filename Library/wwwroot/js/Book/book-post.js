@@ -34,7 +34,7 @@
     });
 
     addLocationBtn.addEventListener('click', function () {
-        const locationForm = addLocationBtn.closest('.location-form-wrapper');
+        const locationForm = addLocationBtn.closest('.post-form-wrapper');
         const roomId = locationForm.querySelector('#roomDropdown').value.trim();
         const quantity = parseInt(locationForm.querySelector('.quantity').value.trim(), 10);
         const shelfIdElement = locationForm.querySelector('#shelfDropdown');

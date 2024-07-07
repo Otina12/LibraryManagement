@@ -1,12 +1,12 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models.Email;
 using Library.Service.Interfaces;
-using Library.Service.Dtos.Email;
 using Library.Model.Abstractions.Errors;
 using Library.Model.Abstractions;
 using Library.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Library.Service.Helpers.Extensions;
+using Library.Service.Dtos.Email.Post;
 
 namespace Library.Service.Services;
 

@@ -1,4 +1,4 @@
-﻿using Library.Service.Dtos.Book;
+﻿using Library.Service.Dtos.Book.Get;
 
 namespace Library.Service.Dtos.Author;
 

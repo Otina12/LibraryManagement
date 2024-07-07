@@ -32,7 +32,7 @@ public static class SeedData
             {
                 Name = "Giorgi",
                 Surname = "Otinashvili",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Email = "giorgiotinashvili12@gmail.com",
                 NormalizedEmail = "GIORGIOTINASHVILI12@GMAIL.COM",
                 UserName = "Giorgi",
@@ -48,7 +48,7 @@ public static class SeedData
             {
                 Name = "John",
                 Surname = "Doe",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Email = "johndoe@gmail.com",
                 NormalizedEmail = "JOHNDOE@GMAIL.COM",
                 UserName = "JohnDoe",
@@ -64,7 +64,7 @@ public static class SeedData
             {
                 Name = "Kylian",
                 Surname = "Doe",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Email = "kyliandoe@gmail.com",
                 NormalizedEmail = "KYLIANDOE@GMAIL.COM",
                 UserName = "KylianDoe",

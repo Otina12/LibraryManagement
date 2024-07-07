@@ -17,4 +17,5 @@ public interface IServiceManager
     IRoomService RoomService { get; }
     IShelfService ShelfService { get; }
     ICustomerService CustomerService { get; }
+    IReservationService ReservationService { get; }
 }

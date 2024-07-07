@@ -1,0 +1,428 @@
+﻿/* --------------- edit/create form styles --------------- */
+.post-form {
+    width: 800px;
+    padding: 35px 45px 25px 45px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(35px);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    color: white;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+    .form-field label {
+        background-color: transparent;
+        text-align: left;
+        display: block;
+        padding: 0;
+        font-size: 16px;
+        margin-bottom: 2px;
+        border: none;
+        color: white;
+    }
+
+    .form-field input[type="text"],
+    .form-field input[type="email"],
+    .form-field input[type="number"],
+    .form-field input[type="datetime-local"],
+    .form-field textarea,
+    .form-field select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: border-color 0.3s ease;
+        margin-top: 3px;
+    }
+
+        .form-field select option {
+            background-color: transparent;
+            color: white;
+        }
+
+.publisher-field select option {
+    background-color: transparent;
+    color: black;
+}
+
+.column-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .column-fields .form-field2 {
+        flex: 0 0 48% !important;
+        box-sizing: border-box;
+    }
+
+    .column-fields .form-field3 {
+        flex: 0 0 32% !important;
+        box-sizing: border-box;
+    }
+
+.form-field select:focus,
+.form-field input[type="text"]:focus,
+.form-field input[type="email"]:focus,
+.form-field input[type="number"]:focus,
+.form-field input[type="datetime-local"]:focus,
+.form-field textarea:focus {
+    border-color: #4290f5;
+    outline: none;
+}
+
+.form-field input[type="text"]::placeholder,
+.form-field input[type="email"]::placeholder,
+.form-field input[type="number"]::placeholder,
+.form-field input[type="datetime-local"]::placeholder,
+.form-field textarea::placeholder {
+    color: rgba(250, 250, 250, 0.5);
+}
+
+.location-dropdown option {
+    color: black !important;
+}
+
+.submit-button {
+    margin-top: 10px;
+    width: 30%;
+    padding: 8px 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: #156bef;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block;
+    margin: auto;
+}
+
+    .submit-button:hover {
+        background-color: #3240f5;
+    }
+
+.post-form-wrapper {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    align-content: center;
+}
+
+.location-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+    .location-form input[type="number"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: border-color 0.3s ease;
+    }
+
+        .location-form input[type="number"]:focus {
+            border-color: #4290f5;
+            outline: none;
+        }
+
+        .location-form input[type="number"]::placeholder {
+            color: rgba(250, 250, 250, 0.5);
+        }
+
+.add-location-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    background-color: #24CC4D;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .add-location-btn:hover {
+        background-color: #24DD4D;
+    }
+
+.location-summary {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    .location-summary:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: #bbb;
+    }
+
+    .location-summary button {
+        font-size: 15px;
+        margin-left: 5px;
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+        .location-summary button:hover {
+            color: red;
+        }
+
+.book-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.book-form input[type="number"] {
+    width: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: border-color 0.3s ease;
+}
+
+    .book-form input[type="number"]:focus {
+        border-color: #4290f5;
+        outline: none;
+    }
+
+    .book-form input[type="number"]::placeholder {
+        color: rgba(250, 250, 250, 0.5);
+    }
+
+.book-dropdown option {
+    color: black !important;
+}
+
+.add-book-btn, .add-reservation-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    background-color: #24CC4D;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .add-book-btn:hover, .add-reservation-btn:hover {
+        background-color: #24DD4D;
+    }
+
+.book-summary {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    .book-summary:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: #bbb;
+    }
+
+    .book-summary button {
+        font-size: 15px;
+        margin-left: 5px;
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+        .book-summary button:hover {
+            color: red;
+        }
+
+
+.customer-verification-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 20px auto;
+}
+
+.customer-id-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+    .customer-id-wrapper input {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: border-color 0.3s ease;
+    }
+
+#verifyCustomer {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4290f5;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+    #verifyCustomer:hover {
+        background-color: #3240f5;
+    }
+
+    #verifyCustomer:disabled {
+        background-color: #a0a0a0;
+        cursor: not-allowed;
+    }
+
+#customerName {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: white;
+}
+
+#createCustomerLink {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #4290f5;
+    text-decoration: none;
+}
+
+    #createCustomerLink:hover {
+        text-decoration: underline;
+    }
+
+.select2-container {
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
+    height: 45px;
+    font-size: 18px !important;
+    align-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ccc;
+    font-size: 15px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+    .select2-container--default .select2-selection--multiple .select2-search__field::placeholder,
+    .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: rgba(250, 250, 250, 0.5);
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid #ccc;
+        height: fit-content;
+        border-radius: 5px;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: white;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+.select2-container--default .select2-dropdown {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+}
+
+#select2-bookDropdown-container{
+    color: white;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: black;
+    border: 1px solid #ccc;
+}
+
+.select2-container--default .select2-results__option {
+    background-color: transparent;
+    color: black;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #156bef;
+    color: white;
+}
+
+.select2-container--open .select2-dropdown {
+    left: 0;
+    right: 0;
+}
+
+.select2-selection__arrow,
+.select2-selection__clear {
+    display: none;
+}
+
+.select2-results__options {
+    word-wrap: break-word;
+}
+
+select:disabled,
+input:disabled,
+button:disabled {
+    cursor: not-allowed !important;
+}
+
+.select2-container--disabled {
+    cursor: not-allowed !important;
+}

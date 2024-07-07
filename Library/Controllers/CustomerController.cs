@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Library.Model.Abstractions;
-using Library.Model.Models;
-using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Customers;
+using Library.Service.Dtos.Customers.Get;
+using Library.Service.Dtos.Customers.Post;
 using Library.Service.Interfaces;
 using Library.ViewModels.Customers;
 using Library.ViewSpecifications;
@@ -44,7 +42,8 @@ public class CustomerController : BaseController
     [HttpPost]
     public async Task<IActionResult> Create(CreateCustomerViewModel createCustomerVM)
     {
-        if (!ModelState.IsValid)
+        var valResult = Validate(createCustomerVM);
+        if (valResult.IsFailure)
         {
             return PartialView("_CreatePartial", createCustomerVM);
         }

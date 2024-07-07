@@ -1,6 +1,6 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models.Email;
-using Library.Service.Dtos.Email;
+using Library.Service.Dtos.Email.Post;
 
 namespace Library.Service.Interfaces;
 

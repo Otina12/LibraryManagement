@@ -1,5 +1,4 @@
-﻿@using Library.Service.Dtos.Book;
-@model Library.ViewModels.Books.CreateBookViewModel
+﻿@model Library.ViewModels.Books.CreateBookViewModel
 
 @{
     ViewData["Title"] = "Create Book";
@@ -7,64 +6,64 @@
 
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/book.css" />
+    <link rel="stylesheet" href="~/css/post-form.css" />
 </head>
 
 <body>
-    <form class="book-form" asp-action="Create" asp-controller="Book" method="post" id="createBookForm">
-        <div class="book-title">Add a book</div>
+    <form class="post-form" asp-action="Create" asp-controller="Book" method="post" id="createBookForm">
+        <div class="form-title">Add a book</div>
         <div class="column-fields">
-            <div class="book-field" style="width: 68%;">
+            <div class="form-field" style="width: 68%;">
                 <input asp-for="Title" placeholder="Title*" required />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="book-field">
+            <div class="form-field">
                 <input asp-for="ISBN" maxlength="13" placeholder="ISBN*" required />
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
         </div>
-        <div class="book-field">
+        <div class="form-field">
             <textarea asp-for="Description" placeholder="Description*" required></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="column-fields">
-            <div class="book-field book-field3">
+            <div class="form-field form-field3">
                 <input asp-for="Edition" type="number" value="" placeholder="Edition*" required />
                 <span asp-validation-for="Edition" class="text-danger"></span>
             </div>
-            <div class="book-field book-field3">
+            <div class="form-field form-field3">
                 <input asp-for="PageCount" type="number" value="" placeholder="# of Pages*" required />
                 <span asp-validation-for="PageCount" class="text-danger"></span>
             </div>
-            <div class="book-field book-field3">
-                <input asp-for="PublishYear" type="number" value="" min="0" max="@DateTime.Now.Year" placeholder="Release Year*" required/>
+            <div class="form-field form-field3">
+                <input asp-for="PublishYear" type="number" value="" min="0" max="@DateTime.UtcNow.Year" placeholder="Release Year*" required/>
                 <span asp-validation-for="PublishYear" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="book-field">
+        <div class="form-field">
             <label asp-for="SelectedGenreIds">Genres</label>
-            <select asp-for="SelectedGenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name"))" multiple class="select2-multiple"></select>
+            <select class="select2-genres" asp-for="SelectedGenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name"))" multiple></select>
             <span asp-validation-for="SelectedGenreIds" class="text-danger"></span>
         </div>
 
-        <div class="book-field publisher-field">
+        <div class="form-field publisher-field">
             <label asp-for="SelectedPublisherId">Publisher</label>
             <select asp-for="SelectedPublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name"))"></select>
         </div>
 
-        <div class="book-field">
+        <div class="form-field">
             <label asp-for="SelectedAuthorIds">Authors</label>
-            <select class="select2-multiple" asp-for="SelectedAuthorIds" asp-items="@(new MultiSelectList(ViewBag.Authors, "Id", "FullName"))" id="authorSelectList" multiple></select>
+            <select class="select2-authors" asp-for="SelectedAuthorIds" asp-items="@(new MultiSelectList(ViewBag.Authors, "Id", "FullName"))" id="authorSelectList" multiple></select>
         </div>
-        <div class="book-field">
+        <div class="form-field">
             <div id="selectedAuthors"></div>
         </div>
 
-        <div class="book-field">
+        <div class="form-field">
             <label asp-for="Locations" class="required">Locations</label>
             <div id="locationForms" class="location-forms">
-                <div class="location-form-wrapper">
+                <div class="post-form-wrapper">
                     <div class="location-form">
                         <select class="location-dropdown" id="roomDropdown">
                             <option value="">Room*</option>
@@ -76,7 +75,7 @@
                         <select class="location-dropdown" id="shelfDropdown">
                             <option value="">Shelf</option>
                         </select>
-                        <input type="number" min="0" class="quantity" placeholder="Quantity*" />
+                        <input type="number" min="0" class="quantity" placeholder="Quantity" />
 
                         <button type="button" class="add-location-btn">Add</button>
                     </div>
@@ -91,31 +90,10 @@
 @section Scripts {
     <script>
         var serializedShelves = @Html.Raw(ViewBag.Shelves);
-
-        $(document).ready(function () {
-            $('.select2-multiple').select2({
-                placeholder: 'Select authors',
-                multiple: true,
-                allowClear: true,
-                language: {
-                    noResults: function () {
-                        return 'No results found. <a href="/Author/Create" class="add-author">Add an author</a>';
-                    }
-                },
-                escapeMarkup: function (markup) {
-                    return markup;
-                }
-            });
-
-            $(document).on('click', '.add-author', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                initializeModal('author', '/Author/Create', '/Author/Edit/', '/Author/Delete/');
-                loadModalContent('/Author/Create', 'Add Author', 'create');
-            });
-        });
     </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="~/js/Shared/modal.js"></script>
+    <script src="~/js/Shared/select2.js"></script>
     <script src="~/js/Book/book-post.js?v=1.0.1"></script>
 }

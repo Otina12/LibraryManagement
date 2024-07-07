@@ -18,11 +18,11 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="BirthYear" placeholder="Birth Year*" type="number" min="0" max="@DateTime.Now.Year" value="" required />
+        <input asp-for="BirthYear" placeholder="Birth Year*" type="number" min="0" max="@DateTime.UtcNow.Year" value="" required />
         <span asp-validation-for="BirthYear" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <input asp-for="DeathYear" placeholder="Death Year" type="number" min="0" max="@DateTime.Now.Year" value="" />
+        <input asp-for="DeathYear" placeholder="Death Year" type="number" min="0" max="@DateTime.UtcNow.Year" value="" />
         <span asp-validation-for="DeathYear" class="text-danger"></span>
     </div>
 </form>

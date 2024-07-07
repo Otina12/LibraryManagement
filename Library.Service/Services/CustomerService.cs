@@ -1,7 +1,6 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Customers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Helpers;
 using Library.Service.Interfaces;
@@ -10,6 +9,8 @@ using System.Linq.Expressions;
 using Library.Service.Helpers.Mappers;
 using Library.Model.Abstractions;
 using Library.Service.Dtos.Author;
+using Library.Service.Dtos.Customers.Post;
+using Library.Service.Dtos.Customers.Get;
 
 namespace Library.Service.Services;
 
@@ -17,6 +18,18 @@ public class CustomerService : BaseService<Customer>, ICustomerService
 {
     public CustomerService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
     {
+    }
+
+    public async Task<CustomerDto?> GetById(string Id)
+    {
+        var customer = await _unitOfWork.Customers.GetById(Id);
+
+        if (customer is null)
+        {
+            return null;
+        }
+
+        return customer.MapToCustomerDto();
     }
 
     public async Task<EntityFiltersDto<CustomerDto>> GetAllFilteredCustomers(EntityFiltersDto<CustomerDto> customerFilters)

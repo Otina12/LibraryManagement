@@ -1,7 +1,8 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Publisher;
+using Library.Service.Dtos.Publisher.Get;
+using Library.Service.Dtos.Publisher.Post;
 
 namespace Library.Service.Interfaces;
 

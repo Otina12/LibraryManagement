@@ -2,7 +2,8 @@
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Service.Dtos.Employee;
+using Library.Service.Dtos.Employee.Get;
+using Library.Service.Dtos.Employee.Post;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;

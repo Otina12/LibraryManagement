@@ -1,6 +1,6 @@
 ﻿using Library.Model.Models;
 using Library.Service.Dtos.Authorization;
-using Library.Service.Dtos.Employee;
+using Library.Service.Dtos.Employee.Get;
 
 namespace Library.Service.Helpers.Extensions;
 
@@ -12,7 +12,7 @@ public static class EmployeeMapper
         {
             Name = employeeDto.Name,
             Surname = employeeDto.Surname,
-            CreationDate = DateTime.Now,
+            CreationDate = DateTime.UtcNow,
             UserName = employeeDto.UserName,
             DateOfBirth = new DateTime(employeeDto.Year, employeeDto.Month, employeeDto.Day),
             NormalizedUserName = employeeDto.UserName.ToUpper(),

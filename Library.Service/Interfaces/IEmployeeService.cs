@@ -1,6 +1,6 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
-using Library.Service.Dtos.Employee;
+using Library.Service.Dtos.Employee.Get;
 
 namespace Library.Service.Interfaces;
 

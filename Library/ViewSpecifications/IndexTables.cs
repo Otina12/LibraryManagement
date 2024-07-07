@@ -1,8 +1,9 @@
 ﻿using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book;
-using Library.Service.Dtos.Customers;
-using Library.Service.Dtos.Publisher;
-using Library.ViewModels;
+using Library.Service.Dtos.Book.Get;
+using Library.Service.Dtos.Customers.Get;
+using Library.Service.Dtos.Publisher.Get;
+using Library.ViewModels.Shared;
 
 namespace Library.ViewSpecifications
 {
