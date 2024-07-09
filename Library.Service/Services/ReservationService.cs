@@ -3,7 +3,9 @@ using Library.Model.Abstractions.Errors;
 using Library.Model.Enums;
 using Library.Model.Interfaces;
 using Library.Model.Models;
+using Library.Service.Dtos.Reservations.Get;
 using Library.Service.Dtos.Reservations.Post;
+using Library.Service.Helpers.Mappers;
 using Library.Service.Interfaces;
 
 namespace Library.Service.Services;
@@ -17,6 +19,19 @@ public class ReservationService : IReservationService
     {
         _unitOfWork = unitOfWork;
         _validationService = validationService;
+    }
+
+    public IEnumerable<(DateTime, IEnumerable<ReservationDto>)> GetAll()
+    {
+        var groupedReservations = _unitOfWork.Reservations.GetAllGroupedByDate();
+        var reservations = groupedReservations.Select(x =>
+            (
+                x.Key,
+                x.Select(r => r.MapToReservationDto())
+            )
+        );
+
+        return reservations;
     }
 
     public async Task<Result> Create(string employeeId, CreateReservationDto createReservationDto)

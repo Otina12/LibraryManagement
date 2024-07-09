@@ -14,8 +14,10 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<CustomExceptionFilter>();
 });
 builder.Services.ConfigureSqlServer(builder.Configuration);
+builder.Services.ConfigureCors();
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureServices();
+builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureIdentity();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureValidation();
@@ -33,11 +35,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
+
+app.UseCors("CorsPolicy");
+app.UseResponseCaching();
 
 app.UseAuthorization();
 

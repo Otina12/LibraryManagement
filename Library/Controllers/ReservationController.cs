@@ -17,7 +17,8 @@ public class ReservationController : BaseController
 
     public IActionResult Index()
     {
-        return View();
+        var reservations = _serviceManager.ReservationService.GetAll();
+        return View(reservations);
     }
 
     public async Task<IActionResult> Create()
@@ -35,9 +36,9 @@ public class ReservationController : BaseController
         // test data
         reservationVM.Books = new List<BookCopiesViewModel>(){
             new BookCopiesViewModel{
-                BookId = new Guid("94d1dcf9-1cf3-44f0-78cc-08dc953a6bd0"),
-                Quantity = 6,
-                SupposedReturnDate = DateOnly.FromDateTime(DateTime.Now.AddDays(10))
+                BookId = new Guid("1becd250-a65b-45d5-2668-08dc95454fa0"),
+                Quantity = 4,
+                SupposedReturnDate = DateOnly.FromDateTime(DateTime.Now.AddDays(3))
             }
         };
 

@@ -23,7 +23,7 @@
                     }
                 </th>
             }
-            @if (Model.ControllerName != "Book")
+            @if (Model.ControllerName != "Book" && Model.ControllerName != "Reservation")
             {
                 <th>Actions</th>
             }
@@ -40,7 +40,7 @@
                 {
                     <td>@Model.GetPropertyValue(item, column.PropertyName)</td>
                 }
-                @if (Model.ControllerName != "Book")
+                @if (Model.ControllerName != "Book" && Model.ControllerName != "Reservation")
                 {
                     <td>
                         <a href="" class="btn btn-edit" data-entity-id="@id">Edit</a>

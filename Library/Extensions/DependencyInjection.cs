@@ -40,6 +40,20 @@ public static class DependencyInjection
     public static void ConfigureMailjet(this IServiceCollection services, IConfiguration configuration) =>
         services.Configure<MailjetSettings>(configuration.GetSection("MailjetSettings"));
 
+    public static void ConfigureResponseCaching(this IServiceCollection services) =>
+        services.AddResponseCaching();
+
+    public static void ConfigureCors(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", builder =>
+            builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+        });
+    }
+
     public static void ConfigureValidation(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
