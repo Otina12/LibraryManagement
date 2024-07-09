@@ -31,7 +31,7 @@ namespace Library.Controllers
             return View();
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize(nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> Create(CreateEmailTemplateViewModel emailTemplateVM)
         {
@@ -58,7 +58,7 @@ namespace Library.Controllers
             return View(_mapper.Map<EditEmailTemplateViewModel>(emailTemplate));
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize(nameof(Role.Admin))]
         [HttpPost]
         public async Task<IActionResult> Edit(EditEmailTemplateViewModel emailTemplateVM)
         {
@@ -74,7 +74,7 @@ namespace Library.Controllers
             return HandleResult(result, emailTemplateVM, $"Email template '{emailTemplateVM.Subject}' edited successfully", result.Error.Message, "Email");
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize(nameof(Role.Admin))]
         [HttpDelete("Email/Delete/{id}")]
         public async Task<IActionResult> Delete(Guid Id)
         {

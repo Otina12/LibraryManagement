@@ -5,5 +5,5 @@ namespace Library.Service.Interfaces;
 
 public interface IReservationService
 {
-    Task<Result> Create(CreateReservationDto reservationDto);
+    Task<Result> Create(string employeeId, CreateReservationDto reservationDto);
 }

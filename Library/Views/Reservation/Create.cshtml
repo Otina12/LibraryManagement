@@ -1,4 +1,5 @@
 ﻿@model Library.ViewModels.Reservations.CreateReservationViewModel
+
 @{
     ViewData["Title"] = "Reserve a Book";
 }
@@ -9,11 +10,12 @@
 </head>
 
 <body>
-    <form class="post-form" asp-action="Create" asp-controller="Reservation" method="post" id="createReservationForm" style="width: 600px;">
+    <form class="post-form" asp-action="Create" asp-controller="Reservation" method="post" id="createReservationForm" style="width: 750px;" enctype="multipart/form-data">
         <div class="form-title">Reserve a book</div>
         <div id="customerVerificationContainer">
             @await Html.PartialAsync("_CustomerVerificationPartial", Model.CustomerId)
         </div>
+        <input type="hidden" name="CustomerId" id="hiddenCustomerId" value="@Model.CustomerId" />
         <div id="reservationFormContent" style="display: none;">
             <div id="bookReservationContainer">
                 <div class="form-field">
@@ -29,7 +31,7 @@
                                     }
                                 </select>
                                 <input type="number" min="1" class="quantity" placeholder="Quantity" />
-                                <input type="date" class="return-date" placeholder="Return Date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" required />
+                                <input type="date" class="return-date" placeholder="Return Date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" />
                                 <button type="button" class="add-reservation-btn">Add</button>
                             </div>
                         </div>
@@ -46,5 +48,5 @@
 </body>
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/js/Reservation/reservation-post.js"></script>
+    <script src="~/js/Reservation/reservation-post.js?v=1.0.1"></script>
 }

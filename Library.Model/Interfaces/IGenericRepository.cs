@@ -17,6 +17,8 @@ namespace Library.Model.Interfaces
         /// <param name="entity">The entity to create.</param>
         Task Create(T entity);
 
+        Task CreateRange(IEnumerable<T> entites);
+
         /// <summary>
         /// Marks an existing entity as modified. Changes will be applied to the database upon calling SaveChanges.
         /// </summary>

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repositories;
 
-public class ReservationRepository : GenericRepository<Reservation>, IReservationRepository
+public class ReservationRepository : BaseModelRepository<Reservation>, IReservationRepository
 {
     public ReservationRepository(ApplicationDbContext context) : base(context)
     {

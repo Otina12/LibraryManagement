@@ -13,11 +13,19 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
 
     public async Task<IEnumerable<LocationValueObject>> GetAllLocationsOfABook(Guid bookId)
     {
-        return await _context.BookCopies
+        return await dbSet
             .Where(x => x.BookId == bookId) // get all copies of a book
             .GroupBy(x => new { x.RoomId, x.ShelfId }) // group by locations
             .Select(x => new LocationValueObject(x.Key.RoomId, x.Key.ShelfId, x.Count())) // retrieve count for each
             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<BookCopy>> GetXBookCopies(Guid bookId, int X)
+    {
+        return await dbSet
+                        .Where(x => x.BookId == bookId && !x.IsTaken)
+                        .Take(X)
+                        .ToListAsync();
     }
 
     public void AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X)
@@ -33,12 +41,12 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                                 CreationDate = DateTime.UtcNow
                             }).ToList();
 
-        _context.BookCopies.AddRange(bookCopies);
+        dbSet.AddRange(bookCopies);
     }
 
     public void DeleteXBookCopies(Guid bookId, int roomId, int? shelfId, int X)
     {
-        var copiesToDelete = _context.BookCopies
+        var copiesToDelete = dbSet
                                 .Where(bc => bc.BookId == bookId &&
                                                 bc.RoomId == roomId &&
                                                 bc.ShelfId == shelfId)
@@ -46,6 +54,6 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                                 .Take(X)
                                 .ToList();
 
-        _context.BookCopies.RemoveRange(copiesToDelete);
+        dbSet.RemoveRange(copiesToDelete);
     }
 }

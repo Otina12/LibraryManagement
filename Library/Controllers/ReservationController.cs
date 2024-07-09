@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Library.Attributes.Authorization;
+using Library.Model.Enums;
 using Library.Service.Dtos.Reservations.Post;
 using Library.Service.Interfaces;
 using Library.ViewModels.Reservations;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Library.Controllers;
 
@@ -26,8 +29,18 @@ public class ReservationController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateReservationViewModel reservationVM)
+    [CustomAuthorize($"{nameof(Role.Admin)},{nameof(Role.Librarian)}")]
+    public async Task<IActionResult> Create([FromForm] CreateReservationViewModel reservationVM)
     {
+        // test data
+        reservationVM.Books = new List<BookCopiesViewModel>(){
+            new BookCopiesViewModel{
+                BookId = new Guid("94d1dcf9-1cf3-44f0-78cc-08dc953a6bd0"),
+                Quantity = 6,
+                SupposedReturnDate = DateOnly.FromDateTime(DateTime.Now.AddDays(10))
+            }
+        };
+
         var valResult = Validate(reservationVM);
         if (valResult.IsFailure)
         {
@@ -35,8 +48,10 @@ public class ReservationController : BaseController
             return View(reservationVM);
         }
 
+        var curEmployeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var reservationDto = _mapper.Map<CreateReservationDto>(reservationVM);
-        var result = await _serviceManager.ReservationService.Create(reservationDto);
+        
+        var result = await _serviceManager.ReservationService.Create(curEmployeeId!, reservationDto);
 
         return HandleResult(result, reservationVM, "Reservation has been confirmed", result.Error.Message, "Reservation");
     }
