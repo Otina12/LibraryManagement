@@ -20,12 +20,19 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<BookCopy>> GetXBookCopies(Guid bookId, int X)
+    public async Task<IEnumerable<BookCopy>> GetXBookCopies(Guid bookId, int X, bool trackChanges)
     {
-        return await dbSet
-                        .Where(x => x.BookId == bookId && !x.IsTaken)
-                        .Take(X)
-                        .ToListAsync();
+        return trackChanges ?
+            await dbSet
+                .Where(x => x.BookId == bookId && !x.IsTaken)
+                .OrderBy(x => x.Status) // take best quality (low Enum.Status) book copies
+                .Take(X)
+                .ToListAsync() :
+            await dbSet.AsNoTracking()
+                .Where(x => x.BookId == bookId && !x.IsTaken)
+                .OrderBy(x => x.Status)
+                .Take(X)
+                .ToListAsync();
     }
 
     public void AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X)

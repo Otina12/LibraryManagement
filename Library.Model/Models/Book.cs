@@ -21,4 +21,5 @@ public class Book : BaseModel
     public ICollection<BookAuthor> BookAuthors { get; } = [];
     public ICollection<BookGenre> BookGenres { get; } = [];
     public ICollection<BookCopy> BookCopies { get; } = [];
+    public ICollection<Reservation> Reservations { get; } = [];
 }

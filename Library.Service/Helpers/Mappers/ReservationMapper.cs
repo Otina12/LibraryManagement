@@ -1,21 +1,36 @@
 ﻿using Library.Model.Models;
 using Library.Service.Dtos.Reservations.Get;
+using Library.Service.Dtos.Reservations.Post;
 
 namespace Library.Service.Helpers.Mappers;
 
 public static class ReservationMapper
 {
-    public static ReservationDto MapToReservationDto(this Reservation reservation) // only use when Reservation includes bookcopy and book
+    public static Reservation MapToReservation(this BooksReservationDto reservationDto, string employeeId, string customerId)
     {
+        var dateTimeNow = DateTime.UtcNow;
+        return new Reservation
+        {
+            BookId = reservationDto.BookId,
+            CustomerId = customerId,
+            ReservationDate = dateTimeNow,
+            Quantity = reservationDto.Quantity,
+            SupposedReturnDate = reservationDto.SupposedReturnDate,
+            EmployeeId = employeeId,
+            CreationDate = dateTimeNow
+        };
+    }
+
+    public static ReservationDto MapToReservation(this Reservation reservation) // only use when Reservation includes (is joined with) book
+    {
+        var dateTimeNow = DateTime.UtcNow;
         return new ReservationDto(
-            reservation.BookCopyId,
-            reservation.BookCopy.BookId,
-            reservation.BookCopy.Book.Title,
+            reservation.BookId,
+            reservation.Book.Title,
             reservation.CustomerId,
+            reservation.Quantity,
             reservation.ReservationDate,
             reservation.SupposedReturnDate,
-            reservation.ActualReturnDate,
-            reservation.ReturnCustomerId,
             reservation.EmployeeId
             );
     }

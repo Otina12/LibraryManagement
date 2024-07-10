@@ -4,5 +4,5 @@ namespace Library.Model.Interfaces;
 
 public interface IEmailRepository : IGenericRepository<EmailModel>
 {
-    Task<EmailModel?> GetBySubject(string subject);
+    Task<EmailModel?> GetBySubject(string subject, bool trackChanges = false);
 }

@@ -12,14 +12,12 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
 
     public async override Task<IEnumerable<Reservation>> GetAll(bool trackChanges)
     {
-        return  trackChanges ?
+        return trackChanges ?
             await dbSet
-                .Include(x => x.BookCopy)
-                .ThenInclude(x => x.Book)
+                .Include(x => x.Book)
                 .ToListAsync() :
             await dbSet
-                .Include(x => x.BookCopy)
-                .ThenInclude(x => x.Book)
+                .Include(x => x.Book)
                 .AsNoTracking()
                 .ToListAsync();
     }

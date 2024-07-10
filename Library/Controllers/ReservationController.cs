@@ -34,8 +34,8 @@ public class ReservationController : BaseController
     public async Task<IActionResult> Create([FromForm] CreateReservationViewModel reservationVM)
     {
         // test data
-        reservationVM.Books = new List<BookCopiesViewModel>(){
-            new BookCopiesViewModel{
+        reservationVM.Books = new List<BooksReservationViewModel>(){
+            new BooksReservationViewModel{
                 BookId = new Guid("1becd250-a65b-45d5-2668-08dc95454fa0"),
                 Quantity = 4,
                 SupposedReturnDate = DateOnly.FromDateTime(DateTime.Now.AddDays(3))
@@ -51,8 +51,8 @@ public class ReservationController : BaseController
 
         var curEmployeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var reservationDto = _mapper.Map<CreateReservationDto>(reservationVM);
-        
-        var result = await _serviceManager.ReservationService.Create(curEmployeeId!, reservationDto);
+
+        var result = await _serviceManager.ReservationService.CreateReservations(curEmployeeId!, reservationDto);
 
         return HandleResult(result, reservationVM, "Reservation has been confirmed", result.Error.Message, "Reservation");
     }

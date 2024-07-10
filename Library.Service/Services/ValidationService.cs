@@ -31,9 +31,9 @@ namespace Library.Service.Services
             return true; // otherwise valid
         }
 
-        public async Task<Result<Employee>> EmployeeExists(string id)  // use when need to verify that employee exists
+        public async Task<Result<Employee>> EmployeeExists(string id, bool trackChanges)  // use when need to verify that employee exists
         {
-            var employee = await _unitOfWork.Employees.GetById(new Guid(id), trackChanges: false);
+            var employee = await _unitOfWork.Employees.GetById(new Guid(id), trackChanges);
 
             var employeeExists = employee is not null;
 
@@ -44,9 +44,9 @@ namespace Library.Service.Services
             return employee; // implicit operator, wraps into Result.Success object
         }
 
-        public async Task<Result<EmailModel>> EmailTemplateExists(string subject) // use when need to verify that email template exists
+        public async Task<Result<EmailModel>> EmailTemplateExists(string subject, bool trackChanges) // use when need to verify that email template exists
         {
-            var email = await _unitOfWork.EmailTemplates.GetBySubject(subject);
+            var email = await _unitOfWork.EmailTemplates.GetBySubject(subject, trackChanges);
 
             var emailExists = email is not null;
 
@@ -56,9 +56,9 @@ namespace Library.Service.Services
             return email; // implicit operator, wraps into Result.Success object
         }
 
-        public async Task<Result<EmailModel>> EmailTemplateExists(Guid id) // use when need to verify that email template exists
+        public async Task<Result<EmailModel>> EmailTemplateExists(Guid id, bool trackChanges) // use when need to verify that email template exists
         {
-            var email = await _unitOfWork.EmailTemplates.GetById(id);
+            var email = await _unitOfWork.EmailTemplates.GetById(id, trackChanges);
 
             if (email is null)
                 return Result.Failure<EmailModel>(EmailErrors.EmailTemplateNotFound);
@@ -66,9 +66,9 @@ namespace Library.Service.Services
             return email;
         }
 
-        public async Task<Result> EmailTemplateIsNew(string subject) // use when need to verify that email template does not exist
+        public async Task<Result> EmailTemplateIsNew(string subject, bool trackChanges) // use when need to verify that email template does not exist
         {
-            var email = await _unitOfWork.EmailTemplates.GetBySubject(subject);
+            var email = await _unitOfWork.EmailTemplates.GetBySubject(subject, trackChanges);
 
             var emailExists = email is not null;
 
@@ -78,9 +78,9 @@ namespace Library.Service.Services
             return Result.Success();
         }
 
-        public async Task<Result<Publisher>> PublisherExists(Guid id) // use when need to verify that publisher exists
+        public async Task<Result<Publisher>> PublisherExists(Guid id, bool trackChanges) // use when need to verify that publisher exists
         {
-            var publisher = await _unitOfWork.Publishers.GetById(id);
+            var publisher = await _unitOfWork.Publishers.GetById(id, trackChanges);
 
             if (publisher is null)
             {
@@ -104,9 +104,9 @@ namespace Library.Service.Services
             return Result.Success();
         }
 
-        public async Task<Result<Author>> AuthorExists(Guid id) // use when need to verify that author exists
+        public async Task<Result<Author>> AuthorExists(Guid id, bool trackChanges) // use when need to verify that author exists
         {
-            var author = await _unitOfWork.Authors.GetById(id);
+            var author = await _unitOfWork.Authors.GetById(id, trackChanges);
 
             if (author is null)
             {
@@ -134,9 +134,9 @@ namespace Library.Service.Services
         /// Checks if a book exists
         /// If yes, returns a Success result with Book. If no, returns Failure result with a corresponding error
         /// </summary>
-        public async Task<Result<Book>> BookExists(Guid id)
+        public async Task<Result<Book>> BookExists(Guid id, bool trackChanges)
         {
-            var book = await _unitOfWork.Books.GetById(id);
+            var book = await _unitOfWork.Books.GetById(id, trackChanges);
 
             if (book is null)
             {
@@ -146,9 +146,9 @@ namespace Library.Service.Services
             return book;
         }
 
-        public async Task<Result<Book>> BookExists(string isbn)
+        public async Task<Result<Book>> BookExists(string isbn, bool trackChanges)
         {
-            var book = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == isbn);
+            var book = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == isbn, trackChanges);
 
             if (book is null)
             {
@@ -158,9 +158,9 @@ namespace Library.Service.Services
             return book;
         }
 
-        public async Task<Result> BookIsNew(string isbn) // use when need to verify that book is new (when creating)
+        public async Task<Result> BookIsNew(string isbn, bool trackChanges) // use when need to verify that book is new (when creating)
         {
-            var book = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == isbn);
+            var book = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == isbn, trackChanges);
             
             if (book is null)
             {
@@ -170,9 +170,9 @@ namespace Library.Service.Services
             return Result.Failure<Book>(BookErrors.BookAlreadyExists);
         }
 
-        public async Task<Result<Customer>> CustomerExists(string Id)
+        public async Task<Result<Customer>> CustomerExists(string Id, bool trackChanges)
         {
-            var customer = await _unitOfWork.Customers.GetById(Id);
+            var customer = await _unitOfWork.Customers.GetById(Id, trackChanges);
 
             if (customer is null)
             {
@@ -182,9 +182,9 @@ namespace Library.Service.Services
             return customer;
         }
 
-        public async Task<Result> CustomerIsNew(string Id)
+        public async Task<Result> CustomerIsNew(string Id, bool trackChanges)
         {
-            var customer = await _unitOfWork.Customers.GetOneWhere(x => x.Id == Id);
+            var customer = await _unitOfWork.Customers.GetOneWhere(x => x.Id == Id, trackChanges);
 
             if (customer is null)
             {

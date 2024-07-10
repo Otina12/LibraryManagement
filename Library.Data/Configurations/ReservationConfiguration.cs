@@ -8,6 +8,13 @@ internal class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
 {
     public void Configure(EntityTypeBuilder<Reservation> builder)
     {
-        builder.HasKey(r => new { r.CustomerId, r.BookCopyId, r.ReservationDate });
+        builder.HasKey(r => r.Id);
+
+        builder.HasMany(x => x.ReservationCopies)
+            .WithOne(x => x.Reservation);
+
+        builder.HasOne(x => x.Book)
+            .WithMany(x => x.Reservations)
+            .HasForeignKey(x => x.BookId);
     }
 }

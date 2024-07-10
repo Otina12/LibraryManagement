@@ -4,22 +4,22 @@ namespace Library.Model.Models;
 
 public class Reservation : BaseModel
 {
-    [ForeignKey("BookCopy")]
-    public Guid BookCopyId { get; set; }
+    public Guid Id { get; set; }
+    [ForeignKey(nameof(Book))]
+    public Guid BookId { get; set; }
 
-    [ForeignKey("Customer")]
+    [ForeignKey(nameof(Customer))]
     public required string CustomerId { get; set; }
-
     public DateTime ReservationDate { get; set; }
+    public int Quantity { get; set; }
     public DateTime SupposedReturnDate { get; set; }
-    public DateTime? ActualReturnDate { get; set; }
-    public string? ReturnCustomerId { get; set; } // not FK
 
-    [ForeignKey("Employee")]
-    public string EmployeeId { get; set; } // which employee handled reservation
+    [ForeignKey(nameof(Employee))]
+    public string EmployeeId { get; set; } // tells us which employee handled reservation
 
-    public BookCopy BookCopy { get; set; }
+    public Book Book { get; set; }
     public Customer Customer { get; set; }
     public Employee Employee { get; set; }
+    public ICollection<ReservationCopy> ReservationCopies { get; set; } = [];
 
 }

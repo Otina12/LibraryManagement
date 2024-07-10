@@ -21,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<ReservationCopy> ReservationCopies { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Shelf> Shelves { get; set; }
 
