@@ -13,7 +13,7 @@ public class BookCopyConfiguration : IEntityTypeConfiguration<BookCopy>
         builder.Property(b => b.Status)
             .HasDefaultValue(Status.Normal);
 
-        builder.HasMany(b => b.Reservations)
+        builder.HasMany(b => b.ReservationCopies)
             .WithOne(r => r.BookCopy)
             .HasForeignKey(b => b.BookCopyId);
 

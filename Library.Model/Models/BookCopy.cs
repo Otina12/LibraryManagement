@@ -22,6 +22,6 @@ public class BookCopy : BaseModel
     [ForeignKey("ShelfId, RoomId")]
     public Shelf Shelf { get; set; }
 
-    public ICollection<Reservation> Reservations { get; } = [];
+    public ICollection<ReservationCopy> ReservationCopies { get; } = [];
 
 }
