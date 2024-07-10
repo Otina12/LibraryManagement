@@ -69,6 +69,8 @@ public class MappingProfiles : Profile
 
         // reservation maps
         CreateMap<CreateReservationViewModel, CreateReservationDto>();
-        CreateMap<BookCopiesViewModel, BookCopiesDto>();
+
+        CreateMap<BooksReservationViewModel, BooksReservationDto>()
+            .ForMember(dest => dest.SupposedReturnDate, opt => opt.MapFrom(src => src.SupposedReturnDate.ToDateTime(new TimeOnly(23, 59))));
     }
 }

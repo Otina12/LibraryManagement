@@ -13,23 +13,23 @@ public interface IValidationService
 {
     bool BirthdayIsValid(int day, int month, int year);
 
-    Task<Result<Employee>> EmployeeExists(string id);
+    Task<Result<Employee>> EmployeeExists(string id, bool trackChanges = false);
 
-    Task<Result<EmailModel>> EmailTemplateExists(string subject);
-    Task<Result<EmailModel>> EmailTemplateExists(Guid id);
-    Task<Result> EmailTemplateIsNew(string subject);
+    Task<Result<EmailModel>> EmailTemplateExists(string subject, bool trackChanges = false);
+    Task<Result<EmailModel>> EmailTemplateExists(Guid id, bool trackChanges = false);
+    Task<Result> EmailTemplateIsNew(string subject, bool trackChanges = false);
 
-    Task<Result<Publisher>> PublisherExists(Guid id);
+    Task<Result<Publisher>> PublisherExists(Guid id, bool trackChanges = false);
     Task<Result> PublisherIsNew(string? email, string name);
 
-    Task<Result<Author>> AuthorExists(Guid id);
+    Task<Result<Author>> AuthorExists(Guid id, bool trackChanges = false);
     Task<Result> AuthorIsNew(string? email, string name);
 
-    Task<Result<Book>> BookExists(Guid id);
-    Task<Result<Book>> BookExists(string isbn);
-    Task<Result> BookIsNew(string isbn);
+    Task<Result<Book>> BookExists(Guid id, bool trackChanges = false);
+    Task<Result<Book>> BookExists(string isbn, bool trackChanges = false);
+    Task<Result> BookIsNew(string isbn, bool trackChanges = false);
 
-    Task<Result<Customer>> CustomerExists(string Id);
-    Task<Result> CustomerIsNew(string Id);
+    Task<Result<Customer>> CustomerExists(string Id, bool trackChanges = false);
+    Task<Result> CustomerIsNew(string Id, bool trackChanges = false);
 
 }

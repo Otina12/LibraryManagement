@@ -1,6 +1,6 @@
 ﻿@using Library.Service.Dtos.Reservations.Get
 @using Library.ViewModels.Shared
-@model IEnumerable<(DateTime Date, IEnumerable<(Guid BookId, IEnumerable<ReservationDto> Reservations)>)>
+@model IEnumerable<(DateTime Date, IEnumerable<ReservationDto> Reservations)>
 @{
     ViewData["Title"] = "Reservations";
 }
@@ -10,14 +10,13 @@
     <a asp-action="Create" class="btn btn-primary">Create New Reservation</a>
 </p>
 
-@foreach (var (date, bookGroups) in Model)
+@foreach (var (date, reservations) in Model)
 {
     <h3>@date.ToShortDateString()</h3>
 
-    var allReservations = bookGroups.SelectMany(bg => bg.Reservations).ToList();
     var sortableTableModel = new SortableTableModel
     {
-        Items = allReservations,
+        Items = reservations,
         Columns = new List<SortableColumn>
         {
             new("BookTitle", "Book", false),
@@ -33,7 +32,7 @@
             return prop switch
             {
                 "BookTitle" => reservationDto!.BookTitle,
-                "Quantity" => bookGroups.FirstOrDefault(bg => bg.BookId == reservationDto!.BookId).Reservations.Count().ToString(),
+                "Quantity" => reservationDto!.Quantity,
                 "CustomerId" => reservationDto!.CustomerId,
                 "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
                 _ => ""

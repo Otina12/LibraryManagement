@@ -3,10 +3,10 @@
 public class CreateReservationViewModel
 {
     public string CustomerId { get; set; } = null!;
-    public List<BookCopiesViewModel> Books { get; set; } = []; // several copies of different books may be reserved
+    public List<BooksReservationViewModel> Books { get; set; } = []; // several copies of different books may be reserved
 }
 
-public struct BookCopiesViewModel
+public class BooksReservationViewModel
 {
     public Guid BookId { get; set; }
     public int Quantity { get; set; }

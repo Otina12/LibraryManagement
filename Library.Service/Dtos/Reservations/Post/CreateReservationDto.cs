@@ -1,8 +1,13 @@
 ﻿namespace Library.Service.Dtos.Reservations.Post;
 
-public record CreateReservationDto(string CustomerId)
+public class CreateReservationDto
 {
-    public BookCopiesDto[] Books { get; set; } = [];
+    public string CustomerId { get; set; }
+    public List<BooksReservationDto> Books { get; set; } = [];
 }
 
-public record BookCopiesDto(Guid BookId, int Quantity, DateOnly SupposedReturnDate);
+public class BooksReservationDto {
+    public Guid BookId { get; set; }
+    public int Quantity { get; set; }
+    public DateTime SupposedReturnDate { get; set; }
+}

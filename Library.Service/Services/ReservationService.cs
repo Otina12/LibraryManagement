@@ -21,95 +21,96 @@ public class ReservationService : IReservationService
         _validationService = validationService;
     }
 
-    //public async Task<IEnumerable<(DateTime Date, IEnumerable<(Guid BookId, IEnumerable<ReservationDto> Reservations)>)>> GetAll()
-    //{
-    //    var reservations = await _unitOfWork.Reservations.GetAll();
+    public async Task<IEnumerable<(DateTime, IEnumerable<ReservationDto>)>> GetAll()
+    {
+        var reservations = await _unitOfWork.Reservations.GetAll();
+        var groupedByDateReservations = reservations
+            .GroupBy(x => x.SupposedReturnDate)
+            .OrderBy(x => x.Key)
+            .Select(x => (
+                x.Key,
+                x.Select(r => r.MapToReservation())
+            ))
+            .ToList();
 
-    //    var groupedReservations = reservations
-    //        .GroupBy(r => r.SupposedReturnDate.Date)
-    //        .OrderBy(group => group.Key) // sort by date in ascending order to get closest return dates first
-    //        .Select(dateGroup => (
-    //            Date: dateGroup.Key,
-    //            BookGroups: dateGroup
-    //                .GroupBy(r => r.BookCopy.BookId)
-    //                .Select(bookGroup => (
-    //                    BookId: bookGroup.Key,
-    //                    Reservations: bookGroup.Select(x => x.MapToReservationDto())
-    //                ))
-    //        ));
+        return groupedByDateReservations;
+    }
 
-    //    return groupedReservations;
-    //}
+    public async Task<Result> CreateReservations(string employeeId, CreateReservationDto createReservationDto)
+    {
+        var reservationResult = await ValidateAndReturnReservations(employeeId, createReservationDto);
+        if (reservationResult.IsFailure)
+        {
+            return reservationResult;
+        }
 
-    //public async Task<Result> Create(string employeeId, CreateReservationDto createReservationDto)
-    //{
-    //    var reservationResult = await ValidateAndCreateReservations(employeeId, createReservationDto);
-    //    if (reservationResult.IsFailure)
-    //    {
-    //        return reservationResult;
-    //    }
+        var reservations = reservationResult.Value();
+        await _unitOfWork.Reservations.CreateRange(reservations);
 
-    //    await _unitOfWork.Reservations.CreateRange(reservationResult.Value());
-    //    await _unitOfWork.SaveChangesAsync();
-    //    return Result.Success();
-    //}
+        var reservationCopies = await GetReservationCopies(reservations);
+        await _unitOfWork.ReservationCopies.CreateRange(reservationCopies);
 
-    //private async Task<Result<List<Reservation>>> ValidateAndCreateReservations(string employeeId, CreateReservationDto createReservationDto)
-    //{
-    //    var reservations = new List<Reservation>();
+        await _unitOfWork.SaveChangesAsync();
+        return Result.Success();
+    }
 
-    //    foreach (var booksDto in createReservationDto.Books)
-    //    {
-    //        var bookResult = await ValidateAndGetBook(booksDto);
-    //        if (bookResult.IsFailure)
-    //        {
-    //            return Result.Failure<List<Reservation>>(bookResult.Error);
-    //        }
+    private async Task<IEnumerable<ReservationCopy>> GetReservationCopies(List<Reservation> reservations)
+    {
+        var reservationCopies = new List<ReservationCopy>();
 
-    //        var book = bookResult.Value();
-    //        var bookCopies = await _unitOfWork.BookCopies.GetXBookCopies(book.Id, booksDto.Quantity);
+        foreach(var reservation in reservations)
+        {
+            var quantityBookCopies = await _unitOfWork.BookCopies.GetXBookCopies(reservation.BookId, reservation.Quantity, trackChanges: true);
 
-    //        var newReservations = MapToReservations(bookCopies, createReservationDto, booksDto, employeeId);
-    //        reservations.AddRange(newReservations);
-    //    }
+            foreach(var bookCopy in quantityBookCopies)
+            {
+                bookCopy.IsTaken = true;
 
-    //    return Result.Success(reservations);
-    //}
+                reservationCopies.Add(new ReservationCopy
+                {
+                    ReservationId = reservation.Id,
+                    BookCopyId = bookCopy.Id
+                });
+            }
+        }
 
-    //private async Task<Result<Book>> ValidateAndGetBook(BookCopiesDto bookDto)
-    //{
-    //    var bookExistsResult = await _validationService.BookExists(bookDto.BookId);
-    //    if (bookExistsResult.IsFailure)
-    //    {
-    //        return Result.Failure<Book>(bookExistsResult.Error);
-    //    }
+        return reservationCopies;
+    }
 
-    //    var book = bookExistsResult.Value();
-    //    if (book.Quantity < bookDto.Quantity)
-    //    {
-    //        return Result.Failure<Book>(BookErrors.NotEnoughCopies(book.Title, book.Quantity));
-    //    }
+    private async Task<Result<List<Reservation>>> ValidateAndReturnReservations(string employeeId, CreateReservationDto createReservationDto)
+    {
+        var reservations = new List<Reservation>();
 
-    //    return Result.Success(book);
-    //}
+        foreach (var booksDto in createReservationDto.Books)
+        {
+            var bookResult = await ValidateAndGetBook(booksDto);
+            if (bookResult.IsFailure)
+            {
+                return Result.Failure<List<Reservation>>(bookResult.Error);
+            }
 
-    //// use only when booking
-    //private IEnumerable<Reservation> MapToReservations(IEnumerable<BookCopy> bookCopies, CreateReservationDto createReservationDto, BookCopiesDto bookDto, string employeeId)
-    //{
-    //    var creationDate = DateTime.UtcNow;
+            var reservation = booksDto.MapToReservation(employeeId, createReservationDto.CustomerId);
+            reservations.Add(reservation);
+        }
 
-    //    return bookCopies.Select(bookCopy => {
-    //        bookCopy.IsTaken = true;
+        return Result.Success(reservations);
+    }
 
-    //        return new Reservation
-    //        {
-    //            BookCopyId = bookCopy.Id,
-    //            CustomerId = createReservationDto.CustomerId,
-    //            ReservationDate = creationDate,
-    //            SupposedReturnDate = bookDto.SupposedReturnDate.ToDateTime(new TimeOnly(23, 59)),
-    //            EmployeeId = employeeId,
-    //            CreationDate = creationDate
-    //        };
-    //    });
-    //}
+    private async Task<Result<Book>> ValidateAndGetBook(BooksReservationDto bookDto)
+    {
+        var bookExistsResult = await _validationService.BookExists(bookDto.BookId, true);
+        if (bookExistsResult.IsFailure)
+        {
+            return Result.Failure<Book>(bookExistsResult.Error);
+        }
+
+        var book = bookExistsResult.Value();
+        if (book.Quantity < bookDto.Quantity)
+        {
+            return Result.Failure<Book>(BookErrors.NotEnoughCopies(book.Title, book.Quantity));
+        }
+
+        book.Quantity -= bookDto.Quantity; // decrement when booked
+        return Result.Success(book);
+    }
 }

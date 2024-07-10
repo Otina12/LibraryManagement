@@ -10,10 +10,11 @@ public class EmailRepository : GenericRepository<EmailModel>, IEmailRepository
     {
     }
 
-    public async Task<EmailModel?> GetBySubject(string subject)
+    public async Task<EmailModel?> GetBySubject(string subject, bool trackChanges)
     {
-        var emailTemplate = await _context.EmailModels.FirstOrDefaultAsync(x => x.Subject == subject);
-        return emailTemplate;
+        return trackChanges ?
+            await _context.EmailModels.FirstOrDefaultAsync(x => x.Subject == subject) :
+            await _context.EmailModels.AsNoTracking().FirstOrDefaultAsync(x => x.Subject == subject);
     }
 
 

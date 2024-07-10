@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Library.Model.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Model.Models
 {
@@ -15,6 +16,7 @@ namespace Library.Model.Models
 
         // SupposedReturnDate will come from Reservation table
         public DateTime? ActualReturnDate { get; set; }
+        public Status? ReturnedStatus { get; set; }
         public Reservation Reservation { get; set; }
         public BookCopy BookCopy { get; set; }
 

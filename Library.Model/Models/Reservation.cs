@@ -20,6 +20,6 @@ public class Reservation : BaseModel
     public Book Book { get; set; }
     public Customer Customer { get; set; }
     public Employee Employee { get; set; }
-    public IEnumerable<ReservationCopy> ReservationCopies { get; set; } = [];
+    public ICollection<ReservationCopy> ReservationCopies { get; set; } = [];
 
 }
