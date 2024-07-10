@@ -21,17 +21,24 @@ public class ReservationService : IReservationService
         _validationService = validationService;
     }
 
-    public IEnumerable<(DateTime, IEnumerable<ReservationDto>)> GetAll()
+    public async Task<IEnumerable<(DateTime Date, IEnumerable<(Guid BookId, IEnumerable<ReservationDto> Reservations)>)>> GetAll()
     {
-        var groupedReservations = _unitOfWork.Reservations.GetAllGroupedByDate();
-        var reservations = groupedReservations.Select(x =>
-            (
-                x.Key,
-                x.Select(r => r.MapToReservationDto())
-            )
-        );
+        var reservations = await _unitOfWork.Reservations.GetAll();
 
-        return reservations;
+        var groupedReservations = reservations
+            .GroupBy(r => r.SupposedReturnDate.Date)
+            .OrderBy(group => group.Key) // sort by date in ascending order to get closest return dates first
+            .Select(dateGroup => (
+                Date: dateGroup.Key,
+                BookGroups: dateGroup
+                    .GroupBy(r => r.BookCopy.BookId)
+                    .Select(bookGroup => (
+                        BookId: bookGroup.Key,
+                        Reservations: bookGroup.Select(x => x.MapToReservationDto())
+                    ))
+            ));
+
+        return groupedReservations;
     }
 
     public async Task<Result> Create(string employeeId, CreateReservationDto createReservationDto)

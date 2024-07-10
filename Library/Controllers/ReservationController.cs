@@ -15,9 +15,9 @@ public class ReservationController : BaseController
     {
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var reservations = _serviceManager.ReservationService.GetAll();
+        var reservations = await _serviceManager.ReservationService.GetAll();
         return View(reservations);
     }
 

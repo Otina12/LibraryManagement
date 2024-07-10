@@ -1,28 +1,28 @@
 ﻿@using Library.Service.Dtos.Reservations.Get
 @using Library.ViewModels.Shared
-@model IEnumerable<(DateTime, IEnumerable<ReservationDto>)>
-
+@model IEnumerable<(DateTime Date, IEnumerable<(Guid BookId, IEnumerable<ReservationDto> Reservations)>)>
 @{
     ViewData["Title"] = "Reservations";
 }
 
 <h1>Reservations</h1>
-
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New Reservation</a>
 </p>
 
-@foreach (var (date, reservations) in Model)
+@foreach (var (date, bookGroups) in Model)
 {
     <h3>@date.ToShortDateString()</h3>
 
+    var allReservations = bookGroups.SelectMany(bg => bg.Reservations).ToList();
     var sortableTableModel = new SortableTableModel
     {
-        Items = reservations,
+        Items = allReservations,
         Columns = new List<SortableColumn>
         {
-            new("CustomerId", "Customer ID", false),
             new("BookTitle", "Book", false),
+            new("Quantity", "Quantity", false),
+            new("CustomerId", "Customer ID", false),
             new("ReservationDate", "Reservation Date", true)
         },
         ActionName = "Index",
@@ -32,8 +32,9 @@
             var reservationDto = reservation as ReservationDto;
             return prop switch
             {
-                "CustomerId" => reservationDto!.CustomerId,
                 "BookTitle" => reservationDto!.BookTitle,
+                "Quantity" => bookGroups.FirstOrDefault(bg => bg.BookId == reservationDto!.BookId).Reservations.Count().ToString(),
+                "CustomerId" => reservationDto!.CustomerId,
                 "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
                 _ => ""
             };
@@ -41,10 +42,4 @@
     };
 
     @await Html.PartialAsync("_TablePartial", sortableTableModel)
-}
-
-@section Scripts {
-    <script>
-        // Add any JavaScript you need for handling edit/delete actions
-    </script>
 }

@@ -2,6 +2,7 @@
 
 public record ReservationDto(
     Guid BookCopyId,
+    Guid BookId,
     string BookTitle,
     string CustomerId,
     DateTime ReservationDate,

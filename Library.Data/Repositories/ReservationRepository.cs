@@ -10,22 +10,18 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
     {
     }
 
-    public IEnumerable<IGrouping<DateTime, Reservation>> GetAllGroupedByDate(bool trackChanges)
+    public async override Task<IEnumerable<Reservation>> GetAll(bool trackChanges)
     {
-        return trackChanges ?
-            dbSet
+        return  trackChanges ?
+            await dbSet
                 .Include(x => x.BookCopy)
                 .ThenInclude(x => x.Book)
-                .GroupBy(x => x.SupposedReturnDate)
-                .AsEnumerable()
-                .OrderBy(x => x.Key) :
-            dbSet
+                .ToListAsync() :
+            await dbSet
                 .Include(x => x.BookCopy)
                 .ThenInclude(x => x.Book)
                 .AsNoTracking()
-                .GroupBy(x => x.SupposedReturnDate)
-                .AsEnumerable()
-                .OrderBy(x => x.Key);
+                .ToListAsync();
     }
 
 }
