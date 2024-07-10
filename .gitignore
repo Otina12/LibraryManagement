@@ -2,6 +2,16 @@
 
 Library/wwwroot/lib/
 
+# Ignore generated files
+/Library.Data/obj/
+/Library.Data/bin/
+/Library.Model/obj/
+/Library.Model/bin/
+/Library.Service/obj/
+/Library.Service/bin/
+/Library/obj/
+/Library/bin/
+
 # User-specific files
 *.rsuser
 *.suo
