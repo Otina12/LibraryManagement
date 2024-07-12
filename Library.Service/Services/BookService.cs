@@ -12,6 +12,7 @@ using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Policy;
 
 namespace Library.Service.Services;
 
@@ -39,8 +40,9 @@ public class BookService : BaseService<Book>, IBookService
         books = books.ApplySearch(bookFilters.SearchString, GetBookSearchProperties());
         books = books.ApplySort(bookFilters.SortBy, bookFilters.SortOrder, GetBookSortDictionary());
         books = books.ApplyPagination(bookFilters.PageNumber, bookFilters.PageSize);
+        var finalBooks = books.IncludeDeleted(bookFilters.IncludeDeleted);
 
-        var booksDto = await books.Select(b => b.MapToBookDto()).ToListAsync();
+        var booksDto = finalBooks.Select(b => b.MapToBookDto());
 
         foreach (var bookDto in booksDto)
         {

@@ -26,8 +26,9 @@ public class AuthorService : BaseService<Author>, IAuthorService
         authors = authors.ApplySearch(authorFilters.SearchString, GetAuthorSearchProperties());
         authors = authors.ApplySort(authorFilters.SortBy, authorFilters.SortOrder, GetAuthorSortDictionary());
         authors = authors.ApplyPagination(authorFilters.PageNumber, authorFilters.PageSize);
+        var finalAuthors = authors.IncludeDeleted(authorFilters.IncludeDeleted);
 
-        var authorsDto = await authors.Select(a => a.MapToAuthorDto()).ToListAsync();
+        var authorsDto = finalAuthors.Select(a => a.MapToAuthorDto());
 
         foreach (var authorDto in authorsDto)
         {

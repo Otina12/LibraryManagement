@@ -1,4 +1,40 @@
-﻿.search-form {
+﻿.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.form-check-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #007bff;
+    border-radius: 3px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+    .form-check-input:checked {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .form-check-input:checked::before {
+            display: block;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            line-height: 18px;
+        }
+
+.search-form {
     margin-bottom: 20px;
     display: flex;
     justify-content: center;

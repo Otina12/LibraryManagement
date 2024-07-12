@@ -19,6 +19,7 @@ namespace Library.ViewSpecifications
                 SortOrder = bookListDto.SortOrder,
                 PageNumber = bookListDto.PageNumber,
                 PageSize = bookListDto.PageSize,
+                IncludeDeleted = bookListDto.IncludeDeleted,
                 TotalItems = bookListDto.TotalItems,
                 Columns = new List<SortableColumn>
                             {
@@ -60,6 +61,7 @@ namespace Library.ViewSpecifications
                 SortOrder = authorListDto.SortOrder,
                 PageNumber = authorListDto.PageNumber,
                 PageSize = authorListDto.PageSize,
+                IncludeDeleted = authorListDto.IncludeDeleted,
                 TotalItems = authorListDto.TotalItems,
                 Columns = new List<SortableColumn>
                 {
@@ -97,6 +99,7 @@ namespace Library.ViewSpecifications
                 SortOrder = publisherListDto.SortOrder,
                 PageNumber = publisherListDto.PageNumber,
                 PageSize = publisherListDto.PageSize,
+                IncludeDeleted = publisherListDto.IncludeDeleted,
                 TotalItems = publisherListDto.TotalItems,
                 Columns = new List<SortableColumn>
                 {
@@ -136,6 +139,7 @@ namespace Library.ViewSpecifications
                 SortOrder = customerListDto.SortOrder,
                 PageNumber = customerListDto.PageNumber,
                 PageSize = customerListDto.PageSize,
+                IncludeDeleted = customerListDto.IncludeDeleted,
                 TotalItems = customerListDto.TotalItems,
                 Columns = new List<SortableColumn>
                 {

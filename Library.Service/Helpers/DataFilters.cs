@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Library.Model.Models;
+using System.Linq.Expressions;
 
 namespace Library.Service.Helpers
 {
@@ -43,6 +44,13 @@ namespace Library.Service.Helpers
             return collection
                 .Where(item => searchProperties.Any(prop =>
                 prop(item).Contains(searchString) == true));
+        }
+
+        public static IEnumerable<T> IncludeDeleted<T>(this IQueryable<T> collection, bool includeDeleted) where T : BaseModel
+        {
+            return includeDeleted ?
+                collection.ToList() :
+                collection.ToList().Where(x => x.IsDeleted == false);
         }
     }
 }

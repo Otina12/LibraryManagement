@@ -33,15 +33,6 @@ public class ReservationController : BaseController
     [CustomAuthorize($"{nameof(Role.Admin)},{nameof(Role.Librarian)}")]
     public async Task<IActionResult> Create([FromForm] CreateReservationViewModel reservationVM)
     {
-        // test data
-        reservationVM.Books = new List<BooksReservationViewModel>(){
-            new BooksReservationViewModel{
-                BookId = new Guid("1becd250-a65b-45d5-2668-08dc95454fa0"),
-                Quantity = 4,
-                SupposedReturnDate = DateOnly.FromDateTime(DateTime.Now.AddDays(3))
-            }
-        };
-
         var valResult = Validate(reservationVM);
         if (valResult.IsFailure)
         {

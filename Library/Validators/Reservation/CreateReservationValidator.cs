@@ -16,7 +16,5 @@ public class CreateReservationValidator : AbstractValidator<CreateReservationVie
 
         RuleFor(x => x.Books)
             .NotEmpty().WithMessage("Books field must not be empty");
-
-        // rulefor dates
     }
 }

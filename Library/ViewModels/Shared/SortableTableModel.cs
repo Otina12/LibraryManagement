@@ -8,6 +8,7 @@ public class SortableTableModel
     public string SortOrder { get; set; } = string.Empty;
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
+    public bool IncludeDeleted { get; set; }
     public int TotalItems { get; set; }
     public List<SortableColumn> Columns { get; set; } = [];
     public string ActionName { get; set; } = string.Empty;

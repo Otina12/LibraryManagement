@@ -27,8 +27,9 @@ namespace Library.Service.Services
             publishers = publishers.ApplySearch(publisherFilters.SearchString, GetPublisherSearchProperties());
             publishers = publishers.ApplySort(publisherFilters.SortBy, publisherFilters.SortOrder, GetPublisherSortDictionary());
             publishers = publishers.ApplyPagination(publisherFilters.PageNumber, publisherFilters.PageSize);
+            var finalPublishers = publishers.IncludeDeleted(publisherFilters.IncludeDeleted);
 
-            var publishersDto = await publishers.Select(p => p.MapToPublisherDto()).ToListAsync();
+            var publishersDto = finalPublishers.Select(p => p.MapToPublisherDto());
 
             foreach (var publisherDto in publishersDto)
             {

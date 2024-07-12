@@ -18,7 +18,7 @@ public class BookController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, bool includeDeleted, int pageNumber = 1, int pageSize = 10)
     {
         var booksParams = new EntityFiltersDto<BookDto>
         {
@@ -26,7 +26,8 @@ public class BookController : BaseController
             SortBy = sortBy,
             SortOrder = sortOrder,
             PageNumber = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            IncludeDeleted = includeDeleted
         };
 
         var books = await _serviceManager.BookService.GetAllFilteredBooks(booksParams);

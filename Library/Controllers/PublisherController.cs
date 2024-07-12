@@ -16,7 +16,7 @@ public class PublisherController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, bool includeDeleted, int pageNumber = 1, int pageSize = 10)
     {
         var publisherParams = new EntityFiltersDto<PublisherDto>
         {
@@ -24,7 +24,8 @@ public class PublisherController : BaseController
             SortBy = sortBy,
             SortOrder = sortOrder,
             PageNumber = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            IncludeDeleted = includeDeleted
         };
 
         var publishers = await _serviceManager.PublisherService.GetAllFilteredPublishers(publisherParams);
