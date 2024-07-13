@@ -1,11 +1,48 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
+    // for customer verification
     const customerIdInput = document.getElementById('customerIdInput');
     const verifyCustomerBtn = document.getElementById('verifyCustomer');
     const customerNameSpan = document.getElementById('customerName');
     const createCustomerLink = document.getElementById('createCustomerLink');
     const reservationFormContent = document.getElementById('reservationFormContent');
 
+    // for reservation form
+    const bookDropdown = document.getElementById('bookDropdown');
+    const quantityInput = document.querySelector('.quantity');
+    const returnDateInput = document.querySelector('.return-date');
+    const addReservationBtn = document.querySelector('.add-reservation-btn');
+    const selectedBooksContainer = document.getElementById('selectedBooks');
+    const createReservationForm = document.getElementById('createReservationForm');
+
     let isCustomerVerified = false;
+
+    $(bookDropdown).select2({
+        placeholder: 'Search for a book',
+        allowClear: true
+    });
+
+    function reinitializeSelect2() {
+        $('#bookDropdown').select2('destroy').empty();
+
+        booksData.forEach(book => {
+            const option = new Option(`${book.title} (Available: ${book.quantity})`, book.id, false, false);
+            $('#bookDropdown').append(option);
+        });
+
+        $('#bookDropdown').select2({
+            placeholder: 'Search for a book',
+            allowClear: true
+        });
+    }
+
+    if (booksData && Array.isArray(booksData)) {
+        booksData.forEach(book => {
+            const option = bookDropdown.querySelector(`option[value="${book.id}"]`);
+            if (option) {
+                option.textContent = `${book.title} (Available: ${book.quantity})`;
+            }
+        });
+    }
 
     verifyCustomerBtn.addEventListener('click', async function () {
         const customerId = customerIdInput.value;
@@ -31,7 +68,6 @@
                 isCustomerVerified = false;
             }
         } catch (error) {
-            console.error('Error:', error);
             alert('An error occurred while verifying the customer');
         }
     });
@@ -41,14 +77,37 @@
         window.location.href = '/Customer/Create';
     });
 
-    const bookDropdown = document.getElementById('bookDropdown');
-    const quantityInput = document.querySelector('.quantity');
-    const returnDateInput = document.querySelector('.return-date');
-    const addReservationBtn = document.querySelector('.add-reservation-btn');
-    const selectedBooksContainer = document.getElementById('selectedBooks');
-    const createReservationForm = document.getElementById('createReservationForm');
+    function updateBookQuantity(bookId, quantityToReduce) {
+        const bookIndex = booksData.findIndex(book => book.id === bookId);
+        if (bookIndex !== -1) {
+            booksData[bookIndex].quantity -= quantityToReduce;
+            updateBookDropdownOption(bookId);
+        }
+    }
 
-    addReservationBtn.addEventListener('click', addBook);
+    function updateBookDropdownOption(bookId) {
+        const option = bookDropdown.querySelector(`option[value="${bookId}"]`);
+        const book = booksData.find(book => book.id === bookId);
+        if (option && book) {
+            option.textContent = `${book.title} (Available: ${book.quantity})`;
+        }
+        $('#bookDropdown').trigger('change');
+    }
+
+    function checkQuantity(bookId, requestedQuantity) {
+        const selectedBook = booksData.find(book => book.id === bookId);
+
+        if (!selectedBook) {
+            console.error('Selected book not found in booksData');
+            return false;
+        }
+
+        if (requestedQuantity > selectedBook.quantity) {
+            alert(`Error: Only ${selectedBook.quantity} copies of this book are available.`);
+            return false;
+        }
+        return true;
+    }
 
     function addBook() {
         if (!isCustomerVerified) {
@@ -65,14 +124,21 @@
             return;
         }
 
+        if (!checkQuantity(bookId, quantity)) {
+            return;
+        }
+
         const bookTitle = bookDropdown.options[bookDropdown.selectedIndex].text;
         const bookElement = createBookElement(bookId, bookTitle, quantity, returnDate);
         selectedBooksContainer.appendChild(bookElement);
 
+        updateBookQuantity(bookId, quantity); // reduce the quantity in dropdown and in array
+        reinitializeSelect2(); // reinitialize select2 dropdown to change quantities
+
         bookDropdown.value = '';
         quantityInput.value = '';
         returnDateInput.value = '';
-        $('#bookDropdown').trigger('change');
+        $(bookDropdown).trigger('change');
 
         updateBookIndices();
     }
@@ -81,13 +147,15 @@
         const div = document.createElement('div');
         div.className = 'book-summary';
         div.innerHTML = `
-        <span>${title} - Quantity: ${quantity}, Return Date: ${returnDate}</span>
-        <button type="button" class="remove-book">✖</button>
-        <input type="hidden" name="Books[0].BookId" value="${bookId}">
-        <input type="hidden" name="Books[0].Quantity" value="${quantity}">
-        <input type="hidden" name="Books[0].SupposedReturnDate" value="${returnDate}">
-    `;
+            <span>${title} - Quantity: ${quantity}, Return Date: ${returnDate}</span>
+            <button type="button" class="remove-book">✖</button>
+            <input type="hidden" name="Books[0].BookId" value="${bookId}">
+            <input type="hidden" name="Books[0].Quantity" value="${quantity}">
+            <input type="hidden" name="Books[0].SupposedReturnDate" value="${returnDate}">
+        `;
         div.querySelector('.remove-book').addEventListener('click', function () {
+            updateBookQuantity(bookId, -quantity); // add back to quantity
+            reinitializeSelect2(); // reinitialize select2 dropdown to change quantities
             div.remove();
             updateBookIndices();
         });
@@ -105,6 +173,17 @@
         });
     }
 
+    addReservationBtn.addEventListener('click', addBook);
+
+    bookDropdown.addEventListener('change', function () {
+        const selectedBookId = this.value;
+        const selectedBook = booksData.find(book => book.id === selectedBookId);
+        if (selectedBook) {
+            quantityInput.max = selectedBook.quantity;
+            quantityInput.value = '';
+        }
+    });
+
     createReservationForm.addEventListener('submit', function (event) {
         if (!isCustomerVerified) {
             alert('Please verify the customer before submitting the reservation.');
@@ -120,10 +199,5 @@
         }
 
         updateBookIndices();
-    });
-
-    $('#bookDropdown').select2({
-        placeholder: 'Search for a book',
-        allowClear: true
     });
 });

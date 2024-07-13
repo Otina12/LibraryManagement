@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oOl+PSQdIfikdtfuc3tJCXq9TQPflZIi21OgUX3SCq4=",
+  "Hash": "JUvImez2xFpE98TYqcXpF9/Fv9AqKU+vZLAnN9rdPMg=",
   "Source": "Library",
   "BasePath": "_content/Library",
   "Mode": "Default",
@@ -262,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Reservation\\reservation-post.js"
+    },
+    {
+      "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-quantity-check.js",
+      "SourceId": "Library",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\",
+      "BasePath": "_content/Library",
+      "RelativePath": "js/Reservation/reservation-quantity-check.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Reservation\\reservation-quantity-check.js"
     },
     {
       "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Shared\\modal.js",

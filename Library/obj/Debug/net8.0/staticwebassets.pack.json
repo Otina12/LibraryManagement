@@ -49,6 +49,10 @@
       "PackagePath": "staticwebassets\\js\\Reservation\\reservation-post.js"
     },
     {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-quantity-check.js",
+      "PackagePath": "staticwebassets\\js\\Reservation\\reservation-quantity-check.js"
+    },
+    {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Shared\\modal.js",
       "PackagePath": "staticwebassets\\js\\Shared\\modal.js"
     },
