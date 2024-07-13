@@ -12,7 +12,6 @@ using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Security.Policy;
 
 namespace Library.Service.Services;
 
@@ -35,14 +34,14 @@ public class BookService : BaseService<Book>, IBookService
     public async Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters)
     {
         var books = _unitOfWork.Books.GetAllAsQueryable();
-        bookFilters.TotalItems = await books.CountAsync();
 
+        books = books.IncludeDeleted(bookFilters.IncludeDeleted);
         books = books.ApplySearch(bookFilters.SearchString, GetBookSearchProperties());
+        bookFilters.TotalItems = await books.CountAsync();
         books = books.ApplySort(bookFilters.SortBy, bookFilters.SortOrder, GetBookSortDictionary());
         books = books.ApplyPagination(bookFilters.PageNumber, bookFilters.PageSize);
-        var finalBooks = books.IncludeDeleted(bookFilters.IncludeDeleted);
 
-        var booksDto = finalBooks.Select(b => b.MapToBookDto());
+        var booksDto = await books.Select(b => b.MapToBookDto()).ToListAsync();
 
         foreach (var bookDto in booksDto)
         {

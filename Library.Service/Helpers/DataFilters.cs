@@ -46,11 +46,9 @@ namespace Library.Service.Helpers
                 prop(item).Contains(searchString) == true));
         }
 
-        public static IEnumerable<T> IncludeDeleted<T>(this IQueryable<T> collection, bool includeDeleted) where T : BaseModel
+        public static IQueryable<T> IncludeDeleted<T>(this IQueryable<T> query, bool includeDeleted) where T : BaseModel
         {
-            return includeDeleted ?
-                collection.ToList() :
-                collection.ToList().Where(x => x.IsDeleted == false);
+            return includeDeleted ? query : query.Where(x => x.DeleteDate == null);
         }
     }
 }

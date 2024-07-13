@@ -12,6 +12,10 @@ Library/wwwroot/lib/
 /Library/obj/
 /Library/bin/
 
+# build files
+*.dll
+*.pdb
+
 # User-specific files
 *.rsuser
 *.suo

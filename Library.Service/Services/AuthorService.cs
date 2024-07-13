@@ -21,14 +21,14 @@ public class AuthorService : BaseService<Author>, IAuthorService
     public async Task<EntityFiltersDto<AuthorDto>> GetAllFilteredAuthors(EntityFiltersDto<AuthorDto> authorFilters)
     {
         var authors = _unitOfWork.Authors.GetAllAsQueryable();
-        authorFilters.TotalItems = await authors.CountAsync();
 
+        authors = authors.IncludeDeleted(authorFilters.IncludeDeleted);
         authors = authors.ApplySearch(authorFilters.SearchString, GetAuthorSearchProperties());
+        authorFilters.TotalItems = await authors.CountAsync();
         authors = authors.ApplySort(authorFilters.SortBy, authorFilters.SortOrder, GetAuthorSortDictionary());
         authors = authors.ApplyPagination(authorFilters.PageNumber, authorFilters.PageSize);
-        var finalAuthors = authors.IncludeDeleted(authorFilters.IncludeDeleted);
 
-        var authorsDto = finalAuthors.Select(a => a.MapToAuthorDto());
+        var authorsDto = await authors.Select(a => a.MapToAuthorDto()).ToListAsync();
 
         foreach (var authorDto in authorsDto)
         {
@@ -38,7 +38,7 @@ public class AuthorService : BaseService<Author>, IAuthorService
         authorFilters.Entities = authorsDto;
         return authorFilters;
     }
-
+    
     public async Task<IOrderedEnumerable<AuthorIdAndNameDto>> GetAllAuthorIdAndNames()
     {
         return (await _unitOfWork.Authors.GetAll())
@@ -95,7 +95,6 @@ public class AuthorService : BaseService<Author>, IAuthorService
 
         return Result.Success();
     }
-
 
     private async Task MapBooks(AuthorDto authorDto)
     {

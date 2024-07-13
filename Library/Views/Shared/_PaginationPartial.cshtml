@@ -6,18 +6,18 @@
     }
     @if (Model.PageNumber > 1)
     {
-        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { pageNumber = Model.PageNumber - 1, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })" class="page-link">&laquo;</a>
+        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { pageNumber = Model.PageNumber - 1, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder, includeDeleted = Model.IncludeDeleted })" class="page-link">&laquo;</a>
     }
     @for (int i = 1; i <= totalPages; i++)
     {
-        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { pageNumber = i, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })"
+        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { pageNumber = i, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder, includeDeleted = Model.IncludeDeleted })"
            class="page-link @(i == Model.PageNumber ? "active" : "")">
             @i
         </a>
     }
     @if (Model.PageNumber < totalPages)
     {
-        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { pageNumber = Model.PageNumber + 1, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder })" class="page-link">&raquo;</a>
+        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { pageNumber = Model.PageNumber + 1, searchString = Model.SearchString, sortBy = Model.SortBy, sortOrder = Model.SortOrder, includeDeleted = Model.IncludeDeleted })" class="page-link">&raquo;</a>
     }
     <span class="page-info">Page @Model.PageNumber of @totalPages</span>
 </div>
