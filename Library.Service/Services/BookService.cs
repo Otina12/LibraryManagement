@@ -2,7 +2,7 @@
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos.Author;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
 using Library.Service.Dtos.Publisher.Get;
@@ -37,16 +37,16 @@ public class BookService : BaseService<Book>, IBookService
 
         books = books.IncludeDeleted(bookFilters.IncludeDeleted);
         books = books.ApplySearch(bookFilters.SearchString, GetBookSearchProperties());
-        bookFilters.TotalItems = await books.CountAsync();
+        bookFilters.TotalItems = books.Count();
         books = books.ApplySort(bookFilters.SortBy, bookFilters.SortOrder, GetBookSortDictionary());
-        books = books.ApplyPagination(bookFilters.PageNumber, bookFilters.PageSize);
+        var finalBooks = books.ApplyPagination(bookFilters.PageNumber, bookFilters.PageSize).ToList();
 
-        var booksDto = await books.Select(b => b.MapToBookDto()).ToListAsync();
+        var booksDto = finalBooks.Select(b => b.MapToBookDto());
 
         foreach (var bookDto in booksDto)
         {
-            bookDto.PublisherDto = await GetPublisherOfABook(bookDto.Id);
             bookDto.AuthorsDto = await GetAuthorsOfABook(bookDto.Id);
+            bookDto.PublisherDto = await GetPublisherOfABook(bookDto.Id);
         }
 
         bookFilters.Entities = booksDto;

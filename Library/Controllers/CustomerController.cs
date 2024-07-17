@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Interfaces;
@@ -16,7 +16,7 @@ public class CustomerController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
+    public IActionResult Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
     {
         var customerParams = new EntityFiltersDto<CustomerDto>
         {
@@ -27,7 +27,7 @@ public class CustomerController : BaseController
             PageSize = pageSize
         };
 
-        var customers = await _serviceManager.CustomerService.GetAllFilteredCustomers(customerParams);
+        var customers = _serviceManager.CustomerService.GetAllFilteredCustomers(customerParams);
         var cusomtersTable = IndexTables.GetCustomerTable(customers);
         return View(cusomtersTable);
     }

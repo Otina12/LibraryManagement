@@ -1,7 +1,7 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
 using Library.Service.Dtos.Author;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 
 namespace Library.Service.Interfaces;
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Library.Service.Dtos.Author;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Interfaces;
 using Library.ViewModels.Authors;
 using Library.ViewSpecifications;

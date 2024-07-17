@@ -1,5 +1,5 @@
 ﻿using Library.Service.Dtos.Author;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Publisher.Get;
@@ -24,10 +24,10 @@ namespace Library.ViewSpecifications
                 Columns = new List<SortableColumn>
                             {
                             new("Title", "Title", true),
+                            new("PublisherName", "Publisher", false),
                             new("Edition", "Edition", false),
                             new("PublishYear", "Year", true),
-                            new("Quantity", "Quantity", true),
-                            new("PublisherName", "Publisher", false)
+                            new("Quantity", "Quantity", true)
                             },
                 ActionName = "Index",
                 ControllerName = "Book",
@@ -39,10 +39,10 @@ namespace Library.ViewSpecifications
                     {
                         "Id" => bookDto!.Id.ToString(),
                         "Title" => bookDto!.Title,
+                        "PublisherName" => bookDto!.PublisherDto?.Name ?? "--------",
                         "Edition" => bookDto!.Edition,
                         "PublishYear" => bookDto!.PublishYear.ToString(),
                         "Quantity" => bookDto!.Quantity.ToString(),
-                        "PublisherName" => bookDto!.PublisherDto?.Name ?? "--------",
                         _ => ""
                     };
                 }

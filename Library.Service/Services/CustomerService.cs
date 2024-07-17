@@ -1,14 +1,11 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Service.Dtos.Book;
-using Library.Service.Helpers.Extensions;
+using Library.Service.Dtos;
 using Library.Service.Helpers;
 using Library.Service.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Library.Service.Helpers.Mappers;
 using Library.Model.Abstractions;
-using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Customers.Get;
 
@@ -32,16 +29,17 @@ public class CustomerService : BaseService<Customer>, ICustomerService
         return customer.MapToCustomerDto();
     }
 
-    public async Task<EntityFiltersDto<CustomerDto>> GetAllFilteredCustomers(EntityFiltersDto<CustomerDto> customerFilters)
+    public EntityFiltersDto<CustomerDto> GetAllFilteredCustomers(EntityFiltersDto<CustomerDto> customerFilters)
     {
         var customers = _unitOfWork.Customers.GetAllAsQueryable();
-        customerFilters.TotalItems = await customers.CountAsync();
 
+        customers = customers.IncludeDeleted(customerFilters.IncludeDeleted);
         customers = customers.ApplySearch(customerFilters.SearchString, GetCustomerSearchProperties());
+        customerFilters.TotalItems = customers.Count();
         customers = customers.ApplySort(customerFilters.SortBy, customerFilters.SortOrder, GetCustomerSortDictionary());
-        customers = customers.ApplyPagination(customerFilters.PageNumber, customerFilters.PageSize);
+        var finalCustomers = customers.ApplyPagination(customerFilters.PageNumber, customerFilters.PageSize).ToList();
 
-        var customersDto = await customers.Select(c => c.MapToCustomerDto()).ToListAsync();
+        var customersDto = finalCustomers.Select(c => c.MapToCustomerDto());
 
         customerFilters.Entities = customersDto;
         return customerFilters;
@@ -80,7 +78,8 @@ public class CustomerService : BaseService<Customer>, ICustomerService
     {
         return
         [
-            b => $"{b.Name} {b.Surname}"
+            c => c.Name,
+            c => c.Surname
         ];
     }
 }

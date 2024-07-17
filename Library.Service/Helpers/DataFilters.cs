@@ -28,10 +28,10 @@ namespace Library.Service.Helpers
             return collection;
         }
 
-        public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> collection, int pageNumber, int pageSize)
+        public static IEnumerable<T> ApplyPagination<T>(this IQueryable<T> collection, int pageNumber, int pageSize)
         {
             pageNumber = Math.Max(1, pageNumber);
-            return collection.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            return collection.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
         }
 
         public static IQueryable<T> ApplySearch<T>(this IQueryable<T> collection, string searchString, Func<T, string>[] searchProperties)
@@ -42,8 +42,10 @@ namespace Library.Service.Helpers
             }
 
             return collection
+                .AsEnumerable()
                 .Where(item => searchProperties.Any(prop =>
-                prop(item).Contains(searchString) == true));
+                prop(item).Contains(searchString) == true))
+                .AsQueryable();
         }
 
         public static IQueryable<T> IncludeDeleted<T>(this IQueryable<T> query, bool includeDeleted) where T : BaseModel

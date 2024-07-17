@@ -1,14 +1,13 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Dtos.Publisher.Post;
 using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Library.Service.Services;
@@ -25,11 +24,11 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
 
         publishers = publishers.IncludeDeleted(publisherFilters.IncludeDeleted);
         publishers = publishers.ApplySearch(publisherFilters.SearchString, GetPublisherSearchProperties());
-        publisherFilters.TotalItems = await publishers.CountAsync();
+        publisherFilters.TotalItems = publishers.Count();
         publishers = publishers.ApplySort(publisherFilters.SortBy, publisherFilters.SortOrder, GetPublisherSortDictionary());
-        publishers = publishers.ApplyPagination(publisherFilters.PageNumber, publisherFilters.PageSize);
+        var finalPublishers = publishers.ApplyPagination(publisherFilters.PageNumber, publisherFilters.PageSize).ToList();
 
-        var publishersDto = await publishers.Select(p => p.MapToPublisherDto()).ToListAsync();
+        var publishersDto = finalPublishers.Select(p => p.MapToPublisherDto());
 
         foreach (var publisherDto in publishersDto)
         {

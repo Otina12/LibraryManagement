@@ -2,12 +2,11 @@
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos.Author;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Library.Service.Services;
@@ -24,11 +23,11 @@ public class AuthorService : BaseService<Author>, IAuthorService
 
         authors = authors.IncludeDeleted(authorFilters.IncludeDeleted);
         authors = authors.ApplySearch(authorFilters.SearchString, GetAuthorSearchProperties());
-        authorFilters.TotalItems = await authors.CountAsync();
+        authorFilters.TotalItems = authors.Count();
         authors = authors.ApplySort(authorFilters.SortBy, authorFilters.SortOrder, GetAuthorSortDictionary());
-        authors = authors.ApplyPagination(authorFilters.PageNumber, authorFilters.PageSize);
+        var finalAuthors = authors.ApplyPagination(authorFilters.PageNumber, authorFilters.PageSize).ToList();
 
-        var authorsDto = await authors.Select(a => a.MapToAuthorDto()).ToListAsync();
+        var authorsDto = finalAuthors.Select(a => a.MapToAuthorDto());
 
         foreach (var authorDto in authorsDto)
         {
@@ -119,7 +118,8 @@ public class AuthorService : BaseService<Author>, IAuthorService
     {
         return
         [
-            b => $"{b.Name} {b.Surname}"
+            a => a.Name,
+            a => a.Surname
         ];
     }
 }

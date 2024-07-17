@@ -1,8 +1,8 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Abstractions.Errors;
-using Library.Model.Enums;
 using Library.Model.Interfaces;
 using Library.Model.Models;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Reservations.Get;
 using Library.Service.Dtos.Reservations.Post;
 using Library.Service.Helpers.Mappers;
@@ -21,19 +21,20 @@ public class ReservationService : IReservationService
         _validationService = validationService;
     }
 
-    public async Task<IEnumerable<(DateTime, IEnumerable<ReservationDto>)>> GetAll()
+    public async Task<EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>> GetAll(EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)> reservationFilters)
     {
-        var reservations = await _unitOfWork.Reservations.GetAll();
-        var groupedByDateReservations = reservations
-            .GroupBy(x => x.SupposedReturnDate)
-            .OrderBy(x => x.Key)
-            .Select(x => (
-                x.Key,
-                x.Select(r => r.MapToReservation())
-            ))
-            .ToList();
+        var reservationsByDate = await _unitOfWork.Reservations.GetAllByDate(false);
 
-        return groupedByDateReservations;
+        reservationFilters.TotalItems = reservationsByDate.Count();
+        reservationsByDate = SearchReservations(reservationsByDate, reservationFilters.SearchString);
+        reservationsByDate = PaginateReservations(reservationsByDate, reservationFilters.PageNumber, reservationFilters.PageSize);
+
+        reservationFilters.Entities = reservationsByDate.Select(x => (
+            x.Item1, // date
+            x.Item2.Select(r => r.MapToReservationDto())
+            ));
+
+        return reservationFilters;
     }
 
     public async Task<Result> CreateReservations(string employeeId, CreateReservationDto createReservationDto)
@@ -58,11 +59,11 @@ public class ReservationService : IReservationService
     {
         var reservationCopies = new List<ReservationCopy>();
 
-        foreach(var reservation in reservations)
+        foreach (var reservation in reservations)
         {
             var quantityBookCopies = await _unitOfWork.BookCopies.GetXBookCopies(reservation.BookId, reservation.Quantity, trackChanges: true);
 
-            foreach(var bookCopy in quantityBookCopies)
+            foreach (var bookCopy in quantityBookCopies)
             {
                 bookCopy.IsTaken = true;
 
@@ -112,5 +113,32 @@ public class ReservationService : IReservationService
 
         book.Quantity -= bookDto.Quantity; // decrement when booked
         return Result.Success(book);
+    }
+
+    private static IEnumerable<(DateTime, IEnumerable<Reservation>)> SearchReservations(
+        IEnumerable<(DateTime, IEnumerable<Reservation>)> groupedReservations, string? searchString)
+    {
+        if (string.IsNullOrEmpty(searchString))
+        {
+            return groupedReservations;
+        }
+
+        searchString = searchString.Trim().ToLower();
+
+        var result = groupedReservations.Select(x => (
+            x.Item1,
+            x.Item2.Where(r => r.CustomerId.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
+                          r.Book.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
+        ));
+
+        return result
+            .Where(x => x.Item2.Any())
+            .ToList(); // filter out empty dates to not show them in the final view
+    }
+
+    private static IEnumerable<(DateTime, IEnumerable<Reservation>)> PaginateReservations(
+        IEnumerable<(DateTime, IEnumerable<Reservation>)> groupedReservations, int pageNumber, int pageSize)
+    {
+        return groupedReservations.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
     }
 }

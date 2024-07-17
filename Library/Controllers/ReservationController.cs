@@ -1,11 +1,16 @@
 ﻿using AutoMapper;
 using Library.Attributes.Authorization;
 using Library.Model.Enums;
+using Library.Service.Dtos.Book.Get;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Reservations.Post;
 using Library.Service.Interfaces;
 using Library.ViewModels.Reservations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Globalization;
 using System.Security.Claims;
+using Library.Service.Dtos.Reservations.Get;
 
 namespace Library.Controllers;
 
@@ -15,9 +20,17 @@ public class ReservationController : BaseController
     {
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchString, int pageNumber = 1, int pageSize = 3) // display next 3 dates' tables on each table
     {
-        var reservations = await _serviceManager.ReservationService.GetAll();
+        // reservation page has different structure compared to other entities that share generic filtering, sorting and etc. so we need to write it seperately
+        var reservationParams = new EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>
+        {
+            SearchString = searchString ?? "",
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        };
+
+        var reservations = await _serviceManager.ReservationService.GetAll(reservationParams);
         return View(reservations);
     }
 

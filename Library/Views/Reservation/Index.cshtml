@@ -1,18 +1,52 @@
-﻿@using Library.Service.Dtos.Reservations.Get
+﻿@using Library.Service.Dtos
+@using Library.Service.Dtos.Reservations.Get
 @using Library.ViewModels.Shared
-@model IEnumerable<(DateTime Date, IEnumerable<ReservationDto> Reservations)>
+
+@model EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)> // ordered by SupposedReturnDate in ascending order
+
 @{
     ViewData["Title"] = "Reservations";
 }
 
-<h1>Reservations</h1>
+<style>
+    .reservation-date {
+        color: #3498db;
+        font-size: 1.8em;
+        margin-top: 40px;
+        margin-bottom: -25px;
+        padding-left: 10px;
+        border-left: 5px solid #3498db;
+    }
+
+    .reservation-date.overdue {
+        color: #e74c3c;
+        border-left-color: #e74c3c;
+    }
+</style>
+
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New Reservation</a>
+    <a asp-action="Create" class="btn btn-add">Create New Reservation</a>
 </p>
 
-@foreach (var (date, reservations) in Model)
+<div class="my-container">
+    <form method="get" class="search-form">
+        <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
+        <input type="hidden" name="pageNumber" value="1" />
+        <input type="hidden" name="pageSize" value="@Model.PageSize" />
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+@foreach (var (date, reservations) in Model.Entities)
 {
-    <h3>@date.ToShortDateString()</h3>
+    if(date == DateTime.MinValue)
+    {
+        <h3 class="reservation-date overdue">Overdue Reservations</h3>
+    }
+    else
+    {
+        <h3 class="reservation-date">@date.ToShortDateString()</h3>
+    }
 
     var sortableTableModel = new SortableTableModel
     {
@@ -22,7 +56,7 @@
             new("BookTitle", "Book", false),
             new("Quantity", "Quantity", false),
             new("CustomerId", "Customer ID", false),
-            new("ReservationDate", "Reservation Date", true)
+            new("ReservationDate", "Reservation Date", false)
         },
         ActionName = "Index",
         ControllerName = "Reservation",
@@ -41,4 +75,32 @@
     };
 
     @await Html.PartialAsync("_TablePartial", sortableTableModel)
+
+    <div class="pagination">
+        @{
+            int totalPages = (int)Math.Ceiling((double)Model.TotalItems / Model.PageSize);
+        }
+
+        @if (Model.PageNumber > 1)
+        {
+            <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })">&laquo; Previous</a>
+        }
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            if (i == Model.PageNumber)
+            {
+                <span class="current-page">@i</span>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = i, pageSize = Model.PageSize })">@i</a>
+            }
+        }
+
+        @if (Model.PageNumber < totalPages)
+        {
+            <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })">Next &raquo;</a>
+        }
+    </div>
 }

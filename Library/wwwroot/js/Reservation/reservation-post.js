@@ -74,6 +74,7 @@
 
     createCustomerLink.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
         window.location.href = '/Customer/Create';
     });
 

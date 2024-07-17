@@ -1,6 +1,6 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Dtos.Publisher.Post;
 

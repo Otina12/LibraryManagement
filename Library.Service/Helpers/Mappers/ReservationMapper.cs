@@ -21,7 +21,7 @@ public static class ReservationMapper
         };
     }
 
-    public static ReservationDto MapToReservation(this Reservation reservation) // only use when Reservation includes (is joined with) book
+    public static ReservationDto MapToReservationDto(this Reservation reservation) // only use when Reservation includes (is joined with) book
     {
         var dateTimeNow = DateTime.UtcNow;
         return new ReservationDto(

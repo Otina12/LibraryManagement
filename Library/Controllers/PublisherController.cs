@@ -3,7 +3,7 @@ using Library.Service.Interfaces;
 using Library.ViewModels.Publishers;
 using Microsoft.AspNetCore.Mvc;
 using Library.ViewSpecifications;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Dtos.Publisher.Post;
 

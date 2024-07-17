@@ -9,7 +9,6 @@
         <a href="" class="btn btn-add" id="add-customer-btn">Add Customer</a>
     </div>
 
-    @await Html.PartialAsync("_SearchBarPartial", Model.SearchString)
     @await Html.PartialAsync("_TablePartial", Model)
     @await Html.PartialAsync("_PaginationPartial", Model)
 </div>

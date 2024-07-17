@@ -10,7 +10,6 @@
         <a href="@Url.Action("Create", "Book")" class="btn btn-add" id="add-book-btn">Add Book</a>
     </div>
 
-    @await Html.PartialAsync("_SearchBarPartial", Model.SearchString)
     @await Html.PartialAsync("_TablePartial", Model)
     @await Html.PartialAsync("_PaginationPartial", Model)
 </div>

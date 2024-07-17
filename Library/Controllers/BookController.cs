@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Library.Service.Dtos.Book;
+using Library.Service.Dtos;
 using Library.Service.Interfaces;
 using Library.ViewModels.Books;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,6 @@ using System.Text.Json;
 using Library.ViewSpecifications;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Controllers;
 
