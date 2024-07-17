@@ -53,6 +53,7 @@
                         var reservationDto = reservation as ReservationDto;
                         return prop switch
                         {
+                            "Id" => reservationDto!.Id,
                             "BookTitle" => reservationDto!.BookTitle,
                             "Quantity" => reservationDto!.Quantity,
                             "CustomerId" => reservationDto!.CustomerId,

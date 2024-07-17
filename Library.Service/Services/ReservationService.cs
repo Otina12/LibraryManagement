@@ -24,7 +24,7 @@ public class ReservationService : IReservationService
     public async Task<EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>> GetAll(EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)> reservationFilters)
     {
         var reservationsByDate = await _unitOfWork.Reservations.GetAllByDate(false);
-        
+
         reservationsByDate = SearchReservations(reservationsByDate, reservationFilters.SearchString);
         reservationFilters.TotalItems = reservationsByDate.Count();
         reservationsByDate = PaginateReservations(reservationsByDate, reservationFilters.PageNumber, reservationFilters.PageSize);
@@ -53,6 +53,40 @@ public class ReservationService : IReservationService
 
         await _unitOfWork.SaveChangesAsync();
         return Result.Success();
+    }
+
+    public async Task<Result<ReservationDetailsDto>> GetDetailsById(Guid Id)
+    {
+        var reservationExistsResult = await _validationService.ReservationExists(Id);
+
+        if (reservationExistsResult.IsFailure)
+        {
+            return Result.Failure<ReservationDetailsDto>(reservationExistsResult.Error);
+        }
+
+        var reservation = reservationExistsResult.Value();
+        var book = await _unitOfWork.Books.GetById(reservation.BookId);
+        var reservationDto = new ReservationDetailsDto(reservation.CustomerId, reservation.SupposedReturnDate, book!.Title, reservation.Quantity - reservation.ReturnedQuantity);
+
+        // we need every book copy that were reserved for this reservation
+        var bookCopies = await _unitOfWork.ReservationCopies.GetAllReservedBookCopiesOfReservation(Id);
+        reservationDto.BookCopies = bookCopies.Select(x => x.MapToBookCopyDto()).ToList();
+
+        // then get other (future) reservations of same customer:
+        var otherReservations = await _unitOfWork.Reservations.GetUpcomingReservationsOfCustomer(reservationDto.CustomerId);
+
+        foreach (var otherReservation in otherReservations)
+        {
+            reservationDto.OtherReservationsOfCustomer.Add(
+                new ReservationDetailsDto(
+                    otherReservation.CustomerId,
+                    otherReservation.SupposedReturnDate,
+                    (await _unitOfWork.Books.GetById(reservation.BookId))!.Title,
+                    otherReservation.Quantity - otherReservation.ReturnedQuantity
+                ));
+        }
+
+        return reservationDto;
     }
 
     private async Task<IEnumerable<ReservationCopy>> GetReservationCopies(List<Reservation> reservations)

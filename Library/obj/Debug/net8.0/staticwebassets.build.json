@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oOl+PSQdIfikdtfuc3tJCXq9TQPflZIi21OgUX3SCq4=",
+  "Hash": "eMqOyKjiSdkgAvNEMBOilUYvO4QIqhrpEC29RqBfqAo=",
   "Source": "Library",
   "BasePath": "_content/Library",
   "Mode": "Default",
@@ -167,6 +167,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\background-image.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\images\\background-image1.jpg",
+      "SourceId": "Library",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\",
+      "BasePath": "_content/Library",
+      "RelativePath": "images/background-image1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\background-image1.jpg"
     },
     {
       "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\images\\background-image-extended.jpg",

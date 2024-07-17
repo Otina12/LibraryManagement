@@ -11,6 +11,7 @@ public class Reservation : BaseModel
     [ForeignKey(nameof(Customer))]
     public required string CustomerId { get; set; }
     public DateTime ReservationDate { get; set; }
+    public int ReturnedQuantity { get; set; } // will be changed after checkout. Reservation is complete if ReturnedQuantity = Quantity
     public int Quantity { get; set; }
     public DateTime SupposedReturnDate { get; set; }
 

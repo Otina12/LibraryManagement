@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\images\\background-image.jpg"
     },
     {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\images\\background-image1.jpg",
+      "PackagePath": "staticwebassets\\images\\background-image1.jpg"
+    },
+    {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Book\\book-post.js",
       "PackagePath": "staticwebassets\\js\\Book\\book-post.js"
     },

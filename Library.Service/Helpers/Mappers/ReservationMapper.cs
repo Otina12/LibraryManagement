@@ -25,6 +25,7 @@ public static class ReservationMapper
     {
         var dateTimeNow = DateTime.UtcNow;
         return new ReservationDto(
+            reservation.Id,
             reservation.BookId,
             reservation.Book.Title,
             reservation.CustomerId,

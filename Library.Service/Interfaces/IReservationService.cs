@@ -9,4 +9,5 @@ public interface IReservationService
 {
     Task<EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>> GetAll(EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)> reservationFilters);
     Task<Result> CreateReservations(string employeeId, CreateReservationDto createReservationDto);
+    Task<Result<ReservationDetailsDto>> GetDetailsById(Guid Id);
 }

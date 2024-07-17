@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\Reservations\Get\" />
+    <Folder Include="Dtos\BookCopy\Post\" />
   </ItemGroup>
 
 </Project>

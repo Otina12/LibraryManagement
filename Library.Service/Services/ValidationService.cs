@@ -193,5 +193,17 @@ namespace Library.Service.Services
 
             return Result.Failure(Error<Customer>.AlreadyExists);
         }
+
+        public async Task<Result<Reservation>> ReservationExists(Guid Id, bool trackChanges = false)
+        {
+            var reservation = await _unitOfWork.Reservations.GetById(Id);
+
+            if (reservation is null)
+            {
+                return Result.Failure(Error<Reservation>.NotFound);
+            }
+
+            return reservation;
+        }
     }
 }

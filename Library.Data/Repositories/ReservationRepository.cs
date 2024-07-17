@@ -49,4 +49,29 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
         return groupedByDateReservations;
     }
 
+    public async Task<IEnumerable<Reservation>> GetAllReservationsOfCustomer(string customerId, bool trackChanges = false)
+    {
+        return trackChanges ?
+            await _context.Reservations
+            .Where(x => x.CustomerId == customerId)
+            .ToListAsync()
+            :
+            await _context.Reservations
+            .AsNoTracking()
+            .Where(x => x.CustomerId == customerId)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Reservation>> GetUpcomingReservationsOfCustomer(string customerId, bool trackChanges = false)
+    {
+        return trackChanges ?
+            await _context.Reservations
+            .Where(x => x.CustomerId == customerId && x.Quantity != x.ReturnedQuantity)
+            .ToListAsync()
+            :
+            await _context.Reservations
+            .AsNoTracking()
+            .Where(x => x.CustomerId == customerId && x.Quantity != x.ReturnedQuantity)
+            .ToListAsync();
+    }
 }

@@ -61,6 +61,19 @@ public class ReservationController : BaseController
         return HandleResult(result, reservationVM, "Reservation has been confirmed", result.Error.Message, "Reservation");
     }
 
+    public async Task<IActionResult> Details(Guid id)
+    {
+        var reservationResult = await _serviceManager.ReservationService.GetDetailsById(id);
+
+        if (reservationResult.IsFailure)
+        {
+            CreateFailureNotification($"Book with ID: '{id}' does not exist");
+            return RedirectToAction("Index", "Reservation");
+        }
+
+        return View(reservationResult.Value());
+    }
+
     public async Task<IActionResult> CustomerExists(string Id)
     {
         var customerDto = await _serviceManager.CustomerService.GetById(Id);

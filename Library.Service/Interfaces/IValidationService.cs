@@ -32,4 +32,6 @@ public interface IValidationService
     Task<Result<Customer>> CustomerExists(string Id, bool trackChanges = false);
     Task<Result> CustomerIsNew(string Id, bool trackChanges = false);
 
+    Task<Result<Reservation>> ReservationExists(Guid Id, bool trackChanges = false);
+
 }

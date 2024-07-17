@@ -36,8 +36,14 @@ public class BookController : BaseController
 
     public async Task<IActionResult> Details(Guid id)
     {
-        var book = await _serviceManager.BookService.GetBookById(id);
-        return View(book.Value());
+        var bookResult = await _serviceManager.BookService.GetBookById(id);
+        if (bookResult.IsFailure)
+        {
+            CreateFailureNotification($"Book with ID: '{id}' does not exist");
+            return RedirectToAction("Index", "Book");
+        }
+
+        return View(bookResult.Value());
     }
 
     [HttpGet]
