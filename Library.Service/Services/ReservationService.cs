@@ -24,9 +24,9 @@ public class ReservationService : IReservationService
     public async Task<EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>> GetAll(EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)> reservationFilters)
     {
         var reservationsByDate = await _unitOfWork.Reservations.GetAllByDate(false);
-
-        reservationFilters.TotalItems = reservationsByDate.Count();
+        
         reservationsByDate = SearchReservations(reservationsByDate, reservationFilters.SearchString);
+        reservationFilters.TotalItems = reservationsByDate.Count();
         reservationsByDate = PaginateReservations(reservationsByDate, reservationFilters.PageNumber, reservationFilters.PageSize);
 
         reservationFilters.Entities = reservationsByDate.Select(x => (

@@ -113,7 +113,7 @@ label {
     }
 
 .btn-add {
-    align-self: center;
+    align-self: center !important;
     background-color: #2ecc0e;
     color: white;
 }
@@ -842,4 +842,20 @@ input[type="number"] {
         background-color: #685191;
         border-radius: 10px;
         border: 3px solid rgba(255, 255, 255, 0.1);
+    }
+
+
+/* --------------- reservation index.cshtml styles ---------------*/
+.reservation-date {
+    color: #3498db;
+    font-size: 1.8em;
+    margin-top: 40px;
+    margin-bottom: -25px;
+    padding-left: 10px;
+    border-left: 5px solid #3498db;
+}
+
+    .reservation-date.overdue {
+        color: #e74c3c;
+        border-left-color: #e74c3c;
     }

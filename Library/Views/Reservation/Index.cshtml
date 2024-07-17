@@ -8,27 +8,15 @@
     ViewData["Title"] = "Reservations";
 }
 
-<style>
-    .reservation-date {
-        color: #3498db;
-        font-size: 1.8em;
-        margin-top: 40px;
-        margin-bottom: -25px;
-        padding-left: 10px;
-        border-left: 5px solid #3498db;
-    }
-
-    .reservation-date.overdue {
-        color: #e74c3c;
-        border-left-color: #e74c3c;
-    }
-</style>
-
-<p>
-    <a asp-action="Create" class="btn btn-add">Create New Reservation</a>
-</p>
+<head>
+    <link rel="stylesheet" href="~/css/table.css"/>
+</head>
 
 <div class="my-container">
+    <div class="my-header">
+        <a asp-action="Create" class="btn btn-add">Create New Reservation</a>
+    </div>
+
     <form method="get" class="search-form">
         <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
         <input type="hidden" name="pageNumber" value="1" />
@@ -39,7 +27,7 @@
 
 @foreach (var (date, reservations) in Model.Entities)
 {
-    if(date == DateTime.MinValue)
+    if (date == DateTime.MinValue)
     {
         <h3 class="reservation-date overdue">Overdue Reservations</h3>
     }
@@ -49,58 +37,55 @@
     }
 
     var sortableTableModel = new SortableTableModel
-    {
-        Items = reservations,
-        Columns = new List<SortableColumn>
+                {
+                    Items = reservations,
+                    Columns = new List<SortableColumn>
         {
             new("BookTitle", "Book", false),
             new("Quantity", "Quantity", false),
             new("CustomerId", "Customer ID", false),
             new("ReservationDate", "Reservation Date", false)
         },
-        ActionName = "Index",
-        ControllerName = "Reservation",
-        GetPropertyValue = (reservation, prop) =>
-        {
-            var reservationDto = reservation as ReservationDto;
-            return prop switch
-            {
-                "BookTitle" => reservationDto!.BookTitle,
-                "Quantity" => reservationDto!.Quantity,
-                "CustomerId" => reservationDto!.CustomerId,
-                "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
-                _ => ""
-            };
-        }
-    };
+                    ActionName = "Index",
+                    ControllerName = "Reservation",
+                    GetPropertyValue = (reservation, prop) =>
+                    {
+                        var reservationDto = reservation as ReservationDto;
+                        return prop switch
+                        {
+                            "BookTitle" => reservationDto!.BookTitle,
+                            "Quantity" => reservationDto!.Quantity,
+                            "CustomerId" => reservationDto!.CustomerId,
+                            "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
+                            _ => ""
+                        };
+                    }
+                };
 
     @await Html.PartialAsync("_TablePartial", sortableTableModel)
-
-    <div class="pagination">
-        @{
-            int totalPages = (int)Math.Ceiling((double)Model.TotalItems / Model.PageSize);
-        }
-
-        @if (Model.PageNumber > 1)
-        {
-            <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })">&laquo; Previous</a>
-        }
-
-        @for (int i = 1; i <= totalPages; i++)
-        {
-            if (i == Model.PageNumber)
-            {
-                <span class="current-page">@i</span>
-            }
-            else
-            {
-                <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = i, pageSize = Model.PageSize })">@i</a>
-            }
-        }
-
-        @if (Model.PageNumber < totalPages)
-        {
-            <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })">Next &raquo;</a>
-        }
-    </div>
 }
+
+<div class="pagination">
+    @{
+        int totalPages = (int)Math.Ceiling((double)Model.TotalItems / Model.PageSize);
+    }
+
+    @if (Model.PageNumber > 1)
+    {
+        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })" class="page-link">&laquo;</a>
+    }
+
+    @for (int i = 1; i <= totalPages; i++)
+    {
+        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = i, pageSize = Model.PageSize })"
+           class="page-link @(i == Model.PageNumber ? "active" : "")">
+            @i
+        </a>
+    }
+
+    @if (Model.PageNumber < totalPages)
+    {
+        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })" class="page-link">&raquo;</a>
+    }
+    <span class="page-info">Page @Model.PageNumber of @totalPages</span>
+</div>
