@@ -1,4 +1,4 @@
-function initializeModal(entityType, createUrl, editUrl, deleteUrl) {
+function initializeModal(entityType, createUrl, editUrl, deleteUrl, renewUrl) {
     $(document).ready(function () {
         $(`#add-${entityType}-btn`).click(function (e) {
             e.preventDefault();
@@ -16,6 +16,12 @@ function initializeModal(entityType, createUrl, editUrl, deleteUrl) {
             var entityId = $(this).data(`entity-id`);
             showDeleteConfirmation(entityId, entityType, deleteUrl);
         });
+        $(`.btn-renew`).click(function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var entityId = $(this).data(`entity-id`);
+            showRenewConfirmation(entityId, entityType, renewUrl);
+        });
         $(document).on('submit', `#create${entityType.charAt(0).toUpperCase() + entityType.slice(1)}Form`, function (e) {
             e.preventDefault();
             submitForm($(this), createUrl);
@@ -29,8 +35,14 @@ function initializeModal(entityType, createUrl, editUrl, deleteUrl) {
             $(`#${entityType}Modal`).fadeOut();
         });
         $(document).on('click', '#confirm-delete-button', function () {
+            console.log('entered delete')
             var entityId = $(this).data('entity-id');
             deleteEntity(entityId, deleteUrl);
+        });
+        $(document).on('click', '#confirm-renew-button', function () {
+            console.log('entered renew')
+            var entityId = $(this).data('entity-id');
+            renewEntity(entityId, renewUrl);
         });
     });
 }
@@ -45,6 +57,7 @@ function loadModalContent(url, title, action) {
             $('#add-button').toggle(action === 'create');
             $('#edit-button').toggle(action === 'edit');
             $('#confirm-delete-button').hide();
+            $('#confirm-renew-button').hide();
             $('#publisherModal, #authorModal, #customerModal').fadeIn();
         },
         error: function () {
@@ -84,6 +97,16 @@ function showDeleteConfirmation(entityId, entityType, deleteUrl) {
     $(`#${entityType}Modal`).fadeIn();
 }
 
+function showRenewConfirmation(entityId, entityType, renewUrl) {
+    $('#modalTitle').text(`Renew ${entityType.charAt(0).toUpperCase() + entityType.slice(1)}`);
+    $('#modalBody').html(`<p>Are you sure you want to renew this ${entityType}?</p>`);
+    $('#add-button, #edit-button').hide();
+    $('#confirm-renew-button').show();
+    $('#confirm-renew-button').data('entity-id', entityId);
+    $('#confirm-renew-button').data('renew-url', renewUrl);
+    $(`#${entityType}Modal`).fadeIn();
+}
+
 function deleteEntity(entityId, deleteUrl) {
     $.ajax({
         url: deleteUrl,
@@ -99,6 +122,25 @@ function deleteEntity(entityId, deleteUrl) {
         },
         error: function (xhr, status, error) {
             alert('Error deleting the entity: ' + error);
+        }
+    });
+}
+
+function renewEntity(entityId, renewUrl) {
+    $.ajax({
+        url: renewUrl,
+        type: 'POST',
+        data: { id: entityId },
+        success: function (response) {
+            if (response.success) {
+                $('#publisherModal, #authorModal, #customerModal').fadeOut();
+                location.reload();
+            } else {
+                alert('Error renewing the entity: ' + response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('Error renewing the entity: ' + error);
         }
     });
 }

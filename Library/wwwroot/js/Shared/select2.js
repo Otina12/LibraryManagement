@@ -32,7 +32,7 @@ $(document).ready(function () {
         $(document).on('click', '.dropdown-add-author', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            initializeModal('author', '/Author/Create', '/Author/Edit/', '/Author/Delete/');
+            initializeModal('author', '/Author/Create/', '/Author/Edit/', '/Author/Delete/', '/Author/Renew/');
             loadModalContent('/Author/Create', 'Add Author', 'create');
         });
     }
