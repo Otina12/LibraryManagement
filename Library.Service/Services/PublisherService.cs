@@ -39,9 +39,16 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
         return publisherFilters;
     }
 
-    public async Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames()
+    public async Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames(bool includeDeleted)
     {
-        return (await _unitOfWork.Publishers.GetAll())
+        var publishers = await _unitOfWork.Publishers.GetAll();
+
+        if (!includeDeleted)
+        {
+            publishers = _unitOfWork.GetBaseModelRepository<Publisher>().FilterOutDeleted(publishers);
+        }
+
+        return publishers
             .Select(x => new PublisherIdAndNameDto(x.Id, x.Name))
             .OrderBy(x => x.Name);
     }

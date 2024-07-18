@@ -13,7 +13,7 @@ public interface IPublisherService : IBaseService<Publisher>
     //Task<int> GetCountOfBooks(Guid publisherId);
 
     Task<EntityFiltersDto<PublisherDto>> GetAllFilteredPublishers(EntityFiltersDto<PublisherDto> publisherFilters);
-    Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames();
+    Task<IOrderedEnumerable<PublisherIdAndNameDto>> GetAllPublisherIdAndNames(bool includeDeleted = false);
     Task<Result<PublisherDto>> GetPublisherById(Guid id);
     Task<Result> Create(CreatePublisherDto publisherDto);
     Task<Result> Update(PublisherDto publisherDto);

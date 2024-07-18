@@ -23,4 +23,9 @@ public class BaseModelRepository<T> : GenericRepository<T>, IBaseModelRepository
         entity.DeleteDate = null;
         dbSet.Update(entity);
     }
+
+    public virtual IEnumerable<T> FilterOutDeleted(IEnumerable<T> entities)
+    {
+        return entities.Where(x => x.DeleteDate == null);
+    }
 }

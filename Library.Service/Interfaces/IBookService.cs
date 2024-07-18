@@ -8,7 +8,7 @@ namespace Library.Service.Interfaces;
 
 public interface IBookService : IBaseService<Book>
 {
-    Task<IEnumerable<BookIdTitleAndQuantityDto>> GetAllBooksSorted();
+    IEnumerable<BookIdTitleAndQuantityDto> GetAllBooksSorted(bool includeDeleted = false);
     Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters);
     Task<Result<BookDetailsDto>> GetBookById(Guid id);
     Task<Result> CreateBook(CreateBookDto bookDto);

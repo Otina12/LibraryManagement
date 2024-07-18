@@ -15,7 +15,9 @@ public static class CustomerMapper
             customer.Email,
             customer.PhoneNumber,
             customer.Address,
-            customer.CreationDate)
+            customer.CreationDate,
+            customer.IsDeleted
+            )
         {
             Reservations = customer.Reservations
         };
@@ -32,6 +34,20 @@ public static class CustomerMapper
             PhoneNumber = customerDto.PhoneNumber,
             Address = customerDto.Address,
             CreationDate = DateTime.UtcNow
+        };
+    }
+
+    public static Customer MapToCustomer(this CustomerDto customerDto)
+    {
+        return new Customer
+        {
+            Id = customerDto.Id,
+            Name = customerDto.Name,
+            Surname = customerDto.Surname,
+            Email = customerDto.Email,
+            PhoneNumber = customerDto.PhoneNumber,
+            Address = customerDto.Address,
+            CreationDate = customerDto.MembershipStartDate
         };
     }
 }

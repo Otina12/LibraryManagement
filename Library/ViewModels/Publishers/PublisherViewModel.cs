@@ -17,4 +17,5 @@ public class PublisherViewModel
     public int YearPublished { get; set; }
     public BookIdAndTitleDto[] Books { get; set; } = [];
     public DateTime CreationDate { get; set; }
+    public bool isDeleted { get; set; }
 }

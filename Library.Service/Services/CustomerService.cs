@@ -8,6 +8,7 @@ using Library.Service.Helpers.Mappers;
 using Library.Model.Abstractions;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Customers.Get;
+using Library.Service.Dtos.Author;
 
 namespace Library.Service.Services;
 
@@ -17,16 +18,16 @@ public class CustomerService : BaseService<Customer>, ICustomerService
     {
     }
 
-    public async Task<CustomerDto?> GetById(string Id)
+    public async Task<Result<CustomerDto>> GetCustomerById(string Id)
     {
-        var customer = await _unitOfWork.Customers.GetById(Id);
+        var customerExistsResult = await _validationService.CustomerExists(Id);
 
-        if (customer is null)
+        if (customerExistsResult.IsFailure)
         {
-            return null;
+            return Result.Failure<CustomerDto>(customerExistsResult.Error);
         }
 
-        return customer.MapToCustomerDto();
+        return customerExistsResult.Value().MapToCustomerDto();
     }
 
     public EntityFiltersDto<CustomerDto> GetAllFilteredCustomers(EntityFiltersDto<CustomerDto> customerFilters)
@@ -60,6 +61,50 @@ public class CustomerService : BaseService<Customer>, ICustomerService
         await _unitOfWork.SaveChangesAsync();
 
         return Result.Success();
+    }
+
+    public async Task<Result> Update(CustomerDto customerDto)
+    {
+        var customerExistsResult = await _validationService.CustomerExists(customerDto.Id);
+
+        if (customerExistsResult.IsFailure)
+        {
+            return Result.Failure(customerExistsResult.Error);
+        }
+
+        var customer = customerDto.MapToCustomer();
+        customer.UpdateDate = DateTime.UtcNow;
+
+        _unitOfWork.Customers.Update(customer);
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Success();
+    }
+
+    public async Task<Result<Customer>> Deactivate(string id)
+    {
+        var entity = await _unitOfWork.Customers.GetById(id);
+        if (entity is null)
+        {
+            return Result.Failure(Error<Customer>.NotFound);
+        }
+
+        _unitOfWork.Customers.Deactivate(entity);
+        await _unitOfWork.SaveChangesAsync();
+        return Result.Success(entity);
+    }
+
+    public async Task<Result<Customer>> Reactivate(string id)
+    {
+        var entity = await _unitOfWork.Customers.GetById(id);
+        if (entity == null)
+        {
+            return Result.Failure(Error<Customer>.NotFound);
+        }
+
+        _unitOfWork.Customers.Reactivate(entity);
+        await _unitOfWork.SaveChangesAsync();
+        return Result.Success(entity);
     }
 
     // Returns a dictionary that we will later use in generic sort method

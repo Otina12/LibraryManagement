@@ -14,7 +14,8 @@ public static class PublisherMapper
             publisher.Email,
             publisher.PhoneNumber,
             publisher.YearPublished,
-            publisher.CreationDate
+            publisher.CreationDate,
+            publisher.IsDeleted
         );
     }
 

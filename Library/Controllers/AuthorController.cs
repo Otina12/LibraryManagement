@@ -91,7 +91,7 @@ public class AuthorController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return PartialView("_CreatePartial", authorVM);
+            return PartialView("_EditPartial", authorVM);
         }
 
         var authorDto = _mapper.Map<AuthorDto>(authorVM);

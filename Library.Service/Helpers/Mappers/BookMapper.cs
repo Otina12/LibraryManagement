@@ -22,7 +22,9 @@ public static class BookMapper
             book.Title,
             book.Edition,
             book.PublishYear,
-            book.Quantity)
+            book.Quantity,
+            book.IsDeleted
+            )
         {
             AuthorsDto = [],
             PublisherDto = null

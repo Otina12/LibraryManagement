@@ -16,7 +16,7 @@ public class CustomerController : BaseController
     }
 
     [HttpGet]
-    public IActionResult Index(string searchString, string sortBy, string sortOrder, int pageNumber = 1, int pageSize = 10)
+    public IActionResult Index(string searchString, string sortBy, string sortOrder, bool includeDeleted, int pageNumber = 1, int pageSize = 10)
     {
         var customerParams = new EntityFiltersDto<CustomerDto>
         {
@@ -24,7 +24,8 @@ public class CustomerController : BaseController
             SortBy = sortBy,
             SortOrder = sortOrder,
             PageNumber = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            IncludeDeleted = includeDeleted
         };
 
         var customers = _serviceManager.CustomerService.GetAllFilteredCustomers(customerParams);
@@ -58,6 +59,70 @@ public class CustomerController : BaseController
         }
 
         CreateSuccessNotification($"Customer {createCustomerVM.Name} has been created");
+        return Json(new { success = true });
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Edit(string id)
+    {
+        var customerResult = await _serviceManager.CustomerService.GetCustomerById(id);
+
+        if (customerResult.IsFailure)
+            return RedirectToAction("PageNotFound", "Home");
+
+        var editViewModel = _mapper.Map<CustomerViewModel>(customerResult.Value());
+
+        return PartialView("_EditPartial", editViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(CustomerViewModel customerVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            return PartialView("_EditPartial", customerVM);
+        }
+
+        var customerDto = _mapper.Map<CustomerDto>(customerVM);
+        var result = await _serviceManager.CustomerService.Update(customerDto);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification($"Customer {customerVM.Name} has been updated");
+        return Json(new { success = true });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        var result = await _serviceManager.CustomerService.Deactivate(stringId: id);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification("Customer has been deactivated successfully");
+        return Json(new { success = true });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Renew(string id)
+    {
+        var result = await _serviceManager.CustomerService.Reactivate(stringId: id);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification("Customer has been reactivated successfully");
         return Json(new { success = true });
     }
 }

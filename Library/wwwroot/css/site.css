@@ -114,16 +114,16 @@ label {
 
 .btn-add {
     align-self: center !important;
-    background-color: #2ecc0e;
+    background-color: #4ACE4F;
     color: white;
 }
 
     .btn-add:hover {
-        background-color: #2ebd0e;
+        background-color: #69CA6D;
         color: white;
     }
 
-.btn-edit, .btn-delete {
+.btn-edit, .btn-delete, .btn-renew {
     cursor: pointer;
     display: inline-block;
     pointer-events: auto;
@@ -131,25 +131,35 @@ label {
     width: fit-content;
     padding: 6px 10px 6px 10px;
     z-index: 100;
+    transition: 0.2s all ease;
 }
 
 .btn-edit {
-    background-color: #ff9911;
+    background-color: #2196F3;
     margin-right: 2px;
 }
 
     .btn-edit:hover {
         text-decoration: none;
         color: white;
-        background-color: #ffa651;
+        background-color: #1E88E5;
     }
 
 .btn-delete {
-    background-color: #d9534f;
+    background-color: #F44336;
 }
 
     .btn-delete:hover {
-        background-color: #c9302c;
+        background-color: #E53935;
+        color: white;
+    }
+
+.btn-renew {
+    background-color: #009688;
+}
+
+    .btn-renew:hover {
+        background-color: #00897B;
         color: white;
     }
 

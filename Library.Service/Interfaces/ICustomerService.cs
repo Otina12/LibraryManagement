@@ -8,7 +8,10 @@ namespace Library.Service.Interfaces;
 
 public interface ICustomerService : IBaseService<Customer>
 {
-    Task<CustomerDto?> GetById(string Id);
+    Task<Result<CustomerDto>> GetCustomerById(string Id);
     EntityFiltersDto<CustomerDto> GetAllFilteredCustomers(EntityFiltersDto<CustomerDto> customerFilters);
     Task<Result> Create(CreateCustomerDto createCustomerDto);
+    Task<Result> Update(CustomerDto customerDto);
+    Task<Result<Customer>> Deactivate(string stringId);
+    Task<Result<Customer>> Reactivate(string stringId);
 }

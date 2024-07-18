@@ -9,7 +9,8 @@ public record BookDto(
     string Title,
     int Edition,
     int PublishYear,
-    int Quantity
+    int Quantity,
+    bool isDeleted
     )
 {
     public AuthorIdAndNameDto[] AuthorsDto { get; set; } = [];

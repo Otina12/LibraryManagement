@@ -9,7 +9,8 @@ public record CustomerDto(
     string Email,
     string PhoneNumber,
     string Address,
-    DateTime MembershipStartDate
+    DateTime MembershipStartDate,
+    bool isDeleted
     )
 {
     public IEnumerable<Reservation> Reservations { get; set; } = [];

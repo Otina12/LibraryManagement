@@ -18,4 +18,5 @@ public class AuthorViewModel
     public int? DeathYear { get; set; }
     public BookIdAndTitleDto[] Books { get; set; } = [];
     public DateTime CreationDate { get; set; }
+    public bool isDeleted { get; set; }
 }

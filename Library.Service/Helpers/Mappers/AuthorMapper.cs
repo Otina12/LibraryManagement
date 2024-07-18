@@ -15,7 +15,8 @@ namespace Library.Service.Helpers.Extensions
                 author.Description,
                 author.BirthYear,
                 author.DeathYear,
-                author.CreationDate
+                author.CreationDate,
+                author.IsDeleted
             );
         }
 

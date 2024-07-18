@@ -10,7 +10,8 @@ public record AuthorDto(
     string Description,
     int BirthYear,
     int? DeathYear,
-    DateTime CreationDate
+    DateTime CreationDate,
+    bool isDeleted
 )
 {
     public BookIdAndTitleDto[] Books { get; set; } = [];

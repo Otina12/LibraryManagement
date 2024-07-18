@@ -34,9 +34,9 @@ public class ReservationController : BaseController
         return View(reservations);
     }
 
-    public async Task<IActionResult> Create()
+    public IActionResult Create()
     {
-        ViewBag.Books = await _serviceManager.BookService.GetAllBooksSorted();
+        ViewBag.Books = _serviceManager.BookService.GetAllBooksSorted();
 
         var viewModel = new CreateReservationViewModel();
         return View(viewModel);
@@ -49,7 +49,7 @@ public class ReservationController : BaseController
         var valResult = Validate(reservationVM);
         if (valResult.IsFailure)
         {
-            ViewBag.Books = await _serviceManager.BookService.GetAllBooksSorted();
+            ViewBag.Books = _serviceManager.BookService.GetAllBooksSorted();
             return View(reservationVM);
         }
 
@@ -76,13 +76,14 @@ public class ReservationController : BaseController
 
     public async Task<IActionResult> CustomerExists(string Id)
     {
-        var customerDto = await _serviceManager.CustomerService.GetById(Id);
+        var customerDtoResult = await _serviceManager.CustomerService.GetCustomerById(Id);
 
-        if (customerDto is null)
+        if (customerDtoResult.IsFailure)
         {
             return Json(new { success = false });
         }
 
+        var customerDto = customerDtoResult.Value();
         return Json(new { success = true, customerDto = new { name = $"{customerDto.Name} {customerDto.Surname}" } });
     }
 }

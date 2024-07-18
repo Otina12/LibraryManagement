@@ -8,7 +8,8 @@ public record PublisherDto(
     string? Email,
     string? PhoneNumber,
     int YearPublished,
-    DateTime CreationDate
+    DateTime CreationDate,
+    bool isDeleted
     )
 {
     public BookIdAndTitleDto[] Books { get; set; } = [];

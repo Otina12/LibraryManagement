@@ -6,6 +6,7 @@ using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
+using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Email.Post;
 using Library.Service.Dtos.Employee.Get;
@@ -65,6 +66,7 @@ public class MappingProfiles : Profile
         CreateMap<EditBookViewModel, EditBookDto>();
 
         // customer maps
+        CreateMap<CustomerDto, CustomerViewModel>().ReverseMap();
         CreateMap<CreateCustomerViewModel, CreateCustomerDto>();
 
         // reservation maps

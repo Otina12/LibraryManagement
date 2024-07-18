@@ -92,7 +92,7 @@ public class PublisherController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return PartialView("_CreatePartial", publisherVM);
+            return PartialView("_EditPartial", publisherVM);
         }
 
         var publisherDto = _mapper.Map<PublisherDto>(publisherVM);

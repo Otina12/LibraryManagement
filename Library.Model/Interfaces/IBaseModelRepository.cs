@@ -10,4 +10,5 @@ public interface IBaseModelRepository<T> : IGenericRepository<T> where T : BaseM
 {
     void Deactivate(T entity);
     void Reactivate(T entity);
+    IEnumerable<T> FilterOutDeleted(IEnumerable<T> entities);
 }

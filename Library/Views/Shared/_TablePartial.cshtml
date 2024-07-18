@@ -4,6 +4,7 @@
     var nonDeletableModels = new HashSet<string>() { "Reservation" };
     var nonSearchableModels = new HashSet<string>() { "Reservation" };
     var nonActionModels = new HashSet<string>() { "Reservation", "Book" };
+    var baseModelDtos = new HashSet<string>() { "PublisherDto", "AuthorDto", "CustomerDto", "BookDto" };
 }
 
 @if (!nonSearchableModels.Contains(Model.ControllerName))
@@ -68,8 +69,15 @@
                 @if (!nonActionModels.Contains(Model.ControllerName))
                 {
                     <td>
-                        <a href="" class="btn btn-edit" data-entity-id="@id">Edit</a>
-                        <a href="" class="btn btn-delete" data-entity-id="@id">Delete</a>
+                        @if (baseModelDtos.Contains(item.GetType().Name) && (bool)item.GetType().GetProperty("isDeleted")!.GetValue(item)!)
+                        {
+                            <a href="" class="btn btn-renew" data-entity-id="@id">Renew</a>
+                        }
+                        else
+                        {
+                            <a href="" class="btn btn-edit" data-entity-id="@id">Edit</a>
+                            <a href="" class="btn btn-delete" data-entity-id="@id">Delete</a>
+                        }
                     </td>
                 }
             </tr>

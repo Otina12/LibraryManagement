@@ -10,7 +10,6 @@ using Library.Service.Helpers;
 using Library.Service.Helpers.Books;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Library.Service.Services;
@@ -21,12 +20,17 @@ public class BookService : BaseService<Book>, IBookService
     {
     }
 
-    public async Task<IEnumerable<BookIdTitleAndQuantityDto>> GetAllBooksSorted()
+    public IEnumerable<BookIdTitleAndQuantityDto> GetAllBooksSorted(bool includeDeleted)
     {
-        var books = await _unitOfWork.Books
+        var books = _unitOfWork.Books
             .GetAllAsQueryable()
             .OrderBy(x => x.Title)
-            .ToListAsync();
+            .AsEnumerable();
+
+        if (!includeDeleted)
+        {
+            books = _unitOfWork.GetBaseModelRepository<Book>().FilterOutDeleted(books);
+        }
 
         return books.Select(b => new BookIdTitleAndQuantityDto(b.Id, b.Title, b.Quantity));
     }

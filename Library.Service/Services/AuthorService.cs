@@ -8,6 +8,7 @@ using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library.Service.Services;
 
@@ -38,10 +39,16 @@ public class AuthorService : BaseService<Author>, IAuthorService
         return authorFilters;
     }
     
-    public async Task<IOrderedEnumerable<AuthorIdAndNameDto>> GetAllAuthorIdAndNames()
+    public async Task<IOrderedEnumerable<AuthorIdAndNameDto>> GetAllAuthorIdAndNames(bool includeDeleted)
     {
-        return (await _unitOfWork.Authors.GetAll())
-            .Select(x => new AuthorIdAndNameDto(x.Id, $"{x.Name} {x.Surname}"))
+        var authors = await _unitOfWork.Authors.GetAll();
+        
+        if (!includeDeleted)
+        {
+            authors = _unitOfWork.GetBaseModelRepository<Author>().FilterOutDeleted(authors);
+        }
+
+        return authors.Select(x => new AuthorIdAndNameDto(x.Id, $"{x.Name} {x.Surname}"))
             .OrderBy(x => x.FullName);
     }
 
