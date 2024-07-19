@@ -4,59 +4,61 @@
     ViewData["Title"] = "Reservation Details";
 }
 
-<h1>Reservation Details</h1>
+<div class="details-container">
+    <h1>Reservation Details</h1>
 
-<div>
-    <h2>Customer ID: @Model.CustomerId</h2>
-    <h3>Supposed Return Date: @Model.SupposedReturnDate.ToShortDateString()</h3>
-    <h3>Book Title: @Model.BookTitle</h3>
-    <h3>Quantity to Return: @Model.QuantityToReturn</h3>
-</div>
+    <div>
+        <h2>Customer: @Model.Customer.Name @Model.Customer.Surname</h2>
+        <h3>Supposed Return Date: @Model.SupposedReturnDate.ToShortDateString()</h3>
+        <h3>Book: @Model.Book.Title</h3>
+        <h3>Quantity to Return: @Model.QuantityToReturn</h3>
+    </div>
 
-<hr />
+    <br />
 
-<div>
-    <h2>Book Copies</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Book Copy ID</th>
-                <th>Status</th>
-                <th>Room ID</th>
-                <th>Shelf ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var bookCopy in Model.BookCopies)
-            {
+    <div>
+        <h2>Book Copies</h2>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@bookCopy.Id</td>
-                    <td>@bookCopy.Status</td>
-                    <td>@bookCopy.RoomId</td>
-                    <td>@(bookCopy.ShelfId.HasValue ? bookCopy.ShelfId.Value.ToString() : "N/A")</td>
+                    <th>Book Copy ID</th>
+                    <th>Status</th>
+                    <th>Room ID</th>
+                    <th>Shelf ID</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var bookCopy in Model.BookCopies)
+                {
+                    <tr>
+                        <td>@bookCopy.Id</td>
+                        <td>@bookCopy.Status</td>
+                        <td>@bookCopy.RoomId</td>
+                        <td>@(bookCopy.ShelfId.HasValue ? bookCopy.ShelfId.Value.ToString() : "N/A")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-<hr />
+    <hr />
 
-<div>
-    <h2>Other Reservations of Customer</h2>
-    @if (Model.OtherReservationsOfCustomer.Any())
-    {
-        <ul>
-            @foreach (var reservation in Model.OtherReservationsOfCustomer)
-            {
-                <li>
-                    <a asp-action="Details" asp-route-id="@reservation.CustomerId">@reservation.BookTitle</a> - Return Date: @reservation.SupposedReturnDate.ToShortDateString()
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No other reservations found for this customer.</p>
-    }
+    <div>
+        <h2>Other Reservations of Customer</h2>
+        @if (Model.OtherReservationsOfCustomer.Any())
+        {
+            <ul>
+                @foreach (var reservation in Model.OtherReservationsOfCustomer)
+                {
+                    <li>
+                        <a asp-action="Details" asp-route-id="@reservation.ReservationId">@reservation.Book.Title</a> - Return Date: @reservation.SupposedReturnDate.ToShortDateString()
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No other reservations found for this customer.</p>
+        }
+    </div>
 </div>

@@ -11,6 +11,7 @@ using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.Security.Claims;
 using Library.Service.Dtos.Reservations.Get;
+using Library.Service.Dtos.Reservations;
 
 namespace Library.Controllers;
 
@@ -23,7 +24,7 @@ public class ReservationController : BaseController
     public async Task<IActionResult> Index(string? searchString, int pageNumber = 1, int pageSize = 3) // display next 3 dates' tables on each table
     {
         // reservation page has different structure compared to other entities that share generic filtering, sorting and etc. so we need to write it seperately
-        var reservationParams = new EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>
+        var reservationParams = new ReservationFiltersDto
         {
             SearchString = searchString ?? "",
             PageNumber = pageNumber,

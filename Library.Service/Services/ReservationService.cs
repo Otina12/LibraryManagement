@@ -2,7 +2,7 @@
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Service.Dtos;
+using Library.Service.Dtos.Reservations;
 using Library.Service.Dtos.Reservations.Get;
 using Library.Service.Dtos.Reservations.Post;
 using Library.Service.Helpers.Mappers;
@@ -21,17 +21,17 @@ public class ReservationService : IReservationService
         _validationService = validationService;
     }
 
-    public async Task<EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>> GetAll(EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)> reservationFilters)
+    public async Task<ReservationFiltersDto> GetAll(ReservationFiltersDto reservationFilters)
     {
         var reservationsByDate = await _unitOfWork.Reservations.GetAllByDate(false);
 
-        reservationsByDate = SearchReservations(reservationsByDate, reservationFilters.SearchString);
+        reservationsByDate = SearchReservations(reservationsByDate, reservationFilters.SearchString!);
         reservationFilters.TotalItems = reservationsByDate.Count();
         reservationsByDate = PaginateReservations(reservationsByDate, reservationFilters.PageNumber, reservationFilters.PageSize);
 
         reservationFilters.Entities = reservationsByDate.Select(x => (
-            x.Item1, // date
-            x.Item2.Select(r => r.MapToReservationDto())
+            x.Item1, // key: date
+            x.Item2.Select(r => r.MapToReservationDto()) // value: reservations
             ));
 
         return reservationFilters;
@@ -66,22 +66,25 @@ public class ReservationService : IReservationService
 
         var reservation = reservationExistsResult.Value();
         var book = await _unitOfWork.Books.GetById(reservation.BookId);
-        var reservationDto = new ReservationDetailsDto(reservation.CustomerId, reservation.SupposedReturnDate, book!.Title, reservation.Quantity - reservation.ReturnedQuantity);
+        var customer = await _unitOfWork.Customers.GetById(reservation.CustomerId);
+
+        var reservationDto = new ReservationDetailsDto(customer!, reservation.Id, reservation.SupposedReturnDate, book!, reservation.Quantity - reservation.ReturnedQuantity);
 
         // we need every book copy that were reserved for this reservation
         var bookCopies = await _unitOfWork.ReservationCopies.GetAllReservedBookCopiesOfReservation(Id);
         reservationDto.BookCopies = bookCopies.Select(x => x.MapToBookCopyDto()).ToList();
 
         // then get other (future) reservations of same customer:
-        var otherReservations = await _unitOfWork.Reservations.GetUpcomingReservationsOfCustomer(reservationDto.CustomerId);
+        var otherReservations = await _unitOfWork.Reservations.GetUpcomingReservationsOfCustomer(reservationDto.Customer.Id);
 
         foreach (var otherReservation in otherReservations)
         {
             reservationDto.OtherReservationsOfCustomer.Add(
                 new ReservationDetailsDto(
-                    otherReservation.CustomerId,
+                    customer!,
+                    otherReservation.Id,
                     otherReservation.SupposedReturnDate,
-                    (await _unitOfWork.Books.GetById(reservation.BookId))!.Title,
+                    (await _unitOfWork.Books.GetById(reservation.BookId))!,
                     otherReservation.Quantity - otherReservation.ReturnedQuantity
                 ));
         }
@@ -150,7 +153,7 @@ public class ReservationService : IReservationService
     }
 
     private static IEnumerable<(DateTime, IEnumerable<Reservation>)> SearchReservations(
-        IEnumerable<(DateTime, IEnumerable<Reservation>)> groupedReservations, string? searchString)
+        IEnumerable<(DateTime, IEnumerable<Reservation>)> groupedReservations, string searchString)
     {
         if (string.IsNullOrEmpty(searchString))
         {

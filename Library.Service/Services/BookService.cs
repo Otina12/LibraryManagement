@@ -45,7 +45,7 @@ public class BookService : BaseService<Book>, IBookService
         books = books.ApplySort(bookFilters.SortBy, bookFilters.SortOrder, GetBookSortDictionary());
         var finalBooks = books.ApplyPagination(bookFilters.PageNumber, bookFilters.PageSize).ToList();
 
-        var booksDto = finalBooks.Select(b => b.MapToBookDto());
+        var booksDto = finalBooks.Select(b => b.MapToBookDto()).ToList();
 
         foreach (var bookDto in booksDto)
         {

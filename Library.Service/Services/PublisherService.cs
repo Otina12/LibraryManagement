@@ -28,11 +28,11 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
         publishers = publishers.ApplySort(publisherFilters.SortBy, publisherFilters.SortOrder, GetPublisherSortDictionary());
         var finalPublishers = publishers.ApplyPagination(publisherFilters.PageNumber, publisherFilters.PageSize).ToList();
 
-        var publishersDto = finalPublishers.Select(p => p.MapToPublisherDto());
+        var publishersDto = finalPublishers.Select(p => p.MapToPublisherDto()).ToList();
 
         foreach (var publisherDto in publishersDto)
         {
-            await MapBooks(publisherDto);
+            publisherDto.Books = await MapBooks(publisherDto);
         }
 
         publisherFilters.Entities = publishersDto;
@@ -104,10 +104,10 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
         return Result.Success();
     }
 
-    private async Task MapBooks(PublisherDto publisherDto)
+    private async Task<BookIdAndTitleDto[]> MapBooks(PublisherDto publisherDto)
     {
         var books = await _unitOfWork.Books.GetAllBooksOfPublisher(publisherDto.Id);
-        publisherDto.Books = books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
+        return books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
     }
 
     // Returns a dictionary that we will later use in generic sort method

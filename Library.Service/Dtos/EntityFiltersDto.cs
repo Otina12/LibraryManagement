@@ -1,7 +1,7 @@
 ﻿namespace Library.Service.Dtos;
 
 // used to sort, search, filter generic collections
-public record EntityFiltersDto<T>
+public class EntityFiltersDto<T>
 {
     public IEnumerable<T> Entities { get; set; } = [];
     public string SearchString { get; set; } = string.Empty;
