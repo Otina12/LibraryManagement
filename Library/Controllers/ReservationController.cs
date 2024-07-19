@@ -21,14 +21,18 @@ public class ReservationController : BaseController
     {
     }
 
-    public async Task<IActionResult> Index(string? searchString, int pageNumber = 1, int pageSize = 3) // display next 3 dates' tables on each table
+    public async Task<IActionResult> Index(string? searchString, DateOnly? minReservationDate, DateOnly? maxReservationDate, DateOnly? minReturnDate, DateOnly? maxReturnDate, int pageNumber = 1, int pageSize = 3) // display next 3 dates' tables on each table
     {
         // reservation page has different structure compared to other entities that share generic filtering, sorting and etc. so we need to write it seperately
         var reservationParams = new ReservationFiltersDto
         {
             SearchString = searchString ?? "",
             PageNumber = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            MinReservationDate = minReservationDate ?? DateOnly.FromDateTime(DateTime.MinValue),
+            MaxReservationDate = maxReservationDate ?? DateOnly.FromDateTime(DateTime.MaxValue),
+            MinReturnDate = minReturnDate ?? DateOnly.FromDateTime(DateTime.MinValue),
+            MaxReturnDate = maxReturnDate ?? DateOnly.FromDateTime(DateTime.MaxValue)
         };
 
         var reservations = await _serviceManager.ReservationService.GetAll(reservationParams);

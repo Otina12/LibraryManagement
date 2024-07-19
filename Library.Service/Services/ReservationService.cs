@@ -25,6 +25,8 @@ public class ReservationService : IReservationService
     {
         var reservationsByDate = await _unitOfWork.Reservations.GetAllByDate(false);
 
+        reservationsByDate = FilterReservationsByReservationDate(reservationsByDate, reservationFilters.MinReservationDate, reservationFilters.MaxReservationDate);
+        reservationsByDate = FilterReservationsByReturnDate(reservationsByDate, reservationFilters.MinReturnDate, reservationFilters.MaxReturnDate);
         reservationsByDate = SearchReservations(reservationsByDate, reservationFilters.SearchString!);
         reservationFilters.TotalItems = reservationsByDate.Count();
         reservationsByDate = PaginateReservations(reservationsByDate, reservationFilters.PageNumber, reservationFilters.PageSize);
@@ -150,6 +152,44 @@ public class ReservationService : IReservationService
 
         book.Quantity -= bookDto.Quantity; // decrement when booked
         return Result.Success(book);
+    }
+
+    // helpers
+    private static IEnumerable<(DateTime, IEnumerable<Reservation>)> FilterReservationsByReservationDate(
+    IEnumerable<(DateTime, IEnumerable<Reservation>)> groupedReservations, DateOnly minDate, DateOnly maxDate)
+    {
+        return groupedReservations
+            .Select(group => (
+                group.Item1,
+                group.Item2.Where(reservation =>
+                    DateOnly.FromDateTime(reservation.ReservationDate) >= minDate &&
+                    DateOnly.FromDateTime(reservation.ReservationDate) <= maxDate)
+            ))
+            .Where(group => group.Item2.Any());
+    }
+
+    private static IEnumerable<(DateTime, IEnumerable<Reservation>)> FilterReservationsByReturnDate(
+        IEnumerable<(DateTime, IEnumerable<Reservation>)> groupedReservations, DateOnly minDate, DateOnly maxDate)
+    {
+        if (groupedReservations.Any() && maxDate <= DateOnly.FromDateTime(DateTime.UtcNow)) // overdue reservations
+        {
+            var reservations = new List<Reservation>();
+
+            foreach (var reservation in groupedReservations.First().Item2)
+            {
+                if (DateOnly.FromDateTime(reservation.SupposedReturnDate) <= maxDate)
+                {
+                    reservations.Add(reservation);
+                }
+            }
+
+            return [(DateTime.MinValue, reservations)];
+        }
+
+        return groupedReservations
+            .Where(x => DateOnly.FromDateTime(x.Item1) >= minDate &&
+                        DateOnly.FromDateTime(x.Item1) <= maxDate)
+            .ToList();
     }
 
     private static IEnumerable<(DateTime, IEnumerable<Reservation>)> SearchReservations(

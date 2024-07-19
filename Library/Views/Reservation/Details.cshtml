@@ -1,30 +1,26 @@
 ﻿@model Library.Service.Dtos.Reservations.Get.ReservationDetailsDto
-
 @{
     ViewData["Title"] = "Reservation Details";
 }
 
 <div class="details-container">
-    <h1>Reservation Details</h1>
+    <h1 class="main-title">Reservation Details</h1>
 
-    <div>
-        <h2>Customer: @Model.Customer.Name @Model.Customer.Surname</h2>
-        <h3>Supposed Return Date: @Model.SupposedReturnDate.ToShortDateString()</h3>
-        <h3>Book: @Model.Book.Title</h3>
-        <h3>Quantity to Return: @Model.QuantityToReturn</h3>
+    <div class="customer-info">
+        <h3>Customer: <span>@Model.Customer.Name @Model.Customer.Surname</span></h3>
+        <h3>Supposed Return Date: <span>@Model.SupposedReturnDate.ToShortDateString()</span></h3>
+        <h3>Book: <span>@Model.Book.Title</span></h3>
+        <h3>Quantity to Return: <span>@Model.QuantityToReturn</span></h3>
     </div>
 
-    <br />
-
-    <div>
+    <div class="book-copies">
         <h2>Book Copies</h2>
         <table class="table">
             <thead>
                 <tr>
                     <th>Book Copy ID</th>
                     <th>Status</th>
-                    <th>Room ID</th>
-                    <th>Shelf ID</th>
+                    <th>Location</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,32 +29,30 @@
                     <tr>
                         <td>@bookCopy.Id</td>
                         <td>@bookCopy.Status</td>
-                        <td>@bookCopy.RoomId</td>
-                        <td>@(bookCopy.ShelfId.HasValue ? bookCopy.ShelfId.Value.ToString() : "N/A")</td>
+                        <td>Room ID: @bookCopy.RoomId | Shelf ID: @(bookCopy.ShelfId.HasValue ? bookCopy.ShelfId.Value.ToString() : "N/A")</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 
-    <hr />
-
-    <div>
-        <h2>Other Reservations of Customer</h2>
+    <div class="other-reservations">
+        <h2>Other Reservations of @Model.Customer.Name</h2>
         @if (Model.OtherReservationsOfCustomer.Any())
         {
             <ul>
                 @foreach (var reservation in Model.OtherReservationsOfCustomer)
                 {
                     <li>
-                        <a asp-action="Details" asp-route-id="@reservation.ReservationId">@reservation.Book.Title</a> - Return Date: @reservation.SupposedReturnDate.ToShortDateString()
+                        <a asp-action="Details" asp-route-id="@reservation.ReservationId">@reservation.Book.Title</a>
+                        <span class="return-date">Return Date: @reservation.SupposedReturnDate.ToShortDateString()</span>
                     </li>
                 }
             </ul>
         }
         else
         {
-            <p>No other reservations found for this customer.</p>
+            <p class="no-reservations">No other reservations found for this customer.</p>
         }
     </div>
 </div>

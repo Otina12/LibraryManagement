@@ -4,6 +4,8 @@ namespace Library.Service.Dtos.Reservations;
 
 public class ReservationFiltersDto : EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)>
 {
-    public DateOnly MinDate {  get; set; }
-    public DateOnly MaxDate { get; set; }
+    public DateOnly MinReservationDate { get; set; }
+    public DateOnly MaxReservationDate { get; set; }
+    public DateOnly MinReturnDate {  get; set; }
+    public DateOnly MaxReturnDate { get; set; }
 }

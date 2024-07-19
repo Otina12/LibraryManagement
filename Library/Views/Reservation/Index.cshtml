@@ -1,8 +1,9 @@
 ﻿@using Library.Service.Dtos
+@using Library.Service.Dtos.Reservations
 @using Library.Service.Dtos.Reservations.Get
 @using Library.ViewModels.Shared
 
-@model EntityFiltersDto<(DateTime, IEnumerable<ReservationDto>)> // ordered by SupposedReturnDate in ascending order
+@model ReservationFiltersDto // ordered by SupposedReturnDate in ascending order
 
 @{
     ViewData["Title"] = "Reservations";
@@ -17,12 +18,48 @@
         <a asp-action="Create" class="btn btn-add">Create New Reservation</a>
     </div>
 
-    <form method="get" class="search-form">
-        <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
-        <input type="hidden" name="pageNumber" value="1" />
-        <input type="hidden" name="pageSize" value="@Model.PageSize" />
-        <button type="submit">Search</button>
-    </form>
+    <div class="filters-container">
+        <form method="get" class="search-form">
+            <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
+            <button type="submit" class="btn btn-search">Search</button>
+        </form>
+
+        <form method="get" class="filters-form">
+            <div class="filter-group">
+                <h4>Reservation Date</h4>
+                <div class="date-range">
+                    <div class="date-input">
+                        <label for="minReservationDate">From:</label>
+                        <input type="date" id="minReservationDate" name="minReservationDate" value="@Model.MinReservationDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="date-input">
+                        <label for="maxReservationDate">To:</label>
+                        <input type="date" id="maxReservationDate" name="maxReservationDate" value="@Model.MaxReservationDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h4>Return Date</h4>
+                <div class="date-range">
+                    <div class="date-input">
+                        <label for="minReturnDate">From:</label>
+                        <input type="date" id="minReturnDate" name="minReturnDate" value="@Model.MinReturnDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="date-input">
+                        <label for="maxReturnDate">To:</label>
+                        <input type="date" id="maxReturnDate" name="maxReturnDate" value="@Model.MaxReturnDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="pageNumber" value="1" />
+            <input type="hidden" name="pageSize" value="@Model.PageSize" />
+
+            <button type="submit" class="btn btn-filter">Apply Filters</button>
+        </form>
+    </div>
+
 </div>
 
 @foreach (var (date, reservations) in Model.Entities)
