@@ -79,6 +79,12 @@ public class ReservationController : BaseController
         return View(reservationResult.Value());
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Checkout(ReservationCheckoutDto checkoutDto)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<IActionResult> CustomerExists(string Id)
     {
         var customerDtoResult = await _serviceManager.CustomerService.GetCustomerById(Id);

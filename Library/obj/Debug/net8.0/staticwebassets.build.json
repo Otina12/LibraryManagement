@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/wI6MqmiITxBv52qyNRdiKFlw281qR40fQ4LcPqsNjw=",
+  "Hash": "MzgIASdGG4tkpGV0GLqkZoZdYBzTksbmyA7m5ZrW45k=",
   "Source": "Library",
   "BasePath": "_content/Library",
   "Mode": "Default",
@@ -281,6 +281,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Employee\\employee.js"
+    },
+    {
+      "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-checkout.js",
+      "SourceId": "Library",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\",
+      "BasePath": "_content/Library",
+      "RelativePath": "js/Reservation/reservation-checkout.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Reservation\\reservation-checkout.js"
     },
     {
       "Identity": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-post.js",

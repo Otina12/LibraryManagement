@@ -53,6 +53,10 @@
       "PackagePath": "staticwebassets\\js\\Employee\\employee.js"
     },
     {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-checkout.js",
+      "PackagePath": "staticwebassets\\js\\Reservation\\reservation-checkout.js"
+    },
+    {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-post.js",
       "PackagePath": "staticwebassets\\js\\Reservation\\reservation-post.js"
     },

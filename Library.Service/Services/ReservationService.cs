@@ -2,6 +2,7 @@
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
 using Library.Model.Models;
+using Library.Service.Dtos.ReservationCopy.Get;
 using Library.Service.Dtos.Reservations;
 using Library.Service.Dtos.Reservations.Get;
 using Library.Service.Dtos.Reservations.Post;
@@ -73,11 +74,14 @@ public class ReservationService : IReservationService
         var reservationDto = new ReservationDetailsDto(customer!, reservation.Id, reservation.SupposedReturnDate, book!, reservation.Quantity - reservation.ReturnedQuantity);
 
         // we need every book copy that were reserved for this reservation
-        var bookCopies = await _unitOfWork.ReservationCopies.GetAllReservedBookCopiesOfReservation(Id);
-        reservationDto.BookCopies = bookCopies.Select(x => x.MapToBookCopyDto()).ToList();
+        var reservationCopies = await _unitOfWork.ReservationCopies.GetAllReservationCopiesOfReservation(Id);
+        reservationDto.ReservationCopies = reservationCopies.Select(
+                    x => new ReservationCopyDto(x.Id, x.ReservationId, x.BookCopy.MapToBookCopyDto())
+                ).ToList();
 
         // then get other (future) reservations of same customer:
         var otherReservations = await _unitOfWork.Reservations.GetUpcomingReservationsOfCustomer(reservationDto.Customer.Id);
+        otherReservations = otherReservations.Where(x => x.BookId != reservation.BookId);
 
         foreach (var otherReservation in otherReservations)
         {
@@ -86,7 +90,7 @@ public class ReservationService : IReservationService
                     customer!,
                     otherReservation.Id,
                     otherReservation.SupposedReturnDate,
-                    (await _unitOfWork.Books.GetById(reservation.BookId))!,
+                    (await _unitOfWork.Books.GetById(otherReservation.BookId))!,
                     otherReservation.Quantity - otherReservation.ReturnedQuantity
                 ));
         }

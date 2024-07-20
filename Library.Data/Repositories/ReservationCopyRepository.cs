@@ -31,11 +31,20 @@ public class ReservationCopyRepository : GenericRepository<ReservationCopy>, IRe
         return bookCopies;
     }
 
+    public async Task<IEnumerable<ReservationCopy>> GetAllReservationCopiesOfReservation(Guid reservationId)
+    {
+        return await _context.ReservationCopies
+                .Include(x => x.BookCopy)
+                .AsNoTracking()
+                .Where(x => x.ReservationId == reservationId)
+                .ToListAsync();
+    }
+
     public async Task<Dictionary<Reservation, IEnumerable<ReservationCopy>>> GetAllReservationCopiesOfReservations(IEnumerable<Reservation> reservations)
     {
         var reservationCopies = new Dictionary<Reservation, IEnumerable<ReservationCopy>>();
 
-        foreach(var reservation in reservations)
+        foreach (var reservation in reservations)
         {
             var copies = await _context.ReservationCopies
                 .AsNoTracking()

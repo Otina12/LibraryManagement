@@ -1,6 +1,5 @@
-﻿using Library.Model.Enums;
-using Library.Model.Models;
-using Library.Service.Dtos.BookCopy.Get;
+﻿using Library.Model.Models;
+using Library.Service.Dtos.ReservationCopy.Get;
 
 namespace Library.Service.Dtos.Reservations.Get;
 
@@ -11,6 +10,6 @@ public record ReservationDetailsDto(
     Model.Models.Book Book,
     int QuantityToReturn)
 {
-    public List<BookCopyDto> BookCopies { get; set; } = [];
+    public List<ReservationCopyDto> ReservationCopies { get; set; } = [];
     public List<ReservationDetailsDto> OtherReservationsOfCustomer { get; set; } = [];
 }

@@ -287,7 +287,7 @@ label {
     border-collapse: separate;
     border-spacing: 0;
     table-layout: fixed;
-    margin-top: 25px !important;
+    margin-top: 15px !important;
     margin: 0 auto;
 }
 
@@ -384,8 +384,7 @@ label {
 .reservation-date {
     color: #3498db;
     font-size: 1.8em;
-    margin-top: 40px;
-    margin-bottom: -25px;
+    margin-top: 50px;
     padding-left: 10px;
     border-left: 5px solid #3498db;
 }
@@ -712,20 +711,20 @@ label {
 /* --------------- reservation-specific details.cshtml styles --------------- */
 .main-title {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 2.5em;
+    margin-bottom: 30px;
+    font-size: 30px;
 }
 
 .customer-info {
     padding: 20px;
     border-radius: 8px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
     .customer-info h3 {
         color: #becfeb;
-        font-size: 20px;
-        margin: 10px;
+        font-size: 18px;
+        margin-bottom: 15px;
     }
 
     .customer-info span {
@@ -734,7 +733,7 @@ label {
     }
 
 .book-copies, .other-reservations {
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 20px;
 }
 
@@ -742,6 +741,10 @@ label {
         color: #becfeb;
         padding-bottom: 10px;
         margin-bottom: 10px;
+    }
+
+    .book-copies td{
+        align-content: center;
     }
 
     .other-reservations h2 {
