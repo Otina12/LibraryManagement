@@ -10,57 +10,57 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css/table.css"/>
+    <link rel="stylesheet" href="~/css/table.css" />
 </head>
 
-<div class="my-container">
-    <div class="my-header">
-        <a asp-action="Create" class="btn btn-add">Create New Reservation</a>
-    </div>
-
-    <div class="filters-container">
-        <form method="get" class="search-form">
-            <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
-            <button type="submit" class="btn btn-search">Search</button>
-        </form>
-
-        <form method="get" class="filters-form">
-            <div class="filter-group">
-                <h4>Reservation Date</h4>
-                <div class="date-range">
-                    <div class="date-input">
-                        <label for="minReservationDate">From:</label>
-                        <input type="date" id="minReservationDate" name="minReservationDate" value="@Model.MinReservationDate.ToString("yyyy-MM-dd")" />
-                    </div>
-                    <div class="date-input">
-                        <label for="maxReservationDate">To:</label>
-                        <input type="date" id="maxReservationDate" name="maxReservationDate" value="@Model.MaxReservationDate.ToString("yyyy-MM-dd")" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <h4>Return Date</h4>
-                <div class="date-range">
-                    <div class="date-input">
-                        <label for="minReturnDate">From:</label>
-                        <input type="date" id="minReturnDate" name="minReturnDate" value="@Model.MinReturnDate.ToString("yyyy-MM-dd")" />
-                    </div>
-                    <div class="date-input">
-                        <label for="maxReturnDate">To:</label>
-                        <input type="date" id="maxReturnDate" name="maxReturnDate" value="@Model.MaxReturnDate.ToString("yyyy-MM-dd")" />
-                    </div>
-                </div>
-            </div>
-
-            <input type="hidden" name="pageNumber" value="1" />
-            <input type="hidden" name="pageSize" value="@Model.PageSize" />
-
-            <button type="submit" class="btn btn-filter">Apply Filters</button>
-        </form>
-    </div>
-
+<div class="my-header">
+    <a asp-action="Create" class="btn btn-add">Create New Reservation</a>
 </div>
+
+<form method="get" class="search-form">
+    <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
+    <button type="submit" class="btn btn-search">Search</button>
+</form>
+
+<a href="#" id="toggleFilters" class="toggle-filters">Show Filters</a>
+
+<form method="get" style="display: none;" class="filters-form">
+    <div class="filter-group">
+        <h4>Reservation Date</h4>
+        <div class="date-range">
+            <div class="date-input">
+                <label for="minReservationDate">From:</label>
+                <input type="date" id="minReservationDate" name="minReservationDate" value="@Model.MinReservationDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="date-input">
+                <label for="maxReservationDate">To:</label>
+                <input type="date" id="maxReservationDate" name="maxReservationDate" value="@Model.MaxReservationDate.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <h4>Return Date</h4>
+        <div class="date-range">
+            <div class="date-input">
+                <label for="minReturnDate">From:</label>
+                <input type="date" id="minReturnDate" name="minReturnDate" value="@Model.MinReturnDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="date-input">
+                <label for="maxReturnDate">To:</label>
+                <input type="date" id="maxReturnDate" name="maxReturnDate" value="@Model.MaxReturnDate.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="pageNumber" value="1" />
+    <input type="hidden" name="pageSize" value="@Model.PageSize" />
+
+    <div class="filter-actions">
+        <button type="submit" class="btn btn-filter">Apply Filters</button>
+        <button type="reset" class="btn btn-reset">Reset</button>
+    </div>
+</form>
 
 @foreach (var (date, reservations) in Model.Entities)
 {
@@ -127,3 +127,21 @@
     }
     <span class="page-info">Page @Model.PageNumber of @totalPages</span>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleFilters = document.getElementById('toggleFilters');
+        const filtersForm = document.querySelector('.filters-form');
+
+        toggleFilters.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (filtersForm.style.display === 'none') {
+                filtersForm.style.display = 'flex';
+                toggleFilters.textContent = 'Hide Filters';
+            } else {
+                filtersForm.style.display = 'none';
+                toggleFilters.textContent = 'Show Filters';
+            }
+        });
+    });
+</script>

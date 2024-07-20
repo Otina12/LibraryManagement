@@ -19,7 +19,7 @@
 
 @if (!nonDeletableModels.Contains(Model.ControllerName))
 {
-    <div class="form-check">
+    <div class="form-check include-deleted">
         <input class="form-check-input" type="checkbox" id="includeDeleted" @(Model.IncludeDeleted ? "checked" : "")>
         <label class="form-check-label" for="includeDeleted">
             Include Deleted
@@ -88,11 +88,13 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var checkbox = document.getElementById('includeDeleted');
-        checkbox.addEventListener('change', function () {
-            var currentUrl = new URL(window.location.href);
-            currentUrl.searchParams.set('includeDeleted', this.checked);
-            currentUrl.searchParams.set('pageNumber', 1);
-            window.location.href = currentUrl.toString();
-        });
+        if (checkbox) {
+            checkbox.addEventListener('change', function () {
+                var currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('includeDeleted', this.checked);
+                currentUrl.searchParams.set('pageNumber', 1);
+                window.location.href = currentUrl.toString();
+            });
+        }
     });
 </script>

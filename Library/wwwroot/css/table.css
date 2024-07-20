@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
+    margin-left: 20px;
 }
 
 .form-check-input {
@@ -15,7 +16,6 @@
     appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #007bff;
     border-radius: 3px;
     outline: none;
     transition: all 0.3s;
@@ -61,8 +61,8 @@
 
         .search-form button:hover {
             background-color: #3240f5;
+            color: white !important;
         }
-
 
 .pagination {
     margin-top: 20px;
@@ -96,3 +96,41 @@
     margin-left: 10px;
     color: white;
 }
+
+.sort-link {
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+    .sort-link:hover {
+        color: white;
+    }
+
+.sort-text {
+    text-align: center;
+}
+
+.sort-arrows {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    line-height: 1;
+}
+
+.sort-arrow {
+    font-size: 10px;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+    .sort-arrow:hover {
+        cursor: pointer;
+    }
+
+    .sort-arrow.active {
+        color: white;
+    }
+

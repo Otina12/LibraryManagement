@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-/* -------------- shared -------------- */
+/* --------------- shared --------------- */
 
 html {
     font-size: 14px;
@@ -64,8 +64,6 @@ label {
     .required:hover::before {
         opacity: 1;
     }
-
-/* --------------------- general styles --------------------- */
 
 .notification {
     position: fixed;
@@ -164,7 +162,7 @@ label {
     }
 
 
-/* -------------- navigation bar -------------- */
+/* --------------- navigation bar --------------- */
 
 .myNav {
     width: 85%;
@@ -263,7 +261,7 @@ label {
     margin-bottom: 2px;
 }
 
-/* ---------- main page styles ---------- */
+/* --------------- main page styles --------------- */
 
 .main-heading {
     color: white;
@@ -274,8 +272,7 @@ label {
 }
 
 
-/* ---------- index.cshtml pages ---------- */
-
+/* --------------- index.cshtml pages --------------- */
 .my-container {
     background-color: transparent;
     border-radius: 8px;
@@ -311,7 +308,7 @@ label {
 }
 
 
-/* ---------- employee-specific index.cshtml styles ---------- */
+/* --------------- employee-specific index.cshtml styles --------------- */
 
 .filter-container {
     display: flex;
@@ -382,7 +379,193 @@ label {
     background-color: rgba(57, 255, 20, 0.1);
 }
 
-/* ---------- details pages ---------- */
+/* --------------- reservation-specific index.cshtml styles ---------------*/
+
+.reservation-date {
+    color: #3498db;
+    font-size: 1.8em;
+    margin-top: 40px;
+    margin-bottom: -25px;
+    padding-left: 10px;
+    border-left: 5px solid #3498db;
+}
+
+    .reservation-date.overdue {
+        color: #e74c3c;
+        border-left-color: #e74c3c;
+    }
+
+.filters-container {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(52, 73, 94, 0.4);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-filters {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.filters-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter-group {
+    flex-basis: calc(50% - 10px) !important;
+    border-radius: 6px;
+    padding: 15px;
+    background-color: rgba(52, 90, 110, 0.5);
+}
+
+    .filter-group h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #4a90e2;
+    }
+
+.filter-actions {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn:hover {
+    color: white;
+}
+
+.btn-filter {
+    background-color: #007bff;
+    color: white;
+}
+
+    .btn-filter:hover {
+        background-color: #1E87FF;
+        color: white;
+    }
+
+.btn-reset {
+    background-color: #6c757d;
+    color: white;
+}
+
+    .btn-reset:hover {
+        background-color: #777F86;
+        color: white;
+    }
+
+.date-range {
+    display: flex;
+    gap: 15px;
+}
+
+.date-input {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+    .date-input label {
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #b0b0b0;
+    }
+
+    .date-input input[type="date"] {
+        padding: 8px 12px;
+        border: 1px solid #333;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        transition: border-color 0.3s ease;
+    }
+
+        .date-input input[type="date"]:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+        }
+
+
+/* --------------- email-specific index.cshtml styles --------------- */
+
+.email-templates-container {
+    width: 90%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.email-header, .publisher-header, .author-header, .my-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+
+.templates-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.template-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    width: calc(25% - 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 1200px) {
+    .template-card {
+        width: calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 992px) {
+    .template-card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .template-card {
+        width: calc(100% - 20px);
+    }
+}
+
+
+/* --------------- details pages --------------- */
 
 .details-container {
     position: relative;
@@ -456,7 +639,7 @@ label {
 }
 
 
-/* ---------- employee-specific details.cshtml styles ---------- */
+/* --------------- employee-specific details.cshtml styles --------------- */
 
 .roleSelect {
     margin-right: 3px;
@@ -526,7 +709,7 @@ label {
     }
 
 
-/* ---------- reservation-specific details.cshtml styles ---------- */
+/* --------------- reservation-specific details.cshtml styles --------------- */
 .main-title {
     text-align: center;
     margin-bottom: 20px;
@@ -593,7 +776,7 @@ label {
     }
 
 .return-date {
-    color: #7f8c8d;
+    color: white;
     font-size: 18px;
 }
 
@@ -602,116 +785,7 @@ label {
     font-style: italic;
 }
 
-/* ---------- email index page ---------- */
-
-.email-templates-container {
-    width: 90%;
-    margin: auto;
-    padding-top: 20px;
-}
-
-.email-header, .publisher-header, .author-header, .my-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 40px;
-}
-
-
-.templates-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.template-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    width: calc(25% - 20px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card-body {
-    padding: 15px;
-}
-
-.card-title {
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-}
-
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 15px;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-@media (max-width: 1200px) {
-    .template-card {
-        width: calc(33.333% - 20px);
-    }
-}
-
-@media (max-width: 992px) {
-    .template-card {
-        width: calc(50% - 20px);
-    }
-}
-
-@media (max-width: 768px) {
-    .template-card {
-        width: calc(100% - 20px);
-    }
-}
-
-
-/* ---------- table styles ---------- */
-
-.sort-link {
-    text-decoration: none;
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-}
-
-    .sort-link:hover {
-        color: white;
-    }
-
-.sort-text {
-    text-align: center;
-}
-
-.sort-arrows {
-    display: flex;
-    flex-direction: column;
-    margin-left: 5px;
-    line-height: 1;
-}
-
-.sort-arrow {
-    font-size: 10px;
-    color: #888;
-    transition: color 0.3s ease;
-}
-
-    .sort-arrow:hover {
-        cursor: pointer;
-    }
-
-    .sort-arrow.active {
-        color: white;
-    }
-
-
-/* ---------- email template edit page ---------- */
+/* --------------- email template edit page --------------- */
 
 #tinyMceEditor {
     position: relative;
@@ -735,7 +809,7 @@ label {
 }
 
 
-/* ---------- error pages ---------- */
+/* --------------- error pages --------------- */
 
 .access-denied, .page-not-found {
     text-align: center;
@@ -758,285 +832,3 @@ label {
         padding: 10px 20px;
         font-size: 16px;
     }
-
-
-/* --------------- modal styles --------------- */
-
-.custom-modal {
-    display: none;
-    position: fixed;
-    z-index: 1050;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    outline: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    overflow-y: auto;
-}
-
-.custom-modal-dialog {
-    position: relative;
-    width: auto;
-    margin: 1.75rem auto;
-    max-width: 600px;
-}
-
-.custom-modal-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 75%;
-    margin: auto;
-    background-color: rgba(52, 73, 94, 0.97);
-    border-radius: 0.3rem;
-    outline: 0;
-    color: white;
-    overflow-y: auto;
-}
-
-.custom-modal-header,
-.custom-modal-footer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-
-.custom-modal-header {
-    border-bottom: 1px solid #dee2e6;
-    margin-bottom: 20px;
-}
-
-.custom-modal-footer {
-    border-top: 1px solid #dee2e6;
-}
-
-.custom-modal-title {
-    margin-bottom: 0;
-    line-height: 1.5;
-    font-size: 1.25rem;
-}
-
-.custom-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 0;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    opacity: 0.7;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-}
-
-    .custom-close:hover {
-        opacity: 1;
-    }
-
-.custom-modal-body {
-    position: relative;
-    width: 100%;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.custom-modal-footer .btn {
-    margin-left: 0.5rem;
-}
-
-#createPublisherForm, #editPublisherForm,
-#createAuthorForm, #editAuthorForm,
-#createCustomerForm, #editCustomerForm {
-    width: 100% !important;
-}
-
-.modal-field {
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100% !important;
-    overflow: hidden;
-}
-
-    .modal-field label {
-        display: block;
-        margin-bottom: 5px;
-        margin-left: 42px;
-    }
-
-    .modal-field input[type="text"],
-    .modal-field input[type="email"],
-    .modal-field input[type="tel"],
-    .modal-field input[type="number"],
-    .modal-field textarea {
-        width: 80% !important;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-        font-size: 16px;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: white;
-        transition: border-color 0.3s ease;
-    }
-
-        .modal-field input[type="text"]:focus,
-        .modal-field input[type="email"]:focus,
-        .modal-field input[type="tel"]:focus,
-        .modal-field input[type="number"]:focus,
-        .modal-field textarea:focus {
-            border-color: #4290f5;
-            outline: none;
-        }
-
-        .modal-field input[type="text"]::placeholder,
-        .modal-field input[type="email"]::placeholder,
-        .modal-field input[type="tel"]::placeholder,
-        .modal-field input[type="number"]::placeholder,
-        .modal-field textarea::placeholder {
-            color: rgba(250, 250, 250, 0.5);
-        }
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-
-.modal-field textarea {
-    overflow-y: auto;
-}
-
-    .modal-field textarea::-webkit-scrollbar {
-        width: 5px;
-    }
-
-    .modal-field textarea::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-    }
-
-    .modal-field textarea::-webkit-scrollbar-thumb {
-        background-color: #685191;
-        border-radius: 10px;
-        border: 3px solid rgba(255, 255, 255, 0.1);
-    }
-
-
-/* --------------- reservation index.cshtml styles ---------------*/
-.reservation-date {
-    color: #3498db;
-    font-size: 1.8em;
-    margin-top: 40px;
-    margin-bottom: -25px;
-    padding-left: 10px;
-    border-left: 5px solid #3498db;
-}
-
-    .reservation-date.overdue {
-        color: #e74c3c;
-        border-left-color: #e74c3c;
-    }
-
-.filters-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: rgba(52, 73, 94, 0.4);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.filters-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.filter-group {
-    flex: 1;
-    min-width: 250px;
-    border: 1px solid #333;
-    border-radius: 6px;
-    padding: 15px;
-    background-color: rgba(52, 90, 110, 0.5);
-}
-
-    .filter-group h4 {
-        margin-top: 0;
-        margin-bottom: 15px;
-        font-size: 18px;
-        color: #4a90e2;
-    }
-
-.date-range {
-    display: flex;
-    gap: 15px;
-}
-
-.date-input {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-    .date-input label {
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #b0b0b0;
-    }
-
-    .date-input input[type="date"] {
-        padding: 8px 12px;
-        border: 1px solid #333;
-        border-radius: 4px;
-        font-size: 14px;
-        background-color: #2a2a2a;
-        color: #e0e0e0;
-        transition: border-color 0.3s ease;
-    }
-
-        .date-input input[type="date"]:focus {
-            outline: none;
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
-        }
-
-.btn-search, .btn-filter {
-    background-color: #4a90e2;
-    color: white;
-}
-
-    .btn-search:hover, .btn-filter:hover {
-        background-color: #3a7bc8;
-        color: white;
-    }
-
-.btn-filter {
-    align-self: flex-start;
-    margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-    .filters-form {
-        flex-direction: column;
-    }
-
-    .filter-group {
-        width: 100%;
-    }
-}

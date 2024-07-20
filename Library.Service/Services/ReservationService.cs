@@ -183,7 +183,7 @@ public class ReservationService : IReservationService
                 }
             }
 
-            return [(DateTime.MinValue, reservations)];
+            return reservations.Any() ? [(DateTime.MinValue, reservations)] : [];
         }
 
         return groupedReservations

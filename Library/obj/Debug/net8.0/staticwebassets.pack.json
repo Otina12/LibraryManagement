@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\auth-form.css"
     },
     {
+      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\modal.css",
+      "PackagePath": "staticwebassets\\css\\modal.css"
+    },
+    {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\css\\post-form.css",
       "PackagePath": "staticwebassets\\css\\post-form.css"
     },
@@ -47,10 +51,6 @@
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Employee\\employee.js",
       "PackagePath": "staticwebassets\\js\\Employee\\employee.js"
-    },
-    {
-      "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-index.js",
-      "PackagePath": "staticwebassets\\js\\Reservation\\reservation-index.js"
     },
     {
       "Id": "C:\\Users\\Giorgi\\source\\repos\\Library\\Library\\wwwroot\\js\\Reservation\\reservation-post.js",
