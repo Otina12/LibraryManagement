@@ -91,22 +91,16 @@ public class ReservationController : BaseController
             {
                 new ReservationCopyCheckoutDto()
                 {
-                    ReservationCopyId = new Guid("6970F037-2092-4AF3-8E4E-08DCA7D8541F"),
-                    BookCopyId = new Guid("47a72734-b723-45e4-005a-08dca71c7f45"),
-                    NewStatus = Status.Normal
-                },
-                new ReservationCopyCheckoutDto()
-                {
-                    ReservationCopyId = new Guid("B13787AF-BAC8-43D3-8E4F-08DCA7D8541F"),
-                    BookCopyId = new Guid("6ff128d6-92ce-43ad-005b-08dca71c7f45"),
-                    NewStatus = Status.Normal
+                    ReservationCopyId = new Guid("D23B6E41-8505-4F6C-8E51-08DCA7D8541F"),
+                    BookCopyId = new Guid("f2b3e405-33e2-4aaa-005d-08dca71c7f45"),
+                    NewStatus = Status.Damaged
                 }
             }
         };
 
         if (!ModelState.IsValid)
         {
-            CreateFailureNotification("Something went wrong");
+            CreateFailureNotification("Invalid data passed");
             return RedirectToAction("Details", "Reservation", new {id = reservationCheckoutDto.ReservationId});
         }
 

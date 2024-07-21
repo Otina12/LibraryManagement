@@ -5,7 +5,7 @@ public record ReservationDto(
     Guid BookId,
     string BookTitle,
     string CustomerId,
-    int Quantity,
+    int QuantityToReturn,
     DateTime ReservationDate,
     DateTime SupposedReturnDate,
     string EmployeeId

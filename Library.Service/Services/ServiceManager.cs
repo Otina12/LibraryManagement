@@ -43,7 +43,7 @@ public class ServiceManager : IServiceManager
         _roomService = new Lazy<IRoomService>(() => new RoomService(unitOfWork, validationService));
         _shelfService = new Lazy<IShelfService>(() => new ShelfService(unitOfWork, validationService));
         _customerService = new Lazy<ICustomerService>(() => new CustomerService(unitOfWork, validationService));
-        _reservationService = new Lazy<IReservationService>(() => new ReservationService(unitOfWork, validationService));
+        _reservationService = new Lazy<IReservationService>(() => new ReservationService(unitOfWork, validationService, logger));
     }
 
     public IAuthenticationService AuthService => _authService.Value;

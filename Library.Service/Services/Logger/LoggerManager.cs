@@ -12,7 +12,19 @@ public class LoggerManager : ILoggerManager
     }
 
     public void LogInfo(string message) => logger.Info(message);
+    public void LogInfo(string message, params object[] args)
+    {
+        if (args != null && args.Length > 0)
+        {
+            logger.Info(message, args);
+        }
+        else
+        {
+            logger.Info(message);
+        }
+    }
     public void LogWarning(string message) => logger.Warn(message);
     public void LogDebug(string message) => logger.Debug(message);
     public void LogError(string message) => logger.Error(message);
+
 }

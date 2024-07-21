@@ -9,6 +9,8 @@ using Library.Service.Dtos.Reservations.Get;
 using Library.Service.Dtos.Reservations.Post;
 using Library.Service.Helpers.Mappers;
 using Library.Service.Interfaces;
+using Library.Service.Services.Logger;
+using Microsoft.Extensions.Logging;
 
 namespace Library.Service.Services;
 
@@ -16,11 +18,13 @@ public class ReservationService : IReservationService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidationService _validationService;
+    private readonly ILoggerManager _logger;
 
-    public ReservationService(IUnitOfWork unitOfWork, IValidationService validationService)
+    public ReservationService(IUnitOfWork unitOfWork, IValidationService validationService, ILoggerManager logger)
     {
         _unitOfWork = unitOfWork;
         _validationService = validationService;
+        _logger = logger;
     }
 
     public async Task<ReservationFiltersDto> GetAll(ReservationFiltersDto reservationFilters)
@@ -118,19 +122,23 @@ public class ReservationService : IReservationService
     // helpers
     private async Task<Result> CheckoutReservationCopies(Reservation reservation, List<ReservationCopyCheckoutDto> copyCheckouts)
     {
-        var reservationCopies = await _unitOfWork.ReservationCopies.GetUpcomingReservationCopiesOfReservation(reservation.Id); // includes bookCopies
-        
         foreach(var copyCheckout in copyCheckouts)
         {
             var reservationCopy = await _unitOfWork.ReservationCopies.GetById(copyCheckout.ReservationCopyId, true);
             var bookCopy = await _unitOfWork.BookCopies.GetById(copyCheckout.BookCopyId, true);
+
+            if (bookCopy!.Status != copyCheckout.NewStatus)
+            {
+                _logger.LogInfo("Customer '{0}' changed status of BookCopy '{1}' from '{2}' to '{3}'",
+                    [reservation.CustomerId, bookCopy.Id, bookCopy.Status, copyCheckout.NewStatus]);
+            }
 
             reservationCopy!.ActualReturnDate = DateTime.UtcNow;
             reservationCopy!.ReturnedStatus = copyCheckout.NewStatus;
             bookCopy!.IsTaken = false;
             bookCopy!.Status = copyCheckout.NewStatus;
 
-            // todo: logic to log or keep customers where Status != NewStatus
+            
         }
 
         reservation.ReturnedQuantity += copyCheckouts.Count;
