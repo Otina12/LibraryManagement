@@ -29,7 +29,9 @@ public class ReservationService : IReservationService
 
     public async Task<ReservationFiltersDto> GetAll(ReservationFiltersDto reservationFilters)
     {
-        var reservationsByDate = await _unitOfWork.Reservations.GetAllByDate(false);
+        var reservationsByDate = reservationFilters.History ?
+            await _unitOfWork.Reservations.GetAllCompleteByDate() :
+            await _unitOfWork.Reservations.GetAllIncompleteByDate();
 
         reservationsByDate = FilterReservationsByReservationDate(reservationsByDate, reservationFilters.MinReservationDate, reservationFilters.MaxReservationDate);
         reservationsByDate = FilterReservationsByReturnDate(reservationsByDate, reservationFilters.MinReturnDate, reservationFilters.MaxReturnDate);
@@ -97,7 +99,7 @@ public class ReservationService : IReservationService
         // we need every book copy that were reserved for this reservation
         var reservationCopies = await _unitOfWork.ReservationCopies.GetAllReservationCopiesOfReservation(Id);
         reservationDto.ReservationCopies = reservationCopies.Select(
-                    x => new ReservationCopyDto(x.Id, x.ReservationId, x.BookCopy.Id, x.TakenStatus, x.ReturnedStatus, x.BookCopy.RoomId, x.BookCopy.ShelfId)
+                    x => new ReservationCopyDto(x.Id, x.ReservationId, x.BookCopy.Id, x.TakenStatus, x.ReturnedStatus, x.ActualReturnDate, x.BookCopy.RoomId, x.BookCopy.ShelfId)
                 ).ToList();
 
         // then get other (future) reservations of same customer:
@@ -140,6 +142,12 @@ public class ReservationService : IReservationService
         }
 
         reservation.ReturnedQuantity += copyCheckouts.Count;
+
+        if(reservation.ReturnedQuantity == reservation.Quantity)
+        {
+            reservation.LastCopyReturnDate = DateTime.UtcNow;
+        }
+
         return Result.Success();
     }
 

@@ -29,9 +29,11 @@ public static class ReservationMapper
             reservation.BookId,
             reservation.Book.Title,
             reservation.CustomerId,
+            reservation.Quantity,
             reservation.Quantity - reservation.ReturnedQuantity,
             reservation.ReservationDate,
             reservation.SupposedReturnDate,
+            reservation.LastCopyReturnDate,
             reservation.EmployeeId
             );
     }

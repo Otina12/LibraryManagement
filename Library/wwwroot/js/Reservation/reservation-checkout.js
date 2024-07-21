@@ -53,7 +53,11 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log('Form submitted successfully');
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Error submitting form:', error);

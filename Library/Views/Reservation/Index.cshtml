@@ -11,6 +11,7 @@
 
 <head>
     <link rel="stylesheet" href="~/css/table.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <div class="my-header">
@@ -21,6 +22,10 @@
     <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
     <button type="submit" class="btn btn-search">Search</button>
 </form>
+
+<a asp-action="Index" asp-route-History="true" class="btn btn-history">
+    <i class="fas fa-history"></i> View History
+</a>
 
 <a href="#" id="toggleFilters" class="toggle-filters">Show Filters</a>
 

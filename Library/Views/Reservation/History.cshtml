@@ -1,0 +1,135 @@
+﻿@using Library.Service.Dtos.Reservations
+@using Library.Service.Dtos.Reservations.Get
+@using Library.ViewModels.Shared
+
+@model ReservationFiltersDto
+
+<head>
+    <link rel="stylesheet" href="~/css/table.css" />
+</head>
+
+<form method="get" class="search-form">
+    <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
+    <button type="submit" class="btn btn-search">Search</button>
+</form>
+
+<a asp-action="Index" class="btn btn-history">
+    Present Reservations
+</a>
+
+<a href="#" id="toggleFilters" class="toggle-filters">Show Filters</a>
+
+<form method="get" style="display: none;" class="filters-form">
+    <div class="filter-group">
+        <h4>Reservation Date</h4>
+        <div class="date-range">
+            <div class="date-input">
+                <label for="minReservationDate">From:</label>
+                <input type="date" id="minReservationDate" name="minReservationDate" value="@Model.MinReservationDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="date-input">
+                <label for="maxReservationDate">To:</label>
+                <input type="date" id="maxReservationDate" name="maxReservationDate" value="@Model.MaxReservationDate.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <h4>Return Date</h4>
+        <div class="date-range">
+            <div class="date-input">
+                <label for="minReturnDate">From:</label>
+                <input type="date" id="minReturnDate" name="minReturnDate" value="@Model.MinReturnDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="date-input">
+                <label for="maxReturnDate">To:</label>
+                <input type="date" id="maxReturnDate" name="maxReturnDate" value="@Model.MaxReturnDate.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="pageNumber" value="1" />
+    <input type="hidden" name="pageSize" value="@Model.PageSize" />
+
+    <div class="filter-actions">
+        <button type="submit" class="btn btn-filter">Apply Filters</button>
+        <button type="reset" class="btn btn-reset">Reset</button>
+    </div>
+</form>
+
+@foreach (var (date, reservations) in Model.Entities)
+{
+    <h3 class="reservation-date">@date.ToShortDateString()</h3>
+
+    var sortableTableModel = new SortableTableModel
+    {
+        Items = reservations,
+        Columns = new List<SortableColumn>
+        {
+            new("BookTitle", "Book", false),
+            new("TotalQuantity", "Total Quantity", false),
+            new("CustomerId", "Customer ID", false),
+            new("ReturnDate", "Return Date", false)
+        },
+        ActionName = "Index",
+        ControllerName = "Reservation",
+        GetPropertyValue = (reservation, prop) =>
+        {
+            var reservationDto = reservation as ReservationDto;
+            return prop switch
+            {
+                "Id" => reservationDto!.Id,
+                "BookTitle" => reservationDto!.BookTitle,
+                "TotalQuantity" => reservationDto!.TotalQuantity,
+                "CustomerId" => reservationDto!.CustomerId,
+                "ReturnDate" => reservationDto!.LastCopyReturnDate!.Value.ToShortDateString(),
+                _ => ""
+            };
+        }
+    };
+
+    @await Html.PartialAsync("_TablePartial", sortableTableModel)
+}
+
+<div class="pagination">
+    @{
+        int totalPages = (int)Math.Ceiling((double)Model.TotalItems / Model.PageSize);
+    }
+
+    @if (Model.PageNumber > 1)
+    {
+        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })" class="page-link">&laquo;</a>
+    }
+
+    @for (int i = 1; i <= totalPages; i++)
+    {
+        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = i, pageSize = Model.PageSize })"
+           class="page-link @(i == Model.PageNumber ? "active" : "")">
+            @i
+        </a>
+    }
+
+    @if (Model.PageNumber < totalPages)
+    {
+        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })" class="page-link">&raquo;</a>
+    }
+    <span class="page-info">Page @Model.PageNumber of @totalPages</span>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleFilters = document.getElementById('toggleFilters');
+        const filtersForm = document.querySelector('.filters-form');
+
+        toggleFilters.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (filtersForm.style.display === 'none') {
+                filtersForm.style.display = 'flex';
+                toggleFilters.textContent = 'Hide Filters';
+            } else {
+                filtersForm.style.display = 'none';
+                toggleFilters.textContent = 'Show Filters';
+            }
+        });
+    });
+</script>

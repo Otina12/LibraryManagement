@@ -14,6 +14,7 @@ public class Reservation : BaseModel
     public int ReturnedQuantity { get; set; } // will be changed after checkout. Reservation is complete if ReturnedQuantity = Quantity
     public int Quantity { get; set; }
     public DateTime SupposedReturnDate { get; set; }
+    public DateTime? LastCopyReturnDate { get; set; }
 
     [ForeignKey(nameof(Employee))]
     public string EmployeeId { get; set; } // tells us which employee handled reservation

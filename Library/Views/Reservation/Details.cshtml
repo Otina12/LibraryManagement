@@ -50,6 +50,7 @@
                             <th>Location</th>
                             <th>Taken Status</th>
                             <th>Return Status</th>
+                            <th>Return Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,6 +75,14 @@
                                         <input type="hidden" name="ReservationCopyCheckouts[@i].BookCopyId" value="@reservationCopy.BookCopyId" />
                                     }
                                 </td>
+                                    @if(reservationCopy.ReturnDate is not null)
+                                    {
+                                        <td>@reservationCopy.ReturnDate.Value.ToString("dd-MM-yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                        <td>N/A</td>
+                                    }
                             </tr>
                         }
                     </tbody>
@@ -95,7 +104,7 @@
                             <a asp-action="Details" asp-route-id="@reservation.ReservationId">
                                 @reservation.Book.Title (@reservation.QuantityToReturn copies)
                             </a>
-                            <span class="return-date">Return Date: @reservation.SupposedReturnDate.ToShortDateString()</span>
+                            <span class="return-date">Return Date: @reservation.SupposedReturnDate.ToString("dd-MM-yyyy")</span>
                         </li>
                     }
                 </ul>

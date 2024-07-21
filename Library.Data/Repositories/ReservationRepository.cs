@@ -22,11 +22,56 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
                 .ToListAsync();
     }
 
-    public async Task<IEnumerable<(DateTime, IEnumerable<Reservation>)>> GetAllByDate(bool trackChanges)
+    public async Task<IEnumerable<(DateTime, IEnumerable<Reservation>)>> GetAllIncompleteByDate(bool trackChanges)
     {
         var reservations = await GetAll(trackChanges);
-        reservations = reservations.Where(x => !x.IsComplete).ToList(); // filter out already finished reservations (where ReturnedQuantity == Quantity)
+        reservations = reservations.Where(x => !x.IsComplete).ToList(); // filter out already finished reservations
+        return GroupReservationsByDate(reservations);
+    }
 
+    public async Task<IEnumerable<(DateTime, IEnumerable<Reservation>)>> GetAllCompleteByDate(bool trackChanges)
+    {
+        var reservations = await GetAll(trackChanges);
+        reservations = reservations.Where(x => x.IsComplete && x.LastCopyReturnDate.HasValue).ToList(); // Filter complete reservations and ensure the return date is not null
+
+        var groupedReservations = reservations
+            .GroupBy(x => x.LastCopyReturnDate!.Value.Date)
+            .OrderBy(x => x.Key)
+            .Select(g => (g.Key, g.AsEnumerable()))
+            .ToList();
+
+        return groupedReservations;
+    }
+
+
+    public async Task<IEnumerable<Reservation>> GetAllReservationsOfCustomer(string customerId, bool trackChanges)
+    {
+        return trackChanges ?
+            await _context.Reservations
+            .Where(x => x.CustomerId == customerId)
+            .ToListAsync()
+            :
+            await _context.Reservations
+            .AsNoTracking()
+            .Where(x => x.CustomerId == customerId)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Reservation>> GetUpcomingReservationsOfCustomer(string customerId, bool trackChanges)
+    {
+        return trackChanges ?
+            await _context.Reservations
+            .Where(x => x.CustomerId == customerId && x.Quantity != x.ReturnedQuantity)
+            .ToListAsync()
+            :
+            await _context.Reservations
+            .AsNoTracking()
+            .Where(x => x.CustomerId == customerId && x.Quantity != x.ReturnedQuantity)
+            .ToListAsync();
+    }
+
+    private IEnumerable<(DateTime, IEnumerable<Reservation>)> GroupReservationsByDate(IEnumerable<Reservation> reservations)
+    {
         var overdueReservations = reservations // group all overdue reservations together
             .Where(r => r.SupposedReturnDate < DateTime.Today)
             .OrderBy(r => r.SupposedReturnDate)
@@ -41,7 +86,7 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
 
         var groupedByDateReservations = new List<(DateTime Date, IEnumerable<Reservation> Reservations)>();
 
-        if (overdueReservations.Any())
+        if (overdueReservations.Count != 0)
         {
             groupedByDateReservations.Add((DateTime.MinValue, overdueReservations));
         }
@@ -50,29 +95,4 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
         return groupedByDateReservations;
     }
 
-    public async Task<IEnumerable<Reservation>> GetAllReservationsOfCustomer(string customerId, bool trackChanges = false)
-    {
-        return trackChanges ?
-            await _context.Reservations
-            .Where(x => x.CustomerId == customerId)
-            .ToListAsync()
-            :
-            await _context.Reservations
-            .AsNoTracking()
-            .Where(x => x.CustomerId == customerId)
-            .ToListAsync();
-    }
-
-    public async Task<IEnumerable<Reservation>> GetUpcomingReservationsOfCustomer(string customerId, bool trackChanges = false)
-    {
-        return trackChanges ?
-            await _context.Reservations
-            .Where(x => x.CustomerId == customerId && x.Quantity != x.ReturnedQuantity)
-            .ToListAsync()
-            :
-            await _context.Reservations
-            .AsNoTracking()
-            .Where(x => x.CustomerId == customerId && x.Quantity != x.ReturnedQuantity)
-            .ToListAsync();
-    }
 }

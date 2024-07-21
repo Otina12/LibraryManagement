@@ -9,6 +9,7 @@ public record ReservationCopyDto(
     Guid BookCopyId,
     Status TakenStatus,
     Status? ReturnedStatus,
+    DateTime? ReturnDate,
     int RoomId,
     int? ShelfId
     );

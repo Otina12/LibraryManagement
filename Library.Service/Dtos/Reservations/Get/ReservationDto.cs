@@ -5,8 +5,10 @@ public record ReservationDto(
     Guid BookId,
     string BookTitle,
     string CustomerId,
+    int TotalQuantity,
     int QuantityToReturn,
     DateTime ReservationDate,
     DateTime SupposedReturnDate,
+    DateTime? LastCopyReturnDate,
     string EmployeeId
     );
