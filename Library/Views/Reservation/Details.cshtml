@@ -27,47 +27,40 @@
 
         <div class="book-copies">
             <h2>Book Copies</h2>
-            <table class="table" id="reservationTable" data-reservation-id="@Model.ReservationId">
-                <thead>
-                    <tr>
-                        <th>Book Copy ID</th>
-                        <th>Location</th>
-                        @if (isComplete)
+            <form id="checkoutForm" method="post" action="/Reservation/Checkout">
+                <input type="hidden" name="ReservationId" value="@Model.ReservationId" />
+                <table class="table" id="reservationTable">
+                    <!-- ... existing table header ... -->
+                    <tbody>
+                        @for (int i = 0; i < Model.ReservationCopies.Count; i++)
                         {
-                            <th>Taken Status</th>
-                            <th>Returned Status</th>
+                            var reservationCopy = Model.ReservationCopies[i];
+                            <tr>
+                                <td>@reservationCopy.BookCopyId</td>
+                                <td>Room ID: @reservationCopy.RoomId | Shelf ID: @(@reservationCopy.ShelfId.HasValue ? reservationCopy.ShelfId.Value.ToString() : "N/A")</td>
+                                <td>@reservationCopy.TakenStatus</td>
+                                <td>
+                                    @if (isComplete)
+                                    {
+                                        @reservationCopy.ReturnedStatus
+                                    }
+                                    else
+                                    {
+                                        <select name="ReservationCopyCheckouts[@i].NewStatus" asp-items="@Html.GetEnumSelectList<Status>()">
+                                            <option value="">Status</option>
+                                        </select>
+                                        <input type="hidden" name="ReservationCopyCheckouts[@i].ReservationCopyId" value="@reservationCopy.ReservationCopyId" />
+                                        <input type="hidden" name="ReservationCopyCheckouts[@i].BookCopyId" value="@reservationCopy.BookCopyId" />
+                                    }
+                                </td>
+                            </tr>
                         }
-                        else
-                        {
-                            <th>Status</th>
-                            <th>Checkout</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var reservationCopy in Model.ReservationCopies)
-                    {
-                        <tr data-reservation-copy-id="@reservationCopy.ReservationCopyId">
-                            <td>@reservationCopy.BookCopyId</td>
-                            <td>Room ID: @reservationCopy.RoomId | Shelf ID: @(@reservationCopy.ShelfId.HasValue ? reservationCopy.ShelfId.Value.ToString() : "N/A")</td>
-                            <td>@reservationCopy.TakenStatus</td>
-                            <td>
-                                @if (isComplete)
-                                {
-                                    @reservationCopy.ReturnedStatus
-                                }
-                                else
-                                {
-                                    <select asp-items="@Html.GetEnumSelectList<Status>()"><option value="">Status</option></select>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <div id="checkoutButtonContainer" style="text-align: right; display: none;">
-                <button id="checkoutButton" class="btn btn-primary">Checkout</button>
-            </div>
+                    </tbody>
+                </table>
+                <div id="checkoutButtonContainer" style="text-align: right; display: none;">
+                    <button type="submit" id="checkoutButton" class="btn btn-primary">Checkout</button>
+                </div>
+            </form>
         </div>
 
         <div class="other-reservations">

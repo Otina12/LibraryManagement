@@ -82,22 +82,8 @@ public class ReservationController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Checkout(ReservationCheckoutDto reservationCheckoutDto)
+    public async Task<IActionResult> Checkout([FromForm] ReservationCheckoutDto reservationCheckoutDto)
     {
-        reservationCheckoutDto = new ReservationCheckoutDto() // test data
-        {
-            ReservationId = new Guid("13652308-263c-409b-986c-08dca7d85416"),
-            ReservationCopyCheckouts = new List<ReservationCopyCheckoutDto>()
-            {
-                new ReservationCopyCheckoutDto()
-                {
-                    ReservationCopyId = new Guid("D23B6E41-8505-4F6C-8E51-08DCA7D8541F"),
-                    BookCopyId = new Guid("f2b3e405-33e2-4aaa-005d-08dca71c7f45"),
-                    NewStatus = Status.Damaged
-                }
-            }
-        };
-
         if (!ModelState.IsValid)
         {
             CreateFailureNotification("Invalid data passed");
