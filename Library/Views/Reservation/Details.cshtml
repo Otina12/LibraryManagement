@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = "Reservation Details";
+    var isComplete = Model.QuantityToReturn == 0;
 }
 
 <body>
@@ -14,30 +15,51 @@
             <h3>Customer: <span>@Model.Customer.Name @Model.Customer.Surname</span></h3>
             <h3>Book: <span>@Model.Book.Title</span></h3>
             <h3>Supposed Return Date: <span>@Model.SupposedReturnDate.ToShortDateString()</span></h3>
-            <h3>Quantity to Return: <span>@Model.QuantityToReturn</span></h3>
+            @if (isComplete)
+            {
+                <h3 style="color: white">Reservation Complete</h3>
+            }
+            else
+            {
+                <h3>Quantity to Return: <span>@Model.QuantityToReturn</span></h3>
+            }
         </div>
 
         <div class="book-copies">
             <h2>Book Copies</h2>
-            <table class="table" id="reservationTable">
+            <table class="table" id="reservationTable" data-reservation-id="@Model.ReservationId">
                 <thead>
                     <tr>
                         <th>Book Copy ID</th>
-                        <th>Status</th>
                         <th>Location</th>
-                        <th>Checkout</th>
+                        @if (isComplete)
+                        {
+                            <th>Taken Status</th>
+                            <th>Returned Status</th>
+                        }
+                        else
+                        {
+                            <th>Status</th>
+                            <th>Checkout</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var reservationCopy in Model.ReservationCopies)
                     {
-                        var bookCopy = reservationCopy.BookCopyDto;
                         <tr data-reservation-copy-id="@reservationCopy.ReservationCopyId">
-                            <td>@bookCopy.Id</td>
-                            <td>@bookCopy.Status</td>
-                            <td>Room ID: @bookCopy.RoomId | Shelf ID: @(bookCopy.ShelfId.HasValue ? bookCopy.ShelfId.Value.ToString() : "N/A")</td>
+                            <td>@reservationCopy.BookCopyId</td>
+                            <td>Room ID: @reservationCopy.RoomId | Shelf ID: @(@reservationCopy.ShelfId.HasValue ? reservationCopy.ShelfId.Value.ToString() : "N/A")</td>
+                            <td>@reservationCopy.TakenStatus</td>
                             <td>
-                                <select asp-items="@Html.GetEnumSelectList<Status>()"><option value="">Status</option></select>
+                                @if (isComplete)
+                                {
+                                    @reservationCopy.ReturnedStatus
+                                }
+                                else
+                                {
+                                    <select asp-items="@Html.GetEnumSelectList<Status>()"><option value="">Status</option></select>
+                                }
                             </td>
                         </tr>
                     }
@@ -49,7 +71,7 @@
         </div>
 
         <div class="other-reservations">
-            <h2>Other Reservations of @Model.Customer.Name</h2>
+            <h2>Upcoming Reservations of @Model.Customer.Name</h2>
             @if (Model.OtherReservationsOfCustomer.Any())
             {
                 <ul>
@@ -57,9 +79,7 @@
                     {
                         <li>
                             <a asp-action="Details" asp-route-id="@reservation.ReservationId">
-                                @reservation.Book.Title (@{
-                                    @reservation.QuantityToReturn
-                                }x copies)
+                                @reservation.Book.Title (@reservation.QuantityToReturn copies)
                             </a>
                             <span class="return-date">Return Date: @reservation.SupposedReturnDate.ToShortDateString()</span>
                         </li>
@@ -72,10 +92,6 @@
             }
         </div>
     </div>
-    <form id="checkoutForm" method="post" action="@Url.Action("Checkout", "Reservation")">
-        <input type="hidden" id="reservationCheckoutData" name="reservationCheckoutData" />
-    </form>
-
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

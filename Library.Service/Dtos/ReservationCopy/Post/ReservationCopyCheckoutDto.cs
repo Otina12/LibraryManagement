@@ -2,8 +2,9 @@
 
 namespace Library.Service.Dtos.ReservationCopy.Post;
 
-public record ReservationCopyCheckoutDto(
-    Guid ReservationCopyId,
-    Guid BookCopyId,
-    Status? NewStatus
-    );
+public class ReservationCopyCheckoutDto
+{
+    public Guid ReservationCopyId { get; set; }
+    public Guid BookCopyId { get; set; }
+    public Status NewStatus { get; set; }
+}

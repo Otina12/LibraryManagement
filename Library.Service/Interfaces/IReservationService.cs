@@ -9,5 +9,6 @@ public interface IReservationService
 {
     Task<ReservationFiltersDto> GetAll(ReservationFiltersDto reservationFilters);
     Task<Result> CreateReservations(string employeeId, CreateReservationDto createReservationDto);
+    Task<Result> CheckoutReservation(ReservationCheckoutDto reservationCheckoutDto);
     Task<Result<ReservationDetailsDto>> GetDetailsById(Guid Id);
 }

@@ -25,6 +25,7 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
     public async Task<IEnumerable<(DateTime, IEnumerable<Reservation>)>> GetAllByDate(bool trackChanges)
     {
         var reservations = await GetAll(trackChanges);
+        reservations = reservations.Where(x => !x.IsComplete).ToList(); // filter out already finished reservations (where ReturnedQuantity == Quantity)
 
         var overdueReservations = reservations // group all overdue reservations together
             .Where(r => r.SupposedReturnDate < DateTime.Today)

@@ -23,4 +23,6 @@ public class Reservation : BaseModel
     public Employee Employee { get; set; }
     public ICollection<ReservationCopy> ReservationCopies { get; set; } = [];
 
+    [NotMapped]
+    public bool IsComplete => Quantity == ReturnedQuantity;
 }

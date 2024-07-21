@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Security.Claims;
 using Library.Service.Dtos.Reservations.Get;
 using Library.Service.Dtos.Reservations;
+using Library.Service.Dtos.ReservationCopy.Post;
 
 namespace Library.Controllers;
 
@@ -39,6 +40,7 @@ public class ReservationController : BaseController
         return View(reservations);
     }
 
+    [CustomAuthorize($"{nameof(Role.Admin)},{nameof(Role.Librarian)}")]
     public IActionResult Create()
     {
         ViewBag.Books = _serviceManager.BookService.GetAllBooksSorted();
@@ -80,9 +82,37 @@ public class ReservationController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Checkout(ReservationCheckoutDto checkoutDto)
+    public async Task<IActionResult> Checkout(ReservationCheckoutDto reservationCheckoutDto)
     {
-        throw new NotImplementedException();
+        reservationCheckoutDto = new ReservationCheckoutDto() // test data
+        {
+            ReservationId = new Guid("13652308-263c-409b-986c-08dca7d85416"),
+            ReservationCopyCheckouts = new List<ReservationCopyCheckoutDto>()
+            {
+                new ReservationCopyCheckoutDto()
+                {
+                    ReservationCopyId = new Guid("6970F037-2092-4AF3-8E4E-08DCA7D8541F"),
+                    BookCopyId = new Guid("47a72734-b723-45e4-005a-08dca71c7f45"),
+                    NewStatus = Status.Normal
+                },
+                new ReservationCopyCheckoutDto()
+                {
+                    ReservationCopyId = new Guid("B13787AF-BAC8-43D3-8E4F-08DCA7D8541F"),
+                    BookCopyId = new Guid("6ff128d6-92ce-43ad-005b-08dca71c7f45"),
+                    NewStatus = Status.Normal
+                }
+            }
+        };
+
+        if (!ModelState.IsValid)
+        {
+            CreateFailureNotification("Something went wrong");
+            return RedirectToAction("Details", "Reservation", new {id = reservationCheckoutDto.ReservationId});
+        }
+
+        var checkoutResult = await _serviceManager.ReservationService.CheckoutReservation(reservationCheckoutDto);
+
+        return HandleResult(checkoutResult, reservationCheckoutDto, "Checkout completed successfully", "Checkout failed", "Reservation");
     }
 
     public async Task<IActionResult> CustomerExists(string Id)

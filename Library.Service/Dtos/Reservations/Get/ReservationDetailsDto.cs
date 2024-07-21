@@ -8,7 +8,8 @@ public record ReservationDetailsDto(
     Guid ReservationId,
     DateTime SupposedReturnDate,
     Model.Models.Book Book,
-    int QuantityToReturn)
+    int QuantityToReturn // if it's zero, reservation is complete
+    )
 {
     public List<ReservationCopyDto> ReservationCopies { get; set; } = [];
     public List<ReservationDetailsDto> OtherReservationsOfCustomer { get; set; } = [];

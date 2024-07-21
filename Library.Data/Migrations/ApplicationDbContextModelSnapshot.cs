@@ -501,6 +501,9 @@ namespace Library.Data.Migrations
                     b.Property<int?>("ReturnedStatus")
                         .HasColumnType("int");
 
+                    b.Property<int>("TakenStatus")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookCopyId");

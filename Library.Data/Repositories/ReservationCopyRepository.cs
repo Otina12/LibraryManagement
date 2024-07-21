@@ -40,6 +40,15 @@ public class ReservationCopyRepository : GenericRepository<ReservationCopy>, IRe
                 .ToListAsync();
     }
 
+    public async Task<IEnumerable<ReservationCopy>> GetUpcomingReservationCopiesOfReservation(Guid reservationId)
+    {
+        return await _context.ReservationCopies
+                .Include(x => x.BookCopy)
+                .AsNoTracking()
+                .Where(x => x.ReservationId == reservationId && x.ActualReturnDate == null)
+                .ToListAsync();
+    }
+
     public async Task<Dictionary<Reservation, IEnumerable<ReservationCopy>>> GetAllReservationCopiesOfReservations(IEnumerable<Reservation> reservations)
     {
         var reservationCopies = new Dictionary<Reservation, IEnumerable<ReservationCopy>>();

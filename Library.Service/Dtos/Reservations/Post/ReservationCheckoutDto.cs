@@ -2,9 +2,8 @@
 
 namespace Library.Service.Dtos.Reservations.Post;
 
-public record ReservationCheckoutDto(
-    Guid ReservationId
-    )
+public class ReservationCheckoutDto
 {
+    public Guid ReservationId { get; set; }
     public List<ReservationCopyCheckoutDto> ReservationCopyCheckouts { get; set; } = [];
 }
