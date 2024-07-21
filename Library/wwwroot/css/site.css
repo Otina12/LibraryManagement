@@ -715,6 +715,15 @@ label {
     font-size: 30px;
 }
 
+.set-all-status{
+    left: 0 !important;
+    padding: 10px;
+}
+
+#setAllStatus {
+    width: 150px;
+}
+
 .customer-info {
     padding: 20px;
     border-radius: 8px;
@@ -733,7 +742,7 @@ label {
     }
 
 .book-copies, .other-reservations {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 20px;
 }
 

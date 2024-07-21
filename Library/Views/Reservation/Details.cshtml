@@ -1,5 +1,4 @@
 ﻿@using Library.Model.Enums;
-
 @model Library.Service.Dtos.Reservations.Get.ReservationDetailsDto
 
 @{
@@ -29,8 +28,35 @@
             <h2>Book Copies</h2>
             <form id="checkoutForm" method="post" action="/Reservation/Checkout">
                 <input type="hidden" name="ReservationId" value="@Model.ReservationId" />
+
+                <div class="form-group">
+                    <label for="setAllStatus">Set All Status:</label>
+                    <select id="setAllStatus" class="form-control">
+                        <option value="">Select Status</option>
+                        @foreach (var status in Enum.GetValues(typeof(Status)))
+                        {
+                            <option value="@((int)status)">@status</option>
+                        }
+                    </select>
+                </div>
+
                 <table class="table" id="reservationTable">
-                    <!-- ... existing table header ... -->
+                    <thead>
+                        <tr>
+                            <th>Book Copy ID</th>
+                            <th>Location</th>
+                            @if (isComplete)
+                            {
+                                <th>Taken Status</th>
+                                <th>Status</th>
+                            }
+                            else
+                            {
+                                <th>Status</th>
+                                <th>Checkout</th>
+                            }
+                        </tr>
+                    </thead>
                     <tbody>
                         @for (int i = 0; i < Model.ReservationCopies.Count; i++)
                         {
