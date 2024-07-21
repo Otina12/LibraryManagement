@@ -82,7 +82,7 @@ public class ReservationController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Checkout([FromForm] ReservationCheckoutDto reservationCheckoutDto)
+    public async Task<IActionResult> Checkout(ReservationCheckoutDto reservationCheckoutDto)
     {
         if (!ModelState.IsValid)
         {

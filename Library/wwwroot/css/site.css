@@ -161,6 +161,11 @@ label {
         color: white;
     }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 /* --------------- navigation bar --------------- */
 
@@ -715,13 +720,16 @@ label {
     font-size: 30px;
 }
 
-.set-all-status{
-    left: 0 !important;
-    padding: 10px;
+.set-all-status {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 10px;
 }
 
 #setAllStatus {
     width: 150px;
+    margin-left: 10px;
 }
 
 .customer-info {
@@ -795,6 +803,16 @@ label {
 .no-reservations {
     color: #7f8c8d;
     font-style: italic;
+}
+
+#checkoutButtonContainer {
+    text-align: right;
+    padding: 15px 0;
+}
+
+#checkoutButton {
+    padding: 10px 20px;
+    font-size: 16px;
 }
 
 /* --------------- email template edit page --------------- */

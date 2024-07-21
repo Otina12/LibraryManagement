@@ -95,7 +95,7 @@ public class ReservationService : IReservationService
         var reservationDto = new ReservationDetailsDto(customer!, reservation.Id, reservation.SupposedReturnDate, book!, reservation.Quantity - reservation.ReturnedQuantity);
 
         // we need every book copy that were reserved for this reservation
-        var reservationCopies = await _unitOfWork.ReservationCopies.GetUpcomingReservationCopiesOfReservation(Id);
+        var reservationCopies = await _unitOfWork.ReservationCopies.GetAllReservationCopiesOfReservation(Id);
         reservationDto.ReservationCopies = reservationCopies.Select(
                     x => new ReservationCopyDto(x.Id, x.ReservationId, x.BookCopy.Id, x.TakenStatus, x.ReturnedStatus, x.BookCopy.RoomId, x.BookCopy.ShelfId)
                 ).ToList();
@@ -137,8 +137,6 @@ public class ReservationService : IReservationService
             reservationCopy!.ReturnedStatus = copyCheckout.NewStatus;
             bookCopy!.IsTaken = false;
             bookCopy!.Status = copyCheckout.NewStatus;
-
-            
         }
 
         reservation.ReturnedQuantity += copyCheckouts.Count;

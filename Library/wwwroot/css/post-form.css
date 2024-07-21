@@ -223,6 +223,7 @@
     .book-form input[type="date"] {
         width: 24% !important;
         padding: 8px;
+        font-size: 15px;
         border: 1px solid #ccc;
         border-radius: 3px;
         background-color: rgba(255, 255, 255, 0.1);

@@ -21,26 +21,44 @@ $(document).ready(function () {
     form.on('submit', function (e) {
         e.preventDefault();
 
-        const hasSelectedStatus = form.find('select[name^="ReservationCopyCheckouts"]').filter(function () {
+        const selectedDropdowns = form.find('select[name^="ReservationCopyCheckouts"]').filter(function () {
             return $(this).val() !== '';
-        }).length > 0;
+        });
 
-        if (!hasSelectedStatus) {
+        if (selectedDropdowns.length === 0) {
             alert('Please select a status for at least one book copy.');
             return;
         }
 
-        form.find('select[name^="ReservationCopyCheckouts"]').each(function () {
-            if ($(this).val() === '') {
-                $(this).prop('disabled', true);
-                $(this).siblings('input[type="hidden"]').prop('disabled', true);
-            }
+        const formData = new FormData();
+        const reservationId = $('input[name="ReservationId"]').val();
+        formData.append('ReservationId', reservationId);
+
+        selectedDropdowns.each(function (index) {
+            const select = $(this);
+            const hiddenInputs = select.siblings('input[type="hidden"]');
+            const reservationCopyId = hiddenInputs.filter('[name$=".ReservationCopyId"]').val();
+            const bookCopyId = hiddenInputs.filter('[name$=".BookCopyId"]').val();
+            const newStatus = select.val();
+
+            formData.append(`ReservationCopyCheckouts[${index}].ReservationCopyId`, reservationCopyId);
+            formData.append(`ReservationCopyCheckouts[${index}].BookCopyId`, bookCopyId);
+            formData.append(`ReservationCopyCheckouts[${index}].NewStatus`, newStatus);
         });
 
-        this.submit();
-
-        setTimeout(function () {
-            form.find('select[name^="ReservationCopyCheckouts"], input[type="hidden"]').prop('disabled', false);
-        }, 100);
+        $.ajax({
+            url: form.attr('action'),
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log('Form submitted successfully');
+            },
+            error: function (xhr, status, error) {
+                console.error('Error submitting form:', error);
+                alert('An error occurred while submitting the form. Please try again.');
+            }
+        });
     });
 });

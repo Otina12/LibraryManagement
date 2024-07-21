@@ -29,32 +29,27 @@
             <form id="checkoutForm" method="post" action="/Reservation/Checkout">
                 <input type="hidden" name="ReservationId" value="@Model.ReservationId" />
 
-                <div class="form-group">
-                    <label for="setAllStatus">Set All Status:</label>
-                    <select id="setAllStatus" class="form-control">
-                        <option value="">Select Status</option>
-                        @foreach (var status in Enum.GetValues(typeof(Status)))
-                        {
-                            <option value="@((int)status)">@status</option>
-                        }
-                    </select>
-                </div>
+                @if (!isComplete)
+                {
+                    <div class="form-group set-all-status">
+                        <label for="setAllStatus">Set All Status:</label>
+                        <select id="setAllStatus" class="form-control">
+                            <option value="">Select Status</option>
+                            @foreach (var status in Enum.GetValues(typeof(Status)))
+                            {
+                                <option value="@((int)status)">@status</option>
+                            }
+                        </select>
+                    </div>
+                }
 
                 <table class="table" id="reservationTable">
                     <thead>
                         <tr>
                             <th>Book Copy ID</th>
                             <th>Location</th>
-                            @if (isComplete)
-                            {
-                                <th>Taken Status</th>
-                                <th>Status</th>
-                            }
-                            else
-                            {
-                                <th>Status</th>
-                                <th>Checkout</th>
-                            }
+                            <th>Taken Status</th>
+                            <th>Return Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,7 +61,7 @@
                                 <td>Room ID: @reservationCopy.RoomId | Shelf ID: @(@reservationCopy.ShelfId.HasValue ? reservationCopy.ShelfId.Value.ToString() : "N/A")</td>
                                 <td>@reservationCopy.TakenStatus</td>
                                 <td>
-                                    @if (isComplete)
+                                    @if (reservationCopy.ReturnedStatus is not null)
                                     {
                                         @reservationCopy.ReturnedStatus
                                     }
@@ -107,11 +102,11 @@
             }
             else
             {
-                <p class="no-reservations">No other reservations found for this customer.</p>
+                <p class="no-reservations">No upcoming reservations found for this customer.</p>
             }
         </div>
     </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/Reservation/reservation-checkout.js"></script>
+<script src="~/js/Reservation/reservation-checkout.js?v=1.0.1"></script>
