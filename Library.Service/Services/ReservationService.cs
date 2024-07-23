@@ -104,7 +104,7 @@ public class ReservationService : IReservationService
 
         // then get other (future) reservations of same customer:
         var otherReservations = await _unitOfWork.Reservations.GetUpcomingReservationsOfCustomer(reservationDto.Customer.Id);
-        otherReservations = otherReservations.Where(x => x.BookId != reservation.BookId);
+        otherReservations = otherReservations.Where(x => x.Id != reservation.Id);
 
         foreach (var otherReservation in otherReservations)
         {
