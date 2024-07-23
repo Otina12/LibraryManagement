@@ -38,7 +38,7 @@ public class ReservationController : BaseController
         };
 
         var reservations = await _serviceManager.ReservationService.GetAll(reservationParams);
-        return history ? View("History", reservations) : View(reservations);
+        return View(reservations);
     }
 
     [CustomAuthorize($"{nameof(Role.Admin)},{nameof(Role.Librarian)}")]

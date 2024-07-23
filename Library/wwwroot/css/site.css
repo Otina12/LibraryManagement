@@ -387,16 +387,21 @@ input::-webkit-inner-spin-button {
 /* --------------- reservation-specific index.cshtml styles ---------------*/
 
 .reservation-date {
-    color: #3498db;
+    color: #53e670;
     font-size: 1.8em;
     margin-top: 50px;
     padding-left: 10px;
-    border-left: 5px solid #3498db;
+    border-left: 5px solid #53e670;
 }
 
     .reservation-date.overdue {
         color: #e74c3c;
         border-left-color: #e74c3c;
+    }
+
+    .reservation-date.complete {
+        color: #3498db;
+        border-left-color: #3498db;
     }
 
 .filters-container {

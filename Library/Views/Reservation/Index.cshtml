@@ -7,6 +7,10 @@
 
 @{
     ViewData["Title"] = "Reservations";
+    if (!Model.History)
+    {
+        Model.Entities = Model.Entities.Where(x => x.Item1 >= DateTime.Today || x.Item1 == DateTime.MinValue);
+    }
 }
 
 <head>
@@ -20,12 +24,22 @@
 
 <form method="get" class="search-form">
     <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
+    <input type="hidden" name="History" value="@Model.History" />
     <button type="submit" class="btn btn-search">Search</button>
 </form>
 
-<a asp-action="Index" asp-route-History="true" class="btn btn-history">
-    <i class="fas fa-history"></i> View History
-</a>
+@if (Model.History)
+{
+    <a asp-action="Index" asp-route-searchString="@Model.SearchString" class="btn btn-history">
+        Present Reservations
+    </a>
+}
+else
+{
+    <a asp-action="Index" asp-route-History="true" asp-route-searchString="@Model.SearchString" class="btn btn-history">
+        <i class="fas fa-history"></i> View History
+    </a>
+}
 
 <a href="#" id="toggleFilters" class="toggle-filters">Show Filters</a>
 
@@ -58,8 +72,10 @@
         </div>
     </div>
 
+    <input type="hidden" name="History" value="@Model.History">
     <input type="hidden" name="pageNumber" value="1" />
     <input type="hidden" name="pageSize" value="@Model.PageSize" />
+    <input type="hidden" name="searchString" value="@Model.SearchString" />
 
     <div class="filter-actions">
         <button type="submit" class="btn btn-filter">Apply Filters</button>
@@ -69,41 +85,62 @@
 
 @foreach (var (date, reservations) in Model.Entities)
 {
+    var reservationIsComplete = reservations.Any() && reservations.First().LastCopyReturnDate is not null;
+
     if (date == DateTime.MinValue)
     {
         <h3 class="reservation-date overdue">Overdue Reservations</h3>
     }
     else
     {
-        <h3 class="reservation-date">@date.ToShortDateString()</h3>
+        if (reservationIsComplete)
+        {
+            <h3 class="reservation-date complete">@date.ToShortDateString()</h3>
+        }
+        else
+        {
+            <h3 class="reservation-date">@date.ToShortDateString()</h3>
+        }
     }
 
+    var columns = new List<SortableColumn>
+    {
+        new("BookTitle", "Book", false),
+        new("TotalQuantity", "Total Quantity", false)
+    };
+
+    if (!reservationIsComplete) // complete and incomplete reservations are kept distinct, so we can check with First()
+    {
+        columns.Add(new SortableColumn("QuantityLeft", "Left to Return", false));
+    }
+
+    columns.AddRange(new List<SortableColumn>
+    {
+        new("CustomerId", "Customer ID", false),
+        new("ReservationDate", "Reservation Date", false)
+    });
+
     var sortableTableModel = new SortableTableModel
-                {
-                    Items = reservations,
-                    Columns = new List<SortableColumn>
+    {
+        Items = reservations,
+        Columns = columns,
+        ActionName = "Index",
+        ControllerName = "Reservation",
+        GetPropertyValue = (reservation, prop) =>
         {
-            new("BookTitle", "Book", false),
-            new("Quantity", "Quantity", false),
-            new("CustomerId", "Customer ID", false),
-            new("ReservationDate", "Reservation Date", false)
-        },
-                    ActionName = "Index",
-                    ControllerName = "Reservation",
-                    GetPropertyValue = (reservation, prop) =>
-                    {
-                        var reservationDto = reservation as ReservationDto;
-                        return prop switch
-                        {
-                            "Id" => reservationDto!.Id,
-                            "BookTitle" => reservationDto!.BookTitle,
-                            "Quantity" => reservationDto!.QuantityToReturn,
-                            "CustomerId" => reservationDto!.CustomerId,
-                            "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
-                            _ => ""
-                        };
-                    }
-                };
+            var reservationDto = reservation as ReservationDto;
+            return prop switch
+            {
+                "Id" => reservationDto!.Id,
+                "BookTitle" => reservationDto!.BookTitle,
+                "TotalQuantity" => reservationDto!.TotalQuantity,
+                "QuantityLeft" => reservationDto!.QuantityToReturn,
+                "CustomerId" => reservationDto!.CustomerId,
+                "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
+                _ => ""
+            };
+        }
+    };
 
     @await Html.PartialAsync("_TablePartial", sortableTableModel)
 }
@@ -115,12 +152,12 @@
 
     @if (Model.PageNumber > 1)
     {
-        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })" class="page-link">&laquo;</a>
+        <a href="@Url.Action("Index", new { History = Model.History, searchString = Model.SearchString, pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize, minReservationDate = Model.MinReservationDate, maxReservationDate = Model.MaxReservationDate, minReturnDate = Model.MinReturnDate, maxReturnDate = Model.MaxReturnDate })" class="page-link">&laquo;</a>
     }
 
     @for (int i = 1; i <= totalPages; i++)
     {
-        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = i, pageSize = Model.PageSize })"
+        <a href="@Url.Action("Index", new { History = Model.History, searchString = Model.SearchString, pageNumber = i, pageSize = Model.PageSize, minReservationDate = Model.MinReservationDate, maxReservationDate = Model.MaxReservationDate, minReturnDate = Model.MinReturnDate, maxReturnDate = Model.MaxReturnDate })"
            class="page-link @(i == Model.PageNumber ? "active" : "")">
             @i
         </a>
@@ -128,7 +165,7 @@
 
     @if (Model.PageNumber < totalPages)
     {
-        <a href="@Url.Action("Index", new { searchString = Model.SearchString, pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })" class="page-link">&raquo;</a>
+        <a href="@Url.Action("Index", new { History = Model.History, searchString = Model.SearchString, pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize, minReservationDate = Model.MinReservationDate, maxReservationDate = Model.MaxReservationDate, minReturnDate = Model.MinReturnDate, maxReturnDate = Model.MaxReturnDate })" class="page-link">&raquo;</a>
     }
     <span class="page-info">Page @Model.PageNumber of @totalPages</span>
 </div>

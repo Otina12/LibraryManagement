@@ -13,7 +13,7 @@
     <button type="submit" class="btn btn-search">Search</button>
 </form>
 
-<a asp-action="Index" class="btn btn-history">
+<a asp-action="Index" asp-route-searchString="@Model.SearchString" class="btn btn-history">
     Present Reservations
 </a>
 

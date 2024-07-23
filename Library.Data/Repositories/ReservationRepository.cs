@@ -21,7 +21,7 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
                 .AsNoTracking()
                 .ToListAsync();
     }
-
+    
     public async Task<IEnumerable<(DateTime, IEnumerable<Reservation>)>> GetAllIncompleteByDate(bool trackChanges)
     {
         var reservations = await GetAll(trackChanges);
@@ -32,7 +32,7 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
     public async Task<IEnumerable<(DateTime, IEnumerable<Reservation>)>> GetAllCompleteByDate(bool trackChanges)
     {
         var reservations = await GetAll(trackChanges);
-        reservations = reservations.Where(x => x.IsComplete && x.LastCopyReturnDate.HasValue).ToList(); // Filter complete reservations and ensure the return date is not null
+        reservations = reservations.Where(x => x.IsComplete && x.LastCopyReturnDate.HasValue).ToList();
 
         var groupedReservations = reservations
             .GroupBy(x => x.LastCopyReturnDate!.Value.Date)
@@ -43,6 +43,13 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
         return groupedReservations;
     }
 
+    public async Task<IEnumerable<(DateTime, IEnumerable<Reservation>)>> GetAllByDate(bool trackChanges)
+    {
+        var completeReservations = await GetAllCompleteByDate(false); // only contains datetimes less than today
+        var incompleteReservations = await GetAllIncompleteByDate(false); // only contains overdue and upcoming reservations
+
+        return completeReservations.Union(incompleteReservations);
+    }
 
     public async Task<IEnumerable<Reservation>> GetAllReservationsOfCustomer(string customerId, bool trackChanges)
     {
