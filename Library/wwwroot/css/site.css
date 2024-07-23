@@ -386,6 +386,41 @@ input::-webkit-inner-spin-button {
 
 /* --------------- reservation-specific index.cshtml styles ---------------*/
 
+.instructions {
+    flex-direction: column;
+    align-items: flex-end;
+    width: fit-content;
+    margin-left: 10px;
+    width: fit-content;
+}
+
+    .instructions p {
+        display: flex;
+        color: white;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+.circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+    .circle.complete {
+        background-color: #3498db;
+    }
+
+    .circle.overdue {
+        background-color: #e74c3c;
+    }
+
+    .circle.upcoming {
+        background-color: #53e670;
+    }
+
 .reservation-date {
     color: #53e670;
     font-size: 1.8em;
@@ -538,13 +573,12 @@ input::-webkit-inner-spin-button {
     padding-top: 20px;
 }
 
-.email-header, .publisher-header, .author-header, .my-header {
+.my-header {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 40px;
 }
-
 
 .templates-grid {
     display: flex;

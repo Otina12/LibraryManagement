@@ -28,6 +28,12 @@
     <button type="submit" class="btn btn-search">Search</button>
 </form>
 
+<div class="instructions">
+    <p><span class="circle complete"></span>Finished</p>
+    <p><span class="circle overdue"></span>Overdue</p>
+    <p><span class="circle upcoming"></span>Upcoming</p>
+</div>s
+
 @if (Model.History)
 {
     <a asp-action="Index" asp-route-searchString="@Model.SearchString" class="btn btn-history">
@@ -85,7 +91,7 @@ else
 
 @foreach (var (date, reservations) in Model.Entities)
 {
-    var reservationIsComplete = reservations.Any() && reservations.First().LastCopyReturnDate is not null;
+    var reservationIsComplete = reservations.Any() && reservations.First().LastCopyReturnDate is not null; // complete and incomplete reservations are kept distinct, so we can check with First()
 
     if (date == DateTime.MinValue)
     {
@@ -109,7 +115,7 @@ else
         new("TotalQuantity", "Total Quantity", false)
     };
 
-    if (!reservationIsComplete) // complete and incomplete reservations are kept distinct, so we can check with First()
+    if (!reservationIsComplete)
     {
         columns.Add(new SortableColumn("QuantityLeft", "Left to Return", false));
     }
@@ -121,26 +127,26 @@ else
     });
 
     var sortableTableModel = new SortableTableModel
-    {
-        Items = reservations,
-        Columns = columns,
-        ActionName = "Index",
-        ControllerName = "Reservation",
-        GetPropertyValue = (reservation, prop) =>
-        {
-            var reservationDto = reservation as ReservationDto;
-            return prop switch
-            {
-                "Id" => reservationDto!.Id,
-                "BookTitle" => reservationDto!.BookTitle,
-                "TotalQuantity" => reservationDto!.TotalQuantity,
-                "QuantityLeft" => reservationDto!.QuantityToReturn,
-                "CustomerId" => reservationDto!.CustomerId,
-                "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
-                _ => ""
-            };
-        }
-    };
+                {
+                    Items = reservations,
+                    Columns = columns,
+                    ActionName = "Index",
+                    ControllerName = "Reservation",
+                    GetPropertyValue = (reservation, prop) =>
+                    {
+                        var reservationDto = reservation as ReservationDto;
+                        return prop switch
+                        {
+                            "Id" => reservationDto!.Id,
+                            "BookTitle" => reservationDto!.BookTitle,
+                            "TotalQuantity" => reservationDto!.TotalQuantity,
+                            "QuantityLeft" => reservationDto!.QuantityToReturn,
+                            "CustomerId" => reservationDto!.CustomerId,
+                            "ReservationDate" => reservationDto!.ReservationDate.ToShortDateString(),
+                            _ => ""
+                        };
+                    }
+                };
 
     @await Html.PartialAsync("_TablePartial", sortableTableModel)
 }
