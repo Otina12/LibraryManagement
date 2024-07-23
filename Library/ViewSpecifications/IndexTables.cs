@@ -144,6 +144,7 @@ namespace Library.ViewSpecifications
                 Columns = new List<SortableColumn>
                 {
                     new("Name", "Name", true),
+                    new("Id", "ID", false),
                     new("Email", "Email", false),
                     new("PhoneNumber", "Phone Number", false),
                     new("MembershipStartDate", "Member from", false)

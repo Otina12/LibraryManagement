@@ -1,7 +1,22 @@
 ﻿@model Library.Service.Dtos.Customers.Get.CustomerDto
+
 @{
+    ViewData["Title"] = "Customer Details";
 }
 
 <div class="details-container">
+    <h2>Customer Details</h2>
 
+    <p><strong>Id:</strong> @Model.Id</p>
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>Surname:</strong> @Model.Surname</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+    <p><strong>Address:</strong> @Model.Address</p>
+    <p><strong>Member from:</strong> @Model.MembershipStartDate.ToString("yyyy-MM-dd")</p>
+
+    <div class="link-to-reservations">
+        <a href="@Url.Action("Index", "Reservation", new { History = true, searchString = Model.Id })">View Reservation History</a>
+    </div>
 </div>
+

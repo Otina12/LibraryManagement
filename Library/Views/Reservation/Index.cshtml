@@ -23,8 +23,8 @@
 </div>
 
 <form method="get" class="search-form">
-    <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search..." />
-    <input type="hidden" name="History" value="@Model.History" />
+    <input type="hidden" asp-for="History" value="@Model.History" />
+    <input type="text" asp-for="SearchString" name="searchString" value="@Model.SearchString" placeholder="Search..." />
     <button type="submit" class="btn btn-search">Search</button>
 </form>
 
@@ -72,7 +72,7 @@ else
         </div>
     </div>
 
-    <input type="hidden" name="History" value="@Model.History">
+    <input type="hidden" asp-for="History" value="@Model.History">
     <input type="hidden" name="pageNumber" value="1" />
     <input type="hidden" name="pageSize" value="@Model.PageSize" />
     <input type="hidden" name="searchString" value="@Model.SearchString" />

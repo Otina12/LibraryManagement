@@ -33,6 +33,19 @@ public class CustomerController : BaseController
         return View(cusomtersTable);
     }
 
+    public async Task<IActionResult> Details(string Id)
+    {
+        var customerDtoResult = await _serviceManager.CustomerService.GetCustomerById(Id);
+
+        if (customerDtoResult.IsFailure)
+        {
+            CreateFailureNotification($"Customer with ID: '{Id}' does not exist");
+            return RedirectToAction("Index", "Customer");
+        }
+
+        return View(customerDtoResult.Value());
+    }
+
     [HttpGet]
     public IActionResult Create()
     {

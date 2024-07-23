@@ -30,8 +30,8 @@ public class ReservationService : IReservationService
     public async Task<ReservationFiltersDto> GetAll(ReservationFiltersDto reservationFilters)
     {
         var reservationsByDate = reservationFilters.History ?
-            await _unitOfWork.Reservations.GetAllByDate() :
-            await _unitOfWork.Reservations.GetAllIncompleteByDate();
+            await _unitOfWork.Reservations.GetAllReservationsByDate() :
+            await _unitOfWork.Reservations.GetAllIncompleteReservationsByDate();
 
         reservationsByDate = FilterReservationsByReservationDate(reservationsByDate, reservationFilters.MinReservationDate, reservationFilters.MaxReservationDate);
         reservationsByDate = FilterReservationsByReturnDate(reservationsByDate, reservationFilters.MinReturnDate, reservationFilters.MaxReturnDate);
