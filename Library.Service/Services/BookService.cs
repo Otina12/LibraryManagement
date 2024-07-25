@@ -11,6 +11,7 @@ using Library.Service.Helpers.Books;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services;
 
@@ -24,7 +25,7 @@ public class BookService : BaseService<Book>, IBookService
     {
         var books = _unitOfWork.Books
             .GetAllAsQueryable()
-            .OrderBy(x => x.Title)
+            .OrderBy(x => x.OriginalBook.Title)
             .AsEnumerable();
 
         if (!includeDeleted)
@@ -32,7 +33,7 @@ public class BookService : BaseService<Book>, IBookService
             books = _unitOfWork.GetBaseModelRepository<Book>().FilterOutDeleted(books);
         }
 
-        return books.Select(b => new BookIdTitleAndQuantityDto(b.Id, b.Title, b.Quantity));
+        return books.Select(b => new BookIdTitleAndQuantityDto(b.Id, b.OriginalBook.Title, b.Quantity));
     }
 
     public async Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters)
@@ -170,7 +171,7 @@ public class BookService : BaseService<Book>, IBookService
     {
         var dict = new Dictionary<string, Expression<Func<Book, object>>>
         {
-            ["Title"] = b => b.Title,
+            ["Title"] = b => b.OriginalBook.Title,
             ["PublishYear"] = b => b.PublishYear,
             ["Quantity"] = b => b.Quantity
         };
@@ -183,7 +184,7 @@ public class BookService : BaseService<Book>, IBookService
     {
         return
         [
-            b => b.Title,
+            b => b.OriginalBook.Title,
             b => b.ISBN
         ];
     }

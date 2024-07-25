@@ -27,7 +27,7 @@ public static class ReservationMapper
         return new ReservationDto(
             reservation.Id,
             reservation.BookId,
-            reservation.Book.Title,
+            reservation.Book.OriginalBook.Title,
             reservation.CustomerId,
             reservation.Quantity,
             reservation.Quantity - reservation.ReturnedQuantity,

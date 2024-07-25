@@ -8,7 +8,6 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
 {
     public void Configure(EntityTypeBuilder<Book> builder)
     {
-        builder.Property(b => b.Title).IsRequired();
         builder.Property(b => b.ISBN).HasMaxLength(13);
 
         builder.HasOne(b => b.Publisher)

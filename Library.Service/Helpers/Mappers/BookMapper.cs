@@ -19,7 +19,7 @@ public static class BookMapper
         return new BookDto(
             book.Id,
             book.ISBN,
-            book.Title,
+            book.OriginalBook.Title,
             book.Edition,
             book.PublishYear,
             book.Quantity,
@@ -36,10 +36,10 @@ public static class BookMapper
         return new BookDetailsDto(
             book.Id,
             book.ISBN,
-            book.Title,
+            book.OriginalBook.Title,
             book.Edition,
             book.PageCount,
-            book.Description,
+            book.OriginalBook.Description,
             book.Quantity,
             book.PublishYear,
             book.IsDeleted)
@@ -55,12 +55,11 @@ public static class BookMapper
     {
         return new Book()
         {
+            OriginalBookId = bookDto.OriginalBookId,
             ISBN = bookDto.ISBN,
-            Title = bookDto.Title,
             Edition = bookDto.Edition,
             PublishYear = bookDto.PublishYear,
             PageCount = bookDto.PageCount,
-            Description = bookDto.Description,
             PublisherId = bookDto.SelectedPublisherId,
             CreationDate = DateTime.UtcNow,
             Quantity = 0

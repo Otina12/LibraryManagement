@@ -12,14 +12,29 @@ public class BookRepository : BaseModelRepository<Book>, IBookRepository
     public async override Task<Book?> GetById(Guid id, bool trackChanges)
     {
         return trackChanges ?
-            await _context.Books.FirstOrDefaultAsync(x => x.Id == id) :
-            await _context.Books.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            await _context.Books.Include(x => x.OriginalBook).FirstOrDefaultAsync(x => x.Id == id) :
+            await _context.Books.Include(x => x.OriginalBook).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async override Task<IEnumerable<Book>> GetAll(bool trackChanges)
+    {
+        return trackChanges ?
+            await _context.Books.Include(x => x.OriginalBook).ToListAsync() :
+            await _context.Books.Include(x => x.OriginalBook).AsNoTracking().ToListAsync();
+    }
+
+    public override IQueryable<Book> GetAllAsQueryable(bool trackChanges)
+    {
+        return trackChanges ?
+            _context.Books.Include(x => x.OriginalBook).AsQueryable() :
+            _context.Books.Include(x => x.OriginalBook).AsNoTracking().AsQueryable();
     }
 
     public async Task<IEnumerable<Book>> GetAllBooksOfAuthor(Guid authorId, bool trackChanges)
     {
         var query = _context.BookAuthor
                         .Include(x => x.Book)
+                        .ThenInclude(x => x.OriginalBook)
                         .Where(x => x.AuthorId == authorId)
                         .Select(x => x.Book);
 
@@ -30,7 +45,7 @@ public class BookRepository : BaseModelRepository<Book>, IBookRepository
 
     public async Task<IEnumerable<Book>> GetAllBooksOfPublisher(Guid publisherId, bool trackChanges)
     {
-        var query = _context.Books
+        var query = _context.Books.Include(x => x.OriginalBook)
                         .Where(x => x.PublisherId == publisherId);
 
         return trackChanges ?

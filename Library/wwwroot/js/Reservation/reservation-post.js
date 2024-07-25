@@ -181,6 +181,13 @@
         const selectedBook = booksData.find(book => book.id === selectedBookId);
         if (selectedBook) {
             quantityInput.max = selectedBook.quantity;
+            quantityInput.dataset.maxQuantity = selectedBook.quantity;
+            quantityInput.placeholder = `Quantity (Max: ${selectedBook.quantity})`;
+            quantityInput.value = '';
+        } else {
+            quantityInput.max = '';
+            quantityInput.dataset.maxQuantity = '';
+            quantityInput.placeholder = 'Quantity';
             quantityInput.value = '';
         }
     });

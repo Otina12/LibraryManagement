@@ -15,9 +15,11 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
         return trackChanges ?
             await dbSet
                 .Include(x => x.Book)
+                .ThenInclude(x => x.OriginalBook)
                 .ToListAsync() :
             await dbSet
                 .Include(x => x.Book)
+                .ThenInclude(x => x.OriginalBook)
                 .AsNoTracking()
                 .ToListAsync();
     }

@@ -65,7 +65,7 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
         var publisherDto = publisherExistsResult.Value().MapToPublisherDto();
 
         publisherDto.Books = (await _unitOfWork.Books.GetAllBooksOfPublisher(id))
-            .Select(x => new BookIdAndTitleDto(x.Id, x.Title)).ToArray();
+            .Select(x => new BookIdAndTitleDto(x.Id, x.OriginalBook.Title)).ToArray();
         return publisherDto;
     }
 
@@ -107,7 +107,7 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
     private async Task<BookIdAndTitleDto[]> MapBooks(PublisherDto publisherDto)
     {
         var books = await _unitOfWork.Books.GetAllBooksOfPublisher(publisherDto.Id);
-        return books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
+        return books.Select(b => new BookIdAndTitleDto(b.Id, b.OriginalBook.Title)).ToArray();
     }
 
     // Returns a dictionary that we will later use in generic sort method

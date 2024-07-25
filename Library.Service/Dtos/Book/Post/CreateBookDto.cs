@@ -3,6 +3,7 @@
 namespace Library.Service.Dtos.Book.Post;
 
 public record CreateBookDto(
+    Guid OriginalBookId,
     string ISBN,
     string Title,
     int Edition,

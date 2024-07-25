@@ -207,11 +207,11 @@
 }
 
     .book-form .select2-container {
-        width: 50% !important;
+        width: 40% !important;
     }
 
     .book-form input[type="number"] {
-        width: 14% !important;
+        width: 23% !important;
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 3px;

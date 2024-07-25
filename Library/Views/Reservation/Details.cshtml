@@ -12,7 +12,7 @@
 
         <div class="customer-info">
             <h3>Customer: <span>@Model.Customer.Name @Model.Customer.Surname</span></h3>
-            <h3>Book: <span>@Model.Book.Title</span></h3>
+            <h3>Book: <span>@Model.Book.OriginalBook.Title</span></h3>
             <h3>Supposed Return Date: <span>@Model.SupposedReturnDate.ToShortDateString()</span></h3>
             @if (isComplete)
             {
@@ -102,7 +102,7 @@
                     {
                         <li>
                             <a asp-action="Details" asp-route-id="@reservation.ReservationId">
-                                @reservation.Book.Title (@reservation.QuantityToReturn copies)
+                                @reservation.Book.OriginalBook.Title (@reservation.QuantityToReturn copies)
                             </a>
                             <span class="return-date">Return Date: @reservation.SupposedReturnDate.ToString("dd-MM-yyyy")</span>
                         </li>

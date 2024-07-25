@@ -204,7 +204,7 @@ public class ReservationService : IReservationService
         var book = bookExistsResult.Value();
         if (book.Quantity < bookDto.Quantity)
         {
-            return Result.Failure<Book>(BookErrors.NotEnoughCopies(book.Title, book.Quantity));
+            return Result.Failure<Book>(BookErrors.NotEnoughCopies(book.OriginalBook.Title, book.Quantity));
         }
 
         book.Quantity -= bookDto.Quantity; // decrement when booked
@@ -261,7 +261,7 @@ public class ReservationService : IReservationService
         var result = groupedReservations.Select(x => (
             x.Item1,
             x.Item2.Where(r => r.CustomerId.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
-                          r.Book.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
+                          r.Book.OriginalBook.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
         ));
 
         return result

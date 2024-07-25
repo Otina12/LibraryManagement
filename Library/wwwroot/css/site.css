@@ -392,6 +392,7 @@ input::-webkit-inner-spin-button {
     width: fit-content;
     margin-left: 10px;
     width: fit-content;
+    margin-bottom: 10px;
 }
 
     .instructions p {

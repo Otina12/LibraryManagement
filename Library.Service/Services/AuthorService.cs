@@ -105,7 +105,7 @@ public class AuthorService : BaseService<Author>, IAuthorService
     private async Task MapBooks(AuthorDto authorDto)
     {
         var books = await _unitOfWork.Books.GetAllBooksOfAuthor(authorDto.Id);
-        authorDto.Books = books.Select(b => new BookIdAndTitleDto(b.Id, b.Title)).ToArray();
+        authorDto.Books = books.Select(b => new BookIdAndTitleDto(b.Id, b.OriginalBook.Title)).ToArray();
     }
 
     // Returns a dictionary that we will later use in generic sort method

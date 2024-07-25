@@ -10,7 +10,7 @@ public record BookDetailsDto(
     string Title,
     int Edition,
     int PageCount,
-    string Description,
+    string? Description,
     int Quantity,
     int PublishYear,
     bool IsDeleted

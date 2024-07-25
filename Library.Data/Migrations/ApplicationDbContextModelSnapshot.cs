@@ -75,10 +75,6 @@ namespace Library.Data.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Edition")
                         .HasColumnType("int");
 
@@ -86,6 +82,9 @@ namespace Library.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
+
+                    b.Property<Guid?>("OriginalBookId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PageCount")
                         .HasColumnType("int");
@@ -99,14 +98,12 @@ namespace Library.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OriginalBookId");
 
                     b.HasIndex("PublisherId");
 
@@ -398,6 +395,24 @@ namespace Library.Data.Migrations
                     b.ToTable("RoleMenuPermission");
                 });
 
+            modelBuilder.Entity("Library.Model.Models.OriginalBook", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OriginalBooks");
+                });
+
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>
                 {
                     b.Property<Guid>("Id")
@@ -681,9 +696,15 @@ namespace Library.Data.Migrations
 
             modelBuilder.Entity("Library.Model.Models.Book", b =>
                 {
+                    b.HasOne("Library.Model.Models.OriginalBook", "OriginalBook")
+                        .WithMany("Books")
+                        .HasForeignKey("OriginalBookId");
+
                     b.HasOne("Library.Model.Models.Publisher", "Publisher")
                         .WithMany("BooksPublished")
                         .HasForeignKey("PublisherId");
+
+                    b.Navigation("OriginalBook");
 
                     b.Navigation("Publisher");
                 });
@@ -913,6 +934,11 @@ namespace Library.Data.Migrations
             modelBuilder.Entity("Library.Model.Models.Genre", b =>
                 {
                     b.Navigation("BookGenres");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.OriginalBook", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>

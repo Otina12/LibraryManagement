@@ -12,6 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
 {
     // access tables via context
     public DbSet<Author> Authors { get; set; }
+    public DbSet<OriginalBook> OriginalBooks { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<BookAuthor> BookAuthor { get; set; }
     public DbSet<BookCopy> BookCopies { get; set; }
