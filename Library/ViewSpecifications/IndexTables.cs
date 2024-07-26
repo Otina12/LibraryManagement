@@ -166,6 +166,7 @@ namespace Library.ViewSpecifications
             return customerTable;
         }
 
+        // generic properties that all types share
         private static SortableTableModel GetSortableTableModel<T>(EntityFiltersDto<T> entitiyFilters) where T : class
         {
             return new SortableTableModel
