@@ -42,6 +42,7 @@
     .form-field textarea,
     .form-field select {
         width: 100%;
+        align-self: center;
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -58,9 +59,10 @@
             color: white;
         }
 
-.publisher-field select option {
+.publisher-field select option,
+.original-book-field select option{
     background-color: transparent;
-    color: black;
+    color: black !important;
 }
 
 .column-fields {
@@ -75,6 +77,11 @@
 
     .column-fields .form-field3 {
         flex: 0 0 32% !important;
+        box-sizing: border-box;
+    }
+
+    .column-fields .form-field4 {
+        flex: 0 0 24% !important;
         box-sizing: border-box;
     }
 

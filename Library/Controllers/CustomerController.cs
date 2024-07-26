@@ -62,8 +62,8 @@ public class CustomerController : BaseController
             return PartialView("_CreatePartial", createCustomerVM);
         }
 
-        var createAuthorDto = _mapper.Map<CreateCustomerDto>(createCustomerVM);
-        var result = await _serviceManager.CustomerService.Create(createAuthorDto);
+        var createCustomerDto = _mapper.Map<CreateCustomerDto>(createCustomerVM);
+        var result = await _serviceManager.CustomerService.Create(createCustomerDto);
 
         if (result.IsFailure)
         {
@@ -71,7 +71,7 @@ public class CustomerController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Customer {createCustomerVM.Name} has been created");
+        CreateSuccessNotification($"Customer '{createCustomerVM.Name}' has been created");
         return Json(new { success = true });
     }
 
@@ -105,7 +105,7 @@ public class CustomerController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Customer {customerVM.Name} has been updated");
+        CreateSuccessNotification($"Customer '{customerVM.Name}' has been updated");
         return Json(new { success = true });
     }
 

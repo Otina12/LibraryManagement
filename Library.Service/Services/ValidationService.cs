@@ -161,7 +161,7 @@ namespace Library.Service.Services
         public async Task<Result> BookIsNew(string isbn, bool trackChanges) // use when need to verify that book is new (when creating)
         {
             var book = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == isbn, trackChanges);
-            
+
             if (book is null)
             {
                 return Result.Success();
@@ -204,6 +204,30 @@ namespace Library.Service.Services
             }
 
             return reservation;
+        }
+
+        public async Task<Result> OriginalBookIsNew(string title, int publishYear, bool trackChanges = false)
+        {
+            var originalBook = await _unitOfWork.OriginalBooks.GetOneWhere(x => x.Title == title && x.OriginalPublishYear == publishYear, trackChanges);
+
+            if (originalBook is null)
+            {
+                return Result.Success();
+            }
+
+            return Result.Failure(Error<OriginalBook>.AlreadyExists);
+        }
+
+        public async Task<Result<OriginalBook>> OriginalBookExists(Guid Id, bool trackChanges = false)
+        {
+            var originalBook = await _unitOfWork.OriginalBooks.GetById(Id, trackChanges);
+
+            if (originalBook is null)
+            {
+                return Result.Failure(Error<OriginalBook>.NotFound);
+            }
+
+            return originalBook;
         }
     }
 }

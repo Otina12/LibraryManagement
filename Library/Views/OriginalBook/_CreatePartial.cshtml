@@ -1,0 +1,22 @@
+﻿@model Library.ViewModels.OriginalBooks.CreateOriginalBookViewModel
+
+<form asp-action="Create" asp-controller="OriginalBook" method="post" id="createOriginalBookForm">
+    <div class="modal-field">
+        <input asp-for="Title" placeholder="Name*" required />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <textarea asp-for="Description" maxlength="1500" placeholder="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="OriginalPublishYear" placeholder="Original Publish Year*" type="number" min="0" max="@DateTime.UtcNow.Year" value="" required />
+        <span asp-validation-for="OriginalPublishYear" class="text-danger"></span>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

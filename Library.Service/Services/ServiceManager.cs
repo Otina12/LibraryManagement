@@ -19,6 +19,7 @@ public class ServiceManager : IServiceManager
     private readonly Lazy<IEmailService> _emailService;
     private readonly Lazy<IPublisherService> _publisherService;
     private readonly Lazy<IAuthorService> _authorService;
+    private readonly Lazy<IOriginalBookService> _originalBookService;
     private readonly Lazy<IBookService> _bookService;
     private readonly Lazy<IGenreService> _genreService;
     private readonly Lazy<IRoomService> _roomService;
@@ -38,6 +39,7 @@ public class ServiceManager : IServiceManager
         _emailService = new Lazy<IEmailService>(() => new EmailService(unitOfWork, validationService));
         _publisherService = new Lazy<IPublisherService>(() => new PublisherService(unitOfWork, validationService));
         _authorService = new Lazy<IAuthorService>(() => new AuthorService(unitOfWork, validationService));
+        _originalBookService = new Lazy<IOriginalBookService>(() => new OriginalBookService(unitOfWork, validationService));
         _bookService = new Lazy<IBookService>(() => new BookService(unitOfWork, validationService));
         _genreService = new Lazy<IGenreService>(() => new GenreService(unitOfWork, validationService));
         _roomService = new Lazy<IRoomService>(() => new RoomService(unitOfWork, validationService));
@@ -54,6 +56,7 @@ public class ServiceManager : IServiceManager
     public IEmailService EmailService => _emailService.Value;
     public IPublisherService PublisherService => _publisherService.Value;
     public IAuthorService AuthorService => _authorService.Value;
+    public IOriginalBookService OriginalBookService => _originalBookService.Value;
     public IBookService BookService => _bookService.Value;
     public IGenreService GenreService => _genreService.Value;
     public IRoomService RoomService => _roomService.Value;

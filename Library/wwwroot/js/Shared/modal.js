@@ -58,7 +58,7 @@ function loadModalContent(url, title, action) {
             $('#edit-button').toggle(action === 'edit');
             $('#confirm-delete-button').hide();
             $('#confirm-renew-button').hide();
-            $('#publisherModal, #authorModal, #customerModal').fadeIn();
+            $('#publisherModal, #authorModal, #customerModal, #originalBookModal').fadeIn();
         },
         error: function () {
             alert('Error loading the form');
@@ -73,7 +73,7 @@ function submitForm(form, url) {
         data: form.serialize(),
         success: function (response) {
             if (response.success) {
-                $('#publisherModal, #authorModal, #customerModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal, #originalBookModal').fadeOut();
                 location.reload();
             } else if (typeof response === 'object' && response.message) {
                 alert('Error: ' + response.message);
@@ -114,7 +114,7 @@ function deleteEntity(entityId, deleteUrl) {
         data: { id: entityId },
         success: function (response) {
             if (response.success) {
-                $('#publisherModal, #authorModal, #customerModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal, #originalBookModal').fadeOut();
                 location.reload();
             } else {
                 alert('Error deleting the entity: ' + response.message);
@@ -133,7 +133,7 @@ function renewEntity(entityId, renewUrl) {
         data: { id: entityId },
         success: function (response) {
             if (response.success) {
-                $('#publisherModal, #authorModal, #customerModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal, #originalBookModal').fadeOut();
                 location.reload();
             } else {
                 alert('Error renewing the entity: ' + response.message);

@@ -55,7 +55,7 @@ public static class BookMapper
     {
         return new Book()
         {
-            OriginalBookId = bookDto.OriginalBookId,
+            OriginalBookId = bookDto.SelectedOriginalBookId,
             ISBN = bookDto.ISBN,
             Edition = bookDto.Edition,
             PublishYear = bookDto.PublishYear,

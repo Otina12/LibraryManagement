@@ -58,13 +58,22 @@ public class BookController : BaseController
     {
         if (!ModelState.IsValid)
         {
+            await InitializeViewDropdowns();
             return View(createBookViewModel);
         }
 
         var createBookDto = _mapper.Map<CreateBookDto>(createBookViewModel);
         var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto);
 
-        return HandleResult(createBookResult, createBookViewModel, "The book copies have been added successfully", createBookResult.Error.Message, "Book", "Index");
+        if (createBookResult.IsFailure)
+        {
+            await InitializeViewDropdowns(); // todo: ask how to escape reinitializing dropdowns each time
+            CreateFailureNotification(createBookResult.Error.Message);
+            return View(createBookViewModel);
+        }
+
+        CreateSuccessNotification("The book copies have been added successfully");
+        return RedirectToAction("Index", "Book");
     }
 
     [HttpGet]
@@ -110,6 +119,7 @@ public class BookController : BaseController
     // book create/edit essential dropdowns
     private async Task InitializeViewDropdowns()
     {
+        ViewBag.OriginalBooks = _serviceManager.OriginalBookService.GetAllOriginalBooksSorted(false);
         ViewBag.Publishers = await _serviceManager.PublisherService.GetAllPublisherIdAndNames();
         ViewBag.Authors = await _serviceManager.AuthorService.GetAllAuthorIdAndNames();
         ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();

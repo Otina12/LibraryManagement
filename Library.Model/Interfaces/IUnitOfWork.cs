@@ -10,6 +10,7 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IEmailRepository EmailTemplates { get; }
     public IPublisherRepository Publishers { get; }
     public IAuthorRepository Authors { get; }
+    public IOriginalBookRepository OriginalBooks { get; }
     public IBookRepository Books { get; }
     public IBookCopyRepository BookCopies { get; }
     public IGenreRepository Genres { get; }

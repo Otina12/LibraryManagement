@@ -91,7 +91,8 @@
 
 #createPublisherForm, #editPublisherForm,
 #createAuthorForm, #editAuthorForm,
-#createCustomerForm, #editCustomerForm {
+#createCustomerForm, #editCustomerForm,
+#createOriginalBookForm, #editOriginalBookForm {
     width: 100% !important;
 }
 
@@ -123,6 +124,10 @@
         color: white;
         transition: border-color 0.3s ease;
     }
+
+        .modal-field textarea{
+            min-height: 150px;
+        }
 
         .modal-field input[type="text"]:focus,
         .modal-field input[type="email"]:focus,

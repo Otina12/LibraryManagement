@@ -11,7 +11,8 @@ using Library.Service.Helpers.Books;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+using Library.Service.Helpers.Mappers;
+using Library.Service.Dtos.OriginalBook.Get;
 
 namespace Library.Service.Services;
 
@@ -85,7 +86,7 @@ public class BookService : BaseService<Book>, IBookService
         {
             return bookIsNewResult.Error;
         }
-
+        // otherwise add the book
         var book = bookDto.MapToBook();
         book.Quantity = bookDto.Locations.Sum(x => x.Quantity);
         book.AddAuthorsToBook(bookDto.SelectedAuthorIds);

@@ -13,6 +13,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IEmailRepository EmailTemplates { get; private set; }
     public IPublisherRepository Publishers { get; private set; }
     public IAuthorRepository Authors { get; private set; }
+    public IOriginalBookRepository OriginalBooks { get; private set; }
     public IBookRepository Books { get; private set; }
     public IBookCopyRepository BookCopies { get; private set; }
     public IGenreRepository Genres { get; private set; }
@@ -31,6 +32,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         EmailTemplates = new EmailRepository(_context);
         Publishers = new PublisherRepository(_context);
         Authors = new AuthorRepository(_context);
+        OriginalBooks = new OriginalBookRepository(_context);
         Books = new BookRepository(_context);
         BookCopies = new BookCopyRepository(_context);
         Genres = new GenreRepository(_context);

@@ -6,12 +6,13 @@ namespace Library.ViewModels.Books;
 
 public class CreateBookViewModel
 {
+
+    [Display(Name = "Original Book")]
+    public Guid SelectedOriginalBookId { get; set; }
     [MaxLength(13, ErrorMessage = "ISBN must be at most 13 characters long")]
     public string ISBN { get; set; }
-    public string Title { get; set; }
     public int Edition { get; set; }
     public int PageCount { get; set; }
-    public string Description { get; set; }
     public int PublishYear { get; set; }
 
     [Display(Name = "Genres")]

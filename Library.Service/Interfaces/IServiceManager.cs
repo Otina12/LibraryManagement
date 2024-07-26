@@ -12,6 +12,7 @@ public interface IServiceManager
     IEmailService EmailService { get; }
     IPublisherService PublisherService { get; }
     IAuthorService AuthorService { get; }
+    IOriginalBookService OriginalBookService { get; }
     IBookService BookService { get; }
     IGenreService GenreService { get; }
     IRoomService RoomService { get; }

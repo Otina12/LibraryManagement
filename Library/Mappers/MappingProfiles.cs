@@ -10,6 +10,8 @@ using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Email.Post;
 using Library.Service.Dtos.Employee.Get;
+using Library.Service.Dtos.OriginalBook.Get;
+using Library.Service.Dtos.OriginalBook.Post;
 using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Dtos.Publisher.Post;
 using Library.Service.Dtos.Reservations.Post;
@@ -19,6 +21,7 @@ using Library.ViewModels.Books;
 using Library.ViewModels.Customers;
 using Library.ViewModels.Emails;
 using Library.ViewModels.Employees;
+using Library.ViewModels.OriginalBooks;
 using Library.ViewModels.Publishers;
 using Library.ViewModels.Reservations;
 using Library.ViewModels.Shared;
@@ -56,6 +59,9 @@ public class MappingProfiles : Profile
         CreateMap<CreateAuthorViewModel, CreateAuthorDto>();
         CreateMap<Author, AuthorDto>();
 
+        // original book maps
+        CreateMap<OriginalBookDto, OriginalBookViewModel>().ReverseMap();
+        CreateMap<CreateOriginalBookViewModel, CreateOriginalBookDto>();
 
         // book maps
         CreateMap<CreateBookViewModel, CreateBookDto>();

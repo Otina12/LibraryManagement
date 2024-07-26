@@ -4,7 +4,7 @@
     var nonDeletableModels = new HashSet<string>() { "Reservation" };
     var nonSearchableModels = new HashSet<string>() { "Reservation" };
     var nonActionModels = new HashSet<string>() { "Reservation", "Book" };
-    var baseModelDtos = new HashSet<string>() { "PublisherDto", "AuthorDto", "CustomerDto", "BookDto" };
+    var baseModelDtos = new HashSet<string>() { "PublisherDto", "AuthorDto", "CustomerDto", "BookDto", "OriginalBookDto" };
 }
 
 @if (!nonSearchableModels.Contains(Model.ControllerName))

@@ -12,31 +12,28 @@
 <body>
     <form class="post-form" asp-action="Create" asp-controller="Book" method="post" id="createBookForm">
         <div class="form-title">Add a book</div>
+        <div class="form-field original-book-field">
+            <label asp-for="SelectedOriginalBookId">Original Book</label>
+            <select asp-for="SelectedOriginalBookId" asp-items="@(new SelectList(ViewBag.OriginalBooks, "Id", "Title"))">
+                <option value="Empty">Select Book</option>
+            </select>
+            <span asp-validation-for="SelectedOriginalBookId" class="text-danger"></span>
+        </div>
         <div class="column-fields">
-            <div class="form-field" style="width: 68%;">
-                <input asp-for="Title" placeholder="Title*" required />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-field">
+            <div class="form-field form-field4">
                 <input asp-for="ISBN" maxlength="13" placeholder="ISBN*" required />
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-field">
-            <textarea asp-for="Description" placeholder="Description*" required></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-        <div class="column-fields">
-            <div class="form-field form-field3">
+            <div class="form-field form-field4">
                 <input asp-for="Edition" type="number" value="" placeholder="Edition*" required />
                 <span asp-validation-for="Edition" class="text-danger"></span>
             </div>
-            <div class="form-field form-field3">
+            <div class="form-field form-field4">
                 <input asp-for="PageCount" type="number" value="" placeholder="# of Pages*" required />
                 <span asp-validation-for="PageCount" class="text-danger"></span>
             </div>
-            <div class="form-field form-field3">
-                <input asp-for="PublishYear" type="number" value="" min="0" max="@DateTime.UtcNow.Year" placeholder="Release Year*" required/>
+            <div class="form-field form-field4">
+                <input asp-for="PublishYear" type="number" value="" min="0" max="@DateTime.UtcNow.Year" placeholder="Release Year*" required />
                 <span asp-validation-for="PublishYear" class="text-danger"></span>
             </div>
         </div>
@@ -49,7 +46,9 @@
 
         <div class="form-field publisher-field">
             <label asp-for="SelectedPublisherId">Publisher</label>
-            <select asp-for="SelectedPublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name"))"></select>
+            <select asp-for="SelectedPublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name"))">
+                <option value="">Select Publisher</option>
+            </select>
         </div>
 
         <div class="form-field">

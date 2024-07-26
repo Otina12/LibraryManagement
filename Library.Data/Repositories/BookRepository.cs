@@ -53,7 +53,6 @@ public class BookRepository : BaseModelRepository<Book>, IBookRepository
             await query.AsNoTracking().ToListAsync();
     }
 
-    // TODO: probably better to rewrite bottom two methods in Services
     public async Task UpdateGenresForBook(Guid bookId, List<int> newGenreIds)
     {
         var existingGenres = await _context.BookGenre
@@ -90,5 +89,12 @@ public class BookRepository : BaseModelRepository<Book>, IBookRepository
 
         _context.BookAuthor.RemoveRange(authorsToRemove);
         await _context.BookAuthor.AddRangeAsync(authorsToAdd);
+    }
+
+    public async Task<IEnumerable<Book>> GetAllBookEditionsOfOriginalBook(Guid originalBookId, bool trackChanges)
+    {
+        return trackChanges ?
+            await _context.Books.Include(x => x.OriginalBook).Where(x => x.OriginalBookId == originalBookId).ToListAsync() :
+            await _context.Books.Include(x => x.OriginalBook).AsNoTracking().Where(x => x.OriginalBookId == originalBookId).ToListAsync();
     }
 }

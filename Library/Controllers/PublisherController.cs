@@ -70,7 +70,7 @@ public class PublisherController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Publisher {publisherVM.Name} has been created");
+        CreateSuccessNotification($"Publisher '{publisherVM.Name}' has been created");
         return Json(new { success = true });
     }
 
@@ -104,7 +104,7 @@ public class PublisherController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Publisher {publisherVM.Name} has been updated");
+        CreateSuccessNotification($"Publisher '{publisherVM.Name}' has been updated");
         return Json(new { success = true });
     }
 

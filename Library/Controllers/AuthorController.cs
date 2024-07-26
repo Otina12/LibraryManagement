@@ -69,7 +69,7 @@ public class AuthorController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Author {authorVM.Name} has been created");
+        CreateSuccessNotification($"Author '{authorVM.Name}' has been created");
         return Json(new { success = true });
     }
 
@@ -103,7 +103,7 @@ public class AuthorController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Author {authorVM.Name} has been updated");
+        CreateSuccessNotification($"Author '{authorVM.Name}' has been updated");
         return Json(new { success = true });
     }
 
