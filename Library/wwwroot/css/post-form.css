@@ -60,7 +60,7 @@
         }
 
 .publisher-field select option,
-.original-book-field select option{
+.original-book-field select option {
     background-color: transparent;
     color: black !important;
 }
@@ -218,7 +218,7 @@
     }
 
     .book-form input[type="number"] {
-        width: 23% !important;
+        width: 28% !important;
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 3px;
@@ -228,7 +228,7 @@
     }
 
     .book-form input[type="date"] {
-        width: 24% !important;
+        width: 22% !important;
         padding: 8px;
         font-size: 15px;
         border: 1px solid #ccc;
@@ -375,9 +375,13 @@
         color: white;
     }
 
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 40px;
-    }
+.select2-container--disabled {
+    color: grey !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px;
+}
 
 .select2-dropdown {
     background-color: rgba(255, 255, 255, 0.9);
@@ -412,7 +416,7 @@ button:disabled {
 }
 
 .select2-container {
-    max-width: 100%;
+    max-width: 240px;
     cursor: pointer;
 }
 

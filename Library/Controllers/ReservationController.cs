@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
 using Library.Attributes.Authorization;
-using Library.Model.Enums;
-using Library.Service.Dtos.Book.Get;
-using Library.Service.Dtos;
 using Library.Service.Dtos.Reservations.Post;
 using Library.Service.Interfaces;
 using Library.ViewModels.Reservations;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using System.Globalization;
 using System.Security.Claims;
-using Library.Service.Dtos.Reservations.Get;
 using Library.Service.Dtos.Reservations;
-using Library.Service.Dtos.ReservationCopy.Post;
+using System.Text.Json;
+using Library.Model.Enums;
 
 namespace Library.Controllers;
 
@@ -42,9 +37,9 @@ public class ReservationController : BaseController
     }
 
     [CustomAuthorize($"{nameof(Role.Admin)},{nameof(Role.Librarian)}")]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        ViewBag.Books = _serviceManager.BookService.GetAllBooksSorted();
+        await InitializeDropdowns();
 
         var viewModel = new CreateReservationViewModel();
         return View(viewModel);
@@ -57,7 +52,7 @@ public class ReservationController : BaseController
         var valResult = Validate(reservationVM);
         if (valResult.IsFailure)
         {
-            ViewBag.Books = _serviceManager.BookService.GetAllBooksSorted();
+            await InitializeDropdowns();
             return View(reservationVM);
         }
 
@@ -114,5 +109,22 @@ public class ReservationController : BaseController
 
         var customerDto = customerDtoResult.Value();
         return Json(new { success = true, customerDto = new { name = $"{customerDto.Name} {customerDto.Surname}" } });
+    }
+
+    private async Task InitializeDropdowns()
+    {
+        var booksDictionary = await _serviceManager.BookService.GetAllBookEditions();
+
+        var serializedDictionary = booksDictionary.ToDictionary(
+            kvp => kvp.Key.Id.ToString(),
+            kvp => new
+            {
+                Title = kvp.Key.Title,
+                Editions = kvp.Value
+            }
+        );
+
+        ViewBag.OriginalBooks = booksDictionary.Keys.Select(k => new { Id = k.Id, Title = k.Title }).ToList();
+        ViewBag.BookEditions = JsonSerializer.Serialize(serializedDictionary);
     }
 }

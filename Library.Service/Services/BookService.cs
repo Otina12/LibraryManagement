@@ -11,8 +11,9 @@ using Library.Service.Helpers.Books;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
-using Library.Service.Helpers.Mappers;
 using Library.Service.Dtos.OriginalBook.Get;
+using Library.Service.Helpers.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services;
 
@@ -22,19 +23,24 @@ public class BookService : BaseService<Book>, IBookService
     {
     }
 
-    public IEnumerable<BookIdTitleAndQuantityDto> GetAllBooksSorted(bool includeDeleted)
+    public async Task<Dictionary<OriginalBookIdAndTitle, IEnumerable<BookEditionDto>>> GetAllBookEditions(bool includeDeleted = false)
     {
-        var books = _unitOfWork.Books
+        var dict = new Dictionary<OriginalBookIdAndTitle, IEnumerable<BookEditionDto>>();
+        var originalBooks = _unitOfWork.OriginalBooks
             .GetAllAsQueryable()
-            .OrderBy(x => x.OriginalBook.Title)
-            .AsEnumerable();
-
-        if (!includeDeleted)
+            .OrderBy(x => x.Title)
+            .ToList();
+        
+        foreach (var originalBook in originalBooks)
         {
-            books = _unitOfWork.GetBaseModelRepository<Book>().FilterOutDeleted(books);
+            var originalBookDto = new OriginalBookIdAndTitle(originalBook.Id, originalBook.Title);
+            var books = await _unitOfWork.Books.GetAllBookEditionsOfOriginalBook(originalBook.Id); // get all editions of that original book
+
+            // key - original book, value - all editions of that book
+            dict.Add(originalBookDto, books.Select(b => b.MapToBookEditionDto()).ToList());
         }
 
-        return books.Select(b => new BookIdTitleAndQuantityDto(b.Id, b.OriginalBook.Title, b.Quantity));
+        return dict;
     }
 
     public async Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters)
@@ -189,6 +195,5 @@ public class BookService : BaseService<Book>, IBookService
             b => b.ISBN
         ];
     }
-
 }
 

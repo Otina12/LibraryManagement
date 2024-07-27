@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <form class="post-form" asp-action="Create" asp-controller="Reservation" method="post" id="createReservationForm" style="width: 750px;" enctype="multipart/form-data">
+    <form class="post-form" asp-action="Create" asp-controller="Reservation" method="post" id="createReservationForm" style="width: 1000px" enctype="multipart/form-data">
         <div class="form-title">Reserve a book</div>
         <div id="customerVerificationContainer">
             @await Html.PartialAsync("_CustomerVerificationPartial", Model.CustomerId)
@@ -23,14 +23,18 @@
                     <div id="bookForms" class="book-forms">
                         <div class="post-form-wrapper">
                             <div class="book-form">
-                                <select class="book-dropdown" id="bookDropdown">
-                                    <option value="">Select a book</option>
-                                    @foreach (var book in ViewBag.Books)
+                                <select class="original-book-dropdown select2" id="originalBookDropdown">
+                                    <option value="">Select an original book</option>
+                                    @foreach (var originalBook in ViewBag.OriginalBooks)
                                     {
-                                        <option value="@book.Id">@book.Title</option>
+                                        <option value="@originalBook.Id">@originalBook.Title</option>
                                     }
                                 </select>
-                                <input type="number" min="1" class="quantity" placeholder="Quantity (Max: )" data-max-quantity="" />                                <input type="date" class="return-date" placeholder="Return Date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" max="@DateTime.UtcNow.AddYears(1).ToString("yyyy-MM-dd")" />
+                                <select class="book-edition-dropdown select2" id="bookEditionDropdown" disabled>
+                                    <option value="">Select a book edition</option>
+                                </select>
+                                <input type="number" min="1" class="quantity" placeholder="Quantity*" data-max-quantity=""/>
+                                <input type="date" class="return-date" placeholder="Return Date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" max="@DateTime.UtcNow.AddYears(1).ToString("yyyy-MM-dd")" />
                                 <button type="button" class="add-reservation-btn">Add</button>
                             </div>
                         </div>
@@ -48,9 +52,16 @@
 
 @section Scripts {
     <script>
-        var booksData = @Html.Raw(Json.Serialize(ViewBag.Books));
+        var bookEditions = @Html.Raw(ViewBag.BookEditions);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="~/js/Reservation/reservation-post.js?v=1.0.1"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                width: 'resolve'
+            });
+        });
+    </script>
 }

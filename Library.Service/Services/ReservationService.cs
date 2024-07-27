@@ -122,35 +122,6 @@ public class ReservationService : IReservationService
     }
 
     // helpers
-    private async Task<Result> CheckoutReservationCopies(Reservation reservation, List<ReservationCopyCheckoutDto> copyCheckouts)
-    {
-        foreach(var copyCheckout in copyCheckouts)
-        {
-            var reservationCopy = await _unitOfWork.ReservationCopies.GetById(copyCheckout.ReservationCopyId, true);
-            var bookCopy = await _unitOfWork.BookCopies.GetById(copyCheckout.BookCopyId, true);
-
-            if (bookCopy!.Status != copyCheckout.NewStatus)
-            {
-                _logger.LogInfo("Customer '{0}' changed status of BookCopy '{1}' from '{2}' to '{3}'",
-                    [reservation.CustomerId, bookCopy.Id, bookCopy.Status, copyCheckout.NewStatus]);
-            }
-
-            reservationCopy!.ActualReturnDate = DateTime.UtcNow;
-            reservationCopy!.ReturnedStatus = copyCheckout.NewStatus;
-            bookCopy!.IsTaken = false;
-            bookCopy!.Status = copyCheckout.NewStatus;
-        }
-
-        reservation.ReturnedQuantity += copyCheckouts.Count;
-
-        if(reservation.ReturnedQuantity == reservation.Quantity)
-        {
-            reservation.LastCopyReturnDate = DateTime.UtcNow;
-        }
-
-        return Result.Success();
-    }
-
     private async Task<IEnumerable<ReservationCopy>> GetReservationCopies(List<Reservation> reservations)
     {
         var reservationCopies = new List<ReservationCopy>();
@@ -180,11 +151,13 @@ public class ReservationService : IReservationService
 
         foreach (var booksDto in createReservationDto.Books)
         {
+            var originalBookResult = await _validationService.OriginalBookExists(booksDto.OriginalBookId);
+            if (originalBookResult.IsFailure)
+                return Result.Failure<List<Reservation>>(originalBookResult.Error);
+            
             var bookResult = await ValidateAndGetBook(booksDto);
             if (bookResult.IsFailure)
-            {
                 return Result.Failure<List<Reservation>>(bookResult.Error);
-            }
 
             var reservation = booksDto.MapToReservation(employeeId, createReservationDto.CustomerId);
             reservations.Add(reservation);
@@ -209,6 +182,35 @@ public class ReservationService : IReservationService
 
         book.Quantity -= bookDto.Quantity; // decrement when booked
         return Result.Success(book);
+    }
+
+    private async Task<Result> CheckoutReservationCopies(Reservation reservation, List<ReservationCopyCheckoutDto> copyCheckouts)
+    {
+        foreach (var copyCheckout in copyCheckouts)
+        {
+            var reservationCopy = await _unitOfWork.ReservationCopies.GetById(copyCheckout.ReservationCopyId, true);
+            var bookCopy = await _unitOfWork.BookCopies.GetById(copyCheckout.BookCopyId, true);
+
+            if (bookCopy!.Status != copyCheckout.NewStatus)
+            {
+                _logger.LogInfo("Customer '{0}' changed status of BookCopy '{1}' from '{2}' to '{3}'",
+                    [reservation.CustomerId, bookCopy.Id, bookCopy.Status, copyCheckout.NewStatus]);
+            }
+
+            reservationCopy!.ActualReturnDate = DateTime.UtcNow;
+            reservationCopy!.ReturnedStatus = copyCheckout.NewStatus;
+            bookCopy!.IsTaken = false;
+            bookCopy!.Status = copyCheckout.NewStatus;
+        }
+
+        reservation.ReturnedQuantity += copyCheckouts.Count;
+
+        if (reservation.ReturnedQuantity == reservation.Quantity)
+        {
+            reservation.LastCopyReturnDate = DateTime.UtcNow;
+        }
+
+        return Result.Success();
     }
 
     private static IEnumerable<(DateTime, IEnumerable<Reservation>)> FilterReservationsByReservationDate(

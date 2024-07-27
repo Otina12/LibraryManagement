@@ -8,6 +8,7 @@ public class CreateReservationViewModel
 
 public class BooksReservationViewModel
 {
+    public Guid OriginalBookId { get; set; }
     public Guid BookId { get; set; }
     public int Quantity { get; set; }
     public DateOnly SupposedReturnDate { get; set; }

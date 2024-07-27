@@ -7,6 +7,7 @@ public class CreateReservationDto
 }
 
 public class BooksReservationDto {
+    public Guid OriginalBookId { get; set; }
     public Guid BookId { get; set; }
     public int Quantity { get; set; }
     public DateTime SupposedReturnDate { get; set; }

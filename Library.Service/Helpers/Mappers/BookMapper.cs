@@ -31,6 +31,17 @@ public static class BookMapper
         };
     }
 
+    public static BookEditionDto MapToBookEditionDto(this Book book)
+    {
+        return new BookEditionDto(
+            book.Id,
+            book.ISBN,
+            book.Publisher is null ? "" : book.Publisher.Name,
+            book.Edition,
+            book.Quantity
+            );
+    }
+
     public static BookDetailsDto MapToBookDetailsDto(this Book book)
     {
         return new BookDetailsDto(

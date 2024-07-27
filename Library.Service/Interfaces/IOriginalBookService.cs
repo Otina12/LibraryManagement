@@ -10,7 +10,7 @@ namespace Library.Service.Interfaces;
 public interface IOriginalBookService : IBaseService<OriginalBook>
 {
     Task<Result<OriginalBookDto>> GetOriginalBookById(Guid Id);
-    IEnumerable<OriginalBookDto> GetAllOriginalBooksSorted(bool includeDeleted);
+    IEnumerable<OriginalBookDto> GetAllOriginalBooksSorted(bool includeDeleted = false);
     Task<EntityFiltersDto<OriginalBookDto>> GetAllFilteredOriginalBooks(EntityFiltersDto<OriginalBookDto> originalBookFilters);
     Task<Result> Create(CreateOriginalBookDto createOriginalBookDto);
     Task<Result> Update(OriginalBookDto originalBookDto);

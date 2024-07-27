@@ -94,7 +94,16 @@ public class BookRepository : BaseModelRepository<Book>, IBookRepository
     public async Task<IEnumerable<Book>> GetAllBookEditionsOfOriginalBook(Guid originalBookId, bool trackChanges)
     {
         return trackChanges ?
-            await _context.Books.Include(x => x.OriginalBook).Where(x => x.OriginalBookId == originalBookId).ToListAsync() :
-            await _context.Books.Include(x => x.OriginalBook).AsNoTracking().Where(x => x.OriginalBookId == originalBookId).ToListAsync();
+            await _context.Books
+                .Include(x => x.Publisher)
+                .Include(x => x.OriginalBook)
+                .Where(x => x.OriginalBookId == originalBookId)
+                .ToListAsync() :
+            await _context.Books
+                .Include(x => x.Publisher)
+                .Include(x => x.OriginalBook)
+                .AsNoTracking()
+                .Where(x => x.OriginalBookId == originalBookId)
+                .ToListAsync();
     }
 }
