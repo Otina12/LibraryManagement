@@ -205,6 +205,9 @@ public class ReservationService : IReservationService
 
         reservation.ReturnedQuantity += copyCheckouts.Count;
 
+        var book = await _unitOfWork.Books.GetById(reservation.BookId, true);
+        book!.Quantity += copyCheckouts.Where(x => x.NewStatus != Model.Enums.Status.Lost).Count(); // TODO: change this logic
+
         if (reservation.ReturnedQuantity == reservation.Quantity)
         {
             reservation.LastCopyReturnDate = DateTime.UtcNow;

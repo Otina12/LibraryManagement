@@ -57,7 +57,7 @@
                         @for (int i = 0; i < Model.ReservationCopies.Count; i++)
                         {
                             var reservationCopy = Model.ReservationCopies[i];
-                            <tr>
+                            <tr class="table-row" style="display:none;">
                                 <td>@reservationCopy.BookCopyId</td>
                                 <td>Room ID: @reservationCopy.RoomId | Shelf ID: @(@reservationCopy.ShelfId.HasValue ? reservationCopy.ShelfId.Value.ToString() : "N/A")</td>
                                 <td>@reservationCopy.TakenStatus</td>
@@ -75,18 +75,20 @@
                                         <input type="hidden" name="ReservationCopyCheckouts[@i].BookCopyId" value="@reservationCopy.BookCopyId" />
                                     }
                                 </td>
-                                    @if(reservationCopy.ReturnDate is not null)
-                                    {
-                                        <td>@reservationCopy.ReturnDate.Value.ToString("dd-MM-yyyy")</td>
-                                    }
-                                    else
-                                    {
-                                        <td>N/A</td>
-                                    }
+                                @if (reservationCopy.ReturnDate is not null)
+                                {
+                                    <td>@reservationCopy.ReturnDate.Value.ToString("dd-MM-yyyy")</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
                             </tr>
                         }
                     </tbody>
                 </table>
+                <button type="button" id="showMore" onclick="showMoreRows()">Show More</button>
+
                 <div id="checkoutButtonContainer" style="text-align: right; display: none;">
                     <button type="submit" id="checkoutButton" class="btn btn-primary">Checkout</button>
                 </div>
@@ -116,6 +118,28 @@
         </div>
     </div>
 </body>
+
+@section Scripts {
+    <script>
+        let currentIndex = 0;
+        const rowsPerPage = 6;
+
+        function showMoreRows() {
+            const rows = document.querySelectorAll("#reservationTable .table-row");
+            for (let i = currentIndex; i < currentIndex + rowsPerPage && i < rows.length; i++) {
+                rows[i].style.display = "";
+            }
+            currentIndex += rowsPerPage;
+            if (currentIndex >= rows.length) {
+                document.getElementById("showMore").style.display = "none";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            showMoreRows();
+        });
+    </script>
+}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/js/Reservation/reservation-checkout.js?v=1.0.1"></script>

@@ -12,9 +12,6 @@ using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
 using Library.Service.Dtos.OriginalBook.Get;
-using Library.Service.Helpers.Mappers;
-using Microsoft.EntityFrameworkCore;
-
 namespace Library.Service.Services;
 
 public class BookService : BaseService<Book>, IBookService
