@@ -11,4 +11,5 @@ public record OriginalBookDto(
     bool isDeleted)
 {
     public BookIdAndTitleDto[] Books { get; set; } = [];
+    public List<int> GenreIds { get; set; } = [];
 }

@@ -166,21 +166,6 @@ namespace Library.Data.Migrations
                     b.ToTable("BookCopies");
                 });
 
-            modelBuilder.Entity("Library.Model.Models.BookGenre", b =>
-                {
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("BookGenre");
-                });
-
             modelBuilder.Entity("Library.Model.Models.Customer", b =>
                 {
                     b.Property<string>("Id")
@@ -423,6 +408,21 @@ namespace Library.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OriginalBooks");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.OriginalBookGenre", b =>
+                {
+                    b.Property<Guid>("OriginalBookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OriginalBookId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("OriginalBookGenre");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>
@@ -757,25 +757,6 @@ namespace Library.Data.Migrations
                     b.Navigation("Shelf");
                 });
 
-            modelBuilder.Entity("Library.Model.Models.BookGenre", b =>
-                {
-                    b.HasOne("Library.Model.Models.Book", "Book")
-                        .WithMany("BookGenres")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Model.Models.Genre", "Genre")
-                        .WithMany("BookGenres")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Genre");
-                });
-
             modelBuilder.Entity("Library.Model.Models.Menu.NavigationMenu", b =>
                 {
                     b.HasOne("Library.Model.Models.Menu.NavigationMenu", "ParentNavigationMenu")
@@ -802,6 +783,25 @@ namespace Library.Data.Migrations
                     b.Navigation("NavigationMenu");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Library.Model.Models.OriginalBookGenre", b =>
+                {
+                    b.HasOne("Library.Model.Models.Genre", "Genre")
+                        .WithMany("BookGenres")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Library.Model.Models.OriginalBook", "OriginalBook")
+                        .WithMany("BookGenres")
+                        .HasForeignKey("OriginalBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Genre");
+
+                    b.Navigation("OriginalBook");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Reservation", b =>
@@ -923,8 +923,6 @@ namespace Library.Data.Migrations
 
                     b.Navigation("BookCopies");
 
-                    b.Navigation("BookGenres");
-
                     b.Navigation("Reservations");
                 });
 
@@ -950,6 +948,8 @@ namespace Library.Data.Migrations
 
             modelBuilder.Entity("Library.Model.Models.OriginalBook", b =>
                 {
+                    b.Navigation("BookGenres");
+
                     b.Navigation("Books");
                 });
 

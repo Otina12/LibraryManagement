@@ -15,14 +15,6 @@ public static class BookMappingHelpers
         }
     }
 
-    public static void AddGenresToBook(this Book book, int[] genreIds)
-    {
-        foreach (var genreId in genreIds)
-        {
-            book.BookGenres.Add(new BookGenre { BookId = book.Id, GenreId = genreId });
-        }
-    }
-
     // edit helpers
     public static void UpdatePublisher(this Book book, Guid? newPublisherId)
     {

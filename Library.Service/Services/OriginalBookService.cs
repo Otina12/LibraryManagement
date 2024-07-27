@@ -2,10 +2,7 @@
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Library.Service.Dtos;
-using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Book.Get;
-using Library.Service.Dtos.Customers.Get;
-using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.OriginalBook.Get;
 using Library.Service.Dtos.OriginalBook.Post;
 using Library.Service.Helpers;
@@ -78,8 +75,10 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
             return bookIsNewResult.Error;
         }
 
+
         var originalBook = createOriginalBookDto.MapToOriginalBook();
 
+        AddGenresToBook(originalBook, createOriginalBookDto.SelectedGenreIds.ToArray());
         await _unitOfWork.OriginalBooks.Create(originalBook);
         await _unitOfWork.SaveChangesAsync();
 
@@ -96,6 +95,7 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
         }
 
         var originalBook = originalBookDto.MapToOriginalBook();
+        await _unitOfWork.OriginalBooks.UpdateGenresForBook(originalBookDto.Id, originalBookDto.GenreIds);
         originalBook.UpdateDate = DateTime.UtcNow;
 
         _unitOfWork.OriginalBooks.Update(originalBook);
@@ -105,6 +105,14 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
     }
 
     // helpers
+    private void AddGenresToBook(OriginalBook book, int[] genreIds)
+    {
+        foreach (var genreId in genreIds)
+        {
+            book.BookGenres.Add(new OriginalBookGenre { OriginalBookId = book.Id, GenreId = genreId });
+        }
+    }
+
     private async Task MapBooks(OriginalBookDto bookDto)
     {
         var books = await _unitOfWork.Books.GetAllBookEditionsOfOriginalBook(bookDto.Id);

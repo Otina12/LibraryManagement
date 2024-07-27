@@ -8,7 +8,7 @@ public record CreateBookDto(
     int Edition,
     int PageCount,
     int PublishYear,
-    int[] SelectedGenreIds,
+    //int[] SelectedGenreIds,
     Guid? SelectedPublisherId,
     Guid[] SelectedAuthorIds,
     BookLocationDto[] Locations

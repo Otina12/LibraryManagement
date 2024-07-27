@@ -16,7 +16,7 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     public DbSet<Book> Books { get; set; }
     public DbSet<BookAuthor> BookAuthor { get; set; }
     public DbSet<BookCopy> BookCopies { get; set; }
-    public DbSet<BookGenre> BookGenre { get; set; }
+    public DbSet<OriginalBookGenre> OriginalBookGenre { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Genre> Genres { get; set; }

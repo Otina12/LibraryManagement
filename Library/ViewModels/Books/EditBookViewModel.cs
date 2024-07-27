@@ -15,9 +15,6 @@ public class EditBookViewModel
     public string Description { get; set; }
     public int PublishYear { get; set; }
 
-    [Display(Name = "Genres")]
-    public List<int> GenreIds { get; set; } = [];
-
     [Display(Name = "Publisher")]
     public Guid? PublisherId { get; set; }
 

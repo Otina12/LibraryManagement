@@ -34,9 +34,11 @@ public class OriginalBookController : BaseController
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
         var viewModel = new CreateOriginalBookViewModel();
+        ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
+
         return PartialView("_CreatePartial", viewModel);
     }
 
@@ -45,6 +47,7 @@ public class OriginalBookController : BaseController
     {
         if (!ModelState.IsValid)
         {
+            ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
             return PartialView("_CreatePartial", createOriginalBookVM);
         }
 
@@ -70,6 +73,7 @@ public class OriginalBookController : BaseController
             return RedirectToAction("PageNotFound", "Home");
 
         var editViewModel = _mapper.Map<OriginalBookViewModel>(originalBookResult.Value());
+        ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
 
         return PartialView("_EditPartial", editViewModel);
     }
@@ -79,6 +83,7 @@ public class OriginalBookController : BaseController
     {
         if (!ModelState.IsValid)
         {
+            ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
             return PartialView("_EditPartial", originalBookVM);
         }
 

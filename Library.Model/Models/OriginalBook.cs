@@ -8,4 +8,5 @@ public class OriginalBook : BaseModel
     public int OriginalPublishYear { get; set; }
 
     public ICollection<Book> Books { get; } = [];
+    public ICollection<OriginalBookGenre> BookGenres { get; } = [];
 }

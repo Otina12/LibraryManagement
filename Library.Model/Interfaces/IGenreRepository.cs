@@ -4,6 +4,6 @@ namespace Library.Model.Interfaces;
 
 public interface IGenreRepository : IGenericRepository<Genre>
 {
-    Task<IEnumerable<Genre>> GetAllGenresOfABook(Guid bookId);
-    Task<IEnumerable<int>> GetAllGenreIdsOfABook(Guid bookId);
+    Task<IEnumerable<Genre>> GetAllGenresOfABook(Guid originalBookId);
+    Task<IEnumerable<int>> GetAllGenreIdsOfABook(Guid originalBookId);
 }

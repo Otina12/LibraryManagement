@@ -11,4 +11,5 @@ public class OriginalBookViewModel
     public DateTime CreationDate { get; set; }
     public bool isDeleted { get; set; }
     public BookIdAndTitleDto[] Books { get; set; } = [];
+    public List<int> GenreIds { get; set; } = [];
 }

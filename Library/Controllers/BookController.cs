@@ -122,7 +122,6 @@ public class BookController : BaseController
         ViewBag.OriginalBooks = _serviceManager.OriginalBookService.GetAllOriginalBooksSorted(false);
         ViewBag.Publishers = await _serviceManager.PublisherService.GetAllPublisherIdAndNames();
         ViewBag.Authors = await _serviceManager.AuthorService.GetAllAuthorIdAndNames();
-        ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
 
         var roomShelfDictionary = await _serviceManager.ShelfService.GetRoomShelves();
         ViewBag.Rooms = roomShelfDictionary.Keys;

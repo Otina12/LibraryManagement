@@ -20,7 +20,6 @@ public class Book : BaseModel
     public Publisher? Publisher { get; set; }
     public OriginalBook OriginalBook { get; set; }
     public ICollection<BookAuthor> BookAuthors { get; } = [];
-    public ICollection<BookGenre> BookGenres { get; } = [];
     public ICollection<BookCopy> BookCopies { get; } = [];
     public ICollection<Reservation> Reservations { get; } = [];
 }

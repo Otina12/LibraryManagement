@@ -67,8 +67,7 @@ public class MappingProfiles : Profile
         CreateMap<CreateBookViewModel, CreateBookDto>();
         CreateMap<BookDetailsDto, EditBookViewModel>()
             .ForMember(dest => dest.AuthorIds, opt => opt.MapFrom(src => src.AuthorsDto.Select(a => a.Id).ToList()))
-            .ForMember(dest => dest.PublisherId, opt => opt.MapFrom(src => src.PublisherDto != null ? src.PublisherDto.Id : Guid.Empty))
-            .ForMember(dest => dest.GenreIds, opt => opt.MapFrom(src => src.Genres.Select(g => g.Id).ToList()));
+            .ForMember(dest => dest.PublisherId, opt => opt.MapFrom(src => src.PublisherDto != null ? src.PublisherDto.Id : Guid.Empty));
         CreateMap<EditBookViewModel, EditBookDto>();
 
         // customer maps

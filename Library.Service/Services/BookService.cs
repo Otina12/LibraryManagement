@@ -71,11 +71,12 @@ public class BookService : BaseService<Book>, IBookService
             return Result.Failure<BookDetailsDto>(bookExistsResult.Error);
         }
 
-        var bookDetailsDto = bookExistsResult.Value().MapToBookDetailsDto();
+        var book = bookExistsResult.Value();
+        var bookDetailsDto = book.MapToBookDetailsDto();
 
         bookDetailsDto.PublisherDto = await GetPublisherOfABook(id);
         bookDetailsDto.AuthorsDto = await GetAuthorsOfABook(id);
-        bookDetailsDto.Genres = await GetGenresOfABook(id);
+        bookDetailsDto.Genres = await GetGenresOfABook((Guid)book.OriginalBookId!);
         bookDetailsDto.Locations = await GetLocationsOfABook(id);
 
         return bookDetailsDto;
@@ -93,7 +94,6 @@ public class BookService : BaseService<Book>, IBookService
         var book = bookDto.MapToBook();
         book.Quantity = bookDto.Locations.Sum(x => x.Quantity);
         book.AddAuthorsToBook(bookDto.SelectedAuthorIds);
-        book.AddGenresToBook(bookDto.SelectedGenreIds);
 
         await _unitOfWork.Books.Create(book);
         CreateBookCopies(book.Id, bookDto.Locations); // create 'quantity' copies of the book
@@ -113,7 +113,6 @@ public class BookService : BaseService<Book>, IBookService
 
         var book = bookExistsResult.Value();
 
-        await _unitOfWork.Books.UpdateGenresForBook(book.Id, bookDto.GenreIds);
         await _unitOfWork.Books.UpdateAuthorsForBook(book.Id, bookDto.AuthorIds);
         book.UpdatePublisher(bookDto.PublisherId);
 
@@ -157,9 +156,9 @@ public class BookService : BaseService<Book>, IBookService
         return authors.Select(a => new AuthorIdAndNameDto(a.Id, $"{a.Name} {a.Surname}")).ToArray();
     }
 
-    private async Task<Genre[]> GetGenresOfABook(Guid bookId)
+    private async Task<Genre[]> GetGenresOfABook(Guid originalBookId)
     {
-        return (await _unitOfWork.Genres.GetAllGenresOfABook(bookId)).ToArray();
+        return (await _unitOfWork.Genres.GetAllGenresOfABook(originalBookId)).ToArray();
     }
 
     private async Task<BookLocationDto[]> GetLocationsOfABook(Guid bookId)

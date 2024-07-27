@@ -15,9 +15,6 @@ public class CreateBookViewModel
     public int PageCount { get; set; }
     public int PublishYear { get; set; }
 
-    [Display(Name = "Genres")]
-    public List<int> SelectedGenreIds { get; set; } = [];
-
     [Display(Name = "Publisher")]
     public Guid? SelectedPublisherId { get; set; }
 

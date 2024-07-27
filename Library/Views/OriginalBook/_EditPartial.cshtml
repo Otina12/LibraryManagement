@@ -1,5 +1,9 @@
 ﻿@model Library.ViewModels.OriginalBooks.OriginalBookViewModel
 
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
+
 <form asp-action="Edit" asp-controller="OriginalBook" method="post" id="editOriginalBookForm">
     <input asp-for="Id" type="hidden" />
     <div class="modal-field">
@@ -13,6 +17,11 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="modal-field">
+        <label asp-for="GenreIds">Genres</label>
+        <select class="select2-genres" asp-for="GenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name", Model.GenreIds))" multiple></select>
+        <span asp-validation-for="GenreIds" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
         <label class="required" asp-for="OriginalPublishYear">Original Publish Year</label>
         <input asp-for="OriginalPublishYear" type="number" min="0" max="@DateTime.UtcNow.Year" value="" required />
         <span asp-validation-for="OriginalPublishYear" class="text-danger"></span>
@@ -24,4 +33,6 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script src="~/js/Shared/select2.js"></script>
 }

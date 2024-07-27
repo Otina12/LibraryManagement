@@ -50,12 +50,6 @@
             </div>
         </div>
 
-        <div class="form-field">
-            <label asp-for="GenreIds">Genres</label>
-            <select class="select2-genres" asp-for="GenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name", Model.GenreIds))" multiple></select>
-            <span asp-validation-for="GenreIds" class="text-danger"></span>
-        </div>
-
         <div class="form-field publisher-field">
             <label asp-for="PublisherId">Publisher</label>
             <select asp-for="PublisherId" asp-items="@(new SelectList(ViewBag.Publishers, "Id", "Name", Model.PublisherId))"></select>

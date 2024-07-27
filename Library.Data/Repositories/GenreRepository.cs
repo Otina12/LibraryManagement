@@ -11,15 +11,20 @@ public class GenreRepository :  GenericRepository<Genre>, IGenreRepository
 
     }
 
-    public async Task<IEnumerable<Genre>> GetAllGenresOfABook(Guid bookId)
+    public async Task<IEnumerable<Genre>> GetAllGenresOfABook(Guid originalBookId)
     {
-        var genres = await _context.BookGenre.Include(x => x.Genre).Where(bg => bg.BookId == bookId).ToListAsync();
+        var genres = await _context.OriginalBookGenre
+            .Include(x => x.Genre)
+            .Where(bg => bg.OriginalBookId == originalBookId)
+            .ToListAsync();
         return genres.Select(bg => bg.Genre);
     }
 
-    public async Task<IEnumerable<int>> GetAllGenreIdsOfABook(Guid bookId)
+    public async Task<IEnumerable<int>> GetAllGenreIdsOfABook(Guid originalBookId)
     {
-        var genres = await _context.BookGenre.Where(bg => bg.BookId == bookId).ToListAsync();
+        var genres = await _context.OriginalBookGenre
+            .Where(bg => bg.OriginalBookId == originalBookId)
+            .ToListAsync();
         return genres.Select(bg => bg.GenreId);
     }
 }
