@@ -1,8 +1,8 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
-    const roomDropdown = document.getElementById('roomDropdown');
-    const shelfDropdown = document.getElementById('shelfDropdown');
-    const locationFormsDiv = document.getElementById('locationForms');
-    const addLocationBtn = document.querySelector('.add-location-btn');
+﻿$(document).ready(function () {
+    const roomDropdown = $('#roomDropdown');
+    const shelfDropdown = $('#shelfDropdown');
+    const locationFormsDiv = $('#locationForms');
+    const addLocationBtn = $('.add-location-btn');
     let locationsViewModel = [];
 
     if (typeof existingLocations !== 'undefined') {
@@ -12,93 +12,84 @@
             quantity: location.quantity
         }));
 
-        document.querySelectorAll('.location-summary').forEach(summary => summary.remove());
+        $('.location-summary').remove();
 
         locationsViewModel.forEach((location, index) => {
             const locationSummary = createLocationSummary(location.roomId, location.shelfId || '0', location.quantity, index);
-            locationFormsDiv.appendChild(locationSummary);
+            locationFormsDiv.append(locationSummary);
         });
     }
 
-    roomDropdown.addEventListener('change', function () {
-        const roomId = this.value;
-        shelfDropdown.innerHTML = '<option value="">Shelf</option>';
+    roomDropdown.change(function () {
+        const roomId = $(this).val();
+        shelfDropdown.html('<option value="">Shelf</option>');
         if (roomId && serializedShelves[roomId]) {
             serializedShelves[roomId].forEach(shelf => {
-                const option = document.createElement('option');
-                option.value = shelf;
-                option.textContent = shelf;
-                shelfDropdown.appendChild(option);
+                shelfDropdown.append(new Option(shelf, shelf));
             });
         }
     });
 
-    addLocationBtn.addEventListener('click', function () {
-        const locationForm = addLocationBtn.closest('.post-form-wrapper');
-        const roomId = locationForm.querySelector('#roomDropdown').value.trim();
-        const quantity = parseInt(locationForm.querySelector('.quantity').value.trim(), 10);
-        const shelfIdElement = locationForm.querySelector('#shelfDropdown');
-        const shelfId = shelfIdElement && shelfIdElement.value.trim() !== '' ? shelfIdElement.value.trim() : "0";
+    addLocationBtn.click(function () {
+        const locationForm = $(this).closest('.post-form-wrapper');
+        const roomId = locationForm.find('#roomDropdown').val().trim();
+        const quantity = parseInt(locationForm.find('.quantity').val().trim(), 10);
+        const shelfId = locationForm.find('#shelfDropdown').val().trim() || "0";
 
-        if (roomId === '' || quantity === '') {
+        if (roomId === '' || isNaN(quantity)) {
             alert('Please fill in all the fields with valid values.');
             return;
         }
 
-        // check if the location already exists
         const existingLocationIndex = locationsViewModel.findIndex(location =>
             location.roomId === roomId && location.shelfId === shelfId
         );
 
-        if (existingLocationIndex !== -1) { // if it does, increase the quantity
+        if (existingLocationIndex !== -1) {
             locationsViewModel[existingLocationIndex].quantity += quantity;
             updateLocationSummary(existingLocationIndex);
         } else {
             addNewLocation(roomId, shelfId, quantity);
         }
 
-        locationForm.querySelector('#roomDropdown').value = '';
-        locationForm.querySelector('#shelfDropdown').innerHTML = '<option value="">Shelf</option>';
-        locationForm.querySelector('.quantity').value = '';
+        locationForm.find('#roomDropdown').val('');
+        locationForm.find('#shelfDropdown').html('<option value="">Shelf</option>');
+        locationForm.find('.quantity').val('');
     });
 
     function addNewLocation(roomId, shelfId, quantity) {
         const locationSummary = createLocationSummary(roomId, shelfId, quantity, locationsViewModel.length);
-        locationFormsDiv.appendChild(locationSummary);
+        locationFormsDiv.append(locationSummary);
         locationsViewModel.push({ roomId, shelfId, quantity });
     }
 
     function createLocationSummary(roomId, shelfId, quantity, index) {
-        const locationSummary = document.createElement('div');
-        locationSummary.classList.add('location-summary');
-        locationSummary.dataset.index = index;
+        const locationSummary = $('<div>').addClass('location-summary').attr('data-index', index);
 
-        const contentSpan = document.createElement('span');
-        updateLocationSummaryContent(contentSpan, roomId, shelfId, quantity);
-        locationSummary.appendChild(contentSpan);
+        const $contentSpan = $('<span>');
+        updateLocationSummaryContent($contentSpan, roomId, shelfId, quantity);
+        locationSummary.append($contentSpan);
 
-        const removeButton = document.createElement('button');
-        removeButton.textContent = "✖";
-        removeButton.addEventListener('click', function () {
+        const $removeButton = $('<button>').text("✖").click(function () {
             locationSummary.remove();
             removeLocationFromViewModel(roomId, shelfId);
         });
-        locationSummary.appendChild(removeButton);
+        locationSummary.append($removeButton);
 
         return locationSummary;
     }
 
     function updateLocationSummary(index) {
         const location = locationsViewModel[index];
-        const locationSummary = locationFormsDiv.querySelector(`.location-summary[data-index="${index}"]`);
-        if (locationSummary) {
-            const contentSpan = locationSummary.querySelector('span');
-            updateLocationSummaryContent(contentSpan, location.roomId, location.shelfId, location.quantity);
+        const locationSummary = locationFormsDiv.find(`.location-summary[data-index="${index}"]`);
+        if (locationSummary.length) {
+            const $contentSpan = locationSummary.find('span');
+            updateLocationSummaryContent($contentSpan, location.roomId, location.shelfId, location.quantity);
         }
     }
 
-    function updateLocationSummaryContent(element, roomId, shelfId, quantity) {
-        element.textContent = `Room ID: ${roomId}, Shelf ID: ${shelfId || '0'}, Quantity: ${quantity}`;
+    function updateLocationSummaryContent(e, roomId, shelfId, quantity) {
+        e.text(`Room ID: ${roomId}, Shelf ID: ${shelfId || '0'}, Quantity: ${quantity}`);
     }
 
     function removeLocationFromViewModel(roomId, shelfId) {
@@ -106,42 +97,42 @@
             !(location.roomId === roomId && location.shelfId === shelfId)
         );
 
-        document.querySelectorAll('.location-summary').forEach((summary, index) => {
-            summary.dataset.index = index;
+        $('.location-summary').each(function (index) {
+            $(this).attr('data-index', index);
         });
     }
 
-    const createBookForm = document.getElementById('createBookForm');
-    const editBookForm = document.getElementById('editBookForm');
+    const createBookForm = $('#createBookForm');
+    const editBookForm = $('#editBookForm');
 
-    if (createBookForm) {
-        createBookForm.addEventListener('submit', handleFormSubmission);
+    if (createBookForm.length) {
+        createBookForm.submit(handleFormSubmission);
     }
 
-    if (editBookForm) {
-        editBookForm.addEventListener('submit', handleFormSubmission);
+    if (editBookForm.length) {
+        editBookForm.submit(handleFormSubmission);
     }
 
     function handleFormSubmission(event) {
-        const form = this;
+        const form = $(this);
         locationsViewModel.forEach((location, index) => {
-            const roomIdInput = document.createElement('input');
-            roomIdInput.type = 'hidden';
-            roomIdInput.name = `Locations[${index}].RoomId`;
-            roomIdInput.value = location.roomId;
-            form.appendChild(roomIdInput);
+            form.append($('<input>', {
+                type: 'hidden',
+                name: `Locations[${index}].RoomId`,
+                value: location.roomId
+            }));
 
-            const shelfIdInput = document.createElement('input');
-            shelfIdInput.type = 'hidden';
-            shelfIdInput.name = `Locations[${index}].ShelfId`;
-            shelfIdInput.value = location.shelfId || '';
-            form.appendChild(shelfIdInput);
+            form.append($('<input>', {
+                type: 'hidden',
+                name: `Locations[${index}].ShelfId`,
+                value: location.shelfId || ''
+            }));
 
-            const quantityInput = document.createElement('input');
-            quantityInput.type = 'hidden';
-            quantityInput.name = `Locations[${index}].Quantity`;
-            quantityInput.value = location.quantity;
-            form.appendChild(quantityInput);
+            form.append($('<input>', {
+                type: 'hidden',
+                name: `Locations[${index}].Quantity`,
+                value: location.quantity
+            }));
         });
     }
 });

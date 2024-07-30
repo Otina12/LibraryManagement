@@ -13,6 +13,7 @@
         <textarea asp-for="Description" maxlength="1500" placeholder="Description"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
+    @* ----------- TODO: fix select2 styles for genres ----------- *@
     <div class="modal-field">
         <label asp-for="SelectedGenreIds">Genres</label>
         <select class="select2-genres" asp-for="SelectedGenreIds" asp-items="@(new MultiSelectList(ViewBag.Genres, "Id", "Name"))" multiple></select>
