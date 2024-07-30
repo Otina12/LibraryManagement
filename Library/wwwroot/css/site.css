@@ -771,6 +771,8 @@ input::-webkit-inner-spin-button {
 
 #saveChangesButton {
     background-color: #3b3;
+    display: none;
+    margin-top: 10px;
 }
 
     #dismiss-employee:hover, #renew-employee:hover, #saveChangesButton:hover {

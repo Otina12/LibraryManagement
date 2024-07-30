@@ -24,7 +24,7 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
     {
         return trackChanges ?
             await dbSet
-                .Where(x => x.BookId == bookId && !x.IsTaken)
+                .Where(x => x.BookId == bookId && x.Status != Model.Enums.Status.Lost && !x.IsTaken) // take not taken and not lost books
                 .OrderBy(x => x.Status) // take best quality (low Enum.Status) book copies
                 .Take(X)
                 .ToListAsync() :
@@ -35,7 +35,7 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                 .ToListAsync();
     }
 
-    public void AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X)
+    public void AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X, string creationComment)
     {
         var bookCopies = Enumerable.Range(0, X)
                             .Select(_ => new BookCopy
@@ -45,6 +45,7 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                                 RoomId = roomId,
                                 ShelfId = shelfId,
                                 IsTaken = false,
+                                CreationComment = creationComment,
                                 CreationDate = DateTime.UtcNow
                             }).ToList();
 

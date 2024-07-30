@@ -63,7 +63,7 @@ public class BookController : BaseController
         }
 
         var createBookDto = _mapper.Map<CreateBookDto>(createBookViewModel);
-        var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto);
+        var createBookResult = await _serviceManager.BookService.CreateBook(createBookDto, string.Empty);
 
         if (createBookResult.IsFailure)
         {
@@ -99,7 +99,7 @@ public class BookController : BaseController
         }
 
         var editBookDto = _mapper.Map<EditBookDto>(editBookViewModel);
-        var editBookResult = await _serviceManager.BookService.UpdateBook(editBookDto);
+        var editBookResult = await _serviceManager.BookService.UpdateBook(editBookDto, string.Empty);
 
         return HandleResult(editBookResult, editBookViewModel, "The book has been updated successfully", editBookResult.Error.Message, "Book");
     }

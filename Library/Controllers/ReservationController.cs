@@ -59,7 +59,7 @@ public class ReservationController : BaseController
         var curEmployeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var reservationDto = _mapper.Map<CreateReservationDto>(reservationVM);
 
-        var result = await _serviceManager.ReservationService.CreateReservations(curEmployeeId!, reservationDto);
+        var result = await _serviceManager.ReservationService.CreateReservation(curEmployeeId!, reservationDto);
 
         return HandleResult(result, reservationVM, "Reservation has been confirmed", result.Error.Message, "Reservation");
     }
@@ -97,6 +97,9 @@ public class ReservationController : BaseController
         CreateSuccessNotification("Checkout completed successfully");
         return Json(new { success = true });
     }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateBookCopy
 
     public async Task<IActionResult> CustomerExists(string Id)
     {

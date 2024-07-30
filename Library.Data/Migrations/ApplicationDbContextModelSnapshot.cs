@@ -134,6 +134,10 @@ namespace Library.Data.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CreationComment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -142,6 +146,9 @@ namespace Library.Data.Migrations
 
                     b.Property<bool>("IsTaken")
                         .HasColumnType("bit");
+
+                    b.Property<string>("RemovalComment")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");

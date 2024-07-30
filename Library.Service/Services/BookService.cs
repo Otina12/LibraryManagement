@@ -82,7 +82,7 @@ public class BookService : BaseService<Book>, IBookService
         return bookDetailsDto;
     }
 
-    public async Task<Result> CreateBook(CreateBookDto bookDto)
+    public async Task<Result> CreateBook(CreateBookDto bookDto, string creationComment)
     {
         var bookIsNewResult = await _validationService.BookIsNew(bookDto.ISBN);
 
@@ -96,13 +96,13 @@ public class BookService : BaseService<Book>, IBookService
         book.AddAuthorsToBook(bookDto.SelectedAuthorIds);
 
         await _unitOfWork.Books.Create(book);
-        CreateBookCopies(book.Id, bookDto.Locations); // create 'quantity' copies of the book
+        CreateBookCopies(book.Id, bookDto.Locations, creationComment); // create 'quantity' copies of the book
 
         await _unitOfWork.SaveChangesAsync();
         return Result.Success();
     }
 
-    public async Task<Result> UpdateBook(EditBookDto bookDto)
+    public async Task<Result> UpdateBook(EditBookDto bookDto, string creationComment)
     {
         var bookExistsResult = await _validationService.BookExists(bookDto.Id);
 
@@ -117,8 +117,7 @@ public class BookService : BaseService<Book>, IBookService
         book.UpdatePublisher(bookDto.PublisherId);
 
         var (locationsToRemove, locationsToAdd, count) = book.UpdateLocations(await GetLocationsOfABook(book.Id), bookDto.Locations);
-        DeleteBookCopies(book.Id, locationsToRemove);
-        CreateBookCopies(book.Id, locationsToAdd);
+        CreateBookCopies(book.Id, locationsToAdd, creationComment);
         book.Quantity += count;
 
         _unitOfWork.Books.Update(book);
@@ -127,19 +126,11 @@ public class BookService : BaseService<Book>, IBookService
     }
 
     // helpers
-    private void CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations)
+    private void CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations, string creationComment)
     {
         foreach (var location in locations)
         {
-            _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity);
-        }
-    }
-
-    private void DeleteBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations)
-    {
-        foreach (var location in locations)
-        {
-            _unitOfWork.BookCopies.DeleteXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity);
+            _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity, creationComment);
         }
     }
 

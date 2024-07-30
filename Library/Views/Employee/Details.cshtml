@@ -46,7 +46,7 @@
                     }
                 </select>
             </div>
-            <button id="saveChangesButton" style="display:none; margin-top: 10px;" onclick="changeRoles('@Model.Employee.Id', '@Url.Action("ManageRoles", "Employee")')">Save Changes</button>
+            <button id="saveChangesButton" onclick="changeRoles('@Model.Employee.Id', '@Url.Action("ManageRoles", "Employee")')">Save Changes</button>
             @if (Model.Employee.IsEmployed)
             {
                 <button id="dismiss-employee" onclick="dismissEmployee('@Model.Employee.Id', '@Url.Action("Delete", "Employee")')">Dismiss</button>

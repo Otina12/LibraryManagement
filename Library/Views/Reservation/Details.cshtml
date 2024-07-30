@@ -65,6 +65,11 @@
                                     @if (reservationCopy.ReturnedStatus is not null)
                                     {
                                         @reservationCopy.ReturnedStatus
+                                        @if(reservationCopy.ReturnedStatus == Status.Lost)
+                                        {
+                                            <a>Late Return</a>
+                                            <a>Return another copy</a>
+                                        }
                                     }
                                     else
                                     {
