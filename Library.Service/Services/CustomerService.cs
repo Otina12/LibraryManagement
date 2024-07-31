@@ -8,7 +8,6 @@ using Library.Service.Helpers.Mappers;
 using Library.Model.Abstractions;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Customers.Get;
-using Library.Service.Dtos.Author;
 
 namespace Library.Service.Services;
 

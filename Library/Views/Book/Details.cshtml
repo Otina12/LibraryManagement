@@ -22,6 +22,11 @@
                 <span class="material-icons delete-icon">delete</span>
             </a>
         }
+
+        @if (isAdmin)
+        {
+            <button type="button" class="btn btn-primary" id="add-bookCopy-btn">Add copies</button>
+        }
     </div>
     <div>
         <p><strong>Title:</strong> @Model.Title</p>
@@ -36,9 +41,19 @@
         <p><strong>Genres:</strong></p>
         <p>@string.Join(", ", Model.Genres.Select(x => x.Name))</p>
         <p><strong>Locations:</strong></p>
-        @foreach(var location in Model.Locations)
+        @foreach (var location in Model.Locations)
         {
             <p>Room: @location.RoomId, Shelf: @location.ShelfId, Quantity: @location.Quantity</p>
         }
     </div>
 </div>
+
+@await Html.PartialAsync("_ModalPartial", new { ModalId = "bookCopyModal", CreateFormId = "createBookCopyForm", EditFormId = "" })
+
+@section Scripts {
+    <script src="~/js/Shared/modal.js"></script>
+
+    <script>
+        initializeModal('bookCopy', '/Book/CreateCopies?bookId=@Model.Id', '', '', '');
+    </script>
+}

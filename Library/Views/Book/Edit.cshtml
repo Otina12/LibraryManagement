@@ -61,50 +61,13 @@
             <span asp-validation-for="AuthorIds" class="text-danger"></span>
         </div>
 
-        <div class="form-field">
-            <label>Locations</label>
-            <div id="locationForms" class="location-forms">
-                <div class="post-form-wrapper">
-                    <div class="location-form">
-                        <select class="location-dropdown" id="roomDropdown">
-                            <option value="">Room*</option>
-                            @foreach (var room in ViewBag.Rooms)
-                            {
-                                <option value="@room">@room</option>
-                            }
-                        </select>
-                        <select class="location-dropdown" id="shelfDropdown">
-                            <option value="">Shelf</option>
-                        </select>
-                        <input type="number" class="quantity" placeholder="Quantity"/>
-
-                        <button type="button" class="add-location-btn">Add</button>
-                    </div>
-                </div>
-                @* load existing locations *@
-                @for (int i = 0; i < Model.Locations.Length; i++)
-                {
-                    <div class="location-summary">
-                        Room ID: @Model.Locations[i].RoomId, Shelf ID: @Model.Locations[i].ShelfId, Quantity: @Model.Locations[i].Quantity
-                        <button type="button" class="remove-location-btn">✖</button>
-                    </div>
-                }
-            </div>
-        </div>
-
         <button type="submit" class="submit-button">Save</button>
     </form>
 </body>
 
 
 @section Scripts {
-    <script>
-        var serializedShelves = @Html.Raw(ViewBag.Shelves);
-        var existingLocations = @Html.Raw(Json.Serialize(Model.Locations));
-    </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="~/js/Shared/modal.js"></script>
     <script src="~/js/Shared/select2.js"></script>
-    <script src="~/js/Book/book-post.js?v=1.0.1"></script>
 }

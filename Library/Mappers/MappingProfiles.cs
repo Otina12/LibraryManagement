@@ -6,6 +6,7 @@ using Library.Service.Dtos.Author;
 using Library.Service.Dtos.Authorization;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
+using Library.Service.Dtos.BookCopy.Post;
 using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Email.Post;
@@ -69,6 +70,7 @@ public class MappingProfiles : Profile
             .ForMember(dest => dest.AuthorIds, opt => opt.MapFrom(src => src.AuthorsDto.Select(a => a.Id).ToList()))
             .ForMember(dest => dest.PublisherId, opt => opt.MapFrom(src => src.PublisherDto != null ? src.PublisherDto.Id : Guid.Empty));
         CreateMap<EditBookViewModel, EditBookDto>();
+        CreateMap<CreateBookCopiesViewModel, CreateBookCopiesDto>();
 
         // customer maps
         CreateMap<CustomerDto, CustomerViewModel>().ReverseMap();

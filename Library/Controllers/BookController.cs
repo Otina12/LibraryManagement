@@ -7,6 +7,8 @@ using System.Text.Json;
 using Library.ViewSpecifications;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
+using Library.Service.Dtos.BookCopy.Post;
+using Library.Model.Models;
 
 namespace Library.Controllers;
 
@@ -72,8 +74,39 @@ public class BookController : BaseController
             return View(createBookViewModel);
         }
 
-        CreateSuccessNotification("The book copies have been added successfully");
+        CreateSuccessNotification("The book has been added successfully");
         return RedirectToAction("Index", "Book");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> CreateCopies(string bookId)
+    {
+        var viewModel = new CreateBookCopiesViewModel();
+        viewModel.BookId = bookId is null ? Guid.Empty : new Guid(bookId);
+        await InitializeViewDropdowns();
+        return PartialView("_CreateCopies", viewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCopies(CreateBookCopiesViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            await InitializeViewDropdowns();
+            return PartialView("_CreateCopies", viewModel);
+        }
+
+        var bookCopiesDto = _mapper.Map<CreateBookCopiesDto>(viewModel);
+        var result = await _serviceManager.BookService.CreateBookCopies(bookCopiesDto.BookId, bookCopiesDto.Locations, string.Empty);
+
+        if (result.IsFailure)
+        {
+            CreateFailureNotification(result.Error.Message);
+            return Json(new { success = false });
+        }
+
+        CreateSuccessNotification("Succesfully added book copies");
+        return Json(new { success = true });
     }
 
     [HttpGet]
@@ -119,7 +152,19 @@ public class BookController : BaseController
     // book create/edit essential dropdowns
     private async Task InitializeViewDropdowns()
     {
-        ViewBag.OriginalBooks = _serviceManager.OriginalBookService.GetAllOriginalBooksSorted(false);
+        var booksDictionary = await _serviceManager.BookService.GetAllBookEditions();
+
+        var serializedDictionary = booksDictionary.ToDictionary(
+            kvp => kvp.Key.Id.ToString(),
+            kvp => new
+            {
+                Title = kvp.Key.Title,
+                Editions = kvp.Value
+            }
+        );
+
+        ViewBag.OriginalBooks = booksDictionary.Keys.Select(k => new { Id = k.Id, Title = k.Title }).ToList();
+        ViewBag.BookEditions = JsonSerializer.Serialize(serializedDictionary);
         ViewBag.Publishers = await _serviceManager.PublisherService.GetAllPublisherIdAndNames();
         ViewBag.Authors = await _serviceManager.AuthorService.GetAllAuthorIdAndNames();
 

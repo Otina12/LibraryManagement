@@ -1,6 +1,7 @@
 $(document).ready(function () {
     function initializeSelect2(selector, options) {
         $(selector).select2(options);
+        console.log(selector);
     }
 
     function getAuthorsOptions() {

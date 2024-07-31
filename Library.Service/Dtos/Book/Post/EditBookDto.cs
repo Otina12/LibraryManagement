@@ -12,6 +12,5 @@ public record EditBookDto(
     int PublishYear,
     //List<int> GenreIds,
     Guid? PublisherId,
-    List<Guid> AuthorIds,
-    BookLocationDto[] Locations
+    List<Guid> AuthorIds
     );

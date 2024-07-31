@@ -51,17 +51,4 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
 
         dbSet.AddRange(bookCopies);
     }
-
-    public void DeleteXBookCopies(Guid bookId, int roomId, int? shelfId, int X)
-    {
-        var copiesToDelete = dbSet
-                                .Where(bc => bc.BookId == bookId &&
-                                                bc.RoomId == roomId &&
-                                                bc.ShelfId == shelfId)
-                                .OrderByDescending(bc => bc.Status) // delete higher Enums.Status books (lost, damaged...)
-                                .Take(X)
-                                .ToList();
-
-        dbSet.RemoveRange(copiesToDelete);
-    }
 }

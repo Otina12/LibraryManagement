@@ -1,0 +1,48 @@
+﻿@model Library.ViewModels.Books.CreateBookCopiesViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/post-form.css" />
+</head>
+
+<body>
+    <form asp-action="CreateCopies" asp-controller="Book" method="post" id="createBookCopyForm">
+        @if(Model.BookId == Guid.Empty)
+        {
+            // implement original book and book dropdowns
+        }
+        else
+        {
+            <div class="modal-field">
+                <label asp-for="BookId" class="required">Book ID</label>
+                <input asp-for="BookId" placeholder="Book ID*" required readonly />
+                <span asp-validation-for="BookId" class="text-danger"></span>
+            </div>
+        }
+        <div class="modal-field">
+            <div id="locationForms" class="location-forms">
+                <div class="post-form-wrapper">
+                    <div class="location-form">
+                        <select class="location-dropdown" id="roomDropdown">
+                            <option value="">Room*</option>
+                            @foreach (var room in ViewBag.Rooms)
+                            {
+                                <option value="@room">@room</option>
+                            }
+                        </select>
+                        <select class="location-dropdown" id="shelfDropdown">
+                            <option value="">Shelf</option>
+                        </select>
+                        <input type="number" min="0" class="quantity" placeholder="Quantity" />
+                        <button type="button" class="add-location-btn">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+<script>
+    var serializedShelves = @Html.Raw(ViewBag.Shelves);
+</script>
+
+<script src="~/js/Book/book-post.js?v=1.0.2"></script>

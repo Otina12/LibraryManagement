@@ -53,29 +53,6 @@
             <div id="selectedAuthors"></div>
         </div>
 
-        <div class="form-field">
-            <label asp-for="Locations" class="required">Locations</label>
-            <div id="locationForms" class="location-forms">
-                <div class="post-form-wrapper">
-                    <div class="location-form">
-                        <select class="location-dropdown" id="roomDropdown">
-                            <option value="">Room*</option>
-                            @foreach (var room in ViewBag.Rooms)
-                            {
-                                <option value="@room">@room</option>
-                            }
-                        </select>
-                        <select class="location-dropdown" id="shelfDropdown">
-                            <option value="">Shelf</option>
-                        </select>
-                        <input type="number" min="0" class="quantity" placeholder="Quantity" />
-
-                        <button type="button" class="add-location-btn">Add</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <button type="submit" class="submit-button">Create</button>
     </form>
 </body>
@@ -88,5 +65,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="~/js/Shared/modal.js"></script>
     <script src="~/js/Shared/select2.js"></script>
-    <script src="~/js/Book/book-post.js?v=1.0.1"></script>
 }

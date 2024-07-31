@@ -1,26 +1,12 @@
-﻿$(document).ready(function () {
-    const roomDropdown = $('#roomDropdown');
+﻿$(function () {
     const shelfDropdown = $('#shelfDropdown');
     const locationFormsDiv = $('#locationForms');
-    const addLocationBtn = $('.add-location-btn');
     let locationsViewModel = [];
 
-    if (typeof existingLocations !== 'undefined') {
-        locationsViewModel = existingLocations.map(location => ({
-            roomId: location.roomId,
-            shelfId: location.shelfId || '0',
-            quantity: location.quantity
-        }));
+    console.log("Initial locationsViewModel:", locationsViewModel);
+    console.log("Serialized Shelves:", serializedShelves);
 
-        $('.location-summary').remove();
-
-        locationsViewModel.forEach((location, index) => {
-            const locationSummary = createLocationSummary(location.roomId, location.shelfId || '0', location.quantity, index);
-            locationFormsDiv.append(locationSummary);
-        });
-    }
-
-    roomDropdown.change(function () {
+    $(document).on('change', '#roomDropdown', function () {
         const roomId = $(this).val();
         shelfDropdown.html('<option value="">Shelf</option>');
         if (roomId && serializedShelves[roomId]) {
@@ -30,7 +16,7 @@
         }
     });
 
-    addLocationBtn.click(function () {
+    $(document).on('click', '.add-location-btn', function () {
         const locationForm = $(this).closest('.post-form-wrapper');
         const roomId = locationForm.find('#roomDropdown').val().trim();
         const quantity = parseInt(locationForm.find('.quantity').val().trim(), 10);
@@ -102,18 +88,8 @@
         });
     }
 
-    const createBookForm = $('#createBookForm');
-    const editBookForm = $('#editBookForm');
-
-    if (createBookForm.length) {
-        createBookForm.submit(handleFormSubmission);
-    }
-
-    if (editBookForm.length) {
-        editBookForm.submit(handleFormSubmission);
-    }
-
-    function handleFormSubmission(event) {
+    $('#createBookCopyForm').submit(function (event) {
+        event.preventDefault();
         const form = $(this);
         locationsViewModel.forEach((location, index) => {
             form.append($('<input>', {
@@ -134,5 +110,22 @@
                 value: location.quantity
             }));
         });
-    }
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            success: function (response) {
+                if (response.success) {
+                    $('#bookCopyModal').fadeOut();
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function () {
+                alert('Error saving book copies');
+            }
+        });
+    });
 });

@@ -98,9 +98,6 @@ public class ReservationController : BaseController
         return Json(new { success = true });
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateBookCopy
-
     public async Task<IActionResult> CustomerExists(string Id)
     {
         var customerDtoResult = await _serviceManager.CustomerService.GetCustomerById(Id);

@@ -40,7 +40,8 @@
     .form-field input[type="number"],
     .form-field input[type="datetime-local"],
     .form-field textarea,
-    .form-field select {
+    .form-field select,
+    .modal-field select{
         width: 100%;
         align-self: center;
         padding: 8px;
@@ -54,7 +55,8 @@
         margin-top: 3px;
     }
 
-        .form-field select option {
+        .form-field select option,
+        .modal-field select option{
             background-color: transparent;
             color: white;
         }
@@ -104,6 +106,7 @@
 }
 
 .location-dropdown option {
+    width: 75px !important;
     color: black !important;
 }
 
@@ -130,15 +133,17 @@
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin-top: 10px;
     align-content: center;
+    margin-bottom: 10px;
 }
 
 .location-form {
     display: flex;
     align-items: center;
     gap: 15px;
+    padding: 5px 10px;
 }
 
     .location-form input[type="number"] {

@@ -20,6 +20,4 @@ public class EditBookViewModel
 
     [Display(Name = "Authors")]
     public List<Guid> AuthorIds { get; set; } = [];
-
-    public BookLocationDto[] Locations { get; set; } = [];
 }

@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Library.Model\Library.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\BookCopy\Post\" />
-  </ItemGroup>
-
 </Project>

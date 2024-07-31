@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="~/css//modal.css">
 
-<div class="custom-modal" id="@Model.ModalId" tabindex="-1" role="dialog" aria-labelledby="@(Model.ModalId)Label" aria-hidden="true">
+<div class="custom-modal" id="@Model.ModalId" tabindex="-1" role="dialog" aria-labelledby="@(Model.ModalId)Label">
     <div class="custom-modal-dialog" role="document">
         <div class="custom-modal-content">
             <div class="custom-modal-header">
@@ -12,7 +12,7 @@
                 </button>
             </div>
             <div class="custom-modal-body" id="modalBody">
-                <!-- body will be loaded here. It depends on action (create/edit/delete) -->
+                <!-- body will be loaded here. It depends on action (create/edit/delete/renew) -->
             </div>
             <div class="custom-modal-footer" id="modalFooter">
                 <button type="submit" id="add-button" form="@Model.CreateFormId" class="btn btn-primary">Save</button>

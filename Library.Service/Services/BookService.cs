@@ -90,15 +90,19 @@ public class BookService : BaseService<Book>, IBookService
         {
             return bookIsNewResult.Error;
         }
+
+        var originalBook = await _unitOfWork.OriginalBooks.GetById(bookDto.SelectedOriginalBookId);
+        if (originalBook is null || bookDto.PublishYear < originalBook!.OriginalPublishYear)
+        {
+            return Result.Failure("Book.InvalidPublishYear", "Publish Year can't be less than Original Book's publish year");
+        }
+
         // otherwise add the book
         var book = bookDto.MapToBook();
-        book.Quantity = bookDto.Locations.Sum(x => x.Quantity);
         book.AddAuthorsToBook(bookDto.SelectedAuthorIds);
-
         await _unitOfWork.Books.Create(book);
-        CreateBookCopies(book.Id, bookDto.Locations, creationComment); // create 'quantity' copies of the book
-
         await _unitOfWork.SaveChangesAsync();
+
         return Result.Success();
     }
 
@@ -116,22 +120,31 @@ public class BookService : BaseService<Book>, IBookService
         await _unitOfWork.Books.UpdateAuthorsForBook(book.Id, bookDto.AuthorIds);
         book.UpdatePublisher(bookDto.PublisherId);
 
-        var (locationsToRemove, locationsToAdd, count) = book.UpdateLocations(await GetLocationsOfABook(book.Id), bookDto.Locations);
-        CreateBookCopies(book.Id, locationsToAdd, creationComment);
-        book.Quantity += count;
-
         _unitOfWork.Books.Update(book);
         await _unitOfWork.SaveChangesAsync();
         return Result.Success();
     }
 
-    // helpers
-    private void CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations, string creationComment)
+    
+    public async Task<Result> CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations, string creationComment)
     {
+        var bookExistsResult = await _validationService.BookExists(bookId, true);
+
+        if (bookExistsResult.IsFailure)
+        {
+            return bookExistsResult.Error;
+        }
+
+        var book = bookExistsResult.Value();
+
         foreach (var location in locations)
         {
             _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity, creationComment);
         }
+
+        book.Quantity += locations.Select(x => x.Quantity).Sum();
+        await _unitOfWork.SaveChangesAsync();
+        return Result.Success();
     }
 
     // book GET methods (helpers)

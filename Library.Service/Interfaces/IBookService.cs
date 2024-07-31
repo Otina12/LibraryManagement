@@ -14,4 +14,5 @@ public interface IBookService : IBaseService<Book>
     Task<Result<BookDetailsDto>> GetBookById(Guid id);
     Task<Result> CreateBook(CreateBookDto bookDto, string creationMessage);
     Task<Result> UpdateBook(EditBookDto bookDto, string creationMessage);
+    Task<Result> CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations, string creationComment);
 }

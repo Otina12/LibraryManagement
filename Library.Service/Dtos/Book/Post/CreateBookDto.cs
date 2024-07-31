@@ -10,6 +10,5 @@ public record CreateBookDto(
     int PublishYear,
     //int[] SelectedGenreIds,
     Guid? SelectedPublisherId,
-    Guid[] SelectedAuthorIds,
-    BookLocationDto[] Locations
+    Guid[] SelectedAuthorIds
     );

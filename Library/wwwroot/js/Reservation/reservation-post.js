@@ -23,21 +23,17 @@
             placeholder: 'Select a book edition',
             allowClear: true
         });
-        console.log('Initialized Select2 on dropdowns.');
     }
 
     function attachEventListeners() {
-        console.log('Attaching event listeners...');
         originalBookDropdown.on('select2:select change', updateBookEditionDropdown);
         bookEditionDropdown.on('change', updateQuantityInput);
         addReservationBtn.on('click', addBook);
         createReservationForm.on('submit', validateForm);
-        console.log('Event listeners attached.');
     }
 
     function updateBookEditionDropdown() {
         const selectedOriginalBookId = originalBookDropdown.val();
-        console.log('Selected original book ID:', selectedOriginalBookId);
         bookEditionDropdown.empty().prop('disabled', true);
 
         if (selectedOriginalBookId && bookEditions[selectedOriginalBookId]) {
@@ -49,7 +45,7 @@
             });
             bookEditionDropdown.prop('disabled', false).trigger('change.select2');
         } else {
-            console.log('Invalid original book selection or no editions data available.');
+            console.log('Invalid original book selection or no editions available');
         }
     }
 
@@ -155,7 +151,6 @@
 
     verifyCustomerBtn.on('click', async function () {
         const customerId = customerIdInput.val();
-        console.log(customerId);
         if (!customerId) {
             alert('Please enter a Customer ID');
             return;

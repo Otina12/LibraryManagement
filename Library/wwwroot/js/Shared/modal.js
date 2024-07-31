@@ -24,7 +24,9 @@ function initializeModal(entityType, createUrl, editUrl, deleteUrl, renewUrl) {
         });
         $(document).on('submit', `#create${entityType.charAt(0).toUpperCase() + entityType.slice(1)}Form`, function (e) {
             e.preventDefault();
-            submitForm($(this), createUrl);
+            if (entityType != 'bookCopy') { // custom submission handling is implemented for book copies in book-post.js
+                submitForm($(this), createUrl);
+            }
         });
         $(document).on('submit', `#edit${entityType.charAt(0).toUpperCase() + entityType.slice(1)}Form`, function (e) {
             e.preventDefault();
@@ -58,7 +60,7 @@ function loadModalContent(url, title, action) {
             $('#edit-button').toggle(action === 'edit');
             $('#confirm-delete-button').hide();
             $('#confirm-renew-button').hide();
-            $('#publisherModal, #authorModal, #customerModal, #originalBookModal').fadeIn();
+            $('#publisherModal, #authorModal, #customerModal, #originalBookModal, #bookCopyModal').fadeIn();
         },
         error: function () {
             alert('Error loading the form');
@@ -91,9 +93,7 @@ function showDeleteConfirmation(entityId, entityType, deleteUrl) {
     $('#modalTitle').text(`Delete ${entityType.charAt(0).toUpperCase() + entityType.slice(1)}`);
     $('#modalBody').html(`<p>Are you sure you want to delete this ${entityType}?</p>`);
     $('#add-button, #edit-button').hide();
-    $('#confirm-delete-button').show();
-    $('#confirm-delete-button').data('entity-id', entityId);
-    $('#confirm-delete-button').data('delete-url', deleteUrl);
+    $('#confirm-delete-button').show().data('entity-id', entityId).data('delete-url', deleteUrl);
     $(`#${entityType}Modal`).fadeIn();
 }
 
@@ -101,9 +101,7 @@ function showRenewConfirmation(entityId, entityType, renewUrl) {
     $('#modalTitle').text(`Renew ${entityType.charAt(0).toUpperCase() + entityType.slice(1)}`);
     $('#modalBody').html(`<p>Are you sure you want to renew this ${entityType}?</p>`);
     $('#add-button, #edit-button').hide();
-    $('#confirm-renew-button').show();
-    $('#confirm-renew-button').data('entity-id', entityId);
-    $('#confirm-renew-button').data('renew-url', renewUrl);
+    $('#confirm-renew-button').show().data('entity-id', entityId).data('renew-url', renewUrl);
     $(`#${entityType}Modal`).fadeIn();
 }
 
@@ -114,7 +112,7 @@ function deleteEntity(entityId, deleteUrl) {
         data: { id: entityId },
         success: function (response) {
             if (response.success) {
-                $('#publisherModal, #authorModal, #customerModal, #originalBookModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal, #originalBookModal, #bookCopyModal').fadeOut();
                 location.reload();
             } else {
                 alert('Error deleting the entity: ' + response.message);
@@ -133,7 +131,7 @@ function renewEntity(entityId, renewUrl) {
         data: { id: entityId },
         success: function (response) {
             if (response.success) {
-                $('#publisherModal, #authorModal, #customerModal, #originalBookModal').fadeOut();
+                $('#publisherModal, #authorModal, #customerModal, #originalBookModal, #bookCopyModal').fadeOut();
                 location.reload();
             } else {
                 alert('Error renewing the entity: ' + response.message);

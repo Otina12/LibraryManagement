@@ -25,10 +25,8 @@
     </div>
 </form>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
-    <script src="~/js/Shared/select2.js"></script>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
+
+<script src="~/js/Shared/select2.js"></script>
