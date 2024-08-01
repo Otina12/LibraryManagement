@@ -6,4 +6,7 @@ public record BookEditionDto(
     string PublisherName,
     int Edition,
     int Quantity
-    );
+    )
+{
+    public int AvailableQuantity { get; set; }
+}

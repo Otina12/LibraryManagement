@@ -18,6 +18,35 @@ $(document).ready(function () {
         updateCheckoutButtonVisibility();
     });
 
+    window.handleLateReturn = function (reservationCopyId, bookCopyId) {
+        const statusElement = $(`#status-${bookCopyId}`);
+        const lostBookActions = statusElement.next('.lost-book-actions');
+
+        // hide everything in that cell
+        statusElement.hide();
+        lostBookActions.hide();
+
+        // and show the dropdown
+        const dropdown = $(`<select name="ReservationCopyCheckouts[${reservationCopyId}].NewStatus" class="form-control">
+            ${$('#setAllStatus').html()}
+        </select>`);
+
+        const hiddenInputs = `
+            <input type="hidden" name="ReservationCopyCheckouts[${reservationCopyId}].ReservationCopyId" value="${reservationCopyId}" />
+            <input type="hidden" name="ReservationCopyCheckouts[${reservationCopyId}].BookCopyId" value="${bookCopyId}" />
+        `;
+
+        statusElement.after(dropdown);
+        dropdown.after(hiddenInputs);
+
+        dropdown.change(updateCheckoutButtonVisibility);
+        updateCheckoutButtonVisibility();
+    };
+
+    window.handleReturnAnotherCopy = function (reservationCopyId, bookCopyId) {
+        // TODO: implement later
+    };
+
     form.on('submit', function (e) {
         e.preventDefault();
 

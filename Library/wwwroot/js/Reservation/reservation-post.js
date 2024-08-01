@@ -40,7 +40,7 @@
             const editions = bookEditions[selectedOriginalBookId].Editions;
             bookEditionDropdown.append(new Option('Select a book edition', '', false, false));
             editions.forEach(edition => {
-                const option = new Option(`${edition.ISBN} - ${edition.PublisherName} (Edition: ${edition.Edition}, Available: ${edition.Quantity})`, edition.Id, false, false);
+                const option = new Option(`${edition.ISBN} - ${edition.PublisherName} (Edition: ${edition.Edition}, Available: ${edition.AvailableQuantity})`, edition.Id, false, false);
                 bookEditionDropdown.append(option);
             });
             bookEditionDropdown.prop('disabled', false).trigger('change.select2');
@@ -55,7 +55,7 @@
         const selectedEdition = bookEditions[selectedOriginalBookId]?.Editions.find(edition => edition.Id === selectedEditionId);
 
         if (selectedEdition) {
-            quantityInput.prop('max', selectedEdition.Quantity).attr('data-max-quantity', selectedEdition.Quantity).attr('placeholder', `Quantity (Max: ${selectedEdition.Quantity})`);
+            quantityInput.prop('max', selectedEdition.AvailableQuantity).attr('data-max-quantity', selectedEdition.AvailableQuantity).attr('placeholder', `Quantity (Max: ${selectedEdition.AvailableQuantity})`);
         } else {
             quantityInput.prop('max', '').attr('data-max-quantity', '').attr('placeholder', 'Quantity');
         }
@@ -111,8 +111,8 @@
 
     function checkQuantity(originalBookId, bookId, requestedQuantity) {
         const selectedEdition = bookEditions[originalBookId].Editions.find(edition => edition.Id === bookId);
-        if (!selectedEdition || requestedQuantity > selectedEdition.Quantity) {
-            alert(`Error: Only ${selectedEdition ? selectedEdition.Quantity : 0} copies of this book edition are available.`);
+        if (!selectedEdition || requestedQuantity > selectedEdition.AvailableQuantity) {
+            alert(`Error: Only ${selectedEdition ? selectedEdition.AvailableQuantity : 0} copies of this book edition are available.`);
             return false;
         }
         return true;
@@ -121,7 +121,7 @@
     function updateBookQuantity(originalBookId, bookId, quantityToReduce) {
         const edition = bookEditions[originalBookId].Editions.find(edition => edition.Id === bookId);
         if (edition) {
-            edition.Quantity -= quantityToReduce;
+            edition.AvailableQuantity -= quantityToReduce;
             updateBookEditionDropdown();
         }
     }

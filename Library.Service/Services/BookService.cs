@@ -12,6 +12,7 @@ using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
 using Library.Service.Dtos.OriginalBook.Get;
+
 namespace Library.Service.Services;
 
 public class BookService : BaseService<Book>, IBookService
@@ -33,8 +34,14 @@ public class BookService : BaseService<Book>, IBookService
             var originalBookDto = new OriginalBookIdAndTitle(originalBook.Id, originalBook.Title);
             var books = await _unitOfWork.Books.GetAllBookEditionsOfOriginalBook(originalBook.Id); // get all editions of that original book
 
+            var bookDtos = books.Select(b => b.MapToBookEditionDto()).ToList();
+            foreach(var bookDto in bookDtos)
+            {
+                bookDto.AvailableQuantity = await _unitOfWork.BookCopies.GetCountOfAvailableBookCopies(bookDto.Id);
+            }
+
             // key - original book, value - all editions of that book
-            dict.Add(originalBookDto, books.Select(b => b.MapToBookEditionDto()).ToList());
+            dict.Add(originalBookDto, bookDtos);
         }
 
         return dict;

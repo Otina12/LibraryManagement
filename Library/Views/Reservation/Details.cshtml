@@ -64,11 +64,17 @@
                                 <td>
                                     @if (reservationCopy.ReturnedStatus is not null)
                                     {
-                                        @reservationCopy.ReturnedStatus
-                                        @if(reservationCopy.ReturnedStatus == Status.Lost)
+                                        <div id="status-@reservationCopy.BookCopyId">
+                                            <span class="@(reservationCopy.ReturnedStatus == Status.Lost ? "status-lost" : "")">
+                                                @reservationCopy.ReturnedStatus
+                                            </span>
+                                        </div>
+                                        @if (reservationCopy.ReturnedStatus == Status.Lost) // when book copy is lost, we also want to have options to return it or another copy
                                         {
-                                            <a>Late Return</a>
-                                            <a>Return another copy</a>
+                                            <div class="lost-book-actions">
+                                                <a onclick="handleLateReturn('@reservationCopy.ReservationCopyId', '@reservationCopy.BookCopyId')">Late Return</a>
+                                                <a onclick="handleReturnAnotherCopy('@reservationCopy.ReservationCopyId', '@reservationCopy.BookCopyId')">Return another copy</a>
+                                            </div>
                                         }
                                     }
                                     else

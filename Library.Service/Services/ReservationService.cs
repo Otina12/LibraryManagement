@@ -46,6 +46,47 @@ public class ReservationService : IReservationService
         return reservationFilters;
     }
 
+    public async Task<Result<ReservationDetailsDto>> GetDetailsById(Guid Id)
+    {
+        var reservationExistsResult = await _validationService.ReservationExists(Id);
+
+        if (reservationExistsResult.IsFailure)
+        {
+            return Result.Failure<ReservationDetailsDto>(reservationExistsResult.Error);
+        }
+
+        var reservation = reservationExistsResult.Value();
+        var book = await _unitOfWork.Books.GetById(reservation.BookId);
+        var customer = await _unitOfWork.Customers.GetById(reservation.CustomerId);
+
+        var reservationDto = new ReservationDetailsDto(customer!, reservation.Id, reservation.SupposedReturnDate, book!, reservation.Quantity - reservation.ReturnedQuantity);
+
+        // we need every book copy that was reserved for this reservation
+        var reservationCopies = await _unitOfWork.ReservationCopies.GetAllReservationCopiesOfReservation(Id);
+        reservationDto.ReservationCopies = reservationCopies.Select(
+                    x => new ReservationCopyDto(x.Id, x.ReservationId, x.BookCopy.Id, x.TakenStatus, x.ReturnedStatus, x.ActualReturnDate, x.BookCopy.RoomId, x.BookCopy.ShelfId)
+                ).ToList();
+
+        // then get other (future) reservations of same customer:
+        var otherReservations = await _unitOfWork.Reservations.GetUpcomingReservationsOfCustomer(reservationDto.Customer.Id);
+        otherReservations = otherReservations.Where(x => x.Id != reservation.Id);
+
+        foreach (var otherReservation in otherReservations)
+        {
+            reservationDto.OtherReservationsOfCustomer.Add(
+                new ReservationDetailsDto(
+                    customer!,
+                    otherReservation.Id,
+                    otherReservation.SupposedReturnDate,
+                    (await _unitOfWork.Books.GetById(otherReservation.BookId))!,
+                    otherReservation.Quantity - otherReservation.ReturnedQuantity
+                ));
+        }
+
+        return reservationDto;
+    }
+
+
     public async Task<Result> CreateReservation(string employeeId, CreateReservationDto createReservationDto)
     {
         var reservationResult = await ValidateAndReturnReservations(employeeId, createReservationDto);
@@ -80,46 +121,6 @@ public class ReservationService : IReservationService
         return result;
     }
 
-    public async Task<Result<ReservationDetailsDto>> GetDetailsById(Guid Id)
-    {
-        var reservationExistsResult = await _validationService.ReservationExists(Id);
-
-        if (reservationExistsResult.IsFailure)
-        {
-            return Result.Failure<ReservationDetailsDto>(reservationExistsResult.Error);
-        }
-
-        var reservation = reservationExistsResult.Value();
-        var book = await _unitOfWork.Books.GetById(reservation.BookId);
-        var customer = await _unitOfWork.Customers.GetById(reservation.CustomerId);
-
-        var reservationDto = new ReservationDetailsDto(customer!, reservation.Id, reservation.SupposedReturnDate, book!, reservation.Quantity - reservation.ReturnedQuantity);
-
-        // we need every book copy that were reserved for this reservation
-        var reservationCopies = await _unitOfWork.ReservationCopies.GetAllReservationCopiesOfReservation(Id);
-        reservationDto.ReservationCopies = reservationCopies.Select(
-                    x => new ReservationCopyDto(x.Id, x.ReservationId, x.BookCopy.Id, x.TakenStatus, x.ReturnedStatus, x.ActualReturnDate, x.BookCopy.RoomId, x.BookCopy.ShelfId)
-                ).ToList();
-
-        // then get other (future) reservations of same customer:
-        var otherReservations = await _unitOfWork.Reservations.GetUpcomingReservationsOfCustomer(reservationDto.Customer.Id);
-        otherReservations = otherReservations.Where(x => x.Id != reservation.Id);
-
-        foreach (var otherReservation in otherReservations)
-        {
-            reservationDto.OtherReservationsOfCustomer.Add(
-                new ReservationDetailsDto(
-                    customer!,
-                    otherReservation.Id,
-                    otherReservation.SupposedReturnDate,
-                    (await _unitOfWork.Books.GetById(otherReservation.BookId))!,
-                    otherReservation.Quantity - otherReservation.ReturnedQuantity
-                ));
-        }
-
-        return reservationDto;
-    }
-
     // helpers
     private async Task<IEnumerable<ReservationCopy>> GetReservationCopies(List<Reservation> reservations)
     {
@@ -139,8 +140,10 @@ public class ReservationService : IReservationService
                     BookCopyId = bookCopy.Id
                 });
             }
-        }
 
+            await _unitOfWork.SaveChangesAsync(); // to save changes to book copies
+        }
+        
         return reservationCopies;
     }
 
@@ -167,19 +170,20 @@ public class ReservationService : IReservationService
 
     private async Task<Result<Book>> ValidateAndGetBook(BooksReservationDto bookDto)
     {
-        var bookExistsResult = await _validationService.BookExists(bookDto.BookId, true);
+        var bookExistsResult = await _validationService.BookExists(bookDto.BookId);
         if (bookExistsResult.IsFailure)
         {
             return Result.Failure<Book>(bookExistsResult.Error);
         }
 
         var book = bookExistsResult.Value();
-        if (book.Quantity < bookDto.Quantity)
+        var availableCopiesCount = await _unitOfWork.BookCopies.GetCountOfAvailableBookCopies(book.Id);
+
+        if (availableCopiesCount < bookDto.Quantity)
         {
             return Result.Failure<Book>(BookErrors.NotEnoughCopies(book.OriginalBook.Title, book.Quantity));
         }
 
-        book.Quantity -= bookDto.Quantity; // decrement when booked
         return Result.Success(book);
     }
 
@@ -191,9 +195,6 @@ public class ReservationService : IReservationService
         }
 
         reservation.ReturnedQuantity += copyCheckouts.Count;
-
-        var book = await _unitOfWork.Books.GetById(reservation.BookId, true);
-        book!.Quantity += copyCheckouts.Where(x => x.NewStatus != Model.Enums.Status.Lost).Count(); // TODO: change this logic
 
         if (reservation.ReturnedQuantity == reservation.Quantity)
         {

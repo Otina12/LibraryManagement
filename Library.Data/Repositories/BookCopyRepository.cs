@@ -21,16 +21,23 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
             .ToListAsync();
     }
 
+    public async Task<int> GetCountOfAvailableBookCopies(Guid bookId)
+    {
+        return await dbSet
+            .Where(x => x.BookId == bookId && !x.IsTaken && x.Status != Status.Lost && x.DeleteDate == null)
+            .CountAsync();
+    }
+
     public async Task<IEnumerable<BookCopy>> GetXBookCopies(Guid bookId, int X, bool trackChanges)
     {
         return trackChanges ?
             await dbSet
-                .Where(x => x.BookId == bookId && x.Status != Model.Enums.Status.Lost && !x.IsTaken) // take not taken and not lost books
+                .Where(x => x.BookId == bookId && x.Status != Status.Lost && !x.IsTaken) // take not taken and not lost books
                 .OrderBy(x => x.Status) // take best quality (low Enum.Status) book copies
                 .Take(X)
                 .ToListAsync() :
             await dbSet.AsNoTracking()
-                .Where(x => x.BookId == bookId && !x.IsTaken)
+                .Where(x => x.BookId == bookId && x.Status != Status.Lost && !x.IsTaken)
                 .OrderBy(x => x.Status)
                 .Take(X)
                 .ToListAsync();
