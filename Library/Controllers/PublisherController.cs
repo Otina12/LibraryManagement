@@ -50,7 +50,7 @@ public class PublisherController : BaseController
     public IActionResult Create()
     {
         var viewModel = new CreatePublisherViewModel();
-        return PartialView("_CreatePartial", viewModel);
+        return PartialView("_Create", viewModel);
     }
 
     [HttpPost]
@@ -58,7 +58,7 @@ public class PublisherController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return PartialView("_CreatePartial", publisherVM);
+            return PartialView("_Create", publisherVM);
         }
 
         var publisherDto = _mapper.Map<CreatePublisherDto>(publisherVM);
@@ -84,7 +84,7 @@ public class PublisherController : BaseController
 
         var editViewModel = _mapper.Map<PublisherViewModel>(publisherResult.Value());
 
-        return PartialView("_EditPartial", editViewModel);
+        return PartialView("_Edit", editViewModel);
     }
 
     [HttpPost]
@@ -92,7 +92,7 @@ public class PublisherController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return PartialView("_EditPartial", publisherVM);
+            return PartialView("_Edit", publisherVM);
         }
 
         var publisherDto = _mapper.Map<PublisherDto>(publisherVM);

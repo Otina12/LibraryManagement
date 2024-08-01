@@ -13,7 +13,7 @@
     <form class="post-form" asp-action="Create" asp-controller="Reservation" method="post" id="createReservationForm" style="width: 1000px" enctype="multipart/form-data">
         <div class="form-title">Reserve a book</div>
         <div id="customerVerificationContainer">
-            @await Html.PartialAsync("_CustomerVerificationPartial", Model.CustomerId)
+            @await Html.PartialAsync("_CustomerVerification", Model.CustomerId)
         </div>
         <input type="hidden" name="CustomerId" id="hiddenCustomerId" value="@Model.CustomerId" />
         <div id="reservationFormContent" style="display: none;">

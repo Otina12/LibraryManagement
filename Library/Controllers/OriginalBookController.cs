@@ -39,7 +39,7 @@ public class OriginalBookController : BaseController
         var viewModel = new CreateOriginalBookViewModel();
         ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
 
-        return PartialView("_CreatePartial", viewModel);
+        return PartialView("_Create", viewModel);
     }
 
     [HttpPost]
@@ -48,7 +48,7 @@ public class OriginalBookController : BaseController
         if (!ModelState.IsValid)
         {
             ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
-            return PartialView("_CreatePartial", createOriginalBookVM);
+            return PartialView("_Create", createOriginalBookVM);
         }
 
         var createOriginalBookDto = _mapper.Map<CreateOriginalBookDto>(createOriginalBookVM);
@@ -75,7 +75,7 @@ public class OriginalBookController : BaseController
         var editViewModel = _mapper.Map<OriginalBookViewModel>(originalBookResult.Value());
         ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
 
-        return PartialView("_EditPartial", editViewModel);
+        return PartialView("_Edit", editViewModel);
     }
 
     [HttpPost]
@@ -84,7 +84,7 @@ public class OriginalBookController : BaseController
         if (!ModelState.IsValid)
         {
             ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
-            return PartialView("_EditPartial", originalBookVM);
+            return PartialView("_Edit", originalBookVM);
         }
 
         var originalBookDto = _mapper.Map<OriginalBookDto>(originalBookVM);

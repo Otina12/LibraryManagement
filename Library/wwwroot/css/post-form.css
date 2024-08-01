@@ -42,7 +42,6 @@
     .form-field textarea,
     .form-field select,
     .modal-field select{
-        width: 100%;
         align-self: center;
         padding: 8px;
         border: 1px solid #ccc;
@@ -55,10 +54,24 @@
         margin-top: 3px;
     }
 
+    .form-field input[type="text"],
+    .form-field input[type="email"],
+    .form-field input[type="number"],
+    .form-field input[type="datetime-local"],
+    .form-field textarea,
+    .form-field select {
+        width: 100% !important;
+    }
+
         .form-field select option,
         .modal-field select option{
+            width: fit-content;
             background-color: transparent;
-            color: white;
+            color: black;
+        }
+
+        .quantity{
+            width: 100px !important;
         }
 
 .publisher-field select option,
@@ -134,9 +147,8 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px;
-    margin-top: 10px;
+    margin: 10px 20px 10px 20px;
     align-content: center;
-    margin-bottom: 10px;
 }
 
 .location-form {
@@ -164,25 +176,38 @@
             color: rgba(250, 250, 250, 0.5);
         }
 
-.add-location-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 3px;
-    background-color: #24CC4D;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    .location-form select option{
+        color: black !important;
+        width: fit-content;
+        padding: 5px;
+    }
+
+    .add-location-btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 3px;
+        background-color: #24CC4D;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
     .add-location-btn:hover {
         background-color: #24DD4D;
     }
 
+.location-summaries {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
 .location-summary {
+    width: fit-content;
     display: inline-block;
     padding: 5px 10px;
-    margin: 5px;
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid #ccc;
     border-radius: 5px;

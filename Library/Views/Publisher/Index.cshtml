@@ -9,11 +9,11 @@
         <a href="" class="btn btn-add" id="add-publisher-btn">Add Publisher</a>
     </div>
 
-    @await Html.PartialAsync("_TablePartial", Model)
-    @await Html.PartialAsync("_PaginationPartial", Model)
+    @await Html.PartialAsync("_Table", Model)
+    @await Html.PartialAsync("_Pagination", Model)
 </div>
 
-@await Html.PartialAsync("_ModalPartial", new { ModalId = "publisherModal", CreateFormId = "createPublisherForm", EditFormId = "editPublisherForm" })
+@await Html.PartialAsync("_Modal", new { ModalId = "publisherModal", CreateFormId = "createPublisherForm", EditFormId = "editPublisherForm" })
 
 @section Scripts {
     <script src="~/js/Shared/modal.js"></script>

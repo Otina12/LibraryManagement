@@ -1,5 +1,4 @@
-﻿
-.custom-modal {
+﻿.custom-modal {
     display: none;
     position: fixed;
     z-index: 1050;
@@ -15,9 +14,9 @@
 
 .custom-modal-dialog {
     position: relative;
-    width: auto;
     margin: 1.75rem auto;
-    max-width: 650px;
+    min-width: 400px;
+    max-width: fit-content;
 }
 
 .custom-modal-content {
@@ -25,7 +24,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 75%;
     margin: auto;
     background-color: rgba(52, 73, 94, 0.97);
     border-radius: 0.3rem;
@@ -79,7 +77,6 @@
 .custom-modal-body {
     position: relative;
     width: 100%;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -114,7 +111,7 @@
     .modal-field input[type="tel"],
     .modal-field input[type="number"],
     .modal-field textarea {
-        width: 80% !important;
+        width: 80%;
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -125,9 +122,9 @@
         transition: border-color 0.3s ease;
     }
 
-        .modal-field textarea{
-            min-height: 50px;
-        }
+    .modal-field textarea {
+        min-height: 50px;
+    }
 
         .modal-field input[type="text"]:focus,
         .modal-field input[type="email"]:focus,
@@ -155,7 +152,6 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
-
 
 .modal-field textarea {
     overflow-y: auto;

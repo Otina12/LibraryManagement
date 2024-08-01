@@ -1,4 +1,5 @@
-﻿@model Library.ViewModels.Books.CreateBookCopiesViewModel
+﻿@using Library.Model.Enums
+@model Library.ViewModels.Books.CreateBookCopiesViewModel
 
 <head>
     <link rel="stylesheet" href="~/css/post-form.css" />
@@ -8,7 +9,16 @@
     <form asp-action="CreateCopies" asp-controller="Book" method="post" id="createBookCopyForm">
         @if(Model.BookId == Guid.Empty)
         {
-            // implement original book and book dropdowns
+            <select class="original-book-dropdown select2" id="originalBookDropdown">
+                <option value="">Select an original book</option>
+                @foreach (var originalBook in ViewBag.OriginalBooks)
+                {
+                    <option value="@originalBook.Id">@originalBook.Title</option>
+                }
+            </select>
+            <select asp-for="BookId" class="book-edition-dropdown select2" id="bookEditionDropdown" disabled>
+                <option value="">Select a book edition</option>
+            </select>
         }
         else
         {
@@ -33,9 +43,13 @@
                             <option value="">Shelf</option>
                         </select>
                         <input type="number" min="0" class="quantity" placeholder="Quantity" />
+                        <select asp-items="@Html.GetEnumSelectList<Status>()" id="statusDropdown">
+                            <option value="">Status</option>
+                        </select>
                         <button type="button" class="add-location-btn">Add</button>
                     </div>
                 </div>
+                <div class="location-summaries"><!-- summaries will appear here (added for wrapping) --></div>
             </div>
         </div>
     </form>

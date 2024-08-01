@@ -43,12 +43,12 @@
         <p><strong>Locations:</strong></p>
         @foreach (var location in Model.Locations)
         {
-            <p>Room: @location.RoomId, Shelf: @location.ShelfId, Quantity: @location.Quantity</p>
+            <p>Room: @location.RoomId, Shelf: @location.ShelfId, Status: @location.Status, Quantity: @location.Quantity</p>
         }
     </div>
 </div>
 
-@await Html.PartialAsync("_ModalPartial", new { ModalId = "bookCopyModal", CreateFormId = "createBookCopyForm", EditFormId = "" })
+@await Html.PartialAsync("_Modal", new { ModalId = "bookCopyModal", CreateFormId = "createBookCopyForm", EditFormId = "" })
 
 @section Scripts {
     <script src="~/js/Shared/modal.js"></script>

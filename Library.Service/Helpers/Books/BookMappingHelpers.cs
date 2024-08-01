@@ -1,4 +1,5 @@
-﻿using Library.Model.Models;
+﻿using Library.Model.Enums;
+using Library.Model.Models;
 using Library.Service.Dtos.Book.Get;
 using System;
 
@@ -37,44 +38,37 @@ public static class BookMappingHelpers
     /// </returns>
     public static (List<BookLocationDto>, List<BookLocationDto>, int) UpdateLocations(this Book book, BookLocationDto[] oldLocations, BookLocationDto[] newLocations)
     {
-        var locationChanges = new Dictionary<(int, int?), int>();
-
-        foreach(var location in oldLocations)
+        var locationChanges = new Dictionary<(int, int?, Status), int>(); // key = (room, shelf, status), value = quantity change
+        foreach (var location in oldLocations)
         {
             UpdateLocationChanges(locationChanges, location, -1);
         }
-
-        foreach(var location in newLocations)
+        foreach (var location in newLocations)
         {
             UpdateLocationChanges(locationChanges, location, 1);
         }
-
         var locationsToRemove = new List<BookLocationDto>();
         var locationsToAdd = new List<BookLocationDto>();
         int count = 0;
-
         foreach (var changeKVP in locationChanges)
         {
-            var ((room, shelf), change) = changeKVP;
+            var ((room, shelf, status), change) = changeKVP;
             count += change; // change is negative when books are removed, so + is good for both cases
-
             if (change < 0)
             {
-                locationsToRemove.Add(new BookLocationDto(room, shelf, -change));
+                locationsToRemove.Add(new BookLocationDto(room, shelf, status, -change));
             }
             else if (change > 0)
             {
-                locationsToAdd.Add(new BookLocationDto(room, shelf, change));
+                locationsToAdd.Add(new BookLocationDto(room, shelf, status, change));
             }
         }
-
         return (locationsToRemove, locationsToAdd, count);
     }
 
-    private static void UpdateLocationChanges(Dictionary<(int, int?), int> locationChanges, BookLocationDto location, int multiplier)
+    private static void UpdateLocationChanges(Dictionary<(int, int?, Status), int> locationChanges, BookLocationDto location, int multiplier)
     {
-        var key = (location.RoomId, location.ShelfId);
-
+        var key = (location.RoomId, location.ShelfId, location.Status);
         if (!locationChanges.ContainsKey(key))
         {
             locationChanges[key] = location.Quantity * multiplier;

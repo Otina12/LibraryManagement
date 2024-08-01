@@ -3,9 +3,6 @@
     const locationFormsDiv = $('#locationForms');
     let locationsViewModel = [];
 
-    console.log("Initial locationsViewModel:", locationsViewModel);
-    console.log("Serialized Shelves:", serializedShelves);
-
     $(document).on('change', '#roomDropdown', function () {
         const roomId = $(this).val();
         shelfDropdown.html('<option value="">Shelf</option>');
@@ -21,44 +18,46 @@
         const roomId = locationForm.find('#roomDropdown').val().trim();
         const quantity = parseInt(locationForm.find('.quantity').val().trim(), 10);
         const shelfId = locationForm.find('#shelfDropdown').val().trim() || "0";
+        const status = locationForm.find('#statusDropdown').val().trim();
 
-        if (roomId === '' || isNaN(quantity)) {
+        if (roomId === '' || isNaN(quantity) || status === '') {
             alert('Please fill in all the fields with valid values.');
             return;
         }
 
         const existingLocationIndex = locationsViewModel.findIndex(location =>
-            location.roomId === roomId && location.shelfId === shelfId
+            location.roomId === roomId && location.shelfId === shelfId && location.status === status
         );
 
         if (existingLocationIndex !== -1) {
             locationsViewModel[existingLocationIndex].quantity += quantity;
             updateLocationSummary(existingLocationIndex);
         } else {
-            addNewLocation(roomId, shelfId, quantity);
+            addNewLocation(roomId, shelfId, status, quantity);
         }
 
         locationForm.find('#roomDropdown').val('');
         locationForm.find('#shelfDropdown').html('<option value="">Shelf</option>');
         locationForm.find('.quantity').val('');
+        locationForm.find('#statusDropdown').val('');
     });
 
-    function addNewLocation(roomId, shelfId, quantity) {
-        const locationSummary = createLocationSummary(roomId, shelfId, quantity, locationsViewModel.length);
-        locationFormsDiv.append(locationSummary);
-        locationsViewModel.push({ roomId, shelfId, quantity });
+    function addNewLocation(roomId, shelfId, status, quantity) {
+        const locationSummary = createLocationSummary(roomId, shelfId, status, quantity, locationsViewModel.length);
+        $('.location-summaries').append(locationSummary);
+        locationsViewModel.push({ roomId, shelfId, status, quantity });
     }
 
-    function createLocationSummary(roomId, shelfId, quantity, index) {
+    function createLocationSummary(roomId, shelfId, status, quantity, index) {
         const locationSummary = $('<div>').addClass('location-summary').attr('data-index', index);
 
         const $contentSpan = $('<span>');
-        updateLocationSummaryContent($contentSpan, roomId, shelfId, quantity);
+        updateLocationSummaryContent($contentSpan, roomId, shelfId, status, quantity);
         locationSummary.append($contentSpan);
 
         const $removeButton = $('<button>').text("✖").click(function () {
             locationSummary.remove();
-            removeLocationFromViewModel(roomId, shelfId);
+            removeLocationFromViewModel(roomId, shelfId, status);
         });
         locationSummary.append($removeButton);
 
@@ -70,17 +69,17 @@
         const locationSummary = locationFormsDiv.find(`.location-summary[data-index="${index}"]`);
         if (locationSummary.length) {
             const $contentSpan = locationSummary.find('span');
-            updateLocationSummaryContent($contentSpan, location.roomId, location.shelfId, location.quantity);
+            updateLocationSummaryContent($contentSpan, location.roomId, location.shelfId, location.status, location.quantity);
         }
     }
 
-    function updateLocationSummaryContent(e, roomId, shelfId, quantity) {
-        e.text(`Room ID: ${roomId}, Shelf ID: ${shelfId || '0'}, Quantity: ${quantity}`);
+    function updateLocationSummaryContent(e, roomId, shelfId, status, quantity) {
+        e.text(`Room: ${roomId}, Shelf: ${shelfId || '0'}, Status: ${status}, Quantity: ${quantity}`);
     }
 
-    function removeLocationFromViewModel(roomId, shelfId) {
+    function removeLocationFromViewModel(roomId, shelfId, status) {
         locationsViewModel = locationsViewModel.filter(location =>
-            !(location.roomId === roomId && location.shelfId === shelfId)
+            !(location.roomId === roomId && location.shelfId === shelfId && location.status === status)
         );
 
         $('.location-summary').each(function (index) {
@@ -102,6 +101,12 @@
                 type: 'hidden',
                 name: `Locations[${index}].ShelfId`,
                 value: location.shelfId || ''
+            }));
+
+            form.append($('<input>', {
+                type: 'hidden',
+                name: `Locations[${index}].Status`,
+                value: location.status
             }));
 
             form.append($('<input>', {

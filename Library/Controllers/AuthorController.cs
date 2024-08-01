@@ -49,7 +49,7 @@ public class AuthorController : BaseController
     public IActionResult Create()
     {
         var viewModel = new CreateAuthorViewModel();
-        return PartialView("_CreatePartial", viewModel);
+        return PartialView("_Create", viewModel);
     }
 
     [HttpPost]
@@ -57,7 +57,7 @@ public class AuthorController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return PartialView("_CreatePartial", authorVM);
+            return PartialView("_Create", authorVM);
         }
 
         var authorDto = _mapper.Map<CreateAuthorDto>(authorVM);
@@ -83,7 +83,7 @@ public class AuthorController : BaseController
 
         var editViewModel = _mapper.Map<AuthorViewModel>(authorResult.Value());
 
-        return PartialView("_EditPartial", editViewModel);
+        return PartialView("_Edit", editViewModel);
     }
 
     [HttpPost]
@@ -91,7 +91,7 @@ public class AuthorController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return PartialView("_EditPartial", authorVM);
+            return PartialView("_Edit", authorVM);
         }
 
         var authorDto = _mapper.Map<AuthorDto>(authorVM);

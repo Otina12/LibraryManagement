@@ -50,7 +50,7 @@ public class CustomerController : BaseController
     public IActionResult Create()
     {
         var viewModel = new CreateCustomerViewModel();
-        return PartialView("_CreatePartial", viewModel);
+        return PartialView("_Create", viewModel);
     }
 
     [HttpPost]
@@ -59,7 +59,7 @@ public class CustomerController : BaseController
         var valResult = Validate(createCustomerVM);
         if (valResult.IsFailure)
         {
-            return PartialView("_CreatePartial", createCustomerVM);
+            return PartialView("_Create", createCustomerVM);
         }
 
         var createCustomerDto = _mapper.Map<CreateCustomerDto>(createCustomerVM);
@@ -85,7 +85,7 @@ public class CustomerController : BaseController
 
         var editViewModel = _mapper.Map<CustomerViewModel>(customerResult.Value());
 
-        return PartialView("_EditPartial", editViewModel);
+        return PartialView("_Edit", editViewModel);
     }
 
     [HttpPost]
@@ -93,7 +93,7 @@ public class CustomerController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return PartialView("_EditPartial", customerVM);
+            return PartialView("_Edit", customerVM);
         }
 
         var customerDto = _mapper.Map<CustomerDto>(customerVM);

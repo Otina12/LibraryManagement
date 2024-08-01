@@ -23,7 +23,7 @@
     </div>
     <div class="modal-field">
         <label class="required" asp-for="OriginalPublishYear">Original Publish Year</label>
-        <input asp-for="OriginalPublishYear" type="number" min="0" max="@DateTime.UtcNow.Year" value="" required />
+        <input asp-for="OriginalPublishYear" type="number" min="0" max="@DateTime.UtcNow.Year" required />
         <span asp-validation-for="OriginalPublishYear" class="text-danger"></span>
     </div>
     <input asp-for="CreationDate" type="hidden" />

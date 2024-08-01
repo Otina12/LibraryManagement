@@ -1,3 +1,5 @@
-﻿namespace Library.Model.Abstractions.ValueObjects;
+﻿using Library.Model.Enums;
 
-public record LocationValueObject(int RoomId, int? ShelfId, int Quantity);
+namespace Library.Model.Abstractions.ValueObjects;
+
+public record LocationValueObject(int RoomId, int? ShelfId, Status Status, int Quantity);

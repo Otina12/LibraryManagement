@@ -1,4 +1,5 @@
 ﻿using Library.Model.Abstractions.ValueObjects;
+using Library.Model.Enums;
 using Library.Model.Interfaces;
 using Library.Model.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,8 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
     {
         return await dbSet
             .Where(x => x.BookId == bookId) // get all copies of a book
-            .GroupBy(x => new { x.RoomId, x.ShelfId }) // group by locations
-            .Select(x => new LocationValueObject(x.Key.RoomId, x.Key.ShelfId, x.Count())) // retrieve count for each
+            .GroupBy(x => new { x.RoomId, x.ShelfId, x.Status }) // group by locations
+            .Select(x => new LocationValueObject(x.Key.RoomId, x.Key.ShelfId, x.Key.Status, x.Count())) // retrieve count for each
             .ToListAsync();
     }
 
@@ -35,12 +36,12 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                 .ToListAsync();
     }
 
-    public void AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X, string creationComment)
+    public void AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X, Status status, string creationComment)
     {
         var bookCopies = Enumerable.Range(0, X)
                             .Select(_ => new BookCopy
                             {
-                                Status = Model.Enums.Status.Normal,
+                                Status = status,
                                 BookId = bookId,
                                 RoomId = roomId,
                                 ShelfId = shelfId,

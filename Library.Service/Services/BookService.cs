@@ -139,7 +139,7 @@ public class BookService : BaseService<Book>, IBookService
 
         foreach (var location in locations)
         {
-            _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity, creationComment);
+            _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity, location.Status, creationComment);
         }
 
         book.Quantity += locations.Select(x => x.Quantity).Sum();
@@ -169,7 +169,7 @@ public class BookService : BaseService<Book>, IBookService
     {
         var locationValueObjects = await _unitOfWork.BookCopies.GetAllLocationsOfABook(bookId);
         return locationValueObjects
-            .Select(x => new BookLocationDto(x.RoomId, x.ShelfId, x.Quantity))
+            .Select(x => new BookLocationDto(x.RoomId, x.ShelfId, x.Status, x.Quantity))
             .ToArray();
     }
 
