@@ -16,8 +16,8 @@ namespace Library.Model.Models
 
         // SupposedReturnDate will come from Reservation table
         public DateTime? ActualReturnDate { get; set; }
-        public Status TakenStatus { get; set; }
-        public Status? ReturnedStatus { get; set; }
+        public BookCopyStatus TakenStatus { get; set; }
+        public BookCopyStatus? ReturnedStatus { get; set; }
         public Reservation Reservation { get; set; }
         public BookCopy BookCopy { get; set; }
 

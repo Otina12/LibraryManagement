@@ -4,5 +4,7 @@ namespace Library.Service.Dtos.BookCopy.Post;
 
 public record CreateBookCopiesDto(
     Guid BookId,
-    BookLocationDto[] Locations
+    string? CreationComment,
+    BookLocationDto[] Locations,
+    Guid? ReservationCopyId
     );

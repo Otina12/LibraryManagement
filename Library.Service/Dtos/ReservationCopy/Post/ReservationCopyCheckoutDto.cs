@@ -6,5 +6,5 @@ public class ReservationCopyCheckoutDto
 {
     public Guid ReservationCopyId { get; set; }
     public Guid BookCopyId { get; set; }
-    public Status NewStatus { get; set; }
+    public BookCopyStatus NewStatus { get; set; }
 }

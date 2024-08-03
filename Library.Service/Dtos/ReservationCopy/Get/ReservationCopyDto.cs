@@ -7,8 +7,8 @@ public record ReservationCopyDto(
     Guid ReservationCopyId,
     Guid ReservationId,
     Guid BookCopyId,
-    Status TakenStatus,
-    Status? ReturnedStatus,
+    BookCopyStatus TakenStatus,
+    BookCopyStatus? ReturnedStatus,
     DateTime? ReturnDate,
     int RoomId,
     int? ShelfId

@@ -1,4 +1,5 @@
 function initializeModal(entityType, createUrl, editUrl, deleteUrl, renewUrl) {
+    console.log('entered initialize modal function');
     $(document).ready(function () {
         $(`#add-${entityType}-btn`).click(function (e) {
             e.preventDefault();
@@ -49,7 +50,8 @@ function initializeModal(entityType, createUrl, editUrl, deleteUrl, renewUrl) {
     });
 }
 
-function loadModalContent(url, title, action) {
+function loadModalContent(url, title, action, callback) {
+    console.log('entered loadModalContent function', { url, title, action });
     $.ajax({
         url: url,
         type: 'GET',
@@ -61,8 +63,15 @@ function loadModalContent(url, title, action) {
             $('#confirm-delete-button').hide();
             $('#confirm-renew-button').hide();
             $('#publisherModal, #authorModal, #customerModal, #originalBookModal, #bookCopyModal').fadeIn();
+
+            if (typeof callback === 'function') {
+                callback();
+            } else {
+                console.log('callback function is not provided or is not a function', callback);
+            }
         },
-        error: function () {
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Error loading the form', { textStatus, errorThrown });
             alert('Error loading the form');
         }
     });

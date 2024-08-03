@@ -97,7 +97,7 @@ public class BookController : BaseController
         }
 
         var bookCopiesDto = _mapper.Map<CreateBookCopiesDto>(viewModel);
-        var result = await _serviceManager.BookService.CreateBookCopies(bookCopiesDto.BookId, bookCopiesDto.Locations, string.Empty);
+        var result = await _serviceManager.BookService.CreateBookCopies(bookCopiesDto);
 
         if (result.IsFailure)
         {

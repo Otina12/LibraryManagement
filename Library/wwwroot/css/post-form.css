@@ -236,10 +236,11 @@
         }
 
 .book-form {
+    padding: 8px;
     display: flex;
-    align-items: center;
+    align-self: center;
+    justify-content: center;
     gap: 10px;
-    flex-wrap: nowrap;
     width: 100%;
 }
 

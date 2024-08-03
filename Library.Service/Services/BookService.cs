@@ -12,6 +12,7 @@ using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
 using Library.Service.Dtos.OriginalBook.Get;
+using Library.Service.Dtos.BookCopy.Post;
 
 namespace Library.Service.Services;
 
@@ -133,9 +134,9 @@ public class BookService : BaseService<Book>, IBookService
     }
 
     
-    public async Task<Result> CreateBookCopies(Guid bookId, IEnumerable<BookLocationDto> locations, string creationComment)
+    public async Task<Result> CreateBookCopies(CreateBookCopiesDto bookCopiesDto)
     {
-        var bookExistsResult = await _validationService.BookExists(bookId, true);
+        var bookExistsResult = await _validationService.BookExists(bookCopiesDto.BookId, true);
 
         if (bookExistsResult.IsFailure)
         {
@@ -144,14 +145,27 @@ public class BookService : BaseService<Book>, IBookService
 
         var book = bookExistsResult.Value();
 
-        foreach (var location in locations)
+        foreach (var location in bookCopiesDto.Locations)
         {
-            _unitOfWork.BookCopies.AddXBookCopies(bookId, location.RoomId, location.ShelfId, location.Quantity, location.Status, creationComment);
+            _unitOfWork.BookCopies.AddXBookCopies(book.Id, location.RoomId, location.ShelfId, location.Quantity, location.Status, bookCopiesDto.CreationComment ?? "");
         }
 
-        book.Quantity += locations.Select(x => x.Quantity).Sum();
+        book.Quantity += bookCopiesDto.Locations.Select(x => x.Quantity).Sum();
         await _unitOfWork.SaveChangesAsync();
+        // if everything went well, we change original book copy's status from lost to returned
+        await UpdateReservationCopyStatus(bookCopiesDto.ReservationCopyId);
         return Result.Success();
+    }
+
+    private async Task UpdateReservationCopyStatus(Guid? reservationCopyId)
+    {
+        if (reservationCopyId == null) return;
+
+        var reservationCopy = await _unitOfWork.ReservationCopies.GetById(reservationCopyId.Value);
+        if (reservationCopy == null) return;
+
+        reservationCopy.ReturnedStatus = Model.Enums.BookCopyStatus.LostAndReturnedAnotherCopy;
+        await _unitOfWork.SaveChangesAsync();
     }
 
     // book GET methods (helpers)

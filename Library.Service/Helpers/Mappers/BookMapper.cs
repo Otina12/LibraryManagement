@@ -81,7 +81,7 @@ public static class BookMapper
     {
         return new BookCopy()
         {
-            Status = Model.Enums.Status.Normal,
+            Status = Model.Enums.BookCopyStatus.Normal,
             BookId = book.Id,
             RoomId = roomId,
             ShelfId = shelfId,

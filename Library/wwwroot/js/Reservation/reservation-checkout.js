@@ -43,8 +43,17 @@ $(document).ready(function () {
         updateCheckoutButtonVisibility();
     };
 
-    window.handleReturnAnotherCopy = function (reservationCopyId, bookCopyId) {
-        // TODO: implement later
+    window.handleReturnAnotherCopy = function (reservationCopyId, customerId) {
+        initializeModal('bookCopy', '/Book/CreateCopies/', '', '', '');
+        loadModalContent('/Book/CreateCopies/', 'Add Book Copy', 'create', function () {
+            setTimeout(function () {
+                var reservationCopyIdInput = document.getElementById('ReservationCopyId');
+                var creationCommentInput = document.getElementById('CreationComment');
+
+                if (reservationCopyIdInput) reservationCopyIdInput.value = reservationCopyId;
+                if (creationCommentInput) creationCommentInput.value = "This copy was returned instead of original copy by Customer: " + customerId;
+            }, 100);
+        });
     };
 
     form.on('submit', function (e) {

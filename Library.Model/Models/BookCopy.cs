@@ -7,7 +7,7 @@ namespace Library.Model.Models;
 public class BookCopy : BaseModel
 {
     public Guid Id { get; set; }
-    public Status Status { get; set; }
+    public BookCopyStatus Status { get; set; }
 
     // foreign keys
     public Guid BookId { get; set; }

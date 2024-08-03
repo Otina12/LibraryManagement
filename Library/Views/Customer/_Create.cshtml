@@ -5,15 +5,13 @@
         <input asp-for="Id" placeholder="ID*" type="number" required />
         <span asp-validation-for="Id" class="text-danger"></span>
     </div>
-    <div class="column-fields">
-        <div class="modal-field">
-            <input asp-for="Name" placeholder="Name*" required />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="modal-field">
-            <input asp-for="Surname" placeholder="Surname*" required />
-            <span asp-validation-for="Surname" class="text-danger"></span>
-        </div>
+    <div class="modal-field">
+        <input asp-for="Name" placeholder="Name*" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <input asp-for="Surname" placeholder="Surname*" required />
+        <span asp-validation-for="Surname" class="text-danger"></span>
     </div>
     <div class="modal-field">
         <input asp-for="Email" type="email" placeholder="Email*" required />

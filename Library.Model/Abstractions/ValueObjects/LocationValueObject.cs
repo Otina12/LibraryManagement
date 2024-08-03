@@ -2,4 +2,4 @@
 
 namespace Library.Model.Abstractions.ValueObjects;
 
-public record LocationValueObject(int RoomId, int? ShelfId, Status Status, int Quantity);
+public record LocationValueObject(int RoomId, int? ShelfId, BookCopyStatus Status, int Quantity);

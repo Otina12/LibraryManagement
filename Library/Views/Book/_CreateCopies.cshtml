@@ -2,6 +2,7 @@
 @model Library.ViewModels.Books.CreateBookCopiesViewModel
 
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/post-form.css" />
 </head>
 
@@ -9,25 +10,33 @@
     <form asp-action="CreateCopies" asp-controller="Book" method="post" id="createBookCopyForm">
         @if(Model.BookId == Guid.Empty)
         {
-            <select class="original-book-dropdown select2" id="originalBookDropdown">
-                <option value="">Select an original book</option>
-                @foreach (var originalBook in ViewBag.OriginalBooks)
-                {
-                    <option value="@originalBook.Id">@originalBook.Title</option>
-                }
-            </select>
-            <select asp-for="BookId" class="book-edition-dropdown select2" id="bookEditionDropdown" disabled>
-                <option value="">Select a book edition</option>
-            </select>
+            <label>Book</label>
+            <div class="book-form">
+                <select class="original-book-dropdown select2" id="originalBookDropdown">
+                    <option value="">Select an original book</option>
+                    @foreach (var originalBook in ViewBag.OriginalBooks)
+                    {
+                        <option value="@originalBook.Id">@originalBook.Title</option>
+                    }
+                </select>
+                <select asp-for="BookId" class="book-edition-dropdown select2" id="bookEditionDropdown" disabled>
+                    <option value="">Select a book edition</option>
+                </select>
+            </div>
         }
         else
         {
             <div class="modal-field">
-                <label asp-for="BookId" class="required">Book ID</label>
+                <label asp-for="BookId">Book ID</label>
                 <input asp-for="BookId" placeholder="Book ID*" required readonly />
                 <span asp-validation-for="BookId" class="text-danger"></span>
             </div>
         }
+        <div class="modal-field">
+            <label asp-for="CreationComment">Comment</label>
+            <input asp-for="CreationComment" placeholder="Creation Comment" id="CreationComment" />
+            <span asp-validation-for="CreationComment" class="text-danger"></span>
+        </div>
         <div class="modal-field">
             <div id="locationForms" class="location-forms">
                 <div class="post-form-wrapper">
@@ -43,7 +52,7 @@
                             <option value="">Shelf</option>
                         </select>
                         <input type="number" min="0" class="quantity" placeholder="Quantity" />
-                        <select asp-items="@Html.GetEnumSelectList<Status>()" id="statusDropdown">
+                        <select asp-items="@Html.GetEnumSelectList<BookCopyStatus>()" id="statusDropdown">
                             <option value="">Status</option>
                         </select>
                         <button type="button" class="add-location-btn">Add</button>
@@ -52,11 +61,17 @@
                 <div class="location-summaries"><!-- summaries will appear here (added for wrapping) --></div>
             </div>
         </div>
+        <input asp-for="ReservationCopyId" type="hidden" id="ReservationCopyId" />
     </form>
 </body>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
     var serializedShelves = @Html.Raw(ViewBag.Shelves);
+    var bookEditions = @Html.Raw(ViewBag.BookEditions);
 </script>
 
 <script src="~/js/Book/book-post.js?v=1.0.2"></script>
+<script src="~/js/Shared/select2.js"></script>

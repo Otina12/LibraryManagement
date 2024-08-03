@@ -1,8 +1,9 @@
 ﻿namespace Library.Model.Enums;
 
-public enum Status
+public enum BookCopyStatus
 {
     Normal, // defaults to this
     Damaged,
-    Lost
+    Lost,
+    LostAndReturnedAnotherCopy
 }

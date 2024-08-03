@@ -35,7 +35,7 @@
                         <label for="setAllStatus">Set All Status:</label>
                         <select id="setAllStatus" class="form-control">
                             <option value="">Select Status</option>
-                            @foreach (var status in Enum.GetValues(typeof(Status)))
+                            @foreach (var status in Enum.GetValues(typeof(BookCopyStatus)))
                             {
                                 <option value="@((int)status)">@status</option>
                             }
@@ -65,21 +65,21 @@
                                     @if (reservationCopy.ReturnedStatus is not null)
                                     {
                                         <div id="status-@reservationCopy.BookCopyId">
-                                            <span class="@(reservationCopy.ReturnedStatus == Status.Lost ? "status-lost" : "")">
+                                            <span class="@(reservationCopy.ReturnedStatus == BookCopyStatus.Lost ? "status-lost" : "")">
                                                 @reservationCopy.ReturnedStatus
                                             </span>
                                         </div>
-                                        @if (reservationCopy.ReturnedStatus == Status.Lost) // when book copy is lost, we also want to have options to return it or another copy
+                                        @if (reservationCopy.ReturnedStatus == BookCopyStatus.Lost) // when book copy is lost, we also want to have options to return it or another copy
                                         {
                                             <div class="lost-book-actions">
                                                 <a onclick="handleLateReturn('@reservationCopy.ReservationCopyId', '@reservationCopy.BookCopyId')">Late Return</a>
-                                                <a onclick="handleReturnAnotherCopy('@reservationCopy.ReservationCopyId', '@reservationCopy.BookCopyId')">Return another copy</a>
+                                                <a onclick="handleReturnAnotherCopy('@reservationCopy.ReservationCopyId', '@Model.Customer.Id')">Return another copy</a>
                                             </div>
                                         }
                                     }
                                     else
                                     {
-                                        <select name="ReservationCopyCheckouts[@i].NewStatus" asp-items="@Html.GetEnumSelectList<Status>()">
+                                        <select style="width: 100px;" name="ReservationCopyCheckouts[@i].NewStatus" asp-items="@Html.GetEnumSelectList<BookCopyStatus>()">
                                             <option value="">Status</option>
                                         </select>
                                         <input type="hidden" name="ReservationCopyCheckouts[@i].ReservationCopyId" value="@reservationCopy.ReservationCopyId" />
@@ -130,6 +130,8 @@
     </div>
 </body>
 
+@await Html.PartialAsync("_Modal", new { ModalId = "bookCopyModal", CreateFormId = "createBookCopyForm", EditFormId = "" })
+
 @section Scripts {
     <script>
         let currentIndex = 0;
@@ -150,7 +152,9 @@
             showMoreRows();
         });
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/Reservation/reservation-checkout.js?v=1.0.1"></script>
+    <script src="~/js/Shared/modal.js"></script>
 }
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/Reservation/reservation-checkout.js?v=1.0.1"></script>

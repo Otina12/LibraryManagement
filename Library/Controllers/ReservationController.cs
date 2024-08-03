@@ -17,7 +17,7 @@ public class ReservationController : BaseController
     {
     }
 
-    public async Task<IActionResult> Index(string? searchString, bool history, DateOnly? minReservationDate, DateOnly? maxReservationDate, DateOnly? minReturnDate, DateOnly? maxReturnDate, int pageNumber = 1, int pageSize = 3) // display next 3 dates' tables on each table
+    public async Task<IActionResult> Index(string? searchString, bool history, DateOnly? minReservationDate, DateOnly? maxReservationDate, DateOnly? minReturnDate, DateOnly? maxReturnDate, int pageNumber = 1, int pageSize = 5) // display next 3 dates' tables on each table
     {
         // reservation page has different structure compared to other entities that share generic filtering, sorting and etc. so we need to write it seperately
         var reservationParams = new ReservationFiltersDto

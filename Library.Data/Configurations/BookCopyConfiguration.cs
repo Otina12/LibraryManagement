@@ -11,7 +11,7 @@ public class BookCopyConfiguration : IEntityTypeConfiguration<BookCopy>
     {
         builder.Property(b => b.BookId).IsRequired();
         builder.Property(b => b.Status)
-            .HasDefaultValue(Status.Normal);
+            .HasDefaultValue(BookCopyStatus.Normal);
 
         builder.HasMany(b => b.ReservationCopies)
             .WithOne(r => r.BookCopy)

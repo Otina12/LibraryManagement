@@ -11,7 +11,7 @@ $(document).ready(function () {
             allowClear: true,
             language: {
                 noResults: function () {
-                    return 'No results found. <a href="/Author/Create" class="dropdown-add-author">Add an author</a>';
+                    return 'No results found. <a href="/Author/Create/" class="dropdown-add-author">Add an author</a>';
                 }
             },
             escapeMarkup: function (markup) {

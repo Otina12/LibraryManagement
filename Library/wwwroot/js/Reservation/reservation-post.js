@@ -179,8 +179,8 @@
     });
 
     createCustomerLink.on('click', function (e) {
-        e.preventDefault();
-        window.location.href = '/Customer/Create';
+        initializeModal('customer', '/Customer/Create/', '', '', '');
+        loadModalContent('/Customer/Create', 'Add Customer', 'create');
     });
 
     initializeDropdowns();

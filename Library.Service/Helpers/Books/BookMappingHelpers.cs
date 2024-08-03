@@ -38,7 +38,7 @@ public static class BookMappingHelpers
     /// </returns>
     public static (List<BookLocationDto>, List<BookLocationDto>, int) UpdateLocations(this Book book, BookLocationDto[] oldLocations, BookLocationDto[] newLocations)
     {
-        var locationChanges = new Dictionary<(int, int?, Status), int>(); // key = (room, shelf, status), value = quantity change
+        var locationChanges = new Dictionary<(int, int?, BookCopyStatus), int>(); // key = (room, shelf, status), value = quantity change
         foreach (var location in oldLocations)
         {
             UpdateLocationChanges(locationChanges, location, -1);
@@ -66,7 +66,7 @@ public static class BookMappingHelpers
         return (locationsToRemove, locationsToAdd, count);
     }
 
-    private static void UpdateLocationChanges(Dictionary<(int, int?, Status), int> locationChanges, BookLocationDto location, int multiplier)
+    private static void UpdateLocationChanges(Dictionary<(int, int?, BookCopyStatus), int> locationChanges, BookLocationDto location, int multiplier)
     {
         var key = (location.RoomId, location.ShelfId, location.Status);
         if (!locationChanges.ContainsKey(key))
