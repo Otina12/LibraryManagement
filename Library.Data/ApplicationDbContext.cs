@@ -33,6 +33,9 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     // email templates
     public DbSet<EmailModel> EmailModels { get; set; }
 
+    // log tables
+    public DbSet<BookCopyLog> BookCopyLogs { get; set; }
+
 
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {

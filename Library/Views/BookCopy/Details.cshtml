@@ -1,0 +1,30 @@
+﻿@model IEnumerable<BookCopyLog>
+
+@{
+    ViewData["Title"] = "Book Copy Details";
+}
+
+<div class="details-container">
+    <h3>@ViewData["Title"]</h3><br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Action</th>
+                <th>Status</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in Model.OrderBy(log => log.ActionTimeStamp))
+            {
+                <tr>
+                    <td>@log.ActionTimeStamp.ToString("g")</td>
+                    <td>@log.BookCopyAction</td>
+                    <td>@log.CurrentStatus</td>
+                    <td class="comment">@log.Comment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

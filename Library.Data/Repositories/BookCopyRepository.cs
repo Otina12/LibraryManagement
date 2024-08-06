@@ -10,7 +10,9 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
 {
     public BookCopyRepository(ApplicationDbContext context) : base(context)
     {
+        dbSet.Include(x => x.Book).ThenInclude(x => x.OriginalBook);
     }
+
 
     public async Task<IEnumerable<LocationValueObject>> GetAllLocationsOfABook(Guid bookId)
     {
@@ -43,7 +45,7 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                 .ToListAsync();
     }
 
-    public void AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X, BookCopyStatus status, string creationComment)
+    public IEnumerable<BookCopy> AddXBookCopies(Guid bookId, int roomId, int? shelfId, int X, BookCopyStatus status, string creationComment)
     {
         var bookCopies = Enumerable.Range(0, X)
                             .Select(_ => new BookCopy
@@ -58,5 +60,6 @@ public class BookCopyRepository : BaseModelRepository<BookCopy>, IBookCopyReposi
                             }).ToList();
 
         dbSet.AddRange(bookCopies);
+        return bookCopies;
     }
 }

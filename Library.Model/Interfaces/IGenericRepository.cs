@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Library.Model.Interfaces
 {
     /// <summary>
-    /// Interface for a generic repository providing CRUD operations for entities of type T.
+    /// Interface for a generic repository providing CRUD and other helpful operations for entities of type T.
     /// </summary>
     /// <typeparam name="T">Type of entity managed by the repository.</typeparam>
     public interface IGenericRepository<T> where T : class

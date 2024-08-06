@@ -1,4 +1,5 @@
-﻿using Library.Model.Models;
+﻿using Library.Data.Repositories;
+using Library.Model.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Library.Model.Interfaces;
@@ -19,6 +20,7 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public ICustomerRepository Customers { get; }
     public IReservationRepository Reservations { get; }
     public IReservationCopyRepository ReservationCopies { get; }
+    public IBookCopyLogRepository BookCopyLogs { get; }
 
     public IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel;
 

@@ -13,7 +13,7 @@ public class BookCopy : BaseModel
     public Guid BookId { get; set; }
     public int RoomId { get; set; }
     public int? ShelfId { get; set; }
-    public string CreationComment { get; set; }
+    public string CreationComment { get; set; } = string.Empty;
     public string? RemovalComment { get; set; }
     public bool IsTaken { get; set; }
 
@@ -25,5 +25,5 @@ public class BookCopy : BaseModel
     public Shelf Shelf { get; set; }
 
     public ICollection<ReservationCopy> ReservationCopies { get; } = [];
-
+    public ICollection<BookCopyLog> BookCopyLogs { get; set; } = [];
 }

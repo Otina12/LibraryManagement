@@ -173,6 +173,34 @@ namespace Library.Data.Migrations
                     b.ToTable("BookCopies");
                 });
 
+            modelBuilder.Entity("Library.Model.Models.BookCopyLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ActionTimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("BookCopyAction")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("BookCopyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CurrentStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookCopyId");
+
+                    b.ToTable("BookCopyLogs");
+                });
+
             modelBuilder.Entity("Library.Model.Models.Customer", b =>
                 {
                     b.Property<string>("Id")
@@ -764,6 +792,17 @@ namespace Library.Data.Migrations
                     b.Navigation("Shelf");
                 });
 
+            modelBuilder.Entity("Library.Model.Models.BookCopyLog", b =>
+                {
+                    b.HasOne("Library.Model.Models.BookCopy", "BookCopy")
+                        .WithMany("BookCopyLogs")
+                        .HasForeignKey("BookCopyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BookCopy");
+                });
+
             modelBuilder.Entity("Library.Model.Models.Menu.NavigationMenu", b =>
                 {
                     b.HasOne("Library.Model.Models.Menu.NavigationMenu", "ParentNavigationMenu")
@@ -935,6 +974,8 @@ namespace Library.Data.Migrations
 
             modelBuilder.Entity("Library.Model.Models.BookCopy", b =>
                 {
+                    b.Navigation("BookCopyLogs");
+
                     b.Navigation("ReservationCopies");
                 });
 

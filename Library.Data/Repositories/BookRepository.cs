@@ -9,14 +9,14 @@ public class BookRepository : BaseModelRepository<Book>, IBookRepository
     {
     }
 
-    public async override Task<Book?> GetById(Guid id, bool trackChanges)
+    public override async Task<Book?> GetById(Guid id, bool trackChanges)
     {
         return trackChanges ?
             await _context.Books.Include(x => x.OriginalBook).FirstOrDefaultAsync(x => x.Id == id) :
             await _context.Books.Include(x => x.OriginalBook).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async override Task<IEnumerable<Book>> GetAll(bool trackChanges)
+    public override async Task<IEnumerable<Book>> GetAll(bool trackChanges)
     {
         return trackChanges ?
             await _context.Books.Include(x => x.OriginalBook).ToListAsync() :

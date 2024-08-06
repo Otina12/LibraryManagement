@@ -22,6 +22,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public ICustomerRepository Customers { get; private set; }
     public IReservationRepository Reservations { get; private set; }
     public IReservationCopyRepository ReservationCopies { get; private set; }
+    public IBookCopyLogRepository BookCopyLogs { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -41,6 +42,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         Customers = new CustomerRepository(_context);
         Reservations = new ReservationRepository(_context);
         ReservationCopies = new ReservationCopyRepository(_context);
+        BookCopyLogs = new BookCopyLogRepository(_context);
     }
 
     public async Task SaveChangesAsync()

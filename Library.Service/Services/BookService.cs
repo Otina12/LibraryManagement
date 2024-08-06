@@ -13,11 +13,14 @@ using Library.Service.Interfaces;
 using System.Linq.Expressions;
 using Library.Service.Dtos.OriginalBook.Get;
 using Library.Service.Dtos.BookCopy.Post;
+using Library.Service.Dtos.BookCopyLog.Post;
+using Library.Service.Helpers.Mappers;
 
 namespace Library.Service.Services;
 
 public class BookService : BaseService<Book>, IBookService
 {
+
     public BookService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
     {
     }
@@ -132,7 +135,6 @@ public class BookService : BaseService<Book>, IBookService
         await _unitOfWork.SaveChangesAsync();
         return Result.Success();
     }
-
     
     public async Task<Result> CreateBookCopies(CreateBookCopiesDto bookCopiesDto)
     {
@@ -145,23 +147,27 @@ public class BookService : BaseService<Book>, IBookService
 
         var book = bookExistsResult.Value();
 
-        foreach (var location in bookCopiesDto.Locations)
+        foreach (var location in bookCopiesDto.Locations) // creating book copies and logs for each copy location
         {
-            _unitOfWork.BookCopies.AddXBookCopies(book.Id, location.RoomId, location.ShelfId, location.Quantity, location.Status, bookCopiesDto.CreationComment ?? "");
+            var bookCopies = _unitOfWork.BookCopies.AddXBookCopies(book.Id, location.RoomId, location.ShelfId, location.Quantity, location.Status, bookCopiesDto.CreationComment ?? "");
+
+            var bookCopiesLogsDto = bookCopies.Select(x => new CreateBookCopyLogDto(x.MapToBookCopyDto(), BookCopyAction.Created, bookCopiesDto.CreationComment));
+            await _unitOfWork.BookCopyLogs.CreateRange(bookCopiesLogsDto.Select(x => x.MapToBookCopyLog()).ToList());
         }
 
         book.Quantity += bookCopiesDto.Locations.Select(x => x.Quantity).Sum();
         await _unitOfWork.SaveChangesAsync();
-        // if everything went well, we change original book copy's status from lost to returned
-        await UpdateReservationCopyStatus(bookCopiesDto.ReservationCopyId);
+
+        // in case it was a 'Return Another Copy' option, we change original book copy's status from 'Lost' to 'LostAndReturnedAnotherCopy'
+        if (bookCopiesDto.ReservationCopyId is not null)
+            await UpdateReservationCopyStatus(bookCopiesDto.ReservationCopyId.Value);
+
         return Result.Success();
     }
 
-    private async Task UpdateReservationCopyStatus(Guid? reservationCopyId)
+    private async Task UpdateReservationCopyStatus(Guid reservationCopyId)
     {
-        if (reservationCopyId == null) return;
-
-        var reservationCopy = await _unitOfWork.ReservationCopies.GetById(reservationCopyId.Value);
+        var reservationCopy = await _unitOfWork.ReservationCopies.GetById(reservationCopyId);
         if (reservationCopy == null) return;
 
         reservationCopy.ReturnedStatus = Model.Enums.BookCopyStatus.LostAndReturnedAnotherCopy;
@@ -217,4 +223,3 @@ public class BookService : BaseService<Book>, IBookService
         ];
     }
 }
-

@@ -8,7 +8,6 @@ using Library.ViewSpecifications;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
 using Library.Service.Dtos.BookCopy.Post;
-using Library.Model.Models;
 
 namespace Library.Controllers;
 

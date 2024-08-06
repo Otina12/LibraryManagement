@@ -17,8 +17,7 @@ public class EmployeeService : IEmployeeService
     private readonly UserManager<Employee> _userManager;
     private readonly IValidationService _validationService;
 
-    public EmployeeService(IUnitOfWork unitOfWork, UserManager<Employee> userManager,
-        IValidationService validationService)
+    public EmployeeService(IUnitOfWork unitOfWork, UserManager<Employee> userManager, IValidationService validationService)
     {
         _unitOfWork = unitOfWork;
         _userManager = userManager;
