@@ -1,0 +1,12 @@
+﻿@model Library.ViewModels.Shared.SortableTableModel // popularityTable
+
+@{
+}
+
+<a asp-controller="Report" asp-action="ExportToExcel" asp-route-model="@Model">Export to Excel</a>
+
+<div class="my-container">
+    @await Html.PartialAsync("_Table", Model)
+</div>
+
+

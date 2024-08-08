@@ -27,10 +27,11 @@ public class ServiceManager : IServiceManager
     private readonly Lazy<ICustomerService> _customerService;
     private readonly Lazy<IReservationService> _reservationService;
     private readonly Lazy<IBookCopyLogService> _bookCopyLogService;
+    private readonly Lazy<IReportService> _reportService;
 
     public ServiceManager(IUnitOfWork unitOfWork, UserManager<Employee> userManager,
         SignInManager<Employee> signInManager, IValidationService validationService,
-        RoleManager<IdentityRole> roleManager, IOptions<MailjetSettings> emailOptions, ILoggerManager logger)
+        RoleManager<IdentityRole> roleManager, IOptions<MailjetSettings> emailOptions, ILoggerManager logger, IGenericRepository genericRepository)
     {
         _authService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, signInManager, validationService, logger));
         _emailSender = new Lazy<IEmailSender>(() => new EmailSender(unitOfWork, emailOptions));
@@ -48,6 +49,7 @@ public class ServiceManager : IServiceManager
         _customerService = new Lazy<ICustomerService>(() => new CustomerService(unitOfWork, validationService));
         _reservationService = new Lazy<IReservationService>(() => new ReservationService(unitOfWork, validationService, logger));
         _bookCopyLogService = new Lazy<IBookCopyLogService>(() => new BookCopyLogService(unitOfWork));
+        _reportService = new Lazy<IReportService>(() => new ReportService(genericRepository));
     }
 
     public IAuthenticationService AuthService => _authService.Value;
@@ -66,4 +68,5 @@ public class ServiceManager : IServiceManager
     public ICustomerService CustomerService => _customerService.Value;
     public IReservationService ReservationService => _reservationService.Value;
     public IBookCopyLogService BookCopyLogService => _bookCopyLogService.Value;
+    public IReportService ReportService => _reportService.Value;
 }

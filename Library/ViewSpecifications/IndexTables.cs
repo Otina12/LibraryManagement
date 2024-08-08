@@ -5,6 +5,8 @@ using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Publisher.Get;
 using Library.ViewModels.Shared;
 using Library.Service.Dtos.OriginalBook.Get;
+using Library.Service.Dtos.Report;
+using Library.Model.Models.Report;
 
 namespace Library.ViewSpecifications
 {
@@ -164,6 +166,31 @@ namespace Library.ViewSpecifications
             };
 
             return customerTable;
+        }
+
+        public static SortableTableModel GetPopularityTable(EntityFiltersDto<PopularityReportRow> popularityReportListDto)
+        {
+            var popularityTable = GetSortableTableModel(popularityReportListDto);
+
+            popularityTable.Columns = new List<SortableColumn>()
+            {
+                new("Name", "Name", false),
+                new("TotalBookCopiesReserved", "Book Copies Reserved", false)
+            };
+            popularityTable.ActionName = "PopularityReport";
+            popularityTable.ControllerName = "Report";
+            popularityTable.GetPropertyValue = (reportRow, prop) =>
+            {
+                var reportRowDto = reportRow as PopularityReportRow;
+                return prop switch
+                {
+                    "Name" => reportRowDto!.Name,
+                    "TotalBookCopiesReserved" => reportRowDto!.TotalBookCopiesReserved,
+                    _ => ""
+                };
+            };
+
+            return popularityTable;
         }
 
         // generic properties that all types share

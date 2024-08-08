@@ -18,6 +18,7 @@ public static class DependencyInjection
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>(); // includes all repositories
+        services.AddScoped<IGenericRepository, GenericRepository>();
     }
 
     public static void ConfigureServices(this IServiceCollection services)

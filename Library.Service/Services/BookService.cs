@@ -15,6 +15,8 @@ using Library.Service.Dtos.OriginalBook.Get;
 using Library.Service.Dtos.BookCopy.Post;
 using Library.Service.Dtos.BookCopyLog.Post;
 using Library.Service.Helpers.Mappers;
+using Library.Service.Dtos.Report;
+using Library.Model.Models.Report;
 
 namespace Library.Service.Services;
 

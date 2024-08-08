@@ -1,20 +1,20 @@
-﻿using Library.Model.Abstractions;
-using Library.Model.Interfaces;
+﻿using Library.Model.Interfaces;
 using Library.Model.Models;
+using Library.Model.Models.Report;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq.Expressions;
 
 namespace Library.Data.Repositories;
 
 /// <inheritdoc />
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<T> : GenericRepository, IGenericRepository<T> where T : class
 {
-    protected ApplicationDbContext _context;
     protected DbSet<T> dbSet;
 
-    public GenericRepository(ApplicationDbContext context)
+    public GenericRepository(ApplicationDbContext context) : base(context)
     {
-        _context = context;
         dbSet = context.Set<T>();
     }
 
@@ -80,5 +80,31 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return trackChanges ?
             await dbSet.FirstOrDefaultAsync(where) :
             await dbSet.AsNoTracking().FirstOrDefaultAsync(where);
+    }
+}
+
+public class GenericRepository : IGenericRepository
+{
+    protected ApplicationDbContext _context;
+
+    public GenericRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<IEnumerable<PopularityReportRow>> GetPopularityReport(string modelName, DateTime start, DateTime end)
+    {
+        var modelNameParameter = new SqlParameter("@Model", SqlDbType.NVarChar) { Value = modelName };
+        var startDateParameter = new SqlParameter("@StartDate", SqlDbType.Date) { Value = start };
+        var endDateParameter  = new SqlParameter("@EndDate", SqlDbType.Date) { Value = end };
+
+        var sql = $"EXEC dbo.GetPopularityReport @Model, @StartDate, @EndDate";
+
+        var result = await _context.Set<PopularityReportRow>()
+            .FromSqlRaw(sql, modelNameParameter, startDateParameter, endDateParameter)
+            .AsNoTracking()
+            .ToListAsync();
+
+        return result;
     }
 }

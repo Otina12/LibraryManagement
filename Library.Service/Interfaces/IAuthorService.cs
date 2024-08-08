@@ -2,6 +2,8 @@
 using Library.Model.Models;
 using Library.Service.Dtos.Author;
 using Library.Service.Dtos;
+using Library.Model.Models.Report;
+using Library.Service.Dtos.Report;
 
 namespace Library.Service.Interfaces;
 

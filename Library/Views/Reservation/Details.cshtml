@@ -58,7 +58,7 @@
                         {
                             var reservationCopy = Model.ReservationCopies[i];
                             <tr class="table-row" style="display:none;">
-                                <td><a asp-controller="BookCopy" asp-action="Details" asp-route-id="@reservationCopy.BookCopyId">@reservationCopy.BookCopyId</a></td>
+                                <td><a asp-controller="BookCopy" asp-action="Details" asp-route-id="@reservationCopy.BookCopyId" style="color: white">@reservationCopy.BookCopyId</a></td>
                                 <td>Room ID: @reservationCopy.RoomId | Shelf ID: @(@reservationCopy.ShelfId.HasValue ? reservationCopy.ShelfId.Value.ToString() : "N/A")</td>
                                 <td>@reservationCopy.TakenStatus</td>
                                 <td>

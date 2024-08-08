@@ -1,8 +1,10 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
+using Library.Model.Models.Report;
 using Library.Service.Dtos;
 using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Customers.Post;
+using Library.Service.Dtos.Report;
 
 namespace Library.Service.Interfaces;
 

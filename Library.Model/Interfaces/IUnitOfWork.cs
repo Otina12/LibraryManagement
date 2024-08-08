@@ -22,7 +22,8 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IReservationCopyRepository ReservationCopies { get; }
     public IBookCopyLogRepository BookCopyLogs { get; }
 
-    public IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel;
+    IGenericRepository<T> GetGenericRepository<T>() where T : class;
+    IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel;
 
     Task SaveChangesAsync();
     EntityEntry<T> Entry<T>(T entity) where T : class;

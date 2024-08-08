@@ -4,6 +4,8 @@ using Library.Service.Dtos;
 using Library.Service.Dtos.OriginalBook.Get;
 using Library.Model.Abstractions;
 using Library.Service.Dtos.OriginalBook.Post;
+using Library.Model.Models.Report;
+using Library.Service.Dtos.Report;
 
 namespace Library.Service.Interfaces;
 

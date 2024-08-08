@@ -26,6 +26,10 @@ body {
     background-position: center center;
 }
 
+a{
+    text-decoration: none;
+}
+
 label {
     width: max-content;
 }

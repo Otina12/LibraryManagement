@@ -1,8 +1,8 @@
-﻿using Library.Data.Repositories;
-using Library.Model.Interfaces;
+﻿using Library.Model.Interfaces;
 using Library.Model.Models;
+using Library.Model.Models.Report;
+using Library.Service.Dtos.Report;
 using Library.Service.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Service.Services;
 

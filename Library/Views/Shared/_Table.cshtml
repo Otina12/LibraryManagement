@@ -1,9 +1,9 @@
 ﻿@model Library.ViewModels.Shared.SortableTableModel
 
 @{
-    var nonDeletableModels = new HashSet<string>() { "Reservation" };
-    var nonSearchableModels = new HashSet<string>() { "Reservation" };
-    var nonActionModels = new HashSet<string>() { "Reservation", "Book" };
+    var nonDeletableModels = new HashSet<string>() { "Reservation", "Report" };
+    var nonSearchableModels = new HashSet<string>() { "Reservation", "Report" };
+    var nonActionModels = new HashSet<string>() { "Reservation", "Book", "Report" };
     var baseModelDtos = new HashSet<string>() { "PublisherDto", "AuthorDto", "CustomerDto", "BookDto", "OriginalBookDto" };
 }
 

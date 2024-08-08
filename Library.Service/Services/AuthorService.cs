@@ -8,7 +8,8 @@ using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
-using System.ComponentModel.DataAnnotations;
+using Library.Model.Models.Report;
+using Library.Service.Dtos.Report;
 
 namespace Library.Service.Services;
 

@@ -1,10 +1,12 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
+using Library.Model.Models.Report;
 using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
 using Library.Service.Dtos.BookCopy.Post;
 using Library.Service.Dtos.OriginalBook.Get;
+using Library.Service.Dtos.Report;
 
 namespace Library.Service.Interfaces;
 

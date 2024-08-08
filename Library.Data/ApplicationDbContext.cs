@@ -1,6 +1,7 @@
 ﻿using Library.Model.Models;
 using Library.Model.Models.Email;
 using Library.Model.Models.Menu;
+using Library.Model.Models.Report;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,8 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
         base.OnModelCreating(builder);
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Library.Data.Configurations folder
+
+        builder.Entity<PopularityReportRow>().HasNoKey();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

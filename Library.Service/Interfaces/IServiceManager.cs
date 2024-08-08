@@ -20,4 +20,5 @@ public interface IServiceManager
     ICustomerService CustomerService { get; }
     IReservationService ReservationService { get; }
     IBookCopyLogService BookCopyLogService { get; }
+    IReportService ReportService { get; }
 }

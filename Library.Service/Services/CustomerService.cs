@@ -8,6 +8,8 @@ using Library.Service.Helpers.Mappers;
 using Library.Model.Abstractions;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Customers.Get;
+using Library.Model.Models.Report;
+using Library.Service.Dtos.Report;
 
 namespace Library.Service.Services;
 
@@ -105,6 +107,7 @@ public class CustomerService : BaseService<Customer>, ICustomerService
         await _unitOfWork.SaveChangesAsync();
         return Result.Success(entity);
     }
+
 
     // Returns a dictionary that we will later use in generic sort method
     private static Dictionary<string, Expression<Func<Customer, object>>> GetCustomerSortDictionary()

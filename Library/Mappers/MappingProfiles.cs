@@ -15,6 +15,7 @@ using Library.Service.Dtos.OriginalBook.Get;
 using Library.Service.Dtos.OriginalBook.Post;
 using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Dtos.Publisher.Post;
+using Library.Service.Dtos.Report;
 using Library.Service.Dtos.Reservations.Post;
 using Library.ViewModels.Authorization;
 using Library.ViewModels.Authors;
@@ -24,6 +25,7 @@ using Library.ViewModels.Emails;
 using Library.ViewModels.Employees;
 using Library.ViewModels.OriginalBooks;
 using Library.ViewModels.Publishers;
+using Library.ViewModels.Reports;
 using Library.ViewModels.Reservations;
 using Library.ViewModels.Shared;
 
@@ -81,5 +83,8 @@ public class MappingProfiles : Profile
 
         CreateMap<BooksReservationViewModel, BooksReservationDto>()
             .ForMember(dest => dest.SupposedReturnDate, opt => opt.MapFrom(src => src.SupposedReturnDate.ToDateTime(new TimeOnly(23, 59))));
+
+        // reports
+        CreateMap<PopularityReportViewModel, PopularityReportDto>();
     }
 }

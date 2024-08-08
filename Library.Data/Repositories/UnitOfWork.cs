@@ -60,10 +60,16 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
     }
 
+    public IGenericRepository<T> GetGenericRepository<T>() where T : class
+    {
+        return new GenericRepository<T>(_context);
+    }
+
     public IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel
     {
         return new BaseModelRepository<T>(_context);
     }
+
 
     public void Dispose()
     {
