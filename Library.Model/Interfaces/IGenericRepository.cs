@@ -77,4 +77,5 @@ public interface IGenericRepository<T> : IGenericRepository where T : class
 public interface IGenericRepository
 {
     Task<IEnumerable<PopularityReportRow>> GetPopularityReport(string modelName, DateTime start, DateTime end);
+    Task<IEnumerable<AnnualReportRow>> GetAnnualReport(string modelName, int year);
 }

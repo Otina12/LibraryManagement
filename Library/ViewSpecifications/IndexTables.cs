@@ -36,7 +36,7 @@ namespace Library.ViewSpecifications
                     "PublishYear" => originalBookDto!.OriginalPublishYear.ToString(),
                     "Quantity" => originalBookDto!.Books.Length,
                     _ => ""
-                };;
+                }; ;
             };
 
             return originalBookTable;
@@ -167,32 +167,7 @@ namespace Library.ViewSpecifications
 
             return customerTable;
         }
-
-        public static SortableTableModel GetPopularityTable(EntityFiltersDto<PopularityReportRow> popularityReportListDto)
-        {
-            var popularityTable = GetSortableTableModel(popularityReportListDto);
-
-            popularityTable.Columns = new List<SortableColumn>()
-            {
-                new("Name", "Name", false),
-                new("TotalBookCopiesReserved", "Book Copies Reserved", false)
-            };
-            popularityTable.ActionName = "PopularityReport";
-            popularityTable.ControllerName = "Report";
-            popularityTable.GetPropertyValue = (reportRow, prop) =>
-            {
-                var reportRowDto = reportRow as PopularityReportRow;
-                return prop switch
-                {
-                    "Name" => reportRowDto!.Name,
-                    "TotalBookCopiesReserved" => reportRowDto!.TotalBookCopiesReserved,
-                    _ => ""
-                };
-            };
-
-            return popularityTable;
-        }
-
+        
         // generic properties that all types share
         private static SortableTableModel GetSortableTableModel<T>(EntityFiltersDto<T> entitiyFilters) where T : class
         {

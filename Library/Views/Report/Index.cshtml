@@ -1,15 +1,16 @@
-﻿@model Library.ViewModels.Reports.PopularityReportViewModel
+﻿@model Library.ViewModels.Reports.ReportOptionsViewModel
 
 @{
-    ViewBag.Title = "Generate Popularity Report";
+    ViewBag.Title = "Generate Report";
 }
 
-<h2>Generate Popularity Report</h2>
+<h2>Generate Report</h2>
 
-<form asp-action="GeneratePopularityReport" method="get">
+<form asp-action="Index" method="post">
     <div class="form-group">
         <label asp-for="ModelName" class="control-label">Model Name</label>
-        <select asp-for="ModelName" class="form-control">
+        <select asp-for="ModelName" class="form-control" id="modelName">
+            <option value="">-- Select Model --</option>
             <option value="Author">Author</option>
             <option value="Publisher">Publisher</option>
             <option value="Book">Book</option>
@@ -19,15 +20,36 @@
         </select>
     </div>
 
-    <div class="form-group">
-        <label asp-for="StartDate" class="control-label">Start Date</label>
-        <input asp-for="StartDate" class="form-control" type="date" />
+    <div class="form-group" id="reportTypeContainer" style="display: none;">
+        <label asp-for="ReportType" class="control-label">Report Type</label>
+        <select asp-for="ReportType" class="form-control" id="reportType">
+            <option value="">-- Select Report Type --</option>
+            <option value="Popularity">Popularity</option>
+            <option value="Annual">Annual</option>
+        </select>
     </div>
 
-    <div class="form-group">
-        <label asp-for="EndDate" class="control-label">End Date</label>
-        <input asp-for="EndDate" class="form-control" type="date" />
+    <div id="dateInputs" style="display: none;">
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label">Start Date</label>
+            <input asp-for="StartDate" class="form-control" type="date" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EndDate" class="control-label">End Date</label>
+            <input asp-for="EndDate" class="form-control" type="date" />
+        </div>
+    </div>
+
+    <div class="form-group" id="yearInput" style="display: none;">
+        <label asp-for="Year" class="control-label">Year</label>
+        <input asp-for="Year" class="form-control" type="number" />
     </div>
 
     <button type="submit" class="btn btn-primary">Generate Report</button>
 </form>
+
+
+@section Scripts {
+    <script src="~/js/Report/report.js?v=1.0.1" asp-append-version="true"></script>
+}
