@@ -5,6 +5,7 @@ using AutoMapper;
 using Library.ViewModels.Reports;
 using Library.Model.Models.Report;
 using Library.Extensions;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace Library.Controllers
 {
@@ -55,19 +56,18 @@ namespace Library.Controllers
             }
         }
 
-        private async Task<IActionResult> PopularityReport(PopularityReportViewModel reportVM)
+        private async Task<IActionResult> PopularityReport(PopularityReportViewModel popularityReportVM)
         {
-            var reportDto = _mapper.Map<PopularityReportDto>(reportVM);
+            var reportDto = _mapper.Map<PopularityReportDto>(popularityReportVM);
             var report = await _serviceManager.ReportService.GetPopularityReport(reportDto);
 
-            var reportForViewDto = new PopularityReportViewDto(reportVM.ModelName, report, reportVM.StartDate, reportVM.EndDate);
+            var reportForViewDto = new PopularityReportViewDto(popularityReportVM.ModelName, report, popularityReportVM.StartDate, popularityReportVM.EndDate);
             return View("PopularityReport", reportForViewDto);
         }
 
-        public async Task<FileResult> ExportPopularityReport(string modelName, DateTime startDate, DateTime endDate) // filename is {Model}{ReportType} + if annual: {Year}, else if popularity: {StartDate}-{EndDate}
+        public async Task<FileResult> ExportPopularityReport(string modelName, DateTime startDate, DateTime endDate) // filename is {Model} {ReportType} {StartDate} - {EndDate}
         {
             var report = await _serviceManager.ReportService.GetPopularityReport(new PopularityReportDto(modelName, startDate, endDate));
-            //var fileName = $"{popularityReport.ModelName} Popularity {popularityReport.StartDate:yyyy-MM-dd} - {popularityReport.EndDate:yyyy-MM-dd}.xlsx";
             return ExcelHelper.ExportToExcel(report, $"{modelName} Popularity Report {startDate.Date:yyyy-MM-dd} - {endDate.Date:yyyy-MM-dd}");
         }
 
@@ -76,7 +76,14 @@ namespace Library.Controllers
             var reportDto = _mapper.Map<AnnualReportDto>(annualReportVM);
             var report = await _serviceManager.ReportService.GetAnnualReport(reportDto);
 
-            return View(report);
+            var reportForViewDto = new AnnualReportViewDto(annualReportVM.ModelName, report, annualReportVM.Year);
+            return View("AnnualReport", reportForViewDto);
+        }
+
+        public async Task<FileResult> ExportAnnualReport(string modelName, int year) // filename is {Model} {ReportType} {Year}
+        {
+            var report = await _serviceManager.ReportService.GetAnnualReport(new AnnualReportDto(modelName, year));
+            return ExcelHelper.ExportToExcel(report, $"{modelName} Annual Report {year}");
         }
     }
 }

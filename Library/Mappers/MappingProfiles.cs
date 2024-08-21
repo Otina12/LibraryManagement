@@ -86,5 +86,6 @@ public class MappingProfiles : Profile
 
         // reports
         CreateMap<PopularityReportViewModel, PopularityReportDto>();
+        CreateMap<AnnualReportViewModel, AnnualReportDto>();
     }
 }

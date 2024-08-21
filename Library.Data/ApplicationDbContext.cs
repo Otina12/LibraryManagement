@@ -50,6 +50,7 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Library.Data.Configurations folder
 
         builder.Entity<PopularityReportRow>().HasNoKey();
+        builder.Entity<AnnualReportRow>().HasNoKey();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

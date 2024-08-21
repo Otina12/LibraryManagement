@@ -1,7 +1,7 @@
 ﻿@model Library.Service.Dtos.Report.PopularityReportViewDto
 
 @{
-    string fileName = $"{Model.ModelName} Popularity Report '{Model.StartDate.Date:yyyy-MM-dd}' - '{Model.EndDate.Date:yyyy-MM-dd}'";
+    ViewData["Title"] = $"{Model.ModelName} Popularity Report";
 }
 
 <div class="my-container">
@@ -29,8 +29,3 @@
 
     <a asp-controller="Report" asp-action="ExportPopularityReport" asp-route-modelName="@Model.ModelName" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate" class="btn btn-primary">Export to Excel</a>
 </div>
-
-@section Scripts {
-    <script>
-    </script>
-}

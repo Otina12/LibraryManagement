@@ -113,7 +113,7 @@ public class GenericRepository : IGenericRepository
         var modelNameParameter = new SqlParameter("@Model", SqlDbType.NVarChar) { Value = modelName };
         var yearParameter = new SqlParameter("@Year", SqlDbType.Int) { Value = year };
 
-        var sql = $"EXEC dbo.GetPopularityReport @Model, @Year";
+        var sql = $"EXEC dbo.GetAnnualReport @Model, @Year";
 
         var result = await _context.Set<AnnualReportRow>()
             .FromSqlRaw(sql, modelNameParameter, yearParameter)

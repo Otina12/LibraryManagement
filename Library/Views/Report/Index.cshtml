@@ -6,7 +6,7 @@
 
 <h2>Generate Report</h2>
 
-<form asp-action="Index" method="post">
+<form asp-action="Index" method="post" style="width: 300px;">
     <div class="form-group">
         <label asp-for="ModelName" class="control-label">Model Name</label>
         <select asp-for="ModelName" class="form-control" id="modelName">
@@ -14,9 +14,10 @@
             <option value="Author">Author</option>
             <option value="Publisher">Publisher</option>
             <option value="Book">Book</option>
-            <option value="OriginalBook">OriginalBook</option>
+            <option value="OriginalBook">Original Book</option>
             <option value="Genre">Genre</option>
             <option value="Customer">Customer</option>
+            <option value="Employee">Employee</option>
         </select>
     </div>
 

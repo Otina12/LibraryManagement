@@ -1,0 +1,53 @@
+﻿@model Library.Service.Dtos.Report.AnnualReportViewDto
+
+@{
+    ViewData["Title"] = $"{Model.ModelName} Annual Report";
+}
+
+<div class="my-container">
+    <h1>Annual Report</h1>
+    <p>Model: @Model.ModelName</p>
+    <p>Report Year: @Model.Year</p>
+
+    <table class="table table-striped table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>January</th>
+                <th>February</th>
+                <th>March</th>
+                <th>April</th>
+                <th>May</th>
+                <th>June</th>
+                <th>July</th>
+                <th>August</th>
+                <th>September</th>
+                <th>October</th>
+                <th>November</th>
+                <th>December</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.January</td>
+                    <td>@item.February</td>
+                    <td>@item.March</td>
+                    <td>@item.April</td>
+                    <td>@item.May</td>
+                    <td>@item.June</td>
+                    <td>@item.July</td>
+                    <td>@item.August</td>
+                    <td>@item.September</td>
+                    <td>@item.October</td>
+                    <td>@item.November</td>
+                    <td>@item.December</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-controller="Report" asp-action="ExportAnnualReport" asp-route-modelName="@Model.ModelName" asp-route-year="@Model.Year" class="btn btn-primary">Export to Excel</a>
+</div>
