@@ -64,11 +64,11 @@ namespace Library.Controllers
             return View("PopularityReport", reportForViewDto);
         }
 
-        [HttpPost]
-        public FileResult ExportPopularityReport(string fileName, IEnumerable<PopularityReportRow> report) // filename is {Model}{ReportType} + if annual: {Year}, else if popularity: {StartDate}-{EndDate}
+        public async Task<FileResult> ExportPopularityReport(string modelName, DateTime startDate, DateTime endDate) // filename is {Model}{ReportType} + if annual: {Year}, else if popularity: {StartDate}-{EndDate}
         {
+            var report = await _serviceManager.ReportService.GetPopularityReport(new PopularityReportDto(modelName, startDate, endDate));
             //var fileName = $"{popularityReport.ModelName} Popularity {popularityReport.StartDate:yyyy-MM-dd} - {popularityReport.EndDate:yyyy-MM-dd}.xlsx";
-            return ExcelHelper.ExportToExcel(report, fileName);
+            return ExcelHelper.ExportToExcel(report, $"{modelName} Popularity Report {startDate.Date:yyyy-MM-dd} - {endDate.Date:yyyy-MM-dd}");
         }
 
         private async Task<IActionResult> GenerateAnnualReport(AnnualReportViewModel annualReportVM)

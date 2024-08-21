@@ -27,18 +27,10 @@
         </tbody>
     </table>
 
-    <button id="exportButton" class="btn btn-primary">Export to Excel</button>
-
-    <form id="exportForm" method="post" action="@Url.Action("ExportPopularityReport")" style="display:none;">
-        <input type="hidden" name="fileName" value="@fileName" />
-        <input type="hidden" name="report" value="@Model.Items" />
-    </form>
+    <a asp-controller="Report" asp-action="ExportPopularityReport" asp-route-modelName="@Model.ModelName" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate" class="btn btn-primary">Export to Excel</a>
 </div>
 
 @section Scripts {
     <script>
-        document.getElementById('exportButton').addEventListener('click', function () {
-            document.getElementById('exportForm').submit();
-        });
     </script>
 }
