@@ -1,7 +1,7 @@
-﻿@model Library.Service.Dtos.Report.PopularityReportViewDto
+﻿@model Library.Service.Dtos.Report.BooksDamagedReportViewDto
 
 @{
-    ViewData["Title"] = $"{Model.ModelName} Popularity Report";
+    ViewData["Title"] = $"{Model.ModelName} Books Damaged Report";
 }
 
 <head>
@@ -9,7 +9,7 @@
 </head>
 
 <div class="my-container">
-    <h1>Popularity Report</h1>
+    <h1>Books Damaged Report</h1>
     <p>Model: @Model.ModelName</p>
     <p>Report Period: @Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</p>
 
@@ -17,7 +17,8 @@
         <thead class="thead-light">
             <tr>
                 <th>Name</th>
-                <th>Total Book Copies Reserved</th>
+                <th>Copies Damaged</th>
+                <th>Copies Lost</th>
             </tr>
         </thead>
         <tbody>
@@ -25,11 +26,12 @@
             {
                 <tr>
                     <td>@item.Name</td>
-                    <td>@item.TotalBookCopiesReserved</td>
+                    <td>@item.BookCopiesDamaged</td>
+                    <td>@item.BookCopiesLost</td>
                 </tr>
             }
         </tbody>
     </table>
 
-    <a asp-controller="Report" asp-action="ExportPopularityReport" asp-route-modelName="@Model.ModelName" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate" class="btn btn-primary export-to-excel-btn">Export to Excel</a>
+    <a asp-controller="Report" asp-action="ExportBooksDamagedReport" asp-route-modelName="@Model.ModelName" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate" class="btn btn-primary export-to-excel-btn">Export to Excel</a>
 </div>

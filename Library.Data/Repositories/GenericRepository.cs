@@ -122,4 +122,20 @@ public class GenericRepository : IGenericRepository
 
         return result;
     }
+
+    public async Task<IEnumerable<BooksDamagedReportRow>> GetBooksDamagedReport(string modelName, DateTime start, DateTime end)
+    {
+        var modelNameParameter = new SqlParameter("@Model", SqlDbType.NVarChar) { Value = modelName };
+        var startDateParameter = new SqlParameter("@StartDate", SqlDbType.Date) { Value = start };
+        var endDateParameter = new SqlParameter("@EndDate", SqlDbType.Date) { Value = end };
+
+        var sql = $"EXEC dbo.GetBooksDamagedReport @Model, @StartDate, @EndDate";
+
+        var result = await _context.Set<BooksDamagedReportRow>()
+            .FromSqlRaw(sql, modelNameParameter, startDateParameter, endDateParameter)
+            .AsNoTracking()
+            .ToListAsync();
+
+        return result;
+    }
 }

@@ -78,4 +78,6 @@ public interface IGenericRepository
 {
     Task<IEnumerable<PopularityReportRow>> GetPopularityReport(string modelName, DateTime start, DateTime end);
     Task<IEnumerable<AnnualReportRow>> GetAnnualReport(string modelName, int year);
+    Task<IEnumerable<BooksDamagedReportRow>> GetBooksDamagedReport(string modelName, DateTime start, DateTime end);
+
 }

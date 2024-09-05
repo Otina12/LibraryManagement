@@ -162,7 +162,8 @@ public class ReservationService : IReservationService
         var bookCopyLogDto = new CreateBookCopyLogDto(
             bookCopy.MapToBookCopyDto(),
             copyCheckout.NewStatus == BookCopyStatus.Lost ? BookCopyAction.Lost : BookCopyAction.Returned,
-            copyCheckout.NewStatus == BookCopyStatus.Lost ? $"Book Copy Lost By Customer: {customerId}" : $"Book Copy returned By Customer: {customerId}");
+            copyCheckout.NewStatus == BookCopyStatus.Lost ? $"Book Copy Lost By Customer: {customerId}" : $"Book Copy returned By Customer: {customerId}",
+            customerId);
         await _unitOfWork.BookCopyLogs.Create(bookCopyLogDto.MapToBookCopyLog());
     }
 
@@ -187,7 +188,7 @@ public class ReservationService : IReservationService
 
             // add logs for all these copies
             var bookCopyLogsDto = quantityBookCopies
-                .Select(x => new CreateBookCopyLogDto(x.MapToBookCopyDto(), BookCopyAction.Reserved, $"Book Copy reserved by Customer: {reservation.CustomerId}"))
+                .Select(x => new CreateBookCopyLogDto(x.MapToBookCopyDto(), BookCopyAction.Reserved, $"Book Copy reserved by Customer: {reservation.CustomerId}", reservation.CustomerId))
                 .ToList();
             var bookCopyLogs = bookCopyLogsDto
                 .Select(x => x.MapToBookCopyLog())

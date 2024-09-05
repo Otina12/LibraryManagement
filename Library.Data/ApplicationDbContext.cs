@@ -49,8 +49,10 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Library.Data.Configurations folder
 
+        // report rows need to be included in context
         builder.Entity<PopularityReportRow>().HasNoKey();
         builder.Entity<AnnualReportRow>().HasNoKey();
+        builder.Entity<BooksDamagedReportRow>().HasNoKey();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -4,6 +4,10 @@
     ViewData["Title"] = $"{Model.ModelName} Annual Report";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css//report.css" />
+</head>
+
 <div class="my-container">
     <h1>Annual Report</h1>
     <p>Model: @Model.ModelName</p>
@@ -49,5 +53,5 @@
         </tbody>
     </table>
 
-    <a asp-controller="Report" asp-action="ExportAnnualReport" asp-route-modelName="@Model.ModelName" asp-route-year="@Model.Year" class="btn btn-primary">Export to Excel</a>
+    <a asp-controller="Report" asp-action="ExportAnnualReport" asp-route-modelName="@Model.ModelName" asp-route-year="@Model.Year" class="btn btn-primary export-to-excel-btn">Export to Excel</a>
 </div>

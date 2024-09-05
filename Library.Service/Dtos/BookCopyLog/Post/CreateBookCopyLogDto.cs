@@ -6,5 +6,6 @@ namespace Library.Service.Dtos.BookCopyLog.Post;
 public record CreateBookCopyLogDto(
     BookCopyDto BookCopyDto,
     BookCopyAction BookCopyAction,
-    string? Comment
+    string? Comment,
+    string? CustomerId = ""
     );

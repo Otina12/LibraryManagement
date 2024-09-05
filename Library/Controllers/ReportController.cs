@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Service.Dtos.Report;
 using AutoMapper;
 using Library.ViewModels.Reports;
-using Library.Model.Models.Report;
 using Library.Extensions;
-using DocumentFormat.OpenXml.Bibliography;
 
 namespace Library.Controllers
 {
@@ -28,6 +26,7 @@ namespace Library.Controllers
             var validationResult = Validate(reportOptions);
             if (validationResult.IsFailure)
             {
+                CreateFailureNotification("Invalid input");
                 return View(reportOptions);
             }
 
@@ -40,7 +39,7 @@ namespace Library.Controllers
                         StartDate = reportOptions.StartDate!.Value,
                         EndDate = reportOptions.EndDate!.Value
                     };
-                    return await PopularityReport(popularityReportVM);
+                    return await GeneratePopularityReport(popularityReportVM);
 
                 case ReportType.Annual:
                     var annualReportVM = new AnnualReportViewModel
@@ -50,13 +49,22 @@ namespace Library.Controllers
                     };
                     return await GenerateAnnualReport(annualReportVM);
 
+                case ReportType.BooksDamaged:
+                    var booksDamagedReportVM = new BooksDamagedReportViewModel
+                    {
+                        ModelName = reportOptions.ModelName,
+                        StartDate = reportOptions.StartDate!.Value,
+                        EndDate = reportOptions.EndDate!.Value
+                    };
+                    return await GenerateBooksDamagedReport(booksDamagedReportVM);
+
                 default:
                     ModelState.AddModelError("", "Unsupported report type.");
                     return View(reportOptions);
             }
         }
 
-        private async Task<IActionResult> PopularityReport(PopularityReportViewModel popularityReportVM)
+        private async Task<IActionResult> GeneratePopularityReport(PopularityReportViewModel popularityReportVM)
         {
             var reportDto = _mapper.Map<PopularityReportDto>(popularityReportVM);
             var report = await _serviceManager.ReportService.GetPopularityReport(reportDto);
@@ -84,6 +92,21 @@ namespace Library.Controllers
         {
             var report = await _serviceManager.ReportService.GetAnnualReport(new AnnualReportDto(modelName, year));
             return ExcelHelper.ExportToExcel(report, $"{modelName} Annual Report {year}");
+        }
+
+        private async Task<IActionResult> GenerateBooksDamagedReport(BooksDamagedReportViewModel booksDamagedReportVM)
+        {
+            var reportDto = _mapper.Map<BooksDamagedReportDto>(booksDamagedReportVM);
+            var report = await _serviceManager.ReportService.GetBooksDamagedReport(reportDto);
+
+            var reportForViewDto = new BooksDamagedReportViewDto(booksDamagedReportVM.ModelName, report, booksDamagedReportVM.StartDate, booksDamagedReportVM.EndDate);
+            return View("BooksDamagedReport", reportForViewDto);
+        }
+
+        public async Task<FileResult> ExportBooksDamagedReport(string modelName, DateTime startDate, DateTime endDate) // filename is {Model} {ReportType} {StartDate} - {EndDate}
+        {
+            var report = await _serviceManager.ReportService.GetBooksDamagedReport(new BooksDamagedReportDto(modelName, startDate, endDate));
+            return ExcelHelper.ExportToExcel(report, $"{modelName} Books Damaged Report {startDate.Date:yyyy-MM-dd} - {endDate.Date:yyyy-MM-dd}");
         }
     }
 }

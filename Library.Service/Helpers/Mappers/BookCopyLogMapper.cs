@@ -13,6 +13,7 @@ public static class BookCopyLogMapper
             BookCopyAction = bookCopyLogDto.BookCopyAction,
             CurrentStatus = bookCopyLogDto.BookCopyDto.Status,
             Comment = bookCopyLogDto.Comment ?? "",
+            CustomerId = bookCopyLogDto.CustomerId == "" ? null : bookCopyLogDto.CustomerId,
             ActionTimeStamp = DateTime.UtcNow
         };
     }

@@ -1,0 +1,60 @@
+﻿.report-container {
+    display: flex;
+    justify-content: center;
+}
+
+.report-container label{
+    color: white;
+    margin-bottom: 5px;
+}
+
+.report-form {
+    background-color: rgba(52, 73, 94, 0.4);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-width: 100%;
+    justify-content: center;
+}
+
+.report-container h2 {
+    margin-bottom: 20px;
+}
+
+.styled-select {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    appearance: none;
+    cursor: pointer;
+}
+
+    .styled-select:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .styled-select::-ms-expand {
+        display: none;
+    }
+
+    .styled-select option {
+        padding: 10px;
+        color: #333;
+    }
+
+.export-to-excel-btn {
+    margin-top: 10px;
+}
+
+.generate-report-btn {
+    display: block;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
