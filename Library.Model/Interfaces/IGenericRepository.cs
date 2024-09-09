@@ -41,7 +41,7 @@ public interface IGenericRepository<T> : IGenericRepository where T : class
     /// <param name="id">The unique identifier of the entity.</param>
     /// <param name="trackChanges">Indicates whether to track changes of the retrieved entity. Default is false.</param>
     /// <returns>The entity if found, otherwise null.</returns>
-    Task<T?> GetById(Guid id, bool trackChanges = false);
+    Task<T?> GetById(Guid id, bool trackChanges = false, int languageId = 1);
 
     /// <summary>
     /// Retrieves the first entity matching the specified condition.
@@ -56,14 +56,14 @@ public interface IGenericRepository<T> : IGenericRepository where T : class
     /// </summary>
     /// <param name="trackChanges">Indicates whether to track changes of the retrieved entities. Default is false.</param>
     /// <returns>An IQueryable collection of entities.</returns>
-    IQueryable<T> GetAllAsQueryable(bool trackChanges = false);
+    IQueryable<T> GetAllAsQueryable(bool trackChanges = false, int languageId = 1);
 
     /// <summary>
     /// Retrieves all entities as an enumerable collection.
     /// </summary>
     /// <param name="trackChanges">Indicates whether to track changes of the retrieved entities. Default is false.</param>
     /// <returns>A collection of entities as an IEnumerable.</returns>
-    Task<IEnumerable<T>> GetAll(bool trackChanges = false);
+    Task<IEnumerable<T>> GetAll(bool trackChanges = false, int languageId = 1);
 
     /// <summary>
     /// Retrieves all entities matching the specified condition.

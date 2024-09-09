@@ -4,6 +4,8 @@ using Library.Model.Abstractions;
 using Library.Service.Interfaces;
 using Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Globalization;
 
 namespace Library.Controllers
 {
@@ -11,11 +13,24 @@ namespace Library.Controllers
     {
         protected readonly IServiceManager _serviceManager;
         protected readonly IMapper _mapper;
+        protected string currentCulture { get; private set; }
 
         public BaseController(IServiceManager serviceManager, IMapper mapper)
         {
             _serviceManager = serviceManager;
             _mapper = mapper;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            currentCulture = RouteData.Values["culture"]?.ToString() ?? "en";
+
+            // may need these later
+            var cultureInfo = new CultureInfo(currentCulture);
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
         }
 
         /// <summary>

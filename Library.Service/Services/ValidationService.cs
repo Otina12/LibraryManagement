@@ -218,9 +218,9 @@ namespace Library.Service.Services
             return Result.Failure(Error<OriginalBook>.AlreadyExists);
         }
 
-        public async Task<Result<OriginalBook>> OriginalBookExists(Guid Id, bool trackChanges = false)
+        public async Task<Result<OriginalBook>> OriginalBookExists(Guid Id, bool trackChanges = false, int languageId = 1)
         {
-            var originalBook = await _unitOfWork.OriginalBooks.GetById(Id, trackChanges);
+            var originalBook = await _unitOfWork.OriginalBooks.GetById(Id, trackChanges, languageId);
 
             if (originalBook is null)
             {

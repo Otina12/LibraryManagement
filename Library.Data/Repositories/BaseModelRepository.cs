@@ -1,7 +1,5 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Library.Data.Repositories;
 

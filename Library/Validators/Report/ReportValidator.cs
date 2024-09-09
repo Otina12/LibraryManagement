@@ -7,7 +7,7 @@ public class ReportValidator : AbstractValidator<ReportOptionsViewModel>
 {
     private static readonly HashSet<string> Models = new HashSet<string>()
     {
-        "Author", "Publisher", "Book", "OriginalBook", "Genre", "Customer"
+        "Author", "Publisher", "Book", "OriginalBook", "Genre", "Customer", "Employee"
     };
 
     public ReportValidator()

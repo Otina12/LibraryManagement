@@ -1,12 +1,10 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Model.Models.Report;
 using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.OriginalBook.Get;
 using Library.Service.Dtos.OriginalBook.Post;
-using Library.Service.Dtos.Report;
 using Library.Service.Helpers;
 using Library.Service.Helpers.Mappers;
 using Library.Service.Interfaces;
@@ -20,9 +18,9 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
     {
     }
 
-    public async Task<Result<OriginalBookDto>> GetOriginalBookById(Guid Id)
+    public async Task<Result<OriginalBookDto>> GetOriginalBookById(Guid Id, string culture = "en")
     {
-        var originalBookExistsResult = await _validationService.OriginalBookExists(Id);
+        var originalBookExistsResult = await _validationService.OriginalBookExists(Id, false, LocalizationMapper.LanguageToID(culture));
 
         if (originalBookExistsResult.IsFailure)
         {
@@ -32,10 +30,10 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
         return originalBookExistsResult.Value().MapToOriginalBookDto();
     }
 
-    public IEnumerable<OriginalBookDto> GetAllOriginalBooksSorted(bool includeDeleted)
+    public IEnumerable<OriginalBookDto> GetAllOriginalBooksSorted(bool includeDeleted, string culture = "en")
     {
         var books = _unitOfWork.OriginalBooks
-            .GetAllAsQueryable()
+            .GetAllAsQueryable(false, LocalizationMapper.LanguageToID(culture))
             .OrderBy(x => x.Title)
             .AsEnumerable();
 
@@ -47,9 +45,9 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
         return books.Select(x => x.MapToOriginalBookDto()).ToList();
     }
 
-    public async Task<EntityFiltersDto<OriginalBookDto>> GetAllFilteredOriginalBooks(EntityFiltersDto<OriginalBookDto> originalBookFilters)
+    public async Task<EntityFiltersDto<OriginalBookDto>> GetAllFilteredOriginalBooks(EntityFiltersDto<OriginalBookDto> originalBookFilters, string culture = "en")
     {
-        var originalBooks = _unitOfWork.OriginalBooks.GetAllAsQueryable();
+        var originalBooks = _unitOfWork.OriginalBooks.GetAllAsQueryable(false, LocalizationMapper.LanguageToID(culture));
 
         originalBooks = originalBooks.IncludeDeleted(originalBookFilters.IncludeDeleted);
         originalBooks = originalBooks.ApplySearch(originalBookFilters.SearchString, GetOriginalBookSearchProperties());

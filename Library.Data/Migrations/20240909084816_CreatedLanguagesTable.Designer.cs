@@ -4,6 +4,7 @@ using Library.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240909084816_CreatedLanguagesTable")]
+    partial class CreatedLanguagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,11 +394,6 @@ namespace Library.Data.Migrations
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -409,21 +407,18 @@ namespace Library.Data.Migrations
                         {
                             Id = 1,
                             Code = "en",
-                            IsActive = true,
                             Name = "English"
                         },
                         new
                         {
                             Id = 2,
                             Code = "de",
-                            IsActive = true,
                             Name = "German"
                         },
                         new
                         {
                             Id = 3,
                             Code = "ka",
-                            IsActive = true,
                             Name = "Georgian"
                         });
                 });
@@ -484,7 +479,6 @@ namespace Library.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OriginalPublishYear")
@@ -515,28 +509,6 @@ namespace Library.Data.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("OriginalBookGenre");
-                });
-
-            modelBuilder.Entity("Library.Model.Models.OriginalBookTranslation", b =>
-                {
-                    b.Property<Guid>("OriginalBookId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OriginalBookId", "LanguageId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("OriginalBookTranslations");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>
@@ -1007,25 +979,6 @@ namespace Library.Data.Migrations
                     b.Navigation("OriginalBook");
                 });
 
-            modelBuilder.Entity("Library.Model.Models.OriginalBookTranslation", b =>
-                {
-                    b.HasOne("Library.Model.Models.Language", "Language")
-                        .WithMany("OriginalBooks")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Model.Models.OriginalBook", "OriginalBook")
-                        .WithMany("Translations")
-                        .HasForeignKey("OriginalBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-
-                    b.Navigation("OriginalBook");
-                });
-
             modelBuilder.Entity("Library.Model.Models.Reservation", b =>
                 {
                     b.HasOne("Library.Model.Models.Book", "Book")
@@ -1172,18 +1125,11 @@ namespace Library.Data.Migrations
                     b.Navigation("BookGenres");
                 });
 
-            modelBuilder.Entity("Library.Model.Models.Language", b =>
-                {
-                    b.Navigation("OriginalBooks");
-                });
-
             modelBuilder.Entity("Library.Model.Models.OriginalBook", b =>
                 {
                     b.Navigation("BookGenres");
 
                     b.Navigation("Books");
-
-                    b.Navigation("Translations");
                 });
 
             modelBuilder.Entity("Library.Model.Models.Publisher", b =>

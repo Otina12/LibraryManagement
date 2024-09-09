@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     // access tables via context
     public DbSet<Author> Authors { get; set; }
     public DbSet<OriginalBook> OriginalBooks { get; set; }
+    public DbSet<OriginalBookTranslation> OriginalBookTranslations { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<BookAuthor> BookAuthor { get; set; }
     public DbSet<BookCopy> BookCopies { get; set; }
@@ -26,6 +27,7 @@ public class ApplicationDbContext : IdentityDbContext<Employee>
     public DbSet<ReservationCopy> ReservationCopies { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Shelf> Shelves { get; set; }
+    public DbSet<Language> Languages { get; set; }
 
     // dynamic menu with role permissions
     public DbSet<RoleMenuPermission> RoleMenuPermission { get; set; }

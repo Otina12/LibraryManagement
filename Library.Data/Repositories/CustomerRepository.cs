@@ -17,7 +17,7 @@ public class CustomerRepository : BaseModelRepository<Customer>, ICustomerReposi
             await dbSet.AsNoTracking().FirstOrDefaultAsync(c => c.Id == Id);
     }
 
-    public override IQueryable<Customer> GetAllAsQueryable(bool trackChanges)
+    public override IQueryable<Customer> GetAllAsQueryable(bool trackChanges, int languageId)
     {
         return trackChanges ?
             dbSet.Include(c => c.Reservations).AsQueryable() :

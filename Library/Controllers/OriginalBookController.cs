@@ -15,7 +15,7 @@ public class OriginalBookController : BaseController
     {
     }
 
-    [HttpGet]
+    [HttpGet("OriginalBook/{culture?}")]
     public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, bool includeDeleted, int pageNumber = 1, int pageSize = 10)
     {
         var originalBooksParams = new EntityFiltersDto<OriginalBookDto>
@@ -28,7 +28,7 @@ public class OriginalBookController : BaseController
             IncludeDeleted = includeDeleted
         };
 
-        var originalBooks = await _serviceManager.OriginalBookService.GetAllFilteredOriginalBooks(originalBooksParams);
+        var originalBooks = await _serviceManager.OriginalBookService.GetAllFilteredOriginalBooks(originalBooksParams, currentCulture);
         var booksTable = IndexTables.GetOriginalBookTable(originalBooks);
         return View(booksTable);
     }

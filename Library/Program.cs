@@ -33,6 +33,11 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddSession();
 
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.ConstraintMap.Add("culture", typeof(LocalizationRouteConstraint));
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -53,6 +58,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}",
+    defaults: new { culture = "en" }
+    );
 
 app.Run();
