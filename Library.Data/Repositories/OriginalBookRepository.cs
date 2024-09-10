@@ -1,6 +1,7 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Library.Data.Repositories;
 
@@ -10,67 +11,11 @@ public class OriginalBookRepository : BaseModelRepository<OriginalBook>, IOrigin
     {
     }
 
-    public override async Task<OriginalBook?> GetById(Guid Id, bool trackChanges, int languageId)
+    public override async Task<OriginalBook?> GetById(Guid Id, bool trackChanges)
     {
-        var query = _context.OriginalBooks
-            .Join(_context.OriginalBookTranslations,
-                  ob => ob.Id,
-                  obt => obt.OriginalBookId,
-                  (ob, obt) => new { OriginalBook = ob, Translation = obt })
-            .Where(x => x.OriginalBook.Id == Id && x.Translation.LanguageId == languageId)
-            .Select(x => new OriginalBook()
-            {
-                Id = x.OriginalBook.Id,
-                OriginalPublishYear = x.OriginalBook.OriginalPublishYear,
-                Title = x.Translation.Title,
-                Description = x.Translation.Description ?? ""
-            });
-
         return trackChanges ?
-            await query.FirstOrDefaultAsync() :
-            await query.AsNoTracking().FirstOrDefaultAsync();
-    }
-
-    public override async Task<IEnumerable<OriginalBook>> GetAll(bool trackChanges, int languageId)
-    {
-        var query = _context.OriginalBooks
-            .Join(_context.OriginalBookTranslations,
-                  ob => ob.Id,
-                  obt => obt.OriginalBookId,
-                  (ob, obt) => new { OriginalBook = ob, Translation = obt })
-            .Where(x => x.Translation.LanguageId == languageId)
-            .Select(x => new OriginalBook()
-            {
-                Id = x.OriginalBook.Id,
-                OriginalPublishYear = x.OriginalBook.OriginalPublishYear,
-                Title = x.Translation.Title,
-                Description = x.Translation.Description ?? ""
-            });
-
-        return trackChanges ?
-            await query.ToListAsync() :
-            await query.AsNoTracking().ToListAsync();
-    }
-
-    public override IQueryable<OriginalBook> GetAllAsQueryable(bool trackChanges, int languageId)
-    {
-        var query = _context.OriginalBooks.AsQueryable()
-            .Join(_context.OriginalBookTranslations,
-                  ob => ob.Id,
-                  obt => obt.OriginalBookId,
-                  (ob, obt) => new { OriginalBook = ob, Translation = obt })
-            .Where(x => x.Translation.LanguageId == languageId)
-            .Select(x => new OriginalBook()
-            {
-                Id = x.OriginalBook.Id,
-                OriginalPublishYear = x.OriginalBook.OriginalPublishYear,
-                Title = x.Translation.Title,
-                Description = x.Translation.Description ?? ""
-            });
-
-        return trackChanges ?
-            query :
-            query.AsNoTracking();
+            await _context.OriginalBooks.FirstOrDefaultAsync(book => book.Id == Id) :
+            await _context.OriginalBooks.AsNoTracking().FirstOrDefaultAsync(book => book.Id == Id);
     }
 
     public async Task UpdateGenresForBook(Guid bookId, List<int> newGenreIds)
@@ -90,5 +35,33 @@ public class OriginalBookRepository : BaseModelRepository<OriginalBook>, IOrigin
 
         _context.OriginalBookGenre.RemoveRange(genresToRemove);
         await _context.OriginalBookGenre.AddRangeAsync(genresToAdd);
+    }
+
+    private async Task<OriginalBook?> Translate(OriginalBook? originalBook, int languageId)
+    {
+        if (originalBook is null)
+        {
+            return null;
+        }
+
+        var translation = await _context.OriginalBookTranslations.FirstOrDefaultAsync(x => x.OriginalBookId == originalBook.Id && x.LanguageId == languageId);
+
+        if (translation is null)
+        {
+            return originalBook;
+        }
+
+        var originalBookCopy = new OriginalBook()
+        {
+            Id = originalBook.Id,
+            OriginalPublishYear = originalBook.OriginalPublishYear,
+            Title = translation.Title,
+            Description = translation.Description ?? "",
+            CreationDate = originalBook.CreationDate,
+            UpdateDate = originalBook.UpdateDate,
+            DeleteDate = originalBook.DeleteDate
+        };
+
+        return originalBookCopy;
     }
 }

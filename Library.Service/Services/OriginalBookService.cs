@@ -20,20 +20,50 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
 
     public async Task<Result<OriginalBookDto>> GetOriginalBookById(Guid Id, string culture = "en")
     {
-        var originalBookExistsResult = await _validationService.OriginalBookExists(Id, false, LocalizationMapper.LanguageToID(culture));
+        var originalBookExistsResult = await _validationService.OriginalBookExists(Id);
 
         if (originalBookExistsResult.IsFailure)
         {
             return Result.Failure<OriginalBookDto>(originalBookExistsResult.Error);
         }
 
-        return originalBookExistsResult.Value().MapToOriginalBookDto();
+        var originalBook = originalBookExistsResult.Value();
+        var translatedOriginalBook = await _unitOfWork.Translations.TranslateOriginalBook(originalBook, LocalizationMapper.LanguageToID(culture));
+
+        return translatedOriginalBook.MapToOriginalBookDto();
     }
 
-    public IEnumerable<OriginalBookDto> GetAllOriginalBooksSorted(bool includeDeleted, string culture = "en")
+    public async Task<Result<EditOriginalBookDto>> GetOriginalBookForEditById(Guid Id)
+    {
+        var originalBookExistsResult = await _validationService.OriginalBookExists(Id);
+
+        if (originalBookExistsResult.IsFailure)
+        {
+            return Result.Failure<EditOriginalBookDto>(originalBookExistsResult.Error);
+        }
+
+        var originalBook = originalBookExistsResult.Value();
+        var editOriginalBookDto = new EditOriginalBookDto(originalBook.Id, originalBook.OriginalPublishYear, originalBook.CreationDate, originalBook.IsDeleted);
+
+        // hard coded:
+        editOriginalBookDto.EnglishTitle = originalBook.Title;
+        editOriginalBookDto.EnglishDescription = originalBook.Description;
+
+        var germanTranslation = await _unitOfWork.Translations.TranslateOriginalBook(originalBook, 2);
+        editOriginalBookDto.GermanTitle = germanTranslation.Title;
+        editOriginalBookDto.GermanDescription = germanTranslation.Description;
+
+        var georgianTranslation = await _unitOfWork.Translations.TranslateOriginalBook(originalBook, 3);
+        editOriginalBookDto.GeorgianTitle = georgianTranslation.Title;
+        editOriginalBookDto.GeorgianDescription = georgianTranslation.Description;
+
+        return Result.Success(editOriginalBookDto);
+    }
+
+    public async Task<IEnumerable<OriginalBookDto>> GetAllOriginalBooksSorted(bool includeDeleted, string culture = "en")
     {
         var books = _unitOfWork.OriginalBooks
-            .GetAllAsQueryable(false, LocalizationMapper.LanguageToID(culture))
+            .GetAllAsQueryable()
             .OrderBy(x => x.Title)
             .AsEnumerable();
 
@@ -42,12 +72,32 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
             books = _unitOfWork.GetBaseModelRepository<OriginalBook>().FilterOutDeleted(books);
         }
 
+        var translatedBooks = new List<OriginalBook>();
+
+        foreach(var book in books)
+        {
+            translatedBooks.Add(await _unitOfWork.Translations.TranslateOriginalBook(book, LocalizationMapper.LanguageToID(culture)));
+        }
+
         return books.Select(x => x.MapToOriginalBookDto()).ToList();
     }
 
     public async Task<EntityFiltersDto<OriginalBookDto>> GetAllFilteredOriginalBooks(EntityFiltersDto<OriginalBookDto> originalBookFilters, string culture = "en")
     {
-        var originalBooks = _unitOfWork.OriginalBooks.GetAllAsQueryable(false, LocalizationMapper.LanguageToID(culture));
+        var originalBooksTemp = await _unitOfWork.OriginalBooks.GetAll();
+        var originalBooks = originalBooksTemp.AsQueryable();
+
+        if (culture != "en")
+        {
+            var translatedBooks = new List<OriginalBook>();
+
+            foreach (var book in originalBooksTemp)
+            {
+                translatedBooks.Add(await _unitOfWork.Translations.TranslateOriginalBook(book, LocalizationMapper.LanguageToID(culture)));
+            }
+
+            originalBooks = translatedBooks.AsQueryable();
+        }
 
         originalBooks = originalBooks.IncludeDeleted(originalBookFilters.IncludeDeleted);
         originalBooks = originalBooks.ApplySearch(originalBookFilters.SearchString, GetOriginalBookSearchProperties());

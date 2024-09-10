@@ -16,7 +16,7 @@
     position: relative;
     margin: 1.75rem auto;
     min-width: 400px;
-    max-width: fit-content;
+    max-width: 500px;
 }
 
 .custom-modal-content {
@@ -123,7 +123,8 @@
     }
 
     .modal-field textarea {
-        min-height: 50px;
+        padding: 7px;
+        min-height: 120px;
     }
 
         .modal-field input[type="text"]:focus,

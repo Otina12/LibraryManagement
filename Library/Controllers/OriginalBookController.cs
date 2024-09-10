@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Service.Dtos.OriginalBook.Get;
 using Library.ViewModels.OriginalBooks;
 using Library.Service.Dtos.OriginalBook.Post;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Library.Controllers;
 
@@ -15,7 +16,7 @@ public class OriginalBookController : BaseController
     {
     }
 
-    [HttpGet("OriginalBook/{culture?}")]
+    [HttpGet]
     public async Task<IActionResult> Index(string searchString, string sortBy, string sortOrder, bool includeDeleted, int pageNumber = 1, int pageSize = 10)
     {
         var originalBooksParams = new EntityFiltersDto<OriginalBookDto>
@@ -31,6 +32,19 @@ public class OriginalBookController : BaseController
         var originalBooks = await _serviceManager.OriginalBookService.GetAllFilteredOriginalBooks(originalBooksParams, currentCulture);
         var booksTable = IndexTables.GetOriginalBookTable(originalBooks);
         return View(booksTable);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(Guid id)
+    {
+        var originalBookResult = await _serviceManager.OriginalBookService.GetOriginalBookById(id, currentCulture);
+        if (originalBookResult.IsFailure)
+        {
+            CreateFailureNotification($"Original Book with ID: '{id}' does not exist");
+            return RedirectToAction("Index", "OriginalBook");
+        }
+
+        return View(originalBookResult.Value());
     }
 
     [HttpGet]
@@ -67,19 +81,19 @@ public class OriginalBookController : BaseController
     [HttpGet]
     public async Task<ActionResult> Edit(Guid id)
     {
-        var originalBookResult = await _serviceManager.OriginalBookService.GetOriginalBookById(id);
+        var originalBookResult = await _serviceManager.OriginalBookService.GetOriginalBookForEditById(id);
 
         if (originalBookResult.IsFailure)
             return RedirectToAction("PageNotFound", "Home");
 
-        var editViewModel = _mapper.Map<OriginalBookViewModel>(originalBookResult.Value());
+        var editViewModel = _mapper.Map<EditOriginalBookViewModel>(originalBookResult.Value());
         ViewBag.Genres = await _serviceManager.GenreService.GetAllGenres();
 
         return PartialView("_Edit", editViewModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(OriginalBookViewModel originalBookVM)
+    public async Task<IActionResult> Edit(EditOriginalBookViewModel originalBookVM)
     {
         if (!ModelState.IsValid)
         {
@@ -96,9 +110,10 @@ public class OriginalBookController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Book '{originalBookVM.Title}' has been updated");
+        CreateSuccessNotification($"Book has been updated");
         return Json(new { success = true });
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Delete(Guid id)

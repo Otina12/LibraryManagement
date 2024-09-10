@@ -9,21 +9,21 @@ public class BookRepository : BaseModelRepository<Book>, IBookRepository
     {
     }
 
-    public override async Task<Book?> GetById(Guid id, bool trackChanges, int languageId)
+    public override async Task<Book?> GetById(Guid id, bool trackChanges)
     {
         return trackChanges ?
             await _context.Books.Include(x => x.OriginalBook).FirstOrDefaultAsync(x => x.Id == id) :
             await _context.Books.Include(x => x.OriginalBook).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public override async Task<IEnumerable<Book>> GetAll(bool trackChanges, int languageId)
+    public override async Task<IEnumerable<Book>> GetAll(bool trackChanges)
     {
         return trackChanges ?
             await _context.Books.Include(x => x.OriginalBook).ToListAsync() :
             await _context.Books.Include(x => x.OriginalBook).AsNoTracking().ToListAsync();
     }
 
-    public override IQueryable<Book> GetAllAsQueryable(bool trackChanges, int languageId)
+    public override IQueryable<Book> GetAllAsQueryable(bool trackChanges)
     {
         return trackChanges ?
             _context.Books.Include(x => x.OriginalBook).AsQueryable() :

@@ -1,4 +1,4 @@
-﻿@model Library.ViewModels.OriginalBooks.OriginalBookViewModel
+﻿@model Library.ViewModels.OriginalBooks.EditOriginalBookViewModel
 
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -7,14 +7,34 @@
 <form asp-action="Edit" asp-controller="OriginalBook" method="post" id="editOriginalBookForm">
     <input asp-for="Id" type="hidden" />
     <div class="modal-field">
-        <label class="required" asp-for="Title">Title</label>
-        <input asp-for="Title" required />
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <label class="required" asp-for="EnglishTitle">English Title</label>
+        <input asp-for="EnglishTitle" required />
+        <span asp-validation-for="EnglishTitle" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <label class="required" asp-for="Description">Description</label>
-        <textarea asp-for="Description" maxlength="1500"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+        <label asp-for="EnglishDescription">English Description</label>
+        <textarea asp-for="EnglishDescription" maxlength="1500"></textarea>
+        <span asp-validation-for="EnglishDescription" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label class="required" asp-for="GermanTitle">German Title</label>
+        <input asp-for="GermanTitle" required />
+        <span asp-validation-for="GermanTitle" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label asp-for="GermanDescription">German Description</label>
+        <textarea asp-for="GermanDescription" maxlength="1500"></textarea>
+        <span asp-validation-for="GermanDescription" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label class="required" asp-for="GeorgianTitle">Georgian Title</label>
+        <input asp-for="GeorgianTitle" required />
+        <span asp-validation-for="GeorgianTitle" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label asp-for="GeorgianDescription">Georgian Description</label>
+        <textarea asp-for="GeorgianDescription" maxlength="1500"></textarea>
+        <span asp-validation-for="GeorgianDescription" class="text-danger"></span>
     </div>
     <div class="modal-field">
         <label asp-for="GenreIds">Genres</label>

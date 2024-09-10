@@ -10,7 +10,7 @@ public class ReservationRepository : BaseModelRepository<Reservation>, IReservat
     {
     }
 
-    public override async Task<IEnumerable<Reservation>> GetAll(bool trackChanges = false, int languageId = 1)
+    public override async Task<IEnumerable<Reservation>> GetAll(bool trackChanges = false)
     {
         return trackChanges ?
             await dbSet

@@ -10,12 +10,14 @@ public static class OriginalBookMapper
     {
         return new OriginalBookDto(
             originalBook.Id,
-            originalBook.Title,
-            originalBook.Description,
             originalBook.OriginalPublishYear,
             originalBook.CreationDate,
             originalBook.IsDeleted
-            );
+            )
+        {
+            Title = originalBook.Title,
+            Description = originalBook.Description,
+        };
     }
 
 

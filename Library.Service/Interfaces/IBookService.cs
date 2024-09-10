@@ -1,18 +1,16 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Models;
-using Library.Model.Models.Report;
 using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Book.Post;
 using Library.Service.Dtos.BookCopy.Post;
 using Library.Service.Dtos.OriginalBook.Get;
-using Library.Service.Dtos.Report;
 
 namespace Library.Service.Interfaces;
 
 public interface IBookService : IBaseService<Book>
 {
-    Task<Dictionary<OriginalBookIdAndTitle, IEnumerable<BookEditionDto>>> GetAllBookEditions(bool includeDeleted = false);
+    Task<Dictionary<OriginalBookIdAndTitle, IEnumerable<BookEditionDto>>> GetAllBookEditions(bool includeDeleted = false, string language = "en");
     Task<EntityFiltersDto<BookDto>> GetAllFilteredBooks(EntityFiltersDto<BookDto> bookFilters);
     Task<Result<BookDetailsDto>> GetBookById(Guid id);
     Task<Result> CreateBook(CreateBookDto bookDto, string creationMessage);

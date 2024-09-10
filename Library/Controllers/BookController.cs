@@ -68,7 +68,7 @@ public class BookController : BaseController
 
         if (createBookResult.IsFailure)
         {
-            await InitializeViewDropdowns(); // todo: ask how to escape reinitializing dropdowns each time
+            await InitializeViewDropdowns();
             CreateFailureNotification(createBookResult.Error.Message);
             return View(createBookViewModel);
         }
@@ -151,7 +151,7 @@ public class BookController : BaseController
     // book create/edit essential dropdowns
     private async Task InitializeViewDropdowns()
     {
-        var booksDictionary = await _serviceManager.BookService.GetAllBookEditions();
+        var booksDictionary = await _serviceManager.BookService.GetAllBookEditions(false, currentCulture);
 
         var serializedDictionary = booksDictionary.ToDictionary(
             kvp => kvp.Key.Id.ToString(),

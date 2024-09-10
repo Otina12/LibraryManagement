@@ -11,7 +11,6 @@ using Library.Service.Dtos.Customers.Get;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Email.Post;
 using Library.Service.Dtos.Employee.Get;
-using Library.Service.Dtos.OriginalBook.Get;
 using Library.Service.Dtos.OriginalBook.Post;
 using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Dtos.Publisher.Post;
@@ -63,7 +62,7 @@ public class MappingProfiles : Profile
         CreateMap<Author, AuthorDto>();
 
         // original book maps
-        CreateMap<OriginalBookDto, OriginalBookViewModel>().ReverseMap();
+        CreateMap<EditOriginalBookDto, EditOriginalBookViewModel>().ReverseMap();
         CreateMap<CreateOriginalBookViewModel, CreateOriginalBookDto>();
 
         // book maps

@@ -10,7 +10,7 @@ public class AuthorRepository : BaseModelRepository<Author>, IAuthorRepository
     {
     }
 
-    public override async Task<Author?> GetById(Guid id, bool trackChanges, int languageId)
+    public override async Task<Author?> GetById(Guid id, bool trackChanges)
     {
         return trackChanges ?
             await _context.Authors.FirstOrDefaultAsync(x => x.Id == id) :

@@ -6,7 +6,7 @@ public class LocalizationMapper
     {
         { "en", 1 },
         { "de", 2 },
-        { "ge", 3 }
+        { "ka", 3 }
     };
 
     public static int LanguageToID(string language)

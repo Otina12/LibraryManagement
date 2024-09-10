@@ -2,7 +2,6 @@
 using FluentValidation;
 using Library.Model.Abstractions;
 using Library.Service.Interfaces;
-using Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Globalization;
@@ -13,7 +12,7 @@ namespace Library.Controllers
     {
         protected readonly IServiceManager _serviceManager;
         protected readonly IMapper _mapper;
-        protected string currentCulture { get; private set; }
+        protected string currentCulture { get; private set; } = string.Empty;
 
         public BaseController(IServiceManager serviceManager, IMapper mapper)
         {
@@ -25,12 +24,21 @@ namespace Library.Controllers
         {
             base.OnActionExecuting(context);
 
-            currentCulture = RouteData.Values["culture"]?.ToString() ?? "en";
+            currentCulture = RouteData.Values["culture"]?.ToString() ??
+                         Request.Cookies["PreferredCulture"] ??
+                         "en";
 
             // may need these later
             var cultureInfo = new CultureInfo(currentCulture);
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+            Response.Cookies.Append("PreferredCulture", currentCulture, new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddYears(1)
+            });
+
+            ViewBag.CurrentCulture = currentCulture;
         }
 
         /// <summary>

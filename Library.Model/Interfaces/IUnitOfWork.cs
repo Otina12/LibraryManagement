@@ -21,6 +21,8 @@ public interface IUnitOfWork // this will help use repositories and update made 
     public IReservationRepository Reservations { get; }
     public IReservationCopyRepository ReservationCopies { get; }
     public IBookCopyLogRepository BookCopyLogs { get; }
+    public ILanguageRepository Languages { get; }
+    public ITranslationRepository Translations { get; }
 
     IGenericRepository<T> GetGenericRepository<T>() where T : class;
     IBaseModelRepository<T> GetBaseModelRepository<T>() where T : BaseModel;

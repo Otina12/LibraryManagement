@@ -51,15 +51,24 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 
+// custom middleware
+app.UseCultureMiddleware();
+
 app.UseCors("CorsPolicy");
 app.UseResponseCaching();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "localized",
+    pattern: "{culture}/{controller=Home}/{action=Index}/{id?}",
+    constraints: new { culture = new LocalizationRouteConstraint() }
+);
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}",
     defaults: new { culture = "en" }
-    );
+);
 
 app.Run();

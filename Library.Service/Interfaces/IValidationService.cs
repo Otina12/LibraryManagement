@@ -34,7 +34,7 @@ public interface IValidationService
 
     Task<Result<Reservation>> ReservationExists(Guid Id, bool trackChanges = false);
 
-    Task<Result<OriginalBook>> OriginalBookExists(Guid Id, bool trackChanges = false, int languageId = 1);
+    Task<Result<OriginalBook>> OriginalBookExists(Guid Id, bool trackChanges = false);
     Task<Result> OriginalBookIsNew(string title, int publishYear, bool trackChanges = false);
 
 }

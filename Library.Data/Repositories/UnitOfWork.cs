@@ -23,6 +23,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IReservationRepository Reservations { get; private set; }
     public IReservationCopyRepository ReservationCopies { get; private set; }
     public IBookCopyLogRepository BookCopyLogs { get; private set; }
+    public ILanguageRepository Languages { get; private set; }
+    public ITranslationRepository Translations { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -43,6 +45,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         Reservations = new ReservationRepository(_context);
         ReservationCopies = new ReservationCopyRepository(_context);
         BookCopyLogs = new BookCopyLogRepository(_context);
+        Languages = new LanguageRepository(_context);
+        Translations = new TranslationRepository(_context);
     }
 
     public async Task SaveChangesAsync()

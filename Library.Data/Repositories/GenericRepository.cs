@@ -48,14 +48,14 @@ public class GenericRepository<T> : GenericRepository, IGenericRepository<T> whe
         dbSet.RemoveRange(entitiesToRemove);
     }
 
-    public virtual IQueryable<T> GetAllAsQueryable(bool trackChanges, int languageId = 1)
+    public virtual IQueryable<T> GetAllAsQueryable(bool trackChanges)
     {
         return trackChanges ?
             dbSet.AsQueryable() :
             dbSet.AsNoTracking().AsQueryable();
     }
 
-    public virtual async Task<IEnumerable<T>> GetAll(bool trackChanges, int languageId = 1)
+    public virtual async Task<IEnumerable<T>> GetAll(bool trackChanges)
     {
         return trackChanges ?
             await dbSet.ToListAsync() :
@@ -69,7 +69,7 @@ public class GenericRepository<T> : GenericRepository, IGenericRepository<T> whe
             await dbSet.AsNoTracking().Where(where).ToListAsync();
     }
 
-    public virtual async Task<T?> GetById(Guid id, bool trackChanges, int languageId = 1) // we cannot implement trackChanges here because of FindAsync, but will override this when needed
+    public virtual async Task<T?> GetById(Guid id, bool trackChanges) // we cannot implement trackChanges here because of FindAsync, but will override this when needed
     {
         return await dbSet.FindAsync(id);
     }

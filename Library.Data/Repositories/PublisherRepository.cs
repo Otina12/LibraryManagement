@@ -11,7 +11,7 @@ namespace Library.Data.Repositories
 
         }
 
-        public override async Task<Publisher?> GetById(Guid id, bool trackChanges, int languageId)
+        public override async Task<Publisher?> GetById(Guid id, bool trackChanges)
         {
             return trackChanges ?
                 await _context.Publishers.FirstOrDefaultAsync(x => x.Id == id) :

@@ -27,14 +27,22 @@ public class BookService : BaseService<Book>, IBookService
     {
     }
 
-    public async Task<Dictionary<OriginalBookIdAndTitle, IEnumerable<BookEditionDto>>> GetAllBookEditions(bool includeDeleted = false)
+    public async Task<Dictionary<OriginalBookIdAndTitle, IEnumerable<BookEditionDto>>> GetAllBookEditions(bool includeDeleted = false, string language = "en")
     {
         var dict = new Dictionary<OriginalBookIdAndTitle, IEnumerable<BookEditionDto>>();
-        var originalBooks = _unitOfWork.OriginalBooks
-            .GetAllAsQueryable()
-            .OrderBy(x => x.Title)
-            .ToList();
-        
+
+        var originalBooks = await _unitOfWork.OriginalBooks.GetAll();
+        var translatedBooks = new List<OriginalBook>();
+
+        foreach (var book in originalBooks)
+        {
+            var translatedBook = await _unitOfWork.Translations.TranslateOriginalBook(book, LocalizationMapper.LanguageToID(language));
+            translatedBooks.Add(translatedBook);
+        }
+
+        originalBooks = translatedBooks.OrderBy(x => x.Title).ToList();
+
+
         foreach (var originalBook in originalBooks)
         {
             var originalBookDto = new OriginalBookIdAndTitle(originalBook.Id, originalBook.Title);

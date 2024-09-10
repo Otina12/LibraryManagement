@@ -9,7 +9,8 @@ namespace Library.Service.Interfaces;
 public interface IOriginalBookService : IBaseService<OriginalBook>
 {
     Task<Result<OriginalBookDto>> GetOriginalBookById(Guid Id, string culture = "en");
-    IEnumerable<OriginalBookDto> GetAllOriginalBooksSorted(bool includeDeleted = false, string culture = "en");
+    Task<Result<EditOriginalBookDto>> GetOriginalBookForEditById(Guid Id);
+    Task<IEnumerable<OriginalBookDto>> GetAllOriginalBooksSorted(bool includeDeleted = false, string culture = "en");
     Task<EntityFiltersDto<OriginalBookDto>> GetAllFilteredOriginalBooks(EntityFiltersDto<OriginalBookDto> originalBookFilters, string culture = "en");
     Task<Result> Create(CreateOriginalBookDto createOriginalBookDto);
     Task<Result> Update(OriginalBookDto originalBookDto);
