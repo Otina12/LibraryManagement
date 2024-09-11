@@ -26,22 +26,33 @@ public static class OriginalBookMapper
     {
         return new OriginalBook()
         {
-            Title = createOriginalBookDto.Title,
-            Description = createOriginalBookDto.Description,
+            Title = createOriginalBookDto.EnglishTitle,
+            Description = createOriginalBookDto.EnglishDescription,
             OriginalPublishYear = createOriginalBookDto.OriginalPublishYear,
             CreationDate = DateTime.UtcNow
         };
     }
 
-    public static OriginalBook MapToOriginalBook(this OriginalBookDto originalBookDto)
+    public static OriginalBook MapToOriginalBook(this EditOriginalBookDto originalBookDto)
     {
         return new OriginalBook()
         {
             Id = originalBookDto.Id,
-            Title = originalBookDto.Title,
-            Description = originalBookDto.Description,
+            Title = originalBookDto.EnglishTitle,
+            Description = originalBookDto.EnglishDescription ?? "",
             OriginalPublishYear = originalBookDto.OriginalPublishYear,
             CreationDate = originalBookDto.CreationDate
+        };
+    }
+
+    public static OriginalBookTranslation MapToTranslation(this CreateOriginalBookTranslationDto translationDto)
+    {
+        return new OriginalBookTranslation()
+        {
+            OriginalBookId = translationDto.OriginalBookId,
+            LanguageId = translationDto.LanguageId,
+            Title = translationDto.Title,
+            Description = translationDto.Description
         };
     }
 }

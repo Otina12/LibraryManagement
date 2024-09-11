@@ -74,7 +74,7 @@ public class OriginalBookController : BaseController
             return Json(new { success = false });
         }
 
-        CreateSuccessNotification($"Book '{createOriginalBookVM.Title}' has been created");
+        CreateSuccessNotification($"Book '{createOriginalBookVM.EnglishTitle}' has been created");
         return Json(new { success = true });
     }
 
@@ -101,7 +101,7 @@ public class OriginalBookController : BaseController
             return PartialView("_Edit", originalBookVM);
         }
 
-        var originalBookDto = _mapper.Map<OriginalBookDto>(originalBookVM);
+        var originalBookDto = _mapper.Map<EditOriginalBookDto>(originalBookVM);
         var result = await _serviceManager.OriginalBookService.Update(originalBookDto);
 
         if (result.IsFailure)

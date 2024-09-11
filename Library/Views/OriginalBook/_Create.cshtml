@@ -6,12 +6,34 @@
 
 <form asp-action="Create" asp-controller="OriginalBook" method="post" id="createOriginalBookForm">
     <div class="modal-field">
-        <input asp-for="Title" placeholder="Name*" required />
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <label class="required" asp-for="EnglishTitle">English Title</label>
+        <input asp-for="EnglishTitle" required />
+        <span asp-validation-for="EnglishTitle" class="text-danger"></span>
     </div>
     <div class="modal-field">
-        <textarea asp-for="Description" maxlength="1500" placeholder="Description"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+        <label asp-for="EnglishDescription">English Description</label>
+        <textarea asp-for="EnglishDescription" maxlength="1500"></textarea>
+        <span asp-validation-for="EnglishDescription" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label class="required" asp-for="GermanTitle">German Title</label>
+        <input asp-for="GermanTitle" required />
+        <span asp-validation-for="GermanTitle" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label asp-for="GermanDescription">German Description</label>
+        <textarea asp-for="GermanDescription" maxlength="1500"></textarea>
+        <span asp-validation-for="GermanDescription" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label class="required" asp-for="GeorgianTitle">Georgian Title</label>
+        <input asp-for="GeorgianTitle" required />
+        <span asp-validation-for="GeorgianTitle" class="text-danger"></span>
+    </div>
+    <div class="modal-field">
+        <label asp-for="GeorgianDescription">Georgian Description</label>
+        <textarea asp-for="GeorgianDescription" maxlength="1500"></textarea>
+        <span asp-validation-for="GeorgianDescription" class="text-danger"></span>
     </div>
     <div class="modal-field">
         <label asp-for="SelectedGenreIds">Genres</label>

@@ -118,43 +118,78 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
 
     public async Task<Result> Create(CreateOriginalBookDto createOriginalBookDto)
     {
-        var bookIsNewResult = await _validationService.OriginalBookIsNew(createOriginalBookDto.Title, createOriginalBookDto.OriginalPublishYear, false);
+        var bookIsNewResult = await _validationService.OriginalBookIsNew(createOriginalBookDto.EnglishTitle, createOriginalBookDto.OriginalPublishYear, false);
 
         if (bookIsNewResult.IsFailure)
         {
             return bookIsNewResult.Error;
         }
 
-
         var originalBook = createOriginalBookDto.MapToOriginalBook();
-
         AddGenresToBook(originalBook, createOriginalBookDto.SelectedGenreIds.ToArray());
-        await _unitOfWork.OriginalBooks.Create(originalBook);
+
+        await _unitOfWork.OriginalBooks.Create(originalBook); // first add book
+        await CreateOriginalBookTranslations(originalBook.Id, createOriginalBookDto); // then add all translations
         await _unitOfWork.SaveChangesAsync();
 
         return Result.Success();
     }
 
-    public async Task<Result> Update(OriginalBookDto originalBookDto)
+    public async Task<Result> Update(EditOriginalBookDto editOriginalBookDto)
     {
-        var originalBookExistsResult = await _validationService.OriginalBookExists(originalBookDto.Id, false);
+        var originalBookExistsResult = await _validationService.OriginalBookExists(editOriginalBookDto.Id, false);
 
         if (originalBookExistsResult.IsFailure)
         {
             return Result.Failure(originalBookExistsResult.Error);
         }
 
-        var originalBook = originalBookDto.MapToOriginalBook();
-        await _unitOfWork.OriginalBooks.UpdateGenresForBook(originalBookDto.Id, originalBookDto.GenreIds);
+        var originalBook = editOriginalBookDto.MapToOriginalBook();
+        await _unitOfWork.OriginalBooks.UpdateGenresForBook(editOriginalBookDto.Id, editOriginalBookDto.GenreIds);
         originalBook.UpdateDate = DateTime.UtcNow;
 
-        _unitOfWork.OriginalBooks.Update(originalBook);
+        _unitOfWork.OriginalBooks.Update(originalBook); // update book
+        await UpdateOriginalBookTranslations(originalBook.Id, editOriginalBookDto); // update its translations
         await _unitOfWork.SaveChangesAsync();
 
         return Result.Success();
     }
 
     // helpers
+    private async Task CreateOriginalBookTranslations(Guid bookId, CreateOriginalBookDto bookDto)
+    {
+        // even if title and description are empty, we still add them as string.Empty
+        var languages = await _unitOfWork.Languages.GetAll();
+        for (int i = 1; i <= languages.Count(); i++)
+        {
+            var (title, description) = bookDto.GetTranslation(i);
+            var translationDto = new CreateOriginalBookTranslationDto(bookId, i, title, description);
+            _unitOfWork.OriginalBooks.AddOriginalBookTranslation(translationDto.MapToTranslation());
+        }
+    }
+
+    private async Task UpdateOriginalBookTranslations(Guid bookId, EditOriginalBookDto bookDto)
+    {
+        // even if title and description are empty, we still add them as string.Empty
+        var languages = await _unitOfWork.Languages.GetAll();
+        for (int i = 1; i <= languages.Count(); i++)
+        {
+            var translation = await _unitOfWork.OriginalBooks.GetTranslationById(bookId, i, true);
+            var (title, desc) = bookDto.GetTranslation(i);
+            if (translation is null) // this will only be null when book was created and then later some language was added for which translation was not created.
+            {
+                var translationDto = new CreateOriginalBookTranslationDto(bookId, i, title, desc);
+                _unitOfWork.OriginalBooks.AddOriginalBookTranslation(translationDto.MapToTranslation());
+            }
+            else
+            {
+                translation.Title = title;
+                translation.Description = desc;
+                _unitOfWork.OriginalBooks.UpdateOriginalBookTranslation(translation);
+            }
+        }
+    }
+
     private void AddGenresToBook(OriginalBook book, int[] genreIds)
     {
         foreach (var genreId in genreIds)

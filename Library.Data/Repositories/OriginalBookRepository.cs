@@ -1,7 +1,6 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Library.Data.Repositories;
 
@@ -10,6 +9,7 @@ public class OriginalBookRepository : BaseModelRepository<OriginalBook>, IOrigin
     public OriginalBookRepository(ApplicationDbContext context) : base(context)
     {
     }
+
 
     public override async Task<OriginalBook?> GetById(Guid Id, bool trackChanges)
     {
@@ -37,31 +37,22 @@ public class OriginalBookRepository : BaseModelRepository<OriginalBook>, IOrigin
         await _context.OriginalBookGenre.AddRangeAsync(genresToAdd);
     }
 
-    private async Task<OriginalBook?> Translate(OriginalBook? originalBook, int languageId)
+
+    // translations
+    public async Task<OriginalBookTranslation?> GetTranslationById(Guid bookId, int languageId, bool trackChanges)
     {
-        if (originalBook is null)
-        {
-            return null;
-        }
+        return trackChanges ?
+            await _context.OriginalBookTranslations.FirstOrDefaultAsync(x => x.OriginalBookId == bookId && x.LanguageId == languageId) :
+            await _context.OriginalBookTranslations.AsNoTracking().FirstOrDefaultAsync(x => x.OriginalBookId == bookId && x.LanguageId == languageId);
+    }
 
-        var translation = await _context.OriginalBookTranslations.FirstOrDefaultAsync(x => x.OriginalBookId == originalBook.Id && x.LanguageId == languageId);
+    public void AddOriginalBookTranslation(OriginalBookTranslation translation)
+    {
+        _context.OriginalBookTranslations.Add(translation);
+    }
 
-        if (translation is null)
-        {
-            return originalBook;
-        }
-
-        var originalBookCopy = new OriginalBook()
-        {
-            Id = originalBook.Id,
-            OriginalPublishYear = originalBook.OriginalPublishYear,
-            Title = translation.Title,
-            Description = translation.Description ?? "",
-            CreationDate = originalBook.CreationDate,
-            UpdateDate = originalBook.UpdateDate,
-            DeleteDate = originalBook.DeleteDate
-        };
-
-        return originalBookCopy;
+    public void UpdateOriginalBookTranslation(OriginalBookTranslation translation)
+    {
+        _context.OriginalBookTranslations.Update(translation);
     }
 }

@@ -13,5 +13,5 @@ public interface IOriginalBookService : IBaseService<OriginalBook>
     Task<IEnumerable<OriginalBookDto>> GetAllOriginalBooksSorted(bool includeDeleted = false, string culture = "en");
     Task<EntityFiltersDto<OriginalBookDto>> GetAllFilteredOriginalBooks(EntityFiltersDto<OriginalBookDto> originalBookFilters, string culture = "en");
     Task<Result> Create(CreateOriginalBookDto createOriginalBookDto);
-    Task<Result> Update(OriginalBookDto originalBookDto);
+    Task<Result> Update(EditOriginalBookDto editOriginalBookDto);
 }
