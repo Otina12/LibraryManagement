@@ -8,14 +8,12 @@ using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
 using System.Linq.Expressions;
-using Library.Model.Models.Report;
-using Library.Service.Dtos.Report;
 
 namespace Library.Service.Services;
 
 public class AuthorService : BaseService<Author>, IAuthorService
 {
-    public AuthorService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
+    public AuthorService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
@@ -55,14 +53,14 @@ public class AuthorService : BaseService<Author>, IAuthorService
 
     public async Task<Result<AuthorDto>> GetAuthorById(Guid id)
     {
-        var authorExistsResult = await _validationService.AuthorExists(id);
+        var author = await _unitOfWork.Authors.GetById(id);
 
-        if (authorExistsResult.IsFailure)
+        if (author is null)
         {
-            return Result.Failure<AuthorDto>(authorExistsResult.Error);
+            return Result.Failure<AuthorDto>(Error<Author>.NotFound);
         }
 
-        var authorDto = authorExistsResult.Value().MapToAuthorDto();
+        var authorDto = author.MapToAuthorDto();
         await MapBooks(authorDto);
 
         return authorDto;
@@ -70,11 +68,13 @@ public class AuthorService : BaseService<Author>, IAuthorService
 
     public async Task<Result> Create(CreateAuthorDto authorDto)
     {
-        var authorIsNewResult = await _validationService.AuthorIsNew(authorDto.Email, authorDto.Name);
+        var authorFromDb = authorDto.Email is null ?
+                await _unitOfWork.Authors.GetByName(authorDto.Name) :
+                await _unitOfWork.Authors.AuthorExists(authorDto.Email, authorDto.Name);
 
-        if (authorIsNewResult.IsFailure)
+        if (authorFromDb is not null)
         {
-            return authorIsNewResult.Error;
+            return Result.Failure(Error<Author>.AlreadyExists);
         }
 
         var author = authorDto.MapToAuthor();
@@ -87,11 +87,11 @@ public class AuthorService : BaseService<Author>, IAuthorService
 
     public async Task<Result> Update(AuthorDto authorDto)
     {
-        var authorExistsResult = await _validationService.AuthorExists(authorDto.Id);
+        var authorFromDb = await _unitOfWork.Authors.GetById(authorDto.Id);
 
-        if (authorExistsResult.IsFailure)
+        if (authorFromDb is null)
         {
-            return Result.Failure(authorExistsResult.Error);
+            return Result.Failure<Author>(Error<Author>.NotFound);
         }
 
         var author = authorDto.MapToAuthor();

@@ -8,27 +8,25 @@ using Library.Service.Helpers.Mappers;
 using Library.Model.Abstractions;
 using Library.Service.Dtos.Customers.Post;
 using Library.Service.Dtos.Customers.Get;
-using Library.Model.Models.Report;
-using Library.Service.Dtos.Report;
 
 namespace Library.Service.Services;
 
 public class CustomerService : BaseService<Customer>, ICustomerService
 {
-    public CustomerService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
+    public CustomerService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
     public async Task<Result<CustomerDto>> GetCustomerById(string Id)
     {
-        var customerExistsResult = await _validationService.CustomerExists(Id);
+        var customer = await _unitOfWork.Customers.GetById(Id);
 
-        if (customerExistsResult.IsFailure)
+        if (customer is null)
         {
-            return Result.Failure<CustomerDto>(customerExistsResult.Error);
+            return Result.Failure<CustomerDto>(Error<Customer>.NotFound);
         }
 
-        return customerExistsResult.Value().MapToCustomerDto();
+        return customer.MapToCustomerDto();
     }
 
     public EntityFiltersDto<CustomerDto> GetAllFilteredCustomers(EntityFiltersDto<CustomerDto> customerFilters)
@@ -49,11 +47,11 @@ public class CustomerService : BaseService<Customer>, ICustomerService
 
     public async Task<Result> Create(CreateCustomerDto createCustomerDto)
     {
-        var customerIsNewResult = await _validationService.CustomerIsNew(createCustomerDto.Id);
+        var customerFromDb = await _unitOfWork.Customers.GetOneWhere(x => x.Id == createCustomerDto.Id);
 
-        if (customerIsNewResult.IsFailure)
+        if (customerFromDb is null)
         {
-            return customerIsNewResult.Error;
+            return Result.Success();
         }
 
         var customer = createCustomerDto.MapToCustomer();
@@ -66,11 +64,11 @@ public class CustomerService : BaseService<Customer>, ICustomerService
 
     public async Task<Result> Update(CustomerDto customerDto)
     {
-        var customerExistsResult = await _validationService.CustomerExists(customerDto.Id);
+        var customerFromDb = await _unitOfWork.Customers.GetById(customerDto.Id);
 
-        if (customerExistsResult.IsFailure)
+        if (customerFromDb is null)
         {
-            return Result.Failure(customerExistsResult.Error);
+            return Result.Failure(Error<Customer>.NotFound);
         }
 
         var customer = customerDto.MapToCustomer();

@@ -2,11 +2,10 @@
 using Library.Model.Abstractions;
 using Library.Model.Abstractions.Errors;
 using Library.Model.Interfaces;
-using Library.Service.Dtos.Email;
+using Library.Model.Models.Email;
 using Library.Service.Dtos.Email.Get;
 using Library.Service.Interfaces;
 using Mailjet.Client;
-using Mailjet.Client.Resources;
 using Mailjet.Client.TransactionalEmails;
 using Microsoft.Extensions.Options;
 using System.Web;
@@ -25,43 +24,7 @@ public class EmailSender : IEmailSender
         _mailjetSettings = mailjetSettings.Value;
         _mailjetClient = new MailjetClient(_mailjetSettings.ApiKey, _mailjetSettings.ApiSecret);
     }
-
-    //public async Task<Result<bool>> SendResetPasswordEmailAsync(string toEmail, string token, string username)
-    //{
-    //    MailjetRequest request = new MailjetRequest
-    //    {
-    //        Resource = Send.Resource
-    //    };
-
-    //    var emailModel = await _unitOfWork.EmailTemplates.GetBySubject("Reset Password");
-
-    //    if (emailModel is null)
-    //    {
-    //        return Result.Failure<bool>(EmailErrors.EmailTemplateNotFound);
-    //    }
-
-    //    // we need to encode token before passing as a string, since '/' will be changed to '%2F', '+' with ' ' and so on...
-    //    var callbackLink = $"https://localhost:44384/Account/ResetPassword?email={toEmail}&token={HttpUtility.UrlEncode(token)}";
-    //    var hrefLink = $"<a href=\"{callbackLink}\">link</a>";
-    //    var emailTemplateDto = new EmailToSendDto(username, toEmail, hrefLink);
-
-    //    string formattedBody = ReplaceTemplate(emailModel.Body, emailTemplateDto);
-
-    //    var email = new TransactionalEmailBuilder()
-    //        .WithFrom(new SendContact(emailModel.From))
-    //        .WithSubject(emailModel.Subject)
-    //        .WithHtmlPart(formattedBody)
-    //        .WithTo(new SendContact(toEmail))
-    //        .Build();
-
-    //    var response = await _mailjetClient.SendTransactionalEmailAsync(email);
-
-    //    var sentSuccessfully = response.Messages[0].Status.Equals("success", StringComparison.CurrentCultureIgnoreCase);
-
-    //    return sentSuccessfully; // implicit operator
-
-    //}
-
+    
     public async Task<Result<bool>> SendEmail<T>(T model, string subject, string token)
     {
         var toEmail = ExtractEmail(model);
@@ -73,7 +36,7 @@ public class EmailSender : IEmailSender
         var emailTemplate = await _unitOfWork.EmailTemplates.GetBySubject(subject);
         if (emailTemplate is null)
         {
-            return Result.Failure<bool>(EmailErrors.EmailTemplateNotFound);
+            return Result.Failure<bool>(Error<EmailModel>.NotFound);
         }
 
         var link = GenerateLink(subject, toEmail, token);

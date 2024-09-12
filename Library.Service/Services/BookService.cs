@@ -15,15 +15,13 @@ using Library.Service.Dtos.OriginalBook.Get;
 using Library.Service.Dtos.BookCopy.Post;
 using Library.Service.Dtos.BookCopyLog.Post;
 using Library.Service.Helpers.Mappers;
-using Library.Service.Dtos.Report;
-using Library.Model.Models.Report;
 
 namespace Library.Service.Services;
 
 public class BookService : BaseService<Book>, IBookService
 {
 
-    public BookService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
+    public BookService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
@@ -85,14 +83,13 @@ public class BookService : BaseService<Book>, IBookService
 
     public async Task<Result<BookDetailsDto>> GetBookById(Guid id)
     {
-        var bookExistsResult = await _validationService.BookExists(id);
+        var book = await _unitOfWork.Books.GetById(id);
 
-        if (bookExistsResult.IsFailure)
+        if (book is null)
         {
-            return Result.Failure<BookDetailsDto>(bookExistsResult.Error);
+            return Result.Failure<BookDetailsDto>(Error<Book>.NotFound);
         }
 
-        var book = bookExistsResult.Value();
         var bookDetailsDto = book.MapToBookDetailsDto();
 
         bookDetailsDto.PublisherDto = await GetPublisherOfABook(id);
@@ -105,11 +102,11 @@ public class BookService : BaseService<Book>, IBookService
 
     public async Task<Result> CreateBook(CreateBookDto bookDto, string creationComment)
     {
-        var bookIsNewResult = await _validationService.BookIsNew(bookDto.ISBN);
+        var bookFromDb = await _unitOfWork.Books.GetOneWhere(x => x.ISBN == bookDto.ISBN);
 
-        if (bookIsNewResult.IsFailure) // book already exists
+        if (bookFromDb is not null)
         {
-            return bookIsNewResult.Error;
+            return Result.Failure(Error<Book>.AlreadyExists);
         }
 
         var originalBook = await _unitOfWork.OriginalBooks.GetById(bookDto.SelectedOriginalBookId);
@@ -129,14 +126,12 @@ public class BookService : BaseService<Book>, IBookService
 
     public async Task<Result> UpdateBook(EditBookDto bookDto, string creationComment)
     {
-        var bookExistsResult = await _validationService.BookExists(bookDto.Id);
+        var book = await _unitOfWork.Books.GetById(bookDto.Id);
 
-        if (bookExistsResult.IsFailure)
+        if (book is null)
         {
-            return bookExistsResult.Error;
+            return Result.Failure(Error<Book>.NotFound);
         }
-
-        var book = bookExistsResult.Value();
 
         await _unitOfWork.Books.UpdateAuthorsForBook(book.Id, bookDto.AuthorIds);
         book.UpdatePublisher(bookDto.PublisherId);
@@ -148,14 +143,12 @@ public class BookService : BaseService<Book>, IBookService
     
     public async Task<Result> CreateBookCopies(CreateBookCopiesDto bookCopiesDto)
     {
-        var bookExistsResult = await _validationService.BookExists(bookCopiesDto.BookId, true);
+        var book = await _unitOfWork.Books.GetById(bookCopiesDto.BookId, true);
 
-        if (bookExistsResult.IsFailure)
+        if (book is null)
         {
-            return bookExistsResult.Error;
+            return Result.Failure(Error<Book>.NotFound);
         }
-
-        var book = bookExistsResult.Value();
 
         foreach (var location in bookCopiesDto.Locations) // creating book copies and logs for each copy location
         {

@@ -7,12 +7,10 @@ namespace Library.Service.Services;
 public class ShelfService : IShelfService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidationService _validationService;
 
-    public ShelfService(IUnitOfWork unitOfWork, IValidationService validationService)
+    public ShelfService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _validationService = validationService;
     }
 
     public async Task<IEnumerable<Shelf>> GetAllShelvesOfRoom(int roomId)

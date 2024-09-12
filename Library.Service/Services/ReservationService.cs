@@ -18,13 +18,11 @@ namespace Library.Service.Services;
 public class ReservationService : IReservationService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidationService _validationService;
     private readonly ILoggerManager _logger;
 
-    public ReservationService(IUnitOfWork unitOfWork, IValidationService validationService, ILoggerManager logger)
+    public ReservationService(IUnitOfWork unitOfWork, ILoggerManager logger)
     {
         _unitOfWork = unitOfWork;
-        _validationService = validationService;
         _logger = logger;
     }
 
@@ -51,14 +49,13 @@ public class ReservationService : IReservationService
 
     public async Task<Result<ReservationDetailsDto>> GetDetailsById(Guid Id)
     {
-        var reservationExistsResult = await _validationService.ReservationExists(Id);
+        var reservation = await _unitOfWork.Reservations.GetById(Id);
 
-        if (reservationExistsResult.IsFailure)
+        if (reservation is null)
         {
-            return Result.Failure<ReservationDetailsDto>(reservationExistsResult.Error);
+            return Result.Failure(Error<ReservationDetailsDto>.NotFound);
         }
 
-        var reservation = reservationExistsResult.Value();
         var book = await _unitOfWork.Books.GetById(reservation.BookId);
         var customer = await _unitOfWork.Customers.GetById(reservation.CustomerId);
 
@@ -110,14 +107,12 @@ public class ReservationService : IReservationService
 
     public async Task<Result> CheckoutReservation(ReservationCheckoutDto checkoutDto)
     {
-        var reservationExistsResult = await _validationService.ReservationExists(checkoutDto.ReservationId, true);
+        var reservation = await _unitOfWork.Reservations.GetById(checkoutDto.ReservationId, true);
 
-        if (reservationExistsResult.IsFailure)
+        if (reservation is null)
         {
-            return Result.Failure(reservationExistsResult.Error);
+            return Result.Failure(Error<Reservation>.NotFound);
         }
-
-        var reservation = reservationExistsResult.Value();
 
         var result = await CheckoutReservationCopies(reservation, checkoutDto.ReservationCopyCheckouts);
         await _unitOfWork.SaveChangesAsync();
@@ -207,10 +202,13 @@ public class ReservationService : IReservationService
 
         foreach (var booksDto in createReservationDto.Books)
         {
-            var originalBookResult = await _validationService.OriginalBookExists(booksDto.OriginalBookId);
-            if (originalBookResult.IsFailure)
-                return Result.Failure<List<Reservation>>(originalBookResult.Error);
-            
+            var originalBook = await _unitOfWork.OriginalBooks.GetById(booksDto.OriginalBookId);
+
+            if (originalBook is null)
+            {
+                return Result.Failure<List<Reservation>>(Error<OriginalBook>.NotFound);
+            }
+
             var bookResult = await ValidateAndGetBook(booksDto);
             if (bookResult.IsFailure)
                 return Result.Failure<List<Reservation>>(bookResult.Error);
@@ -224,13 +222,13 @@ public class ReservationService : IReservationService
 
     private async Task<Result<Book>> ValidateAndGetBook(BooksReservationDto bookDto)
     {
-        var bookExistsResult = await _validationService.BookExists(bookDto.BookId);
-        if (bookExistsResult.IsFailure)
+        var book = await _unitOfWork.Books.GetById(bookDto.BookId);
+
+        if (book is null)
         {
-            return Result.Failure<Book>(bookExistsResult.Error);
+            return Result.Failure<Book>(Error<Book>.NotFound);
         }
 
-        var book = bookExistsResult.Value();
         var availableCopiesCount = await _unitOfWork.BookCopies.GetCountOfAvailableBookCopies(book.Id);
 
         if (availableCopiesCount < bookDto.Quantity)

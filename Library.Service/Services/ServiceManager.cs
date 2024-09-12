@@ -36,18 +36,18 @@ public class ServiceManager : IServiceManager
         _authService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, signInManager, validationService, logger));
         _emailSender = new Lazy<IEmailSender>(() => new EmailSender(unitOfWork, emailOptions));
 
-        _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, userManager, validationService));
+        _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, userManager));
         _menuService = new Lazy<INavMenuService>(() => new NavMenuService(unitOfWork, roleManager, userManager));
-        _emailService = new Lazy<IEmailService>(() => new EmailService(unitOfWork, validationService));
-        _publisherService = new Lazy<IPublisherService>(() => new PublisherService(unitOfWork, validationService));
-        _authorService = new Lazy<IAuthorService>(() => new AuthorService(unitOfWork, validationService));
-        _originalBookService = new Lazy<IOriginalBookService>(() => new OriginalBookService(unitOfWork, validationService));
-        _bookService = new Lazy<IBookService>(() => new BookService(unitOfWork, validationService));
-        _genreService = new Lazy<IGenreService>(() => new GenreService(unitOfWork, validationService));
-        _roomService = new Lazy<IRoomService>(() => new RoomService(unitOfWork, validationService));
-        _shelfService = new Lazy<IShelfService>(() => new ShelfService(unitOfWork, validationService));
-        _customerService = new Lazy<ICustomerService>(() => new CustomerService(unitOfWork, validationService));
-        _reservationService = new Lazy<IReservationService>(() => new ReservationService(unitOfWork, validationService, logger));
+        _emailService = new Lazy<IEmailService>(() => new EmailService(unitOfWork));
+        _publisherService = new Lazy<IPublisherService>(() => new PublisherService(unitOfWork));
+        _authorService = new Lazy<IAuthorService>(() => new AuthorService(unitOfWork));
+        _originalBookService = new Lazy<IOriginalBookService>(() => new OriginalBookService(unitOfWork));
+        _bookService = new Lazy<IBookService>(() => new BookService(unitOfWork));
+        _genreService = new Lazy<IGenreService>(() => new GenreService(unitOfWork));
+        _roomService = new Lazy<IRoomService>(() => new RoomService(unitOfWork));
+        _shelfService = new Lazy<IShelfService>(() => new ShelfService(unitOfWork));
+        _customerService = new Lazy<ICustomerService>(() => new CustomerService(unitOfWork));
+        _reservationService = new Lazy<IReservationService>(() => new ReservationService(unitOfWork, logger));
         _bookCopyLogService = new Lazy<IBookCopyLogService>(() => new BookCopyLogService(unitOfWork));
         _reportService = new Lazy<IReportService>(() => new ReportService(genericRepository));
     }

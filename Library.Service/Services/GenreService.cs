@@ -9,12 +9,10 @@ namespace Library.Service.Services;
 public class GenreService : IGenreService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidationService _validationService;
 
-    public GenreService(IUnitOfWork unitOfWork, IValidationService validationService)
+    public GenreService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _validationService = validationService;
     }
 
     public async Task<IEnumerable<Genre>> GetAllGenres()

@@ -1,12 +1,10 @@
 ﻿using Library.Model.Abstractions;
 using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Model.Models.Report;
 using Library.Service.Dtos;
 using Library.Service.Dtos.Book.Get;
 using Library.Service.Dtos.Publisher.Get;
 using Library.Service.Dtos.Publisher.Post;
-using Library.Service.Dtos.Report;
 using Library.Service.Helpers;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Interfaces;
@@ -16,7 +14,7 @@ namespace Library.Service.Services;
 
 public class PublisherService : BaseService<Publisher>, IPublisherService
 {
-    public PublisherService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
+    public PublisherService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
@@ -57,14 +55,14 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
 
     public async Task<Result<PublisherDto>> GetPublisherById(Guid id)
     {
-        var publisherExistsResult = await _validationService.PublisherExists(id);
+        var publisher = await _unitOfWork.Publishers.GetById(id);
 
-        if (publisherExistsResult.IsFailure)
+        if (publisher is null)
         {
-            return Result.Failure<PublisherDto>(publisherExistsResult.Error);
+            return Result.Failure<PublisherDto>(Error<Publisher>.NotFound);
         }
 
-        var publisherDto = publisherExistsResult.Value().MapToPublisherDto();
+        var publisherDto = publisher.MapToPublisherDto();
 
         publisherDto.Books = (await _unitOfWork.Books.GetAllBooksOfPublisher(id))
             .Select(x => new BookIdAndTitleDto(x.Id, x.OriginalBook.Title)).ToArray();
@@ -73,11 +71,13 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
 
     public async Task<Result> Create(CreatePublisherDto publisherDto)
     {
-        var publisherIsNewResult = await _validationService.PublisherIsNew(publisherDto.Email, publisherDto.Name);
+        var publisherFromDb = publisherDto.Email is null ? // if email is not present, we only check for same name
+                await _unitOfWork.Publishers.GetByName(publisherDto.Name) :
+                await _unitOfWork.Publishers.PublisherExists(publisherDto.Email, publisherDto.Name);
 
-        if (publisherIsNewResult.IsFailure)
+        if (publisherFromDb is not null)
         {
-            return publisherIsNewResult.Error;
+            return Result.Failure(Error<Publisher>.AlreadyExists);
         }
 
         var publisher = publisherDto.MapToPublisher();
@@ -90,11 +90,11 @@ public class PublisherService : BaseService<Publisher>, IPublisherService
 
     public async Task<Result> Update(PublisherDto publisherDto)
     {
-        var publisherExistsResult = await _validationService.PublisherExists(publisherDto.Id);
+        var publisherFromDb = await _unitOfWork.Publishers.GetById(publisherDto.Id);
 
-        if (publisherExistsResult.IsFailure)
+        if (publisherFromDb is null)
         {
-            return Result.Failure(publisherExistsResult.Error);
+            return Result.Failure(Error<Publisher>.NotFound);
         }
 
         var publisher = publisherDto.MapToPublisher();

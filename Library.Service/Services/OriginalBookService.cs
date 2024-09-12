@@ -14,20 +14,19 @@ namespace Library.Service.Services;
 
 public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookService
 {
-    public OriginalBookService(IUnitOfWork unitOfWork, IValidationService validationService) : base(unitOfWork, validationService)
+    public OriginalBookService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
     public async Task<Result<OriginalBookDto>> GetOriginalBookById(Guid Id, string culture = "en")
     {
-        var originalBookExistsResult = await _validationService.OriginalBookExists(Id);
+        var originalBook = await _unitOfWork.OriginalBooks.GetById(Id);
 
-        if (originalBookExistsResult.IsFailure)
+        if (originalBook is null)
         {
-            return Result.Failure<OriginalBookDto>(originalBookExistsResult.Error);
+            return Result.Failure<OriginalBookDto>(Error<OriginalBook>.NotFound);
         }
 
-        var originalBook = originalBookExistsResult.Value();
         var translatedOriginalBook = await _unitOfWork.Translations.TranslateOriginalBook(originalBook, LocalizationMapper.LanguageToID(culture));
 
         return translatedOriginalBook.MapToOriginalBookDto();
@@ -35,27 +34,33 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
 
     public async Task<Result<EditOriginalBookDto>> GetOriginalBookForEditById(Guid Id)
     {
-        var originalBookExistsResult = await _validationService.OriginalBookExists(Id);
+        var originalBook = await _unitOfWork.OriginalBooks.GetById(Id);
 
-        if (originalBookExistsResult.IsFailure)
+        if (originalBook is null)
         {
-            return Result.Failure<EditOriginalBookDto>(originalBookExistsResult.Error);
+            return Result.Failure<EditOriginalBookDto>(Error<OriginalBook>.NotFound);
         }
 
-        var originalBook = originalBookExistsResult.Value();
         var editOriginalBookDto = new EditOriginalBookDto(originalBook.Id, originalBook.OriginalPublishYear, originalBook.CreationDate, originalBook.IsDeleted);
 
-        // hard coded:
-        editOriginalBookDto.EnglishTitle = originalBook.Title;
-        editOriginalBookDto.EnglishDescription = originalBook.Description;
+        var languages = await _unitOfWork.Languages.GetAll();
+        var translations = new Dictionary<int, (string Title, string Description)>();
 
-        var germanTranslation = await _unitOfWork.Translations.TranslateOriginalBook(originalBook, 2);
-        editOriginalBookDto.GermanTitle = germanTranslation.Title;
-        editOriginalBookDto.GermanDescription = germanTranslation.Description;
+        foreach (var language in languages)
+        {
+            var translation = await _unitOfWork.Translations.TranslateOriginalBook(originalBook, language.Id);
+            translations[language.Id] = (translation.Title, translation.Description);
+        }
 
-        var georgianTranslation = await _unitOfWork.Translations.TranslateOriginalBook(originalBook, 3);
-        editOriginalBookDto.GeorgianTitle = georgianTranslation.Title;
-        editOriginalBookDto.GeorgianDescription = georgianTranslation.Description;
+        // hard coded (don't know how to rewrite yet):
+        editOriginalBookDto.EnglishTitle = translations[1].Title;
+        editOriginalBookDto.EnglishDescription = translations[1].Description;
+
+        editOriginalBookDto.GermanTitle = translations[2].Title;
+        editOriginalBookDto.GermanDescription = translations[2].Description;
+
+        editOriginalBookDto.GeorgianTitle = translations[3].Title;
+        editOriginalBookDto.GeorgianDescription = translations[3].Description;
 
         return Result.Success(editOriginalBookDto);
     }
@@ -118,11 +123,11 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
 
     public async Task<Result> Create(CreateOriginalBookDto createOriginalBookDto)
     {
-        var bookIsNewResult = await _validationService.OriginalBookIsNew(createOriginalBookDto.EnglishTitle, createOriginalBookDto.OriginalPublishYear, false);
+        var originalBookFromDb = await _unitOfWork.OriginalBooks.GetOneWhere(x => x.Title == createOriginalBookDto.EnglishTitle && x.OriginalPublishYear == createOriginalBookDto.OriginalPublishYear);
 
-        if (bookIsNewResult.IsFailure)
+        if (originalBookFromDb is not null)
         {
-            return bookIsNewResult.Error;
+            return Result.Failure(Error<OriginalBook>.AlreadyExists);
         }
 
         var originalBook = createOriginalBookDto.MapToOriginalBook();
@@ -137,11 +142,11 @@ public class OriginalBookService : BaseService<OriginalBook>, IOriginalBookServi
 
     public async Task<Result> Update(EditOriginalBookDto editOriginalBookDto)
     {
-        var originalBookExistsResult = await _validationService.OriginalBookExists(editOriginalBookDto.Id, false);
+        var originalBookFromDb = await _unitOfWork.OriginalBooks.GetById(editOriginalBookDto.Id);
 
-        if (originalBookExistsResult.IsFailure)
+        if (originalBookFromDb is null)
         {
-            return Result.Failure(originalBookExistsResult.Error);
+            return Result.Failure(Error<OriginalBook>.NotFound);
         }
 
         var originalBook = editOriginalBookDto.MapToOriginalBook();

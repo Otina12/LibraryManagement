@@ -1,10 +1,7 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models.Email;
 using Library.Service.Interfaces;
-using Library.Model.Abstractions.Errors;
 using Library.Model.Abstractions;
-using Library.Model.Models;
-using Microsoft.EntityFrameworkCore;
 using Library.Service.Helpers.Extensions;
 using Library.Service.Dtos.Email.Post;
 
@@ -13,12 +10,10 @@ namespace Library.Service.Services;
 internal class EmailService : IEmailService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidationService _validationService;
 
-    public EmailService(IUnitOfWork unitOfWork, IValidationService validationService)
+    public EmailService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _validationService = validationService;
     }
 
     public async Task<IEnumerable<EmailModel>> GetAllTemplates()
@@ -39,10 +34,11 @@ internal class EmailService : IEmailService
 
     public async Task<Result> Create(CreateEmailDto emailDto)
     {
-        var emailIsNewResult = await _validationService.EmailTemplateIsNew(emailDto.Subject);
-        if (emailIsNewResult.IsFailure)
+        var email = await _unitOfWork.EmailTemplates.GetBySubject(emailDto.Subject);
+
+        if (email is not null)
         {
-            return emailIsNewResult.Error;
+            return Result.Failure(Error<EmailModel>.AlreadyExists);
         }
 
         await _unitOfWork.EmailTemplates.Create(emailDto.MapToEmailModel());
@@ -53,13 +49,12 @@ internal class EmailService : IEmailService
 
     public async Task<Result> Update(EditEmailDto emailDto)
     {
-        var emailExistsResult = await _validationService.EmailTemplateExists(emailDto.Id);
-        if (emailExistsResult.IsFailure)
-        {
-            return emailExistsResult.Error;
-        }
+        var email = await _unitOfWork.EmailTemplates.GetById(emailDto.Id);
 
-        var email = emailExistsResult.Value();
+        if (email is null)
+        {
+            return Result.Failure(Error<EmailModel>.NotFound);
+        }
 
         email.From = emailDto.From;
         email.Subject = emailDto.Subject;
@@ -73,13 +68,12 @@ internal class EmailService : IEmailService
 
     public async Task<Result> Delete(Guid id)
     {
-        var emailExistsResult = await _validationService.EmailTemplateExists(id);
-        if (emailExistsResult.IsFailure)
-        {
-            return emailExistsResult.Error;
-        }
+        var email = await _unitOfWork.EmailTemplates.GetById(id);
 
-        var email = emailExistsResult.Value();
+        if (email is null)
+        {
+            return Result.Failure(Error<EmailModel>.NotFound);
+        }
 
         Delete(email);
         return Result.Success();

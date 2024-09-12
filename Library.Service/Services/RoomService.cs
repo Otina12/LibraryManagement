@@ -1,18 +1,15 @@
 ﻿using Library.Model.Interfaces;
 using Library.Model.Models;
-using Library.Service.Interfaces;
 
 namespace Library.Service.Services;
 
 public class RoomService : IRoomService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidationService _validationService;
 
-    public RoomService(IUnitOfWork unitOfWork, IValidationService validationService)
+    public RoomService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _validationService = validationService;
     }
 
 
