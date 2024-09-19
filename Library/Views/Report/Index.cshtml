@@ -37,12 +37,12 @@
         <div id="dateInputs" style="display: none;">
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Start Date</label>
-                <input asp-for="StartDate" class="form-control" type="date"/>
+                <input asp-for="StartDate" class="form-control" type="date" />
             </div>
 
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label">End Date</label>
-                <input asp-for="EndDate" class="form-control" type="date"/>
+                <input asp-for="EndDate" class="form-control" type="date" />
             </div>
         </div>
 
@@ -53,6 +53,18 @@
 
         <button type="submit" class="btn btn-primary generate-report-btn">Generate Report</button>
     </form>
+</div>
+
+<div class="report-container">
+    <div class="form-group">
+        <label class="control-label">Start Date</label>
+        <input id="pdf-startDate" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">End Date</label>
+        <input id="pdf-endDate" class="form-control" type="date" />
+    </div>
+    <button class="btn btn-primary generate-pdf-report-btn">Generate PDF</button>
 </div>
 
 @section Scripts {

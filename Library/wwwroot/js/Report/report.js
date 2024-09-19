@@ -39,4 +39,38 @@ $(document).ready(function () {
             yearInput.hide();
         }
     });
+
+    $('.generate-pdf-report-btn').click(function () {
+        var startDate = $('#pdf-startDate').val();
+        var endDate = $('#pdf-endDate').val();
+
+        if (!startDate || !endDate) {
+            alert('Please select both start and end dates.');
+            return;
+        }
+
+        $.ajax({
+            url: '/Report/ExportPdfGeneralPopularityReport',
+            type: 'GET',
+            data: {
+                startDate: startDate,
+                endDate: endDate
+            },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (data) {
+                var downloadUrl = URL.createObjectURL(data);
+                var a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `CombinedReport_${startDate.replace(/-/g, '')}_${endDate.replace(/-/g, '')}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                URL.revokeObjectURL(downloadUrl);
+            },
+            error: function () {
+                alert('Could not generate the PDF report. Please try again.');
+            }
+        });
+    });
 });

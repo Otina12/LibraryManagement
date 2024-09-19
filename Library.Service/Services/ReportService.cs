@@ -1,5 +1,4 @@
 ﻿using Library.Model.Interfaces;
-using Library.Model.Models;
 using Library.Model.Models.Report;
 using Library.Service.Dtos.Report;
 using Library.Service.Interfaces;
@@ -9,6 +8,7 @@ namespace Library.Service.Services
     public class ReportService : IReportService
     {
         private readonly IGenericRepository _genericRepository;
+        
 
         public ReportService(IGenericRepository genericRepository)
         {
@@ -20,7 +20,6 @@ namespace Library.Service.Services
             var result = await _genericRepository.GetPopularityReport(popularityReportDto.ModelName, popularityReportDto.StartDate, popularityReportDto.EndDate);
             return result;
         }
-
         public async Task<IEnumerable<AnnualReportRow>> GetAnnualReport(AnnualReportDto annualReportDto)
         {
             var result = await _genericRepository.GetAnnualReport(annualReportDto.ModelName, annualReportDto.Year);

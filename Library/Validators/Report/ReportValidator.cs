@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Library.Model.Enums;
 using Library.ViewModels.Reports;
 
 namespace Library.Validators.Report;

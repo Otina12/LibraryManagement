@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Rdlc\DataSets\dsAnnualReport.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>dsAnnualReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Rdlc\DataSets\dsBooksDamagedReport.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>dsBooksDamagedReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Rdlc\DataSets\dsPopularityReport.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>dsPopularityReport.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Rdlc\DataSets\dsAnnualReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsAnnualReport.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Rdlc\DataSets\dsBooksDamagedReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsBooksDamagedReport.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Rdlc\DataSets\dsPopularityReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsPopularityReport.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

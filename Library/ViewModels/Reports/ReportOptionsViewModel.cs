@@ -1,4 +1,6 @@
-﻿namespace Library.ViewModels.Reports;
+﻿using Library.Model.Enums;
+
+namespace Library.ViewModels.Reports;
 
 public class ReportOptionsViewModel
 {
@@ -8,11 +10,3 @@ public class ReportOptionsViewModel
     public DateTime? StartDate { get; set; } // in case of popularity
     public DateTime? EndDate { get; set; } // in case of popularity
 }
-
-public enum ReportType // will probably be extended as more types are added
-{
-    Popularity,
-    Annual,
-    BooksDamaged
-}
-

@@ -31,5 +31,6 @@
         </tbody>
     </table>
 
-    <a asp-controller="Report" asp-action="ExportPopularityReport" asp-route-modelName="@Model.ModelName" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate" class="btn btn-primary export-to-excel-btn">Export to Excel</a>
+    <a asp-controller="Report" asp-action="ExportExcelPopularityReport" asp-route-modelName="@Model.ModelName" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate" class="btn btn-primary export-to-btn">Export to Excel</a>
+    <a asp-controller="Report" asp-action="ExportPdfPopularityReport" asp-route-modelName="@Model.ModelName" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate" class="btn btn-primary export-to-btn">Export to PDF</a>
 </div>
