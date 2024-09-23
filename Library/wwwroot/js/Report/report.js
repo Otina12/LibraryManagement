@@ -40,10 +40,10 @@ $(document).ready(function () {
         }
     });
 
-    $('.generate-pdf-report-btn').click(function () {
+    $('#generate-main-report-btn').click(function () {
         var startDate = $('#pdf-startDate').val();
         var endDate = $('#pdf-endDate').val();
-
+        
         if (!startDate || !endDate) {
             alert('Please select both start and end dates.');
             return;

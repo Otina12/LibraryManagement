@@ -16,10 +16,11 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="ClosedXML" Version="0.102.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" />
+	<PackageReference Include="ReportViewerCore.NETCore" Version="15.1.22" />
     <PackageReference Include="FluentValidation" Version="11.9.2" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
     <PackageReference Include="Mailjet.Api" Version="3.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,7 +32,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="PDFsharp" Version="6.1.1" />
-    <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.22" />
     <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Endpoints" Version="1.4.0" />
     <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.4.0" />
     <PackageReference Include="TinyMCE" Version="7.3.0" />

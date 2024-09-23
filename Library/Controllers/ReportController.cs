@@ -6,11 +6,6 @@ using Library.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Library.Model.Enums;
 using Microsoft.Reporting.NETCore;
-using Humanizer.Bytes;
-using DocumentFormat.OpenXml.Bibliography;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PdfSharp.Pdf.IO;
-using PdfSharp.Pdf;
 
 namespace Library.Controllers
 {
@@ -134,38 +129,35 @@ namespace Library.Controllers
 
         public async Task<FileResult> ExportPdfGeneralPopularityReport(DateTime startDate, DateTime endDate)
         {
-            var pdfs = await GeneratePDFs(startDate, endDate);
-            var bytes = PdfHelper.MergePdfs(pdfs);
+            var bytes = await GeneratePDFs(startDate, endDate);
             return File(bytes, "application/pdf", $"GeneralReport_{startDate:yyyyMMdd}_{endDate:yyyyMMdd}.pdf");
         }
 
-        private async Task<List<byte[]>> GeneratePDFs(DateTime startDate, DateTime endDate)
+
+        private async Task<byte[]> GeneratePDFs(DateTime startDate, DateTime endDate)
         {
-            var res = new List<byte[]>();
-            string[] models = ["Author", "Publisher", "Book", "OriginalBook", "Genre", "Customer", "Employee"];
-            var parameters = new ReportParameter[]
-            {
-                new("StartDate", startDate.ToString("dd-MM-yyyy")),
-                new("EndDate", endDate.ToString("dd-MM-yyyy"))
-            };
+            var mainPagePdf = PdfHelper.GenerateGeneralPage(await GenerateDataForReport(startDate, endDate), startDate, endDate);
+            return mainPagePdf;
+        }
+
+        private async Task<IEnumerable<(string, IEnumerable<object>)>> GenerateDataForReport(DateTime startDate, DateTime endDate)
+        {
+            string[] models = ["Author", "Publisher", "Book", "OriginalBook", "Genre", "Employee", "Customer"];
+            var data = new List<(string, IEnumerable<object>)>();
 
             foreach (var model in models)
             {
                 var popularityReportData = await _serviceManager.ReportService.GetPopularityReport(new PopularityReportDto(model, startDate, endDate));
-                var pdfReport = PdfHelper.ExportToPDF(popularityReportData, "Popularity", "Chart", parameters);
+                data.Add(($"{model}Popularity", popularityReportData));
 
-                res.Add(pdfReport);
-
-                if (model == "Customer" || model == "Book")
+                if (model == "Book" || model == "Customer")
                 {
-                    var damagedReportData = await _serviceManager.ReportService.GetBooksDamagedReport(new BooksDamagedReportDto(model, startDate, endDate));
-                    var pdfReport2 = PdfHelper.ExportToPDF(damagedReportData, "BooksDamaged", "Chart", parameters);
-
-                    res.Add(pdfReport2);
+                    var booksDamagedReportData = await _serviceManager.ReportService.GetBooksDamagedReport(new BooksDamagedReportDto(model, startDate, endDate));
+                    data.Add(($"{model}BooksDamaged", booksDamagedReportData));
                 }
             }
 
-            return res;
+            return data;
         }
     }
 }

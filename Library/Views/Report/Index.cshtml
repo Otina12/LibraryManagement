@@ -5,7 +5,7 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css//report.css" />
+    <link rel="stylesheet" href="~/css/report.css" />
 </head>
 
 <h2 class="my-header" style="color: white">Generate Report</h2>
@@ -55,16 +55,17 @@
     </form>
 </div>
 
-<div class="report-container">
-    <div class="form-group">
+<h3 class="main-report-header" style="color: white">Generate General Report</h3>
+<div class="main-report-container report-form">
+    <div class="form-group report-date-input">
         <label class="control-label">Start Date</label>
         <input id="pdf-startDate" class="form-control" type="date" />
     </div>
-    <div class="form-group">
+    <div class="form-group report-date-input">
         <label class="control-label">End Date</label>
         <input id="pdf-endDate" class="form-control" type="date" />
     </div>
-    <button class="btn btn-primary generate-pdf-report-btn">Generate PDF</button>
+    <button class="btn btn-primary" id="generate-main-report-btn">Generate PDF</button>
 </div>
 
 @section Scripts {

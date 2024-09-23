@@ -1,4 +1,5 @@
 ﻿.report-container {
+    margin-top: 25px;
     display: flex;
     justify-content: center;
 }
@@ -57,4 +58,37 @@
 
 .form-group {
     margin-bottom: 15px;
+}
+
+.main-report-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.main-report-container {
+    margin: auto;
+    width: 250px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.main-report-container label{
+    color: white;
+    margin-bottom: 3px;
+}
+
+.report-date-input{
+    padding: 2px;
+    margin: 5px;
+}
+
+#generate-main-report-btn{
+    margin-top: 20px;
+    width: 150px;
+    align-self: center;
 }

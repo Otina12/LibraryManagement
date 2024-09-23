@@ -373,10 +373,10 @@
               </Style>
             </ChartNoDataMessage>
             <DataSetName>dsPopularityReport</DataSetName>
-            <Top>0.02778in</Top>
-            <Left>1.08018in</Left>
-            <Height>4.82445in</Height>
-            <Width>5.73385in</Width>
+            <Top>0.64506in</Top>
+            <Left>1.5132in</Left>
+            <Height>4.20717in</Height>
+            <Width>5.24002in</Width>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -387,14 +387,14 @@
             </Style>
           </Chart>
         </ReportItems>
-        <Height>4.85223in</Height>
+        <Height>5.60223in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.88194in</Width>
+      <Width>8.03194in</Width>
       <Page>
         <PageHeader>
           <Height>1in</Height>
@@ -407,7 +407,7 @@
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>1in</Height>
+          <Height>0.975in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <Style>
